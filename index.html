@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=1024, height=768, initial-scale=1.0">
+
+  <link href="./css/output.css" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Konkhmer+Sleokchher&display=swap" rel="stylesheet">
+</head>
+
+<body class="bg-cover min-h-screen w-screen isolate bg-background relative flex flex-col h-full">
+  <header id=topHeader
+    class="flex justify-between items-center px-4 py-4 w-full bg-reonaiBlack2 border-b-2 border-reonaiBlack3">
+    <div>
+      <img src="./images/logo.png" class="w-32" />
+    </div>
+    <div id="LoginSection" class="">
+      <div id="LoginFormDiv" class="flex gap-2">
+        <button id="mainConnectBluetoothBtn" class="bg-primary text-reonaiWhite" onclick="connectBluetooth()">
+          <img src="./images/bluetooth-svgrepo-com.svg" width="24" class=" text-white" />
+        </button>
+        <form id="loginForm" class="flex gap-2">
+          <input class="bg-white" type="email" id="email" placeholder="아이디 입력" name="email" autofocus required>
+          <input class="bg-white" type="password" id="password" placeholder="비밀번호 8자~20자" name="password"
+            autofocusrequired>
+
+
+          <button id="loginUserName" class="bg-reonaiWhite text-reonaiRed" style="display: none;"
+            style="display: none;"></button>
+          <button id="loginBtn" class="bg-primary text-white" type="submit">로그인</button>
+
+          <button id="logoutBtn" class="bg-primary text-white" style="display: none;">로그아웃</button>
+          <p id="responseMessage" class="text-white"></p>
+
+        </form>
+      </div>
+    </div>
+
+  </header>
+  <header class="absolute bottom-0">
+    <button class="bg-transparent text-fontColor" onclick="showPanel('mainPanel')">mainPanel</button>
+    <button class="bg-transparent text-fontColor" onclick="showPanel('roastInfoPanel')">roastInfoPanel</button>
+    <button class="bg-transparent text-fontColor" onclick="showPanel('recipePanel')">recipePanel</button>
+    <button class="bg-transparent text-fontColor" onclick="showPanel('puttingCountPanel')">puttingCountPanel</button>
+    <button class="bg-transparent text-fontColor" onclick="showPanel('roastPanel')">roastPanel</button>
+    <button class="bg-transparent text-fontColor" onclick="showPanel('easyRoastInfoPanel')">easyRoastInfoPanel</button>
+    <button class="bg-transparent text-fontColor" onclick="showPanel('easyRoastPanel')">easyRoastPanel</button>
+    <button class="bg-transparent text-fontColor" onclick="showPanel('settingPanel')">settingPanel</button>
+  </header>
+  <div class="fixed bottom-4 right-4">
+    <button class="bg-white px-2"
+      onclick="goToMain()">go
+      to main</button>
+  </div>
+  <div class="flex min-h-full">
+    <aside id="sideHeader"
+      class="flex flex-col gap-2 font-base bg-reonaiBlack1 min-h-[calc(100vh-80px)] border-r-2 border-black">
+
+      <button class="text-fontColor"
+        onclick="if(isCoolDownRunning) { alert('온도가 높습니다.'); } else {checkBluetoothConnectionForeasyRoasting(),autoStartHeatingMode(),autoRoastingFlagOn()}">자동
+        로스팅</button>
+      <button class="text-fontColor"
+        onclick="if(isCoolDownRunning) { alert('온도가 높습니다.'); } else {checkBluetoothConnectionForManualRoasting(),heatingMode(),autoRoastingFlagOff()}">초정밀
+        로스팅</button>
+      <button class="text-fontColor" onclick="showPanel('recipePanel'), headerDisplayNone()">레시피</button>
+      <!-- <button class="text-white" onclick="showPanel('settingPanel'), headerDisplayNone()">설정</button> -->
+    </aside>
+    <div id="mainPanel" class="w-full min-h-[calc(100vh-80px)] bg-contain bg-no-repeat bg-center p-16">
+      <img src=" /images/hero.png" class="w-full h-full" />
+    </div>
+
+    <div id="roastInfoPanel" style="display: none;">
+
+      <div class="panelBox overflow-y-scroll">
+        <h2 class="text-[32px]">Manual Roasting</h2>
+        <div class="flex justify-start items-center h-full gap-2">
+          <div class="infoBox">
+            <div class="infoBox-title">예열</div>
+            <div class="infoBox-content">
+              <span class="" id="preheatPercentDisplay">0%</span>
+            </div>
+          </div>
+          <div class="infoBox">
+            <div class="infoBox-title">Drum Temp</div>
+            <div class="infoBox-content">
+              <span class="" id="infoTemp1Value">-<span>°C</span></span>
+            </div>
+          </div>
+          <div class="infoBox">
+            <div class="infoBox-title">Heater Temp</div>
+            <div class="infoBox-content">
+              <span class="" id="infoTemp2Value">-<span>°C</span></span>
+            </div>
+          </div>
+        </div>
+        <div id="roastInfoDiv">
+          <section id="roastInfoSection">
+            <h1 class="text-[32px]">Info</h1>
+            <div id="roastInfoInputDiv" class="flex gap-2 items-center">
+              <input id="roastInfoRecipeName" class="white-round-box" placeholder="Recipe Name" autofocus required>
+              <input id="roastInfoBeanName" class="white-round-box" placeholder="Bean Name" autofocus required>
+              <select name="roastInfoInputAmount" id="roastInfoInputAmount" class="white-round-box w-[200px]">
+                <option disabled hidden selected>Input Amount</option>
+                <option value="50">50g</option>
+                <option value="60">60g</option>
+                <option value="70">70g</option>
+                <option value="80">80g</option>
+                <option value="90">90g</option>
+                <option value="100">100g</option>
+                <option value="110">110g</option>
+                <option value="120">120g</option>
+                <option value="130">130g</option>
+                <option value="140">140g</option>
+                <option value="150">150g</option>
+                <option value="160">160g</option>
+                <option value="170">170g</option>∂
+                <option value="180">180g</option>
+                <option value="190">190g</option>
+                <option value="200">200g</option>
+              </select>
+<!-- 
+              <select name="roastInfoStage" id="roastInfoStageSelect" class="white-round-box w-[200px]">
+                <option disabled hidden selected>Stage</option>
+                <option value="Light">Light</option>
+                <option value="Cinnamon">Cinnamon</option>
+                <option value="Medium">Medium</option>
+                <option value="High">High</option>
+                <option value="Cit">City</option>
+                <option value="Full">Full</option>
+                <option value="French">French</option>
+                <option value="Italian">Italian</option>
+              </select> -->
+              <!-- <select name="roastInfoPreheatTemp" id="roastInfoPreheatTempSelect">
+<option disabled hidden selected>Preheat Temp</option>
+<option value="100">100°C</option>
+<option value="150">150°C</option>
+<option value="200">200°C</option>
+</select> -->
+
+            </div>
+            <div id="roastInfoPowerDiv">
+              <h1 class="text-[32px]">Power</h1>
+
+              <div style="display: flex;" class="gap-2">
+                <div id="roastInfoPowerFan1SelectDiv" class="w-[100px]">
+                  <h4>FAN1</h4>
+                  <select name="roastInfoPowerFan1" id="roastInfoPowerFan1Select" class="white-round-box !w-[100px]">
+
+            
+                    <option value="25">25</option>
+                    <option value="30">30</option>
+                    <option value="35">35</option>
+                    <option value="40">40</option>
+                    <option value="45">45</option>
+                    <option value="50">50</option>
+                    <option value="55">55</option>
+                    <option value="60">60</option>
+                    <option value="65">65</option>
+                    <option value="70">70</option>
+                    <option value="75">75</option>
+                    <option value="80">80</option>
+                    <option value="85">85</option>
+                    <option value="90">90</option>
+                    <option value="95">95</option>
+                    <option value="100">100</option>
+                  </select>
+                </div>
+                <div id="roastInfoPowerFan2SelectDiv" class="w-[100px]">
+                  <h4>FAN2</h4>
+                  <select name="roastInfoPowerFan2" id="roastInfoPowerFan2Select" class="white-round-box !w-[100px]">
+
+          
+                    <option value="2.5">2.5</option>
+                    <option value="3">3</option>
+                    <option value="3.5">3.5</option>
+                    <option value="4">4</option>
+                    <option value="4.5">4.5</option>
+                    <option value="5">5</option>
+                    <option value="5.5">5.5</option>
+                    <option value="6">6</option>
+                    <option value="6.5">6.5</option>
+                    <option value="7">7</option>
+                    <option value="7.5">7.5</option>
+                    <option value="8">8</option>
+                    <option value="8.5">8.5</option>
+                    <option value="9">9</option>
+                    <option value="9.5">9.5</option>
+                    <option value="10">10</option>
+                    <option value="10.5">10.5</option>
+                    <option value="11">11</option>
+                    <option value="11.5">11.5</option>
+                    <option value="12">12</option>
+                    <option value="12.5">12.5</option>
+                  </select>
+                </div>
+                <div id="roastInfoPowerHeaterSelectDiv" class="w-[100px]">
+                  <h4>Heater</h4>
+                  <select name="roastInfoPowerHeater" id="roastInfoPowerHeaterSelect"
+                    class="white-round-box !w-[100px]">
+                    <option value="0">0</option>
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="15">15</option>
+                    <option value="20">20</option>
+                    <option value="25">25</option>
+                    <option value="30">30</option>
+                    <option value="35">35</option>
+                    <option value="40">40</option>
+                    <option value="45">45</option>
+                    <option value="50">50</option>
+                    <option value="55">55</option>
+                    <option value="60">60</option>
+                    <option value="65">65</option>
+                    <option value="70">70</option>
+                    <option value="75">75</option>
+                    <option value="80">80</option>
+                    <option value="85">85</option>
+                    <option value="90">90</option>
+                    <option value="95">95</option>
+                    <option value="100">100</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+        <section id="roastInfoSection2" class="flex flex-col w-full h-full gap-8">
+          <button id="referenceFinderBtn" onclick="showPanel('recipePanel')" class="white-round-box rounded-sm">
+            Reference Finder
+          </button>
+          <!-- <h1 class="text-[32px] ">MEMO</h1>
+          <textarea id="memoTextArea" placeholder="메모를 입력해주세요" class="bg-gray w-full h-[184px]"></textarea> -->
+          <div class="flex gap-8">
+            <button id="roastInfoStartBtn" class="white-round-box rounded-sm"
+              onclick="if (document.getElementById('preheatPercentDisplay').innerText !== '100%') { alert('예열이 완료되지 않았습니다'); } else { showPanel('puttingCountPanel'); roastInfoStart(); }">로스팅
+              시작</button>
+            <!-- <button class="white-round-box rounded-sm" id="roastInfoStartBtn"
+              onclick="showPanel('puttingCountPanel'); roastInfoStart();">로스팅로로 시작</button> -->
+          </div>
+        </section>
+        <!-- <div class="flex gap-8">
+          <button class="white-round-box rounded-sm" id="roastInfoStartBtn" onclick="showPanel('roastContainer')"
+            style="display: none;">로스팅 패널</button>
+          <button class="white-round-box rounded-sm" onclick="handleCoolDown()" class="control-btn"
+            id="roastInfoStartBtn">쿨다운</button>
+          <button class="white-round-box rounded-sm"
+            onclick="showPanel('mainPanel'),stopRecordingcharts(),resetChartsAll(),handleOutputZero(),forceCoolingMode()"
+            class="control-btn" id="goToMainForAuto">메인</button>
+        </div> -->
+      </div>
+
+    </div>
+    <div id="recipePanel" style="display: none;">
+      <div class="panelBox container">
+        <section id="recipeContainerSection" style="text-align: center; position: relative; height: auto;"
+          class="grid grid-cols-2 gap-8 container items-start h-full">
+          <section id="myRecordList" class="align-items-center ">
+            <span class=" text-[32px]">My Record</span>
+            <div id="getMyRecordsResult" class="record-list border-2 border-black text-fontColor h-32 overflow-y-auto">
+            </div>
+          </section>
+          <section id="pilotRecordList" class="align-items-center">
+            <span class=" text-[32px]">Pilot Record</span>
+            <div id="getPilotresult" class="record-list border-2 border-black text-fontColor h-32 overflow-y-auto">
+            </div>
+          </section>
+          <div class="flex flex-col justify-between gap-8">
+            <div id="selectedRecord" class="flex w-full gap-2">
+              <!-- <span class="text-primary text-[32px]">Selected Record Details</span> -->
+              <div class="infoBox">
+                <div class="infoBox-title"><strong>ID:</strong></div>
+                <div class="infoBox-content"> <span id="recordId">-</span></div>
+              </div>
+              <div class="infoBox">
+                <div class="text-right"><strong>Title:</strong></div>
+                <div> <span id="recordTitle">-</span></div>
+              </div>
+              <div class="infoBox">
+                <div class="text-right"><strong>Date:</strong></div>
+                <div> <span id="recordDate">-</span></div>
+              </div>
+              <div class="infoBox">
+                <div class="text-right"><strong>Time:</strong></div>
+                <div> <span id="recordTime">-</span></div>
+              </div>
+            </div>
+            <div id="buttonContainer" class=" flex flex-col gap-4">
+              <button class="control-btn white-round-box" id="recipeBtn"
+                onclick="showPanel('easyRoastInfoPanel');">자동로스팅(임시)</button>
+              <button class="control-btn white-round-box" id="recipeBtn"
+                onclick="showPanel('roastInfoPanel');">뒤로가기</button>
+
+            </div>
+          </div>
+      </div>
+      </section>
+      <button onclick="showPanel('mainPanel')" class="control-btn" id="goToMainForAuto">메인</button>
+    </div>
+    <div id="puttingCountPanel" style="display: none;" class="w-full bg-reonaiBlack1 align-items: center">
+      <div class="panelBox bg-gray-900 p-6 rounded-lg w-[1200px]text-center max-w-lg mx-auto space-y-4 items-center justify-center">
+      <h5 class=" text-[32px]">생두를 투입해주세요!</h5>
+      <div id="beanPuttingCounter"class="text-[200px] text-reonaiRed">0</div>
+    </div>
+    </div>
+    <div id="roastPanel" style="display: none; height:800px;" class="w-full bg-reonaiBlack1">
+      <div style="height : 100%" class="flex gap-4 w-full bg-reonaiBlack1 h-fit">
+        <div id="chartContainer" class="w-[80%]">
+          <div id="chartdiv" style="height:60%"></div>
+          <div id="outputChartdiv" style="height:40%"></div>
+        </div>
+
+
+
+        <div class="panelBox w-[300px] p-4">
+          <div id="receiveIndicator" class="section grid grid-cols-3 gap-4">
+            <!-- <span id="temp1span" class="text-lg font-semibold text-blue-600 bg-blue-100 px-3 py-1 rounded-lg border border-blue-300 shadow-md">드럼: <span id="temp1Value" class="value-display">-</span> °C</span><br/> -->
+
+            <div id="temp1div" class="flex-col items-center">
+              <div class="text-lg font-semibold text-fontColor  px-3 py-1 rounded-lg shadow-md">드럼 </div>
+              <div>
+                <p class="text-lg font-bold text-fontColor px-3 py-1 rounded-lg shadow-md"><span
+                    id="temp1Value">-</span>°C
+                </p>
+              </div>
+
+            </div>
+
+
+            <div id="temp2div" class="flex-col items-center">
+              <div class="text-lg font-semibold text-fontColor  px-3 py-1 rounded-lg shadow-md">히터 </div>
+              <div>
+                <p class="text-lg font-bold text-whitepx-3 py-1 rounded-lg shadow-md"><span id="temp2Value">-</span>°C
+                </p>
+              </div>
+
+
+            </div>
+
+
+
+            <div id="timediv" class="flex-col items-center">
+              <div class="text-lg font-semibold text-fontColor px-3 py-1 rounded-lg shadow-md">시간 </div>
+              <div>
+                <p class="text-lg font-bold text-reonaiRed bg-reonaiWhite  px-1 py-1 rounded-lg shadow-md w-13 "><span
+                    id="elapsedValue" class="value-display">-</span>
+              </div>
+
+            </div>
+
+
+            <div id="timediv" class="flex-col-2 items-center" style="display: none;">
+              RoR1: <span id="RoR1Value" class="value-display">-</span> °C/min
+              RoR2: <span id="RoR2Value" class="value-display">-</span> °C/min
+
+            </div>
+            <div id="timediv" class="flex-col-3 items-center" style="display: none;">
+
+              Recipe : <span id="Recipe Name" class="value-display">-</span>
+              Bean : <span id="Bean Name" class="value-display">-</span>
+              Input: <span id="Input Amount" class="value-display">-</span>
+            </div>
+            <div id="timediv" class="flex-col-4 items-center" style="display: none;">
+              TP time <span id="TPtime" class="value-display">-</span>
+              TP temp <span id="TPtemp" class="value-display">-</span>
+              CP time <span id="CPtime" class="value-display">-</span>
+              CP temp <span id="CPtemp" class="value-display">-</span>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-3 gap-4">
+            <!-- <button onclick="stopHeatingMode()">예열 중지</button><p></p>
+    <button onclick="heatingMode()">예열</button><p></p> -->
+
+
+
+            <button class="S-CoreDream-3Light bg-reonaiRed text-reonaiWhite text-sm" id="crackBtn"
+              onclick="startRecordingCrackPoint()">크랙</button>
+            <button class="S-CoreDream-3Light bg-reonaiRed text-reonaiWhite text-sm" id="CoolDowndBtn"
+              onclick="coolingMode()">쿨다운</button>
+            <button class="S-CoreDream-3Light bg-reonaiRed text-reonaiWhite text-sm" id="disposeBtn"
+              onclick="disposalMode()">배출</button>
+
+
+            <button class="S-CoreDream-3Light bg-reonaiRed text-reonaiWhite text-sm" id="startRecordingcharts"
+              onclick="startRecordingcharts() ">startRecord</button>
+            <button class="S-CoreDream-3Light bg-reonaiRed text-reonaiWhite text-sm" id="stopRecordingcharts"
+              onclick="stopRecordingcharts()">stopRecording</button>
+            
+            <button class="S-CoreDream-3Light bg-reonaiRed text-reonaiWhite text-sm" id="windowfull"
+              onclick="headerDisplayNone()">전체화면</button>
+
+              <button class="S-CoreDream-3Light bg-reonaiRed text-reonaiWhite text-sm" id="doorTestMode"
+              onclick="doorTestMode()">doorTestMode</button>
+            <button class="S-CoreDream-3Light bg-reonaiRed text-reonaiWhite text-sm" id="autoRoastingFlagOn"
+              onclick="autoRoastingFlagOn(),autoRoastingStartFlagOn()">AUTO_on</button>
+            <button class="S-CoreDream-3Light bg-reonaiRed text-reonaiWhite text-sm" id="autoRoastingFlagOff"
+              onclick="autoRoastingFlagOff(),autoRoastingStartFlagOff()">AUTO_off</button>
+            <!-- <button class="S-CoreDream-3Light bg-reonaiRed text-reonaiWhite text-sm" id="autoRoastingFlagOff"
+              onclick="chartLengthUpdate()">차트</button> -->
+<!-- 
+
+          
+            <button class="bg-white text-sm" id="crackBtn" onclick="RecipeWrite()">save</button> -->
+
+
+
+
+
+
+          </div>
+
+
+
+          <!-- 출력제어 하는 부분 -->
+          <div id="sliderSection " class="section w-full GmarketSansMedium">
+            <div id="fan1SliderContainer" class="sliderContainer">
+              <div class="flex justify-between items-center w-full gap-4">
+                <div class="text-primary text-[18px] GmarketSansMedium">FAN1: <span id="fan1Value"
+                    class="value-display">0</span></div>
+                <div class="gap-2">
+                  <button id="fan1PlusBtn" class="bg-white px-3 py-[0px] text-[24px] text-[18px]">
+                    +
+                  </button>
+                  <button id="fan1MinBtn" class="bg-white px-3 py-[0px] text-[24px]">
+                    -
+                  </button>
+                </div>
+              </div>
+              <input type="range" id="fan1Slider" min="0" max="100" value="0" step="0.5" class="text-white bg-white" />
+            </div>
+
+            <div id="HeaterSliderContainer" class="sliderContainer">
+              <div class="flex justify-between items-center w-full gap-4">
+                <div class="text-primary text-[18px] GmarketSansMedium">HEATER: <span id="heaterValue"
+                    class="value-display">0</span>
+                </div>
+                <div class="gap-2">
+
+                  <button id="heaterPlusBtn" class="bg-white px-3 py-[0px] text-[24px] text-[18px]">
+                    +
+                  </button>
+                  <button id="heaterMinBtn" class="bg-white px-3 py-[0px] text-[24px]">
+                    -
+                  </button>
+                </div>
+              </div>
+              <input type="range" id="heaterSlider" min="0" max="100" value="0" step="0.5" />
+            </div>
+
+            <div id="fan2SliderContainer" class="sliderContainer">
+              <div class="flex justify-between items-center w-full gap-4">
+                <div class="text-primary text-[18px] GmarketSansMedium">FAN2: <span id="fan2Value"
+                    class="value-display">0</span>
+                </div>
+                <div class="gap-2">
+                  <button class="bg-white px-3 py-[0px] text-[24px]" id="fan2PlusBtn">
+                    +
+                  </button>
+                  <button id="fan2MinBtn" class="bg-white px-3 py-[0px] text-[24px]">
+                    -
+                  </button>
+                </div>
+              </div>
+              <input type="range" id="fan2Slider" min="1" max="100" value="0" step="0.5" />
+            </div>
+
+
+
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <div id="easyRoastInfoPanel" style="display: none;" class="w-full bg-reonaiBlack1 align-items: center">
+      <div
+        class="panelBox bg-gray-900 p-6 rounded-lg w-[1200px]text-center max-w-lg mx-auto space-y-4 items-center justify-center">
+        <h2 class="text-[32px] text-fontColor">REONAI </h2>
+        <span class="text-[32px] text-fontColor "> 예열 <span class="text-[32px] text-reonaiRed"
+            id="preheatPercentDisplayForEasyRaosting">0%</span></span>
+        <div class="grid grid-cols-2 gap-2 space-x-4  items-center" id="selectedRecord">
+
+          <button class="bg-reonaiWhite text-reonaiBlack1 rounded-sm w-[200px] h-30" id="ethiopiaBean">에티오피아
+            내추럴</button>
+          <button class="bg-reonaiWhite text-reonaiBlack1 rounded-sm w-[200px] h-30" id="colomniaBean">콜롬비아 워시드</button>
+
+
+
+        </div>
+        <div class="grid grid-cols-2 gap-2 space-x-4  " style="display: none;">
+          <button class="bg-reonaiWhite text-reonaiBlack1 rounded-sm w-[200px] h-30" id="easyLightRoast">Light</button>
+          <button class="bg-reonaiWhite text-reonaiBlack1 rounded-sm w-[200px] h-30" id="easyDarkRoast">Dark</button>
+
+        </div>
+
+        <div class="grid  space-x-4   ">
+
+          <button class="bg-white rounded-sm w-[464px] text-[28px] h-16 text-brown-accent"
+            id="autoRoastBtn">Start</button>
+        </div>
+
+
+
+
+
+      </div>
+    </div>
+    <div id="easyRoastPanel" style="display: none;" class="w-full bg-reonaiBlack1 align-items: center">
+      <div
+        class="panelBox bg-gray-900 p-6 rounded-lg w-[1200px]text-center max-w-lg mx-auto space-y-4 items-center justify-center">
+        <div id="easyPreheatPercent">
+          <span>Roasting</span>
+          <span id="roastingDisplayForEasyRaosting" class="text-[32px]">0%</span>
+        </div>
+        <div class="flex" style="display: none;" >
+          <div class="grid grid-rows-2 grid-flow-col gap-4">
+            <div class="" ><strong>Elapsed Time</strong></div>
+            <div class="text-[32px] text-reonaiRed"><span id="elapsedValue" class="value-display">-</span> s</div>
+          
+            <!-- <div class=""><strong>Drum</strong></div>
+            <div class="text-white"> <span id="temp1Value" class="value-display">-</span> °C</div>
+            <div class=""><strong>Heater</strong></div>
+            <div class="text-white"><span id="temp2Value" class="value-display">-</span> °C </div> -->
+          </div>
+        </div>
+        <div class="grid grid-cols-3 gap-2">
+          <!-- <button class="bg-white rounded-sm w-[100px]" id="crackBtn"
+            onclick="startRecordingCrackPoint()">Crack</button>
+          <button class="bg-white rounded-sm w-[100px]" id="CoolDowndBtn" onclick="coolingMode()">CoolDown</button>
+          <button class="bg-white rounded-sm w-[100px]" id="disposeBtn" onclick="disposalMode()">Disposal</button> -->
+        </div>
+    
+        <button  class="bg-white rounded-sm w-[464px] text-[28px] h-16 text-brown-accent" id="disposeBtn"
+        onclick="disposalMode()">배출</button>
+        <button
+          onclick="showPanel('mainPanel'),forceCoolingMode(),headerDisplayBlock(),autoRoastingFlagOff(),autoRoastingStartFlagOff()">go
+          to main</button>
+
+      </div>
+    </div>
+    <div id="settingPanel" style="display: none;">
+      <h2>settingPanel</h2>
+    </div>
+  </div>
+
+
+
+  <script src="https://code.highcharts.com/highcharts.js"></script>
+  <script src="https://code.highcharts.com/modules/series-label.js"></script>
+  <script src="https://code.highcharts.com/modules/exporting.js"></script>
+  <script src="https://code.highcharts.com/modules/export-data.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+  <script src="js/reonaiRoasting.js"></script>
+  <script src="js/reonaiBLEtoIO.js"></script>
+  <script src="js/reonaiData.js"></script>
+  <script src="js/panel.js"></script>
+  <script src="js/charts.js"></script>
+  <script> //window 이벤트 모음
+
+    window.addEventListener('beforeunload', function (event) {
+      // 브라우저에 따라 다르게 동작할 수 있음
+      event.preventDefault();
+      // 확인 메시지를 사용자에게 보여줌
+      event.returnValue = '페이지를 나가시면, 모든 로스팅이 지됩니다.';
+    });</script>
+</body>
+
+</html>

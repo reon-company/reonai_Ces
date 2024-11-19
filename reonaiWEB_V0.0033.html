@@ -1,0 +1,4806 @@
+
+
+<!-- 웹 리오나이 구동 웹-->
+<!-- reonaiWEB V0.0032 date 240925  김국진 -->
+<!-- https://docs.google.com/spreadsheets/d/1ddwcosLRJCI1m3LwvlyAX1cyNJR98QSnYF5o2H7RvVM/edit?gid=950566445#gid=950566445-->
+
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title>reonaiWEB</title>
+    <meta content="" name="description" />
+    <meta content="" name="keywords" />
+
+    <!-- 마우스커서 변경 -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+
+
+    <!-- Favicons -->
+    <link href="../img/reonai favicon-1.png" rel="icon" />
+    <link href="../img/apple-touch-icon.png" rel="apple-touch-icon" />
+
+    <!-- Vendor CSS Files -->
+    <link
+      href="../vendor/animate.css/animate.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="../vendor/bootstrap/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="../vendor/bootstrap-icons/bootstrap-icons.css"
+      rel="stylesheet"
+    />
+    <link
+      href="../vendor/boxicons/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="../vendor/glightbox/css/glightbox.min.css"
+      rel="stylesheet"
+    />
+    <link href="../vendor/remixicon/remixicon.css" rel="stylesheet" />
+    <link
+      href="../vendor/swiper/swiper-bundle.min.css"
+      rel="stylesheet"
+    />
+    <!-- Template Main CSS File -->
+    <link href="../css/style.css" rel="stylesheet" />
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+    <!-- Highcharts 라이브러리 추가 -->
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/series-label.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/export-data.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+
+    <style>
+      body {
+        cursor: url('../img/cursor_none.png'), auto;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        background-color: #000000;
+        color: #f5e6cc;
+      }
+
+      #header {
+        display: none;
+        opacity: 0;
+        background: #000000;
+        transition: all 0.5s;
+        z-index: 997;
+        padding: 20px 0;
+
+      }
+
+      #header.header-scrolled {
+        box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.1);
+        padding: 12px 0;
+      }
+
+      #header.header-inner-pages {
+        box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      #header .logo {
+        font-size: 28px;
+        margin: 0;
+        padding: 0;
+        line-height: 1;
+        font-weight: 700;
+        text-transform: uppercase;
+      }
+
+      #header .logo a {
+        color: #000000;
+      }
+
+      #header .logo img {
+        max-height: 40px;
+      }
+
+      /*--------------------------------------------------------------
+      # Navigation Menu
+      --------------------------------------------------------------*/
+      /**
+      * Desktop Navigation
+      */
+      .navbar {
+        padding: 0;
+      }
+
+      .navbar ul {
+        margin: 0;
+        padding: 0;
+        display: flex;
+        list-style: none;
+        align-items: center;
+      }
+
+      .navbar li {
+        position: relative;
+      }
+
+      .navbar a,
+      .navbar a:focus {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px 0 10px 30px;
+        font-family: 'Poppins', sans-serif;
+        font-size: 15px;
+        font-weight: 500;
+        color: #556270;
+        white-space: nowrap;
+        transition: 0.3s;
+      }
+
+      .navbar a i,
+      .navbar a:focus i {
+        font-size: 12px;
+        line-height: 0;
+        margin-left: 5px;
+      }
+
+      .navbar a:hover,
+      .navbar .active,
+      .navbar .active:focus,
+      .navbar li:hover > a {
+        color: #f2b626;
+      }
+
+      .navbar .getstarted,
+      .navbar .getstarted:focus {
+        background: #f2b626;
+        padding: 8px 25px;
+        margin-left: 30px;
+        border-radius: 4px;
+        font-weight: 400;
+        color: #000000;
+      }
+
+      .navbar .getstarted:hover,
+      .navbar .getstarted:focus:hover {
+        color: #fff;
+        background: #e1444d;
+      }
+
+      .navbar .dropdown ul {
+        display: block;
+        position: absolute;
+        left: 14px;
+        top: calc(100% + 30px);
+        margin: 0;
+        padding: 10px 0;
+        z-index: 99;
+        opacity: 0;
+        visibility: hidden;
+        background: #f2b626;
+        box-shadow: 0px 0px 30px rgb(0, 0, 0, 0.25);
+        transition: 0.3s;
+      }
+
+      .navbar .dropdown ul li {
+        min-width: 200px;
+      }
+
+      .navbar .dropdown ul a {
+        padding: 10px 20px;
+        font-size: 15px;
+        text-transform: none;
+        font-weight: 400;
+      }
+
+      .navbar .dropdown ul a i {
+        font-size: 12px;
+      }
+
+      .navbar .dropdown ul a:hover,
+      .navbar .dropdown ul .active:hover,
+      .navbar .dropdown ul li:hover > a {
+        color: #d9232d;
+      }
+
+      .navbar .dropdown:hover > ul {
+        opacity: 1;
+        top: 100%;
+        visibility: visible;
+      }
+
+      .navbar .dropdown .dropdown ul {
+        top: 0;
+        left: calc(100% - 30px);
+        visibility: hidden;
+      }
+
+      .navbar .dropdown .dropdown:hover > ul {
+        opacity: 1;
+        top: 0;
+        left: 100%;
+        visibility: visible;
+      }
+
+      @media (max-width: 1366px) {
+        .navbar .dropdown .dropdown ul {
+          left: -90%;
+        }
+
+        .navbar .dropdown .dropdown:hover > ul {
+          left: -100%;
+        }
+      }
+
+      #mainPanel {
+        width: 100vw;
+        height: 100vh;
+        justify-content: center;
+        text-align: center;
+        background-color: #f0f0f0;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        display: block; 
+        opacity: 0;
+        flex-basis: 70%;
+        transition: opacity 0.5s ease;
+      }
+  
+   
+           #roastContainer {
+        width: 100%;   
+        display: none;
+        opacity: 0;
+        transition: opacity 0.5s ease;
+        padding: 10px;
+        justify-content: space-between;
+        background-color: #1a1919;
+             
+      }
+
+      #roastInfoPanel {
+  
+        width: 100vw;
+        height: 100vh;
+        display: none;
+        opacity: 0;
+        transition: opacity 0.5s ease;
+        justify-content: center;
+        background-color: #f0f0f0;
+        background-image: url("../img/mainPanel_img_2.jpg");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        position: relative; /* 추가 */
+      }
+      #referenceRecipePanel{
+        background-color: #f0f0f0;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        justify-content: center;
+        align-items: flex-start;
+        display: none;
+        opacity: 0;
+        transition: opacity 0.5s ease;
+        color: aliceblue;
+        width: 100vw;
+        height: 100vh;
+        justify-content: space-between;
+        background-color: #ffffff;        
+        flex-basis: 70%;
+              background-image: url("../img/mainPanel_img_2.jpg");
+      }
+   
+      #recipePanel {
+        background-color: #f0f0f0;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        justify-content: center;
+        align-items: flex-start;
+        display: none;
+        opacity: 0;
+        transition: opacity 0.5s ease;
+
+        color: aliceblue;
+        width: 100vw;
+        height: 100vh;
+        justify-content: space-between;
+        background-color: #ffffff;
+        
+        flex-basis: 70%;
+        }
+
+
+      #beanPuttingCountPanel {
+        width: 100vw;
+        height: 100vh;
+        justify-content: center;
+        text-align: center;
+        background-color: #f0f0f0;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        display: block; 
+        opacity: 0;
+        flex-basis: 70%;
+        transition: opacity 0.5s ease;
+      }
+      
+
+      #beanPuttingCounter {
+            font-size: 150px;  /* 큰 폰트 크기 설정 */
+            font-weight: bold;
+            color: #333;
+            text-align: center;
+            background-color: #fff;
+            padding: 40px;
+            border: 5px solid #333;
+            border-radius: 15px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+
+      .show {
+        display: flex !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        transition: opacity 0.5s ease, visibility 0.5s ease;
+      }
+
+      #mainPanelLogoImg {
+        position: absolute;
+        top: 130px;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 300px;
+        height: auto;
+      }
+
+      #mainSection {
+        margin-top: 120px;
+        margin-bottom: auto;
+        background-color: rgba(64,41,39, 0.9);
+        padding: 10px;
+        border-radius: 20px;
+        box-shadow: 0 5px 10px rgba(64,41,39, 0.3);
+        transition: all 0.1s ease;
+        display: flex;
+        flex-direction: column;
+        color: #ffffff;
+      }
+
+      .mainSection-btn {
+        font-size: 100px;
+        background-color: transparent;
+        border: none;
+        color: #f5e6cc;
+      }
+
+      .mainSection-btn:hover {
+        font-size: 120px;
+        background-color: #4b2e2b;
+        color: #ffc000;
+      }
+
+      #mainMenu {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: auto;
+        gap: 5px;
+        padding: 1px;
+      }
+
+      #autoRoastingButton {
+        font-size: 50px;
+      }
+
+      #manualRoastingButton {
+        font-size: 50px;
+      }
+
+      #myRecipe {
+        font-size: 50px;
+      }
+
+      #mainSetting {
+        font-size: 50px;
+      }
+
+      #LoginSection {
+        border-radius: 20px;
+        position: absolute;
+        
+        top: 300px;
+        left: 10px;
+        background-color: rgba(64,41,39, 0.5);
+        height: 250px;
+        width: 250px;
+      }
+
+      #LoginFormDiv {
+        align-items: center;
+        padding-bottom: 1px;
+      }
+
+      #loginForm {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        height: 100;
+      }
+
+      #loginBtn {
+        height: 60px;
+        width: 200px;
+        padding: 5px 5px;
+        gap: 10px;
+        background-color: rgba(160, 147, 146, 0.9);
+        color: #f5e6cc;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 30px;
+      }
+
+      #mainConnectBluetoothBtn {
+        position: absolute;
+        top: 100px;
+        left: 10px;
+        height: 60px;
+        width: 200px;
+        padding: 5px 5px;
+        gap: 10px;
+        background-color: rgba(64,41,39, 0.9);
+        color: #f5e6cc;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 30px;
+      }
+
+
+
+      #recipeContainerSection {
+        width: auto;
+        height: auto;
+        background-color: rgba(68, 68, 68, 0.8);
+        margin: 30px auto;
+        padding: 25px;
+        border-radius: 15px;
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: all 0.4s ease;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+      #myRecordList{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 5px;
+        padding: 5px;
+        background-color: #2c2c2c;
+        border-radius: 10px;
+          }
+
+#pilotRecordList{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  padding: 5px;
+  background-color: #2c2c2c;
+  border-radius: 10px;
+  
+}
+
+      #getPilotresult {
+        min-height: 100px;
+        max-height: 500px;
+        overflow: auto;
+        width: auto;
+        padding: 10px;
+        border: 1px solid #ccc;
+        box-sizing: border-box;
+      }
+
+      #getMyRecordsResult {
+        min-height: 100px;
+        max-height: 500px;
+        overflow: auto;
+        width: auto;
+        padding: 10px;
+        border: 1px solid #ccc;
+        box-sizing: border-box;
+      }
+
+
+      #selectedRecord {
+        padding: 20px;
+        background-color: #2c2c2c; /* 배경색 추가 */
+        border-radius: 10px; /* 둥근 모서리 추가 */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 추가 */
+        color: #f5e6cc; /* 텍스트 색상 */
+        max-width: 400px; /* 최대 너비 설정 */
+        margin: 0 auto; /* 가운데 정렬 */
+      }
+
+      #selectedRecord h5 {
+        font-size: 24px; /* 제목 폰트 크기 */
+        margin-bottom: 15px; /* 아래 여백 */
+        text-align: center; /* 가운데 정렬 */
+        color: #ffc000; /* 제목 색상 */
+      }
+
+      #selectedRecord p {
+        font-size: 18px; /* 본문 폰트 크기 */
+        margin: 10px 0; /* 위아래 여백 */
+      }
+
+      #selectedRecord p strong {
+        color: #e1444d; /* 강조 텍스트 색상 */
+      }
+
+      #selectedRecord span {
+        display: inline-block; /* 인라인 블록으로 설정 */
+        min-width: 50px; /* 최소 너비 설정 */
+        text-align: right; /* 오른쪽 정렬 */
+      }
+
+
+
+
+
+      #refRecipeSection{   width: auto;
+        height: auto;
+        background-color: rgba(68, 68, 68, 0.8);
+        margin: 30px auto;
+        padding: 25px;
+        border-radius: 15px;
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: all 0.4s ease;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+
+      }
+
+
+
+      #refMyRecordList{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 5px;
+        padding: 5px;
+        background-color: #2c2c2c;
+        border-radius: 10px;
+          }
+
+#refPilotRecordList{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  padding: 5px;
+  background-color: #2c2c2c;
+  border-radius: 10px;
+  
+}
+
+      #refGetPilotresult {
+        min-height: 100px;
+        max-height: 500px;
+        overflow: auto;
+        width: auto;
+        padding: 10px;
+        border: 1px solid #ccc;
+        box-sizing: border-box;
+      }
+
+      #refGetMyRecordsResult {
+        min-height: 100px;
+        max-height: 500px;
+        overflow: auto;
+        width: auto;
+        padding: 10px;
+        border: 1px solid #ccc;
+        box-sizing: border-box;
+      }
+
+
+      #refSelectedRecord {
+        padding: 20px;
+        background-color: #2c2c2c; /* 배경색 추가 */
+        border-radius: 10px; /* 둥근 모서리 추가 */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 추가 */
+        color: #f5e6cc; /* 텍스트 색상 */
+        max-width: 400px; /* 최대 너비 설정 */
+        margin: 0 auto; /* 가운데 정렬 */
+      }
+
+      #refSelectedRecord h5 {
+        font-size: 24px; /* 제목 폰트 크기 */
+        margin-bottom: 15px; /* 아래 여백 */
+        text-align: center; /* 가운데 정렬 */
+        color: #ffc000; /* 제목 색상 */
+      }
+
+      #refSelectedRecord p {
+        font-size: 18px; /* 본문 폰트 크기 */
+        margin: 10px 0; /* 위아래 여백 */
+      }
+
+      #refSelectedRecord p strong {
+        color: #e1444d; /* 강조 텍스트 색상 */
+      }
+
+      #refSelectedRecord span {
+        display: inline-block; /* 인라인 블록으로 설정 */
+        min-width: 50px; /* 최소 너비 설정 */
+        text-align: right; /* 오른쪽 정렬 */
+      }
+
+      .record-btn {
+        display: block;
+        margin: 10px 0;
+        padding: 10px 20px;
+        background-color: #4b2e2b;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        color: #f5e6cc;
+        font-size: 16px;
+        font-weight: bold;
+        transition: background-color 0.3s ease, transform 0.3s ease;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+
+      .record-btn:hover {
+        background-color: #e1444d;
+        transform: translateY(-2px);
+      }
+
+      .record-btn:active {
+        background-color: #c0392b;
+        transform: translateY(0);
+      }
+
+
+     
+
+
+
+
+      #buttonContainer{
+
+        display: flex; flex-direction: column;
+         align-items: center; 
+         gap: 5px; 
+         padding: 5px; 
+         background-color: #2c2c2c;
+          border-radius: 10px; 
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+    
+      #chartContainer {
+        width: 80%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        gap: 10px;
+        height: 100%;
+      }
+
+      #controlsContainer {
+        width: 20%;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        padding-left: 10px;
+        gap: 10px;
+        height: 100%;
+      }
+
+      .control-btn {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 15px 30px;
+        background-color: #4b2e2b;
+        color: #f5e6cc;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 18px;
+        font-weight: bold;
+        transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        margin: 10px 0;
+        width: auto; /* 버튼의 너비를 자동으로 설정 */
+        height: auto; /* 버튼의 높이를 자동으로 설정 */
+        white-space: nowrap; /* 텍스트가 줄 바꿈되지 않도록 설정 */
+      }
+
+      .control-btn:hover {
+        background-color: #e1444d;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+      }
+
+      #autoRoastBtn{
+        width: 200px;
+        height: 60px; 
+        font-size: 20px;
+      }
+
+      #goToMainForAuto{
+
+
+        width: 200px;
+        height: 60px; 
+        font-size: 20px;
+      }
+      #viewRoastContainer{
+        width: 200px;
+        height: 60px; 
+        font-size: 20px;  
+      }
+
+      .control-btn:active {
+        background-color: #c0392b;
+        transform: translateY(0);
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+
+      .chart-div {
+        width: 100%;
+        height: 50vh;
+        background-color: #000000;
+        border: 1px solid #000000;
+        border-radius: 8px;
+      }
+
+      .section {
+        padding: 10px;
+        background-color: #444444;
+        border-radius: 8px;
+      }
+
+      .sliderContainer {
+        margin-bottom: 10px;
+      }
+
+      input[type='range'] {
+        width: 100%;
+        cursor: pointer;
+      }
+
+      p,
+      h3 {
+        margin: 5px 0;
+      }
+
+      span.value-display {
+        font-weight: bold;
+        color: #ffd7a8;
+      }
+
+      #consoleLog {
+        height: 20vh;
+        background-color: #333333;
+        color: #fff;
+        padding: 2px;
+        overflow-y: auto;
+        border: 1px solid #f5e6cc;
+        border-radius: 8px;
+        margin-top: 2px;
+      }
+
+
+      #roastInfoPanelBackSp {
+        position: absolute;
+        top: 130px;
+        right: 10px;
+        width: 100px;
+        height: auto;
+      }
+
+      #roastInfoDiv {
+        margin-top: 200px;
+        height: 600px;
+        width: 1000px;
+        flex-direction: row;
+        justify-content: center;
+        border-radius: 20px;
+        background: rgba(64, 41, 39, 0.90);
+        display: flex;
+      }
+
+      
+      #goToMainForRoastInfo{
+        display: block;
+        position: absolute;
+        bottom: 20px; /* 하단에서 20px 위로 */
+        right: 20px; /* 우측에서 20px 왼쪽으로 */
+        height: 60px;
+        width: 200px;
+        padding: 5px 5px;
+        gap: 10px;
+        background-color: rgba(64,41,39, 0.9);
+        color: #f5e6cc;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 30px;
+      }
+
+      #roastInfoSection {
+        display: flex;
+        background: rgba(64, 41, 39, 0);
+        width: 490px;
+        height: 620px;
+        justify-content: center;
+        flex-direction: column;
+      }
+
+      #roastInfoInputDiv {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+      }
+
+      #roastInfoRecipeName {
+        margin: 10px;
+        height: 30px;
+        width: 250px;
+        color: #000000;
+        border-radius: 5px;
+      }
+
+      #roastInfoBeanName {
+        margin: 10px;
+        height: 30px;
+        width: 250px;
+        color: #000000;
+        border-radius: 5px;
+      }
+
+      #roastInfoInputAmount {
+        margin: 10px;
+        height: 30px;
+        width: 250px;
+        color: #000000;
+        border-radius: 5px;
+      }
+
+      #roastInfoStageSelect {
+        margin: 10px;
+        height: 30px;
+        width: 250px;
+        color: #000000;
+        border-radius: 5px;
+      }
+
+      #roastInfoPreheatTempSelect {
+        margin: 10px;
+        height: 30px;
+        width: 250px;
+        color: #000000;
+        border-radius: 5px;
+      }
+
+      #roastInfoPowerFan1SelectDiv {
+        margin: 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+      }
+
+      #roastInfoPowerFan2SelectDiv {
+        margin: 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+      }
+
+      #roastInfoPowerHeaterSelectDiv {
+        margin: 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+      }
+
+      #roastInfoPowerDiv {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+      }
+
+      #roastInfoPowerFan1Select {
+        margin: 10px;
+        height: 30px;
+        width: 50px;
+        color: #000000;
+        border-radius: 5px;
+      }
+
+      #roastInfoPowerFan2Select {
+        margin: 10px;
+        height: 30px;
+        width: 50px;
+        color: #000000;
+        border-radius: 5px;
+      }
+
+      #roastInfoPowerHeaterSelect {
+        margin: 10px;
+        height: 30px;
+        width: 50px;
+        color: #000000;
+        border-radius: 5px;
+      }
+
+      #roastInfoSection2 {
+        display: flex;
+        background: rgba(64, 41, 39, 0);
+        width: 490px;
+        height: 620px;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+      }
+
+      #referenceFinderBtn {
+        height: 60px;
+        width: 250px;
+        padding: 5px 5px;
+        margin: 10px;
+        gap: 10px;
+        background-color: rgba(255, 255, 255, 0.9);
+        color: #000000;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        font-size: 20px;
+      }
+
+      #memoTextArea {
+        height: 300px;
+        width: 250px;
+        font-size: 20px;
+        border-radius: 10px;
+        margin: 10px;
+        background-color: rgba(255, 255, 255, 0.9);
+      }
+
+      
+  
+
+
+#roastInfoStartBtn{
+    height: 60px;
+    width : 250px;
+    padding: 5px 5px;
+    margin: 10px;
+    gap: 10px;
+    background-color:rgba(152, 49, 56,0.9);
+    color: #ffffff;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+
+
+
+#crackBtn{
+    height: 60px;
+    width : 200px;
+    padding: 5px 5px;
+    margin: 10px;
+    gap: 10px;
+    background-color:rgba(107, 67, 4, 0.9);
+    color: #ffffff;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+#CoolDowndBtn{
+    height: 60px;
+    width : 200px;
+    padding: 5px 5px;
+    margin: 10px;
+    gap: 10px;
+    background-color:rgba(59, 121, 192, 0.9);
+    color: #ffffff;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+
+#disposeBtn{
+    height: 60px;
+    width : 200px;
+    padding: 5px 5px;
+    margin: 10px;
+    gap: 10px;
+    background-color:rgba(16, 215, 139, 0.9);
+    color: #ffffff;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+#outPutZeroBtn{
+    height: 60px;
+    width :200px;
+    padding: 5px 5px;
+    margin: 10px;
+    gap: 10px;
+    background-color:rgba(152, 49, 56,0.9);
+    color: #ffffff;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+#goToMain{
+    height: 60px;
+    width : 200px;
+    padding: 5px 5px;
+    margin: 10px;
+    gap: 10px;
+    background-color:rgba(152, 49, 56,0.9);
+    color: #ffffff;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+
+#autoRoastBtn2{
+    height: 60px;
+    width : 200px;
+    padding: 5px 5px;
+    margin: 10px;
+    gap: 10px;
+    background-color:rgba(28, 27, 27, 0.9);
+    color: #ffffff;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+
+
+
+
+
+
+
+        /* 아이폰, 갤럭시 노트와 같은 작은 화면에 대한 스타일 */
+@media (max-width: 600px) {
+  #header {
+    padding: 10px 0;
+  }
+
+  .navbar a {
+    padding: 8px 0 8px 15px;
+    font-size: 14px;
+  }
+
+  .chart-div {
+    height: 30vh; /* 화면 높이의 30% */}
+
+    #controlsContainer {
+    flex-direction: column; /* 세로로 정렬 */
+    align-items: center; /* 가운데 정렬 */
+  }
+
+  .control-btn {
+    width: 90%; /* 버튼을 화면 너비의 90%로 설정 */
+    font-size: 14px; /* 글씨 크기를 줄임 */
+    padding: 15px; /* 여백 조정 */
+
+  
+
+    }
+  }
+
+
+/* 아이패드와 같은 중간 크기 화면에 대한 스타일 */
+@media (min-width: 601px) and (max-width: 1024px) {
+  #header {
+    padding: 15px 0;
+  }
+
+  .navbar a {
+    padding: 10px 0 10px 20px;
+    font-size: 16px;
+  }
+
+  .chart-div {
+    height: 40vh; /* 면 높이의 40% */
+  }
+  #controlsContainer {
+    flex-direction: row; /* 가로로 정렬 */
+    flex-wrap: wrap; /* 요소를 여러 줄로 정렬 */
+    justify-content: space-between; /* 공간을 균등하게 배분 */
+  }
+
+  .control-btn {
+    width: 45%; /* 버튼을 화면 너비의 45%로 설정 */
+    font-size: 16px; /* 글씨 크기 조정 */
+    padding: 20px; /* 여백 조정 */
+  }
+}
+
+/* 큰 화면 (데스크탑, 아이패드 가로 모드 등) */
+@media (min-width: 1025px) {
+  #controlsContainer {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+
+  .control-btn {
+ 
+    width: 30%; /* 버튼을 화면 너비의 30%로 설정 */
+    font-size: 18px;
+    padding: 20px;
+  }
+}
+
+    </style>
+      
+
+  </head>
+  <body>
+    <header id="header">
+      <div class="container d-flex align-items-center">
+        <a href="../index.html" class="logo me-auto"
+          ><img src="../img/reonai_logo.png" alt="" class="img-fluid"
+        /></a>
+
+        <nav id="navbar" class="navbar">
+          <ul>
+            <li><a href="../index.html" class="active">Home</a></li>
+            <li>
+              <a href="reonaiWEB_V0.0022.html" class="active">The Roaster</a>
+            </li>
+
+            <li><a href="../index.html" class="getstarted">Login</a></li>
+          </ul>
+          <i class="bi bi-list mobile-nav-toggle"></i>
+        </nav>
+        <!-- .navbar -->
+      </div>
+    </header>
+    <!-- End Header -->
+    <main id="main">
+      <div id="mainPanel">
+<img id="mainPanelLogoImg" src="../img/reonai_logo.png" class="mainPanelLogo">
+        <section id="mainSection">
+
+  <div id="mainMenu" >
+    <button id="roastInfoStartBtn" onclick="showPanel('roastContainer')">로스팅 패널(임시)</button>
+    <button onclick="checkBluetoothConnection()" class="mainSection-btn" id="autoRoastingButton">Easy Roasting</button>
+
+
+        <button onclick="checkBluetoothConnection(),autoRoastingPreheat()" class="mainSection-btn" id="manualRoastingButton" >
+        Manual Roasting
+        </button>
+        
+        <button onclick="showPanel('recipePanel')" class="mainSection-btn" id="myRecipe">My Recipe</button>
+        <button class="mainSection-btn" id="mainSetting">setting</button></div></section>
+
+        <section id="LoginSection">   
+              <div id="LoginFormDiv" >
+                <form id="loginForm">
+            <input type="email" id="email" placeholder="아이디 입력"name="email" autofocus required>
+            <input type="password" id="password" placeholder="비밀번호 8자~20자" name="password"autofocusrequired>
+            <button id="loginBtn" type="submit">로그인</button>
+            <p id="responseMessage"></p>
+        </form></div>
+
+       
+     </section>
+     <button id="mainConnectBluetoothBtn" onclick="connectBluetooth()">
+        블루투스 연결 버튼
+      </button>
+
+      </div>
+      <div id="recipePanel">
+        <section id="recipeContainerSection" style="text-align: center; position: relative; display: flex; height: auto;">
+          <section id="myRecordList" class="align-items-center" >
+            My Record
+            <div id="getMyRecordsResult" class="record-list"></div>
+          </section>
+          <p></p>
+          <section id="pilotRecordList" class="align-items-center">
+            Pilot Record
+            <div id="getPilotresult" class="record-list"></div>
+          </section>
+          <p></p>
+          <div id="selectedRecord" >
+            Selected Record Details
+            <p><strong>ID:</strong> <span id="recordId">-</span></p>
+            <p><strong>Title:</strong> <span id="recordTitle">-</span></p>
+            <p><strong>Date:</strong> <span id="recordDate">-</span></p>
+            <p><strong>Time:</strong> <span id="recordTime">-</span></p>
+          </div>
+          <p></p>
+          <div id="buttonContainer" >
+            <button class="control-btn" id="autoRoastBtn" >자동 로스팅</button>
+            <button class="control-btn" id="viewRoastContainer" onclick="showPanel('roastContainer');">로스트뷰</button>
+          </div>
+        </section>
+        <button onclick="showPanel('mainPanel')" class="control-btn" id="goToMainForAuto">메인</button>
+      </div>
+      <div id="referenceRecipePanel">
+        <section id="refRecipeSection" style="text-align: center; position: relative; display: flex; height: auto;">
+          <section id="refMyRecordList" class="align-items-center" >
+            My Record
+            <div id="refGetMyRecordsResult" class="record-list"></div>
+          </section>
+          <p></p>
+          <section id="refPilotRecordList" class="align-items-center">
+            Pilot Record
+            <div id="refGetPilotresult" class="record-list"></div>
+          </section>
+          <p></p>
+          <div id="refSselectedRecord" >
+            Selected Record Details
+            <p><strong>ID:</strong> <span id="refRecordId">-</span></p>
+            <p><strong>Title:</strong> <span id="refRecordTitle">-</span></p>
+            <p><strong>Date:</strong> <span id="refRecordDate">-</span></p>
+            <p><strong>Time:</strong> <span id="refRecordTime">-</span></p>
+          </div>
+          <p></p>
+          <div id="buttonContainer" >
+            
+            <button class="control-btn" id="viewRoastContainer" onclick="showPanel('roastInfoPanel'); updateReferenceFinderBtnText();">저장</button>
+            <button class="control-btn" id="viewRoastContainer" onclick="showPanel('roastInfoPanel'); resetReferenceFinderBtnText();">뒤로가기</button>
+          </div>
+        </section>
+        <button onclick="showPanel('mainPanel')" class="control-btn" id="goToMainForAuto">메인</button>
+      </div>
+      <div id="roastInfoPanel">
+        <div style="text-align: center; font-size: 24px; font-weight: bold; margin-top: 20px;">
+            <span>예열</span><span id="preheatPercentDisplay">0%</span>
+          </div>
+          <span>Drum Temp: </span> <span id="infoTemp1Value"style="text-align: center; font-size: 24px; font-weight: bold; margin-top: 20px;" class="value-display">-</span> <span>°C</span>
+          <span>Heater Temp: </span><span id="infoTemp2Value"style="text-align: center; font-size: 24px; font-weight: bold; margin-top: 20px;" class="value-display">-</span> <span>°C</span>
+        <div id="roastInfoDiv">
+         
+<section id="roastInfoSection">
+<div id="roastInfoInputDiv">
+    <h1>Info</h1>
+    <input  id="roastInfoRecipeName" placeholder="Recipe Name"  autofocus required>
+    <input  id="roastInfoBeanName" placeholder="Bean Name"  autofocus required>
+    <select name="roastInfoInputAmount" id="roastInfoInputAmount" >
+        <option disabled hidden selected>Input Amount</option>
+        <option value="50">50g</option>
+        <option value="60">60g</option>
+        <option value="70">70g</option>
+        <option value="80">80g</option>
+        <option value="90">90g</option>
+        <option value="100">100g</option>
+        <option value="110">110g</option>
+        <option value="120">120g</option>
+        <option value="130">130g</option>
+        <option value="140">140g</option>
+        <option value="150">150g</option>
+        <option value="160">160g</option>
+        <option value="170">170g</option>∂
+        <option value="180">180g</option>
+        <option value="190">190g</option>
+        <option value="200">200g</option>
+    </select>
+
+    <select name="roastInfoStage" id="roastInfoStageSelect">
+        <option disabled hidden selected>Stage</option>
+        <option value="Light">Light</option>
+        <option value="Cinnamon">Cinnamon</option>
+        <option value="Medium">Medium</option>
+        <option value="High">High</option>
+        <option value="Cit">City</option>
+        <option value="Full">Full</option>
+        <option value="French">French</option>
+        <option value="Italian">Italian</option>
+    </select>
+    <!-- <select name="roastInfoPreheatTemp" id="roastInfoPreheatTempSelect">
+        <option disabled hidden selected>Preheat Temp</option>
+        <option value="100">100°C</option>
+        <option value="150">150°C</option>
+        <option value="200">200°C</option>
+    </select> -->
+   
+</div>
+<p></p>
+
+    <div id="roastInfoPowerDiv">
+        <h1 style="text-align: center;" >Power</h1>
+        
+    <div style="display: flex; justify-content: center;
+    align-items: center;"><div  id="roastInfoPowerFan1SelectDiv">
+            <h4>FAN1</h4>
+        <select name="roastInfoPowerFan1" id="roastInfoPowerFan1Select">
+            
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="15">15</option>
+            <option value="20">20</option>
+            <option value="25">25</option>
+            <option value="30">30</option>
+            <option value="35">35</option>
+            <option value="40">40</option>
+            <option value="45">45</option>
+            <option value="50">50</option>
+            <option value="55">55</option>
+            <option value="60">60</option>
+            <option value="65">65</option>
+            <option value="70">70</option>
+            <option value="75">75</option>
+            <option value="80">80</option>
+            <option value="85">85</option>
+            <option value="90">90</option>
+            <option value="95">95</option>
+            <option value="100">100</option>
+        </select>    </div>
+        <div id="roastInfoPowerFan2SelectDiv"><h4>FAN2</h4>
+            <select name="roastInfoPowerFan2" id="roastInfoPowerFan2Select">
+            
+                <option value="1">1</option>
+                <option value="1.5">1.5</option>
+                <option value="2">2</option>
+                <option value="2.5">2.5</option>
+                <option value="3">3</option>
+                <option value="3.5">3.5</option>
+                <option value="4">4</option>
+                <option value="4.5">4.5</option>
+                <option value="5">5</option>
+                <option value="5.5">5.5</option>
+                <option value="6">6</option>
+                <option value="6.5">6.5</option>
+                <option value="7">7</option>
+                <option value="7.5">7.5</option>
+                <option value="8">8</option>
+                <option value="8.5">8.5</option>
+                <option value="9">9</option>
+                <option value="9.5">9.5</option>
+                <option value="10">10</option>
+                <option value="10.5">10.5</option>
+                <option value="11">11</option>
+                <option value="11.5">11.5</option>
+                <option value="12">12</option>
+            </select></div>
+            <div id="roastInfoPowerHeaterSelectDiv"><h4>Heater</h4>
+                <select name="roastInfoPowerHeater" id="roastInfoPowerHeaterSelect">
+                    <option value="0">0</option>
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="15">15</option>
+                    <option value="20">20</option>
+                    <option value="25">25</option>
+                    <option value="30">30</option>
+                    <option value="35">35</option>
+                    <option value="40">40</option>
+                    <option value="45">45</option>
+                    <option value="50">50</option>
+                    <option value="55">55</option>
+                    <option value="60">60</option>
+                    <option value="65">65</option>
+                    <option value="70">70</option>
+                    <option value="75">75</option>
+                    <option value="80">80</option>
+                    <option value="85">85</option>
+                    <option value="90">90</option>
+                    <option value="95">95</option>
+                    <option value="100">100</option>
+                </select>
+            </div>
+            </div>
+</div>
+</section>
+<section id="roastInfoSection2">
+    <button id="referenceFinderBtn" onclick="showPanel('referenceRecipePanel')">
+      Reference Finder    
+    </button>
+    <h1 style="margin: 10px;">MEMO</h1>
+    <textarea id="memoTextArea" placeholder="메모를 입력해주세요" style="resize: none;"></textarea>
+    <button id="roastInfoStartBtn" onclick="if (document.getElementById('preheatPercentDisplay').innerText !== '100%') { alert('예열이 완료되지 않았습니다'); } else { showPanel('beanPuttingCountPanel'); roastInfoStart(); }">로스팅 시작</button>
+    <!-- <button id="roastInfoStartBtn" onclick="showPanel('roastContainer'),roastInfoStart();">로스팅로로 시작</button> -->
+
+</section>
+
+</div>
+
+<button id="roastInfoStartBtn" onclick="showPanel('roastContainer')" style="display: none;">로스팅 패널</button>
+<button onclick="handleCoolDown()" class="control-btn"  id="roastInfoStartBtn">쿨다운</button>
+
+
+
+<button onclick="showPanel('mainPanel'),stopRecordingcharts(),resetChartsAll(),stopAutoRoastingPreheat(),handleOutputZero()" class="control-btn" id="goToMainForAuto">메인</button>
+</div>  
+
+</div>
+
+      <div id="roastContainer">
+        <div id="chartContainer">
+          <div id="chartdiv" class="chart-div"></div>
+
+          <div id="outputChartdiv" class="chart-div"></div>
+        </div>
+
+        <div id="controlsContainer">
+          <div id="controlsSection"class="section" style="display: none;">
+            <button id="connectBluetoothBtn"onclick="connectBluetooth()">블루투스 연결</button>
+        
+            <button id="resetBtn" onclick="resetChartsAll()">초기화</button>
+            <button id="resetBtn" onclick="startRecordingcharts()">차트 기록</button>
+            <button id="resetBtn" onclick="stopRecordingcharts()">차트 기록 멈춤</button>
+            <button id="saveDataBtn" onclick="saveData()">프로파일 저장</button>
+            <button id="crackBtn" onclick= "stopRecordingCrackPoint()">크랙멈춤</button>
+            <button id="autoPreheatBtn" onclick="autoRoastingPreheat()">예열시작</button>
+            <button id="autoPreheatBtn" onclick="stopAutoRoastingPreheat()">예열멈춤</button>        
+            <button id="outPutZeroBtn" onclick="handleOutputZero()">출력 제로</button>
+    
+            <button id="coolDownBtn"onclick="handleCoolDown()">쿨 다운</button>
+        
+            
+            <button id="goToInfo" onclick="showPanel('roastInfoPanel')">인포메인</button>
+            <button id="disConnectBluetoothBtn" onclick="disconnectBluetooth()">블루투스 연결 해제</button>
+
+            <!-- 파일 업로드를 위한 input 요소 추가 -->
+            <input
+              type="file"
+              id="fileInput"
+              accept=".json"
+              style="margin-top: 20px"
+            />
+          </div>
+          <div id="autoRoastBtnSection" class="section">
+            <button id="autoRoastBtn2" onclick="RecipeWrite()">즈장</button><p></p>
+          
+
+            <button id="autoRoastBtn2">auto</button><p></p> <p></p>
+            <button id="crackBtn" onclick="startRecordingCrackPoint()">Crack</button><p></p>
+            <button id="CoolDowndBtn" onclick="roastingCoolDown()">CoolDown</button>    <p></p>
+            <button id="disposeBtn" onclick="performDisposalSequence()">Dispos</button>  <p></p> <p></p>
+            <button id="outPutZeroBtn" onclick="handleOutputZero()">OutputZero</button>       <p></p>
+            <button id="goToMain" onclick="showPanel('mainPanel'),stopRecordingcharts(),resetChartsAll()">back</button> <p></p>
+          </div>
+          <div id="recipeIndicator" class="section">
+
+            <p>
+                Recipe : <span id="Recipe Name" class="value-display">-</span> 
+                Bean : <span id="Bean Name" class="value-display">-</span> 
+                Input: <span id="Input Amount" class="value-display">-</span>
+            
+          </div>
+          <div id="receiveIndicator" class="section">
+                    <p>
+              TP time <span id="TPtime" class="value-display">-</span> 
+              TP temp <span id="TPtemp" class="value-display">-</span> 
+              CP time <span id="CPtime" class="value-display">-</span> 
+              CP temp <span id="CPtemp" class="value-display">-</span> 
+            </p>
+         
+            <p>
+              Elapsed Time:
+              <span id="elapsedValue" class="value-display">-</span> seconds
+            </p>
+            <p>
+              Temp1: <span id="temp1Value" class="value-display">-</span> °C
+              Temp2: <span id="temp2Value" class="value-display">-</span> °C
+              Temp3: <span id="temp3Value" class="value-display">-</span> °C
+            </p>
+            <p>
+              RoR1: <span id="RoR1Value" class="value-display">-</span> °C/min
+              RoR2: <span id="RoR2Value" class="value-display">-</span> °C/min
+            </p>
+          
+           
+          </div>
+
+
+
+          <!-- 출력제어 하는 부분 -->
+          <div id="sliderSection "class="section">
+            
+
+            <div id="fan1SliderContainer" class="sliderContainer">
+              <p>
+                fan1: <span id="fan1Value" class="value-display">0</span>
+                <button id="fan1PlusBtn" onclick="adjustSlider('fan1Slider', 'fan1Value', 0.5)">
+                  +
+                </button>
+                <button id="fan1MinBtn" onclick="adjustSlider('fan1Slider', 'fan1Value', -0.5)">
+                  -
+                </button>
+              </p>
+
+              <input
+                type="range"
+                id="fan1Slider"
+                min="0"
+                max="100"
+                value="0"
+                step="0.5"
+                oninput="updateSliderValue('fan1Slider', 'fan1Value', 'fan1')"
+              />
+            </div>
+
+            <div id="HeaterSliderContainer" class="sliderContainer">
+              <p>
+                heater: <span id="heaterValue" class="value-display">0</span>
+                <button id="heaterPlusBtn"
+                  onclick="adjustSlider('heaterSlider', 'heaterValue', 0.5)"
+                >
+                  +
+                </button>
+                <button id="heaterMinBtn"
+                  onclick="adjustSlider('heaterSlider', 'heaterValue', -0.5)"
+                >
+                  -
+                </button>
+              </p>
+
+              <input
+                type="range"
+                id="heaterSlider"
+                min="0"
+                max="100"
+                value="0"
+                step="0.5"
+                oninput="updateSliderValue('heaterSlider', 'heaterValue', 'heater')"
+              />
+            </div>
+
+            <div id="fan2SliderContainer" class="sliderContainer">
+              <p>
+                fan2: <span id="fan2Value" class="value-display">0</span
+                ><button id="fan2PlusBtn" onclick="adjustSlider('fan2Slider', 'fan2Value', 0.5)">
+                  +
+                </button>
+                <button id="fan2MinBtn" onclick="adjustSlider('fan2Slider', 'fan2Value', -0.5)">
+                  -
+                </button>
+              </p>
+
+              <input
+                type="range"
+                id="fan2Slider"
+                min="1"
+                max="12"
+                value="0"
+                step="0.5"
+                oninput="updateSliderValue('fan2Slider', 'fan2Value', 'fan2')"
+              />
+            </div>
+          </div>
+
+          <script>
+            function adjustSlider(sliderId, valueId, step) {
+              const slider = document.getElementById(sliderId);
+              let newValue = parseFloat(slider.value) + step;
+
+              // Ensure new value is within the slider's range
+              if (
+                newValue >= parseFloat(slider.min) &&
+                newValue <= parseFloat(slider.max) 
+              ) {
+                slider.value = newValue;
+                document.getElementById(valueId).innerText =
+                  newValue.toFixed(1);
+                updateSliderValue(sliderId, valueId);
+              }
+            }
+
+            function updateSliderValue(sliderId, valueId, type) {
+              let sliderValue = parseFloat(
+                document.getElementById(sliderId).value
+              );
+              document.getElementById(valueId).innerText =
+                sliderValue.toFixed(1);
+              checkAndSendData(); // 이 함수는 원래 코드에서 데이터 전송을 처리
+            }
+            // 화면 크기에 맞게 div 크기를 조정하는 함수
+            function resizeDiv() {
+  const width = window.innerWidth;
+  const height = window.innerHeight;
+  const div = document.getElementById('mainPanel');
+  div.style.width = width + 'px';
+  div.style.height = height * + 'px'; // 화면 높이의 80%로 설정
+}
+
+function adjustChartSize() {
+  // 현재 화면 너비 가져오기
+  const width = window.innerWidth;
+  console.log('adjustLegendSize작동?');
+
+  // Highcharts 인스턴스가 존재하는지 확인
+  if (Highcharts.charts.length > 0) {
+
+    console.log('600이하');
+    // 화면 크기에 따라 레전드의 스타일 변경
+    let legendOptions;
+    let titleOptions;
+    let xAxisOptions;
+    let yAxisOptions= [];
+
+
+    if (width <= 600) { // 작은 화면 (휴대폰)
+      titleOptions = {
+style : { fontSize : 1 }
+      }
+
+      xAxisOptions={
+        title:{  style:{ fontSize : '0.3em'  }        },
+        labels : {style:{ fontSize : '0.3em'  } }
+      }
+      yAxisOptions={
+        title:{  style:{ fontSize : '0.3em'  }        },
+        labels : {style:{ fontSize : '0.3em'  } }
+      },{
+        title:{  style:{ fontSize : '0.3em'  }        },
+        labels : {style:{ fontSize : '0.3em'  } }
+      }
+
+      legendOptions = {
+        itemStyle: {
+          fontSize: '0.3em', // 작은 폰트 크기
+        },
+        symbolHeight: 1, // 작은 심볼 크기
+        symbolWidth: 1,
+        symbolRadius: 1,
+      };
+
+
+      //600이하 mainPanel 크기 맞추기
+      const mainPanelLogoImg  =  document.getElementById('mainPanelLogoImg');
+      mainPanelLogoImg.style.width = '150px';  // autoRoastingButton font-size     
+      const mainSection =  document.getElementById('mainSection');
+                                  mainSection.style.marginTop = '200px';  //mainSection 메뉴의 상단 마진
+     const autoRoastingButton =  document.getElementById('autoRoastingButton');
+     autoRoastingButton.style.fontSize = '40px';  // autoRoastingButton font-size
+     const manualRoastingButton =  document.getElementById('manualRoastingButton');
+     manualRoastingButton.style.fontSize = '40px';  // manualRoastingButton font-size
+     const myRecipe =  document.getElementById('myRecipe');
+     myRecipe.style.fontSize = '40px';  // myRecipe font-size        
+     const mainSetting =  document.getElementById('mainSetting');
+     mainSetting.style.fontSize = '40px';  // mainSetting font-size     
+     const LoginSectionPosition =  document.getElementById('LoginSection');
+     LoginSectionPosition.style.top = '550px';
+     const  mainConnectBluetoothBtnPosition =  document.getElementById('mainConnectBluetoothBtn');
+     mainConnectBluetoothBtnPosition.style.top = '5px';       
+     const  mainConnectBluetoothBtnFonsize =  document.getElementById('mainConnectBluetoothBtn');
+     mainConnectBluetoothBtnFonsize.style.fontSize = '15px';  
+     const  mainConnectBluetoothBtnHeight =  document.getElementById('mainConnectBluetoothBtn');
+     mainConnectBluetoothBtnHeight.style.height = '40px'; 
+     const  mainConnectBluetoothBtnWidth =  document.getElementById('mainConnectBluetoothBtn');
+     mainConnectBluetoothBtnWidth.style.width = '150px'; 
+
+//600이하 recipePanel 크기 맞추기
+const recipePanel = document.getElementById('recipePanel');
+recipePanel.style.top = '100px';
+recipePanel.style.height = '1200px';
+const recipeContainerSection = document.getElementById('recipeContainerSection');
+
+recipeContainerSection.style.width = '500px' ;
+recipeContainerSection.style.height = '1000px';
+recipeContainerSection.style.position = 'relative';
+recipeContainerSection.style.textAlign = 'center';
+recipeContainerSection.style.padding = '20px';
+recipeContainerSection.style.boxSizing = 'border-box';
+recipeContainerSection.style.flexDirection = 'column';
+
+const buttonContainer = document.getElementById('buttonContainer');
+buttonContainer.style.width = '250px';
+buttonContainer.style.height = 'auto';
+buttonContainer.style.gap = '1px'; 
+buttonContainer.style.padding = '2px';
+const autoRoastBtn = document.getElementById('autoRoastBtn');
+autoRoastBtn.style.width = '200px';
+autoRoastBtn.style.height = '35px';
+autoRoastBtn.style.fontSize = '20px'; 
+const viewRoastContainer= document.getElementById('viewRoastContainer');
+viewRoastContainer.style.width = '200px';
+viewRoastContainer.style.height = '35px';
+viewRoastContainer.style.fontSize = '20px'; 
+const selectedRecord= document.getElementById('selectedRecord');
+selectedRecord.style.padding = '10px';
+selectedRecord.style.width = '250px';
+selectedRecord.style.height = '200px';
+
+     
+                    } else if (width > 600 && width <= 1024) { // 중간 크기 화면 (태블릿)
+
+    console.log('600이상');
+    titleOptions = { style : { fontSize : 5 }
+      }
+
+      xAxisOptions={
+        title:{  style:{ fontSize : '0.6em'  }        },
+        labels : {style:{ fontSize : '0.6em'  } }
+      }
+
+      yAxisOptions=[{
+        title:{  style:{ fontSize : '0.6em'  }        },
+        labels : {style:{ fontSize : '0.6em'  } }
+      },{
+        title:{  style:{ fontSize : '0.6em'  }        },
+        labels : {style:{ fontSize : '0.6em'  } }
+      }]
+
+      legendOptions = {
+        itemStyle: {
+          fontSize: '0.6em', // 중간 폰트 크기
+        },
+        symbolHeight: 3, // 중간 심볼 크기
+        symbolWidth: 3,
+        symbolRadius: 3,
+      };
+      
+
+
+       //1024이하 mainPanel 크기 맞추기
+       const mainPanelLogoImg  =  document.getElementById('mainPanelLogoImg');
+      mainPanelLogoImg.style.width = '150px';  // autoRoastingButton font-size     
+      const mainSection =  document.getElementById('mainSection');
+                                  mainSection.style.marginTop = '200px';  //mainSection 메뉴의 상단 마진
+     const autoRoastingButton =  document.getElementById('autoRoastingButton');
+     autoRoastingButton.style.fontSize = '40px';  // autoRoastingButton font-size
+     const manualRoastingButton =  document.getElementById('manualRoastingButton');
+     manualRoastingButton.style.fontSize = '40px';  // manualRoastingButton font-size
+     const myRecipe =  document.getElementById('myRecipe');
+     myRecipe.style.fontSize = '40px';  // myRecipe font-size        
+     const mainSetting =  document.getElementById('mainSetting');
+     mainSetting.style.fontSize = '40px';  // mainSetting font-size    
+     const LoginSectionPosition =  document.getElementById('LoginSection');
+     LoginSectionPosition.style.top = '500px';
+     const  mainConnectBluetoothBtnPosition =  document.getElementById('mainConnectBluetoothBtn');
+     mainConnectBluetoothBtnPosition.style.top = '10px';       
+     const  mainConnectBluetoothBtnFonsize =  document.getElementById('mainConnectBluetoothBtn');
+     mainConnectBluetoothBtnFonsize.style.fontSize = '20px';  
+     const  mainConnectBluetoothBtnHeight =  document.getElementById('mainConnectBluetoothBtn');
+     mainConnectBluetoothBtnHeight.style.height = '50px'; 
+     const  mainConnectBluetoothBtnWidth =  document.getElementById('mainConnectBluetoothBtn');
+     mainConnectBluetoothBtnWidth.style.width = '200px'; 
+
+//1024이하 recipeContainerSection 크기 맞추기
+const recipeContainerSection = document.getElementById('recipeContainerSection');
+recipeContainerSection.style.width = '600px' ;
+recipeContainerSection.style.height = '600px';
+recipeContainerSection.style.position = 'relative';
+recipeContainerSection.style.textAlign = 'center';
+recipeContainerSection.style.padding = '20px';
+recipeContainerSection.style.boxSizing = 'border-box';
+recipeContainerSection.style.flexDirection = 'row';
+const autoRoastBtn = document.getElementById('autoRoastBtn');
+autoRoastBtn.style.width = '100px';
+autoRoastBtn.style.height = '30px';
+autoRoastBtn.style.fontSize = '10px'; 
+const viewRoastContainer= document.getElementById('viewRoastContainer');
+viewRoastContainer.style.width = '100px';
+viewRoastContainer.style.height = '30px';
+viewRoastContainer.style.fontSize = '10px'; 
+
+
+
+
+
+     
+    } else { // 큰 화면 (데스크탑, 아이패드 가로 모드 등)
+
+
+      console.log('1024이상');
+      titleOptions = {
+style : { fontSize : 10 }
+      }
+
+      xAxisOptions={
+        title:{  style:{ fontSize : '0.8em'  }        },
+        labels : {style:{ fontSize : '0.8em'  } }
+      }
+      yAxisOptions={
+        title:{  style:{ fontSize : '0.8em'  }        },
+        labels : {style:{ fontSize : '0.8em'  } }
+      },{
+        title:{  style:{ fontSize : '0.8em'  }        },
+        labels : {style:{ fontSize : '0.8em'  } }
+      }
+
+      legendOptions = {
+        itemStyle: {
+          fontSize: '0.8em', // 큰 폰트 크기
+        },
+        symbolHeight: 10, // 큰 심볼 크기
+        symbolWidth: 10,
+        symbolRadius: 8,
+      };
+
+
+       //1024이상 mainPanel 크기 맞추기
+         const mainPanelLogoImg  =  document.getElementById('mainPanelLogoImg');
+      mainPanelLogoImg.style.width = '300px';  // autoRoastingButton font-size     
+      const mainSection =  document.getElementById('mainSection'); //mainSection 메뉴의 상단 마진
+                                  mainSection.style.marginTop = '200px';
+     const autoRoastingButton =  document.getElementById('autoRoastingButton');
+     autoRoastingButton.style.fontSize = '60px';  // autoRoastingButton font-size
+     const manualRoastingButton =  document.getElementById('manualRoastingButton');
+     manualRoastingButton.style.fontSize = '60px';  // manualRoastingButton font-size
+     const myRecipe =  document.getElementById('myRecipe');
+     myRecipe.style.fontSize = '60px';  // myRecipe font-size        
+     const mainSetting =  document.getElementById('mainSetting');
+     mainSetting.style.fontSize = '60px';  // mainSetting font-size   
+     
+     const LoginSectionPosition =  document.getElementById('LoginSection');
+     LoginSectionPosition.style.top = '300px';
+     const  mainConnectBluetoothBtnPosition =  document.getElementById('mainConnectBluetoothBtn');
+     mainConnectBluetoothBtnPosition.style.top = '10px';       
+     const  mainConnectBluetoothBtnFonsize =  document.getElementById('mainConnectBluetoothBtn');
+     mainConnectBluetoothBtnFonsize.style.fontSize = '30px';  
+     const  mainConnectBluetoothBtnHeight =  document.getElementById('mainConnectBluetoothBtn');
+     mainConnectBluetoothBtnHeight.style.height = '60px'; 
+     const  mainConnectBluetoothBtnWidth =  document.getElementById('mainConnectBluetoothBtn');
+     mainConnectBluetoothBtnWidth.style.width = '300px';  
+     
+  //1024이상recipeContainerSection 크기 맞추기
+const recipeContainerSection = document.getElementById('recipeContainerSection');
+recipeContainerSection.style.width = 'auto' ;
+recipeContainerSection.style.height = 'auto';
+recipeContainerSection.style.position = 'relative';
+recipeContainerSection.style.textAlign = 'center';
+recipeContainerSection.style.padding = '20px';
+recipeContainerSection.style.boxSizing = 'border-box';
+recipeContainerSection.style.flexDirection = 'row';
+const autoRoastBtn = document.getElementById('autoRoastBtn');
+autoRoastBtn.style.width = '200px';
+autoRoastBtn.style.height = '60px';
+autoRoastBtn.style.fontSize = '20px'; 
+const viewRoastContainer= document.getElementById('viewRoastContainer');
+viewRoastContainer.style.width = '200px';
+viewRoastContainer.style.height = '60px';
+viewRoastContainer.style.fontSize = '20px'; 
+
+
+  //1024이상roastInfoDiv 크기 맞추기
+const roastInfoDiv = document.getElementById('roastInfoDiv');
+roastInfoDiv.style.marginTop = '200px';
+
+
+
+                                  
+    }
+
+    // 모든 차트에 적용
+    Highcharts.charts.forEach((chart) => {
+      chart.update({
+        legend: legendOptions,
+        title: titleOptions,
+        xAxis : xAxisOptions,
+        yAxis : yAxisOptions,
+      });
+    });
+  }
+}
+
+
+//window 이벤트 모음
+
+window.addEventListener('beforeunload', function (event) {
+            // 브라우저에 따라 다르게 동작할 수 있음
+            event.preventDefault();
+            // 확인 메시지를 사용자에게 보여줌
+            event.returnValue = '페이지를 나가시면, 모든 로스팅이 지됩니다.';
+        });
+
+
+// 페이지 로드 시 차트 생성 및 이벤트 리스너 등록
+window.addEventListener('load', () => {
+
+  adjustChartSize(); // 초기 레전드 크기 조정
+});
+
+// 창 크기 변경 시 레전드 크기 조정
+window.addEventListener('resize', adjustChartSize);
+
+
+            // 페이지 로드 시 크기 설정
+            window.onload = resizeDiv;
+
+            // 화면 크기가 변경될 때마다 div 크기 업데이트
+            window.onresize = resizeDiv;
+
+
+
+          </script>
+
+          <div id="consoleLog" style="display: none;"></div>
+
+          <div id="pidControlsSection" class="section" style="display: none;">
+            <h3>PID 제어</h3>
+            <p>
+              타겟 Temp2:
+              <input type="number" id="targetTemp2" value="200" step="0.1" /> °C
+            </p>
+
+            <p>P (비례): <span id="KpValue">1.0</span></p>
+            <input
+              type="range"
+              id="KpSlider"
+              min="0"
+              max="10"
+              value="10.0"
+              step="0.1"
+              oninput="updateKp()"
+            />
+
+            <p>I (적분): <span id="KiValue">0.01</span></p>
+            <input
+              type="range"
+              id="KiSlider"
+              min="0"
+              max="1"
+              value="0.05"
+              step="0.01"
+              oninput="updateKi()"
+            />
+
+            <p>D (미분): <span id="KdValue">0.05</span></p>
+            <input
+              type="range"
+              id="KdSlider"
+              min="0"
+              max="1"
+              value="0.01"
+              step="0.01"
+              oninput="updateKd()"
+            />
+
+            <button id="pidOnBtn"onclick="preHeatPidControl()">PID 제어 시작</button>
+            <button id="pidStopBtn" onclick="stopPreHeatPidControl()">PID 제어 종료</button>
+          </div>
+          <div id="countdownDisplay"></div>
+          <div class="section" style="display: none;">
+
+            <h3>발신 데이터</h3>
+            <p>
+              스트링 데이터:
+              <span id="dataStringIndicator" class="value-display">-</span>
+            </p>
+          </div>
+             
+          </div>
+        </div>
+
+
+
+
+        <div id="beanPuttingCountPanel"> <div id="beanPuttingCounter">0</div></div>
+        <script>
+// 전역 변수 선언 로그인 정보!
+let userData = {
+        activated: null,
+        address: null,
+        authorityDtoSet: [],
+        companyName: null,
+        email: null,
+        firstName: null,
+        id: null,
+        lastName: null,
+        oauthClient: null,
+        phone: null,
+        picture: null,
+        prdCode: null,
+        roasterSn: null,
+        type: null
+    };
+
+     
+          let isRecordingcharts = false; // 차트 기록 상태 변수
+          let isRecordingCrackPoint = false; // 크랙 포인트 기록 상태 변수
+
+          let device;
+          let server;
+          let service;
+          let writeCharacteristic;
+          let notifyCharacteristic;
+          let startTime;
+          let isConnected = false;
+          let isLogin = false;
+          let previousDataString = '';
+          let currentRoastingState = 0;
+          let isDisposalSequenceRunning = false;
+          let reconnectAttempts = 0; // 재연결 시도 횟수 제한을 위한 변수
+          let isCoolDownRunning = false;
+          let controlInterval = null;
+          let crackPointCount = 0; // 크랙 포인트 기록 횟수
+          let crackPlotBandIds = []; // 크랙 plotBands의 id 목록
+          let plotBandPercentageText; // 차트에 표시할 비율 텍스트
+
+          let timer = null;
+
+          //pid제어를 위한
+          let pidControlInterval = null;
+          let integral = 0;
+          let previousError = 0;
+          let Kp = 5; // 비례 상수
+          let Ki = 0.01; // 적분 상수
+          let Kd = 0.01; // 미분 상수
+
+          //pid설정 온도 초과 카운트를 위한
+          let exceedCount = 0; // 온도 초과 횟수 저장 변수
+          const maxExceedCount = 100; // 최대 초과 횟수
+
+          const serviceUUID = '6e400001-b5a3-f393-e0a9-e50e24dcca9e';
+          const writeCharacteristicUUID =
+            '6e400002-b5a3-f393-e0a9-e50e24dcca9e';
+          const notifyCharacteristicUUID =
+            '6e400003-b5a3-f393-e0a9-e50e24dcca9e';
+
+          let receivedData = [];
+          let outputData = [];
+          let crackPoints = [];
+          let crackPointTimes = [];
+
+          //예열 완료 확인 변수
+          let isPreheatCompleted = false;
+
+          //터닝포인트와 쿨링포인트를 기록하기 위한 변수들
+          let temp1History5s = []; // 5초 동안의 temp1 값을 저장할 배열
+          const timeWindow5s = 5; // 5초
+          let temp1History60s = []; // 60초 동안의 temp1 값을 저장할 배열
+          let temp2History60s = []; // 60초 동안의 temp2 값을 저장할 배열
+          const timeWindow60s = 60; // 60초
+
+          let isTempDropping = true; // 온도가 하락 중인지를 추적하는 플래그
+          let isFirstCp = null; // 쿨링 포인트가 처음인지 확인하는 플래그 
+          let isFirstTp = null; // 터닝 포인트가 처음인지 확인하는 플래그 
+
+
+          let turningPointTime = null; // 현재 터닝 타이밍을 저장할 변수
+          let firstTurningPointTime = null; // 처음 감지된 타이밍을 저장할 변수
+          let firstTurningPointTemp = null; // 전역 변수로 터닝 포인트 온도 저장
+        
+          let turningPointTimes = null; // 터닝 포인트 시간을 저장하는 배열
+          let turningPointTemps = null; // 터닝 포인트 온도를 저장하는 배열
+
+          let presentCoolingPointTime = null; // 현재 쿨닝 타이밍을 저장할 변수
+          let firstCoolingPointTime = null; // 처음 감지된 타이밍을 저장할 변수
+          let firstCoolingPointTemp = null; // 전역 변수로 터닝 포인트 온도 저장
+      
+          let coolingPointTimes = null; // 터닝 포인트 시간을 저장하는 배열
+          let coolingPointTemps = null; // 터닝 포인트 온도를 저장하는 배열
+
+
+
+
+
+
+          let root; // 전역적으로 root 선언
+
+          // RoR 계산에 필요한 변수
+          let previousTemp1 = null;
+          let previousTemp2 = null;
+          let previousTime = null;
+          let RoR1Values = [];
+          let RoR2Values = [];
+       
+
+          // 전역 변수로 불러온 데이터를 저장할 변수 선언
+          let loadedRoastData = null;
+
+          // 불러온 프로파일의 쿨링포인트타임을 저장할 변수 선언
+          let coolingPointTime = null;
+          let coolingPointFlag = null;
+          
+
+          let intervalId; // 전역 변수로 인터벌 ID를 저장할 변수 선언(오토로스팅 중지를 위함)
+
+
+// 출력 값에 info에서 설정한 값을 넣어주는 변수
+let roastInfoRecipeName = 0;
+let roastInfoBeanName = 0;
+let roastInfoInputAmount = 0;
+let roastInfoStageSelect =0;
+
+let roastInfoPowerFan1Select= 0;
+let roastInfoPowerFan2Select = 0;
+let roastInfoPowerHeaterSelect = 0;
+let memoTextArea = 0;
+
+
+
+
+
+
+
+
+          // receivedChart 준비!
+
+          
+          Highcharts.chart('chartdiv', {
+            chart: {
+              type:'line',// 'spline',
+              backgroundColor: '#000000',
+              //   zooming: {
+              //     type: 'x',
+              //   },
+            },
+            title: {
+          
+              text: 'Temperature & RoR',
+              style: {
+                fontSize : 10,
+                color: '#E0E0E0',
+              },
+            },
+            xAxis: {
+              title: {
+                text: 'Time',
+                style: {
+                  fonSize : '0.1em',
+                  color: '#E0E0E0',
+                },
+              },
+              labels: {
+                style: {
+                  color: '#E0E0E0',
+                  fonSize : '0.1em',
+                },
+              },
+              min: 0,
+              max: 900,
+            },
+            yAxis: [
+              {
+                title: {
+                  text: 'Temperature (°C)',
+                  style: {
+                    color: '#E0E0E0',
+                  },
+                },
+                labels: {
+                  style: {
+                    color: '#E0E0E0',
+                  },
+                },
+                min: 0,
+                max: 350,
+                gridLineColor: '#2d2d2d',
+              },
+              {
+                title: {
+                  text: 'RoR (°C/min)',
+                  style: {
+                                   color: '#FFC000',
+                    opacity: 0.8, //투명도
+                  },
+                },
+                labels: {
+                  style: {
+                    color: '#FFC000',
+                    opacity: 0.8, //투명도
+                  },
+                },
+                opposite: true, // 오른쪽 축
+                min: -200,
+                max: 200,
+                gridLineColor: '#2d2d2d',
+              },
+            ],
+            legend: {
+           
+
+              itemStyle: {
+                color: '#E0E0E0', // 범례 텍스트 색상 (기본 상태)
+                fontSize: '0.2em', 
+              },
+              itemHoverStyle: {
+                color: '#FFFFff', // 범례 텍스트 색상 (마우스 오버 시)
+              },
+              itemHiddenStyle: {
+                color: '#606060', // 숨겨진 항목의 범례 텍스트 색상
+              },
+            },
+            series: [
+              {
+                name: 'Drum',
+                data: [],
+                color: '#D3194B',
+                lineWidth: 3,
+              },
+              {
+                name: 'Heater',
+                data: [],
+                color: '#F97E2E',
+                lineWidth: 3,
+              },
+              { name: 'Inner', data: [], color: '#7A1B99' },
+              {
+                name: 'RoR (Drum)',
+                data: [],
+                color: '#A3D09C',
+                yAxis: 1, // RoR 값을 두 번째 Y축에 표시
+                lineWidth: 1,
+                opacity: 0.3, //투명도
+                dashStyle: 'Dash',
+              },
+              {
+                name: 'RoR (Heater)',
+                data: [],
+                color: '#FD9E71',
+                yAxis: 1,
+                lineWidth: 1,
+                opacity: 0.3, //투명도
+                dashStyle: 'Dash',
+              },
+         
+        
+              {
+                name: 'Drum_under',
+                data: [],
+                color: '#D3194B',
+                lineWidth: 1,
+                opacity: 0.5, //투명도
+              },
+              {
+                name: 'Heater_under',
+                data: [],
+                color: '#F97E2E',
+                lineWidth: 1,
+                opacity: 0.5, //투명도
+              },
+              {
+                name: 'Inner_under',
+                data: [],
+                color: '#7A1B99',
+                lineWidth: 1,
+                opacity: 0.5,
+              },
+              {
+                name: 'TP',
+                data: [],
+                marker: {
+                  enabled: true, // 포인트 표시
+                  radius: 4, // 포인트의 크기
+                  symbol: 'circle', // 원형 모양으로 표시 (다른 모양 선택 가능)
+                },
+                color: '#ff6347',
+                lineWidth: 0,
+              },
+              {
+                name: 'TP_under',
+                data: [],
+                marker: {
+                  enabled: true, // 포인트 표시
+                  radius: 4, // 포인트의 크기
+                  symbol: 'circle', // 원형 모양으로 표시 (다른 모양 선택 가능)
+                },
+                color: '#ff6347',
+                lineWidth: 0,
+                opacity: 0.5, //투명도
+              },
+              {
+                name: 'CP',
+                data: [],
+                marker: {
+                  enabled: true, // 포인트 표시
+                  radius: 4, // 포인트의 크기
+                  symbol: 'circle', // 원형 모양으로 표시 (다른 모양 선택 가능)
+                },
+                color: '#87ceeb',
+                lineWidth: 0,
+              },
+              {
+                name: 'CP_under',
+                data: [],
+                marker: {
+                  enabled: true, // 포인트 표시
+                  radius: 4, // 포인트의 크기
+                  symbol: 'circle', // 원형 모양으로 표시 (다른 모양 선택 가능)
+                },
+                color: '#87ceeb',
+                lineWidth: 0,
+                opacity: 0.5, //투명도
+              },
+            ],
+          });
+          // outputChart 차 준비!
+          Highcharts.chart('outputChartdiv', {
+            chart: {
+              type: 'line',
+              backgroundColor: '#000000',
+              //   zooming: {
+              //     type: 'x',
+              //   },
+            },
+            title: {
+              text: 'Output',
+              style: {
+                color: '#E0E0E0',
+              },
+            },
+            xAxis: {
+              title: {
+                text: 'Time (s)',
+                style: {
+                  color: '#E0E0E0',
+                },
+              },
+              labels: {
+                style: {
+                  color: '#E0E0E0',
+                },
+              },
+              min: 0,
+              max: 900,
+            },
+            yAxis: {
+              title: {
+                text: 'Output Value',
+                style: {
+                  color: '#E0E0E0',
+                },
+              },
+              labels: {
+                style: {
+                  color: '#E0E0E0',
+                },
+              },
+              min: 0,
+              max: 100,
+              gridLineColor: '#2d2d2d',
+            },
+
+            legend: {
+
+              itemStyle: {
+                color: '#E0E0E0', // 범례 텍스트 색상 (기본 상태)
+                fontSize: '0.2em', 
+              },
+              itemHoverStyle: {
+                color: '#FFFFff', // 범례 텍스트 색상 (마우스 오버 시)
+              },
+              itemHiddenStyle: {
+                color: '#606060', // 숨겨진 항목의 범례 텍스트 색상
+              },
+            },
+
+            series: [
+              { name: 'Fan1', data: [], color: '#800080', lineWidth: 3 },
+              { name: 'Heater', data: [], color: '#FFA500', lineWidth: 3 },
+              { name: 'Fan2', data: [], color: '#87CEEB', lineWidth: 3 },
+              {
+                name: 'Fan1_under',
+                data: [],
+                color: '#800080',
+                lineWidth: 1,
+                opacity: 0.5,
+              },
+              {
+                name: 'Heater_under',
+                data: [],
+                color: '#FFA500',
+                lineWidth: 1,
+                opacity: 0.5,
+              },
+              {
+                name: 'Fan2_under',
+                data: [],
+                color: '#87CEEB',
+                lineWidth: 1,
+                opacity: 0.5,
+              },
+            ],
+          });
+        
+
+
+
+
+          
+          //블르투스 연결 함수
+          async function connectBluetooth() {
+            console.error('connectBluetooth() 블루투스 연결 함수 실행');
+            try {
+              device = await navigator.bluetooth.requestDevice({
+                filters: [{ services: [serviceUUID] }],
+              });
+              server = await device.gatt.connect();
+              service = await server.getPrimaryService(serviceUUID);
+              writeCharacteristic = await service.getCharacteristic(
+                writeCharacteristicUUID
+              );
+              notifyCharacteristic = await service.getCharacteristic(
+                notifyCharacteristicUUID
+              );
+
+              isConnected = true;
+
+              console.log('블루투스 연결 성공');
+              updateMainConnectBluetoothBtnText()
+
+            } catch (error) {
+              console.error('블루투스 연결 실패:', error);
+              console.log('블루투스 연결 실패: ' + error);
+            }
+
+            if (isConnected && notifyCharacteristic) {
+              startNotifications();
+              startTime = new Date().getTime();
+
+              console.log('블루투스가 연결되었습니다.');
+              enableControls();
+            } else {
+                console.log('블루투스가 연결되지 않았습니다.');
+            }
+          }
+
+          async function disconnectBluetooth() {
+            console.log('disconnectBluetooth() 연결 해제 함수 실행');
+            if (!device) {
+                console.log('연결된 장치가 없습니다.');
+              return;
+            }
+
+            if (device.gatt.connected) {
+              try {
+                await device.gatt.disconnect();
+                isConnected = false;
+                console.log('블루투스 연결이 해제되었습니다.');
+              } catch (error) {
+                console.error('블루투스 연결 해제 실패:', error);
+                console.log('블루투스 연결 해제 실패: ' + error);
+              }
+            } else {
+                console.log('이미 연결이 해제되었습니다.');
+            }
+          }
+
+//roastInfoPanel 에서 설정값을 받아오는 함수 
+function roastInfoStart(){
+    //예열 퍼센트 초기화 및 예열 종료
+    percent = 0; 
+    exceedCount = 0;
+    stopAutoRoastingPreheat();
+    
+
+
+     console.log('roastInfoStart() 로스팅 및 예열 시작 함수');
+    const roastInfoRecipeName = document.getElementById('roastInfoRecipeName').value;
+    const roastInfoBeanName = document.getElementById('roastInfoBeanName').value;
+    const roastInfoInputAmount = document.getElementById('roastInfoInputAmount').value;
+    const roastInfoStageSelect = document.getElementById('roastInfoStageSelect').value;
+
+    const roastInfoPowerFan1Select = document.getElementById('roastInfoPowerFan1Select').value;
+    const roastInfoPowerFan2Select = document.getElementById('roastInfoPowerFan2Select').value;
+    const roastInfoPowerHeaterSelect = document.getElementById('roastInfoPowerHeaterSelect').value;
+    const memoTextArea = document.getElementById('memoTextArea').value;
+    console.log('Recipe Name :',roastInfoRecipeName);
+    console.log('Bean Name :',roastInfoBeanName);
+    console.log('Input Amount :',roastInfoInputAmount);
+    console.log('Steage :',roastInfoStageSelect);
+  
+    console.log('Fan1 :',roastInfoPowerFan1Select);
+    console.log('Fan2 :',roastInfoPowerFan2Select);
+    console.log('Heater :',roastInfoPowerHeaterSelect);
+    console.log('memo :',memoTextArea);
+
+
+    beanPuttingforAutoRoasting() // 투임함수 시작 
+
+    .then(() => {
+        // 특정 함수 호출
+        console.log('beanPuttingforAutoRoasting() 함수 완료 후 특정 함수 실행');
+        startRecordingcharts();
+        infoValueAdd();
+    
+    })
+    .catch((error) => {
+        console.error('beanPuttingforAutoRoasting() 함수 실패:', error);
+    });
+   
+}
+
+//출력 값에 info에서 설정한 값을 넣어주고 수동로스팅을 진행시키는 함수 
+function infoValueAdd(){
+    roastInfoRecipeName = document.getElementById('roastInfoRecipeName').value;
+    roastInfoBeanName = document.getElementById('roastInfoBeanName').value;
+    roastInfoInputAmount = document.getElementById('roastInfoInputAmount').value;
+    roastInfoStageSelect = document.getElementById('roastInfoStageSelect').value;
+
+    roastInfoPowerFan1Select = document.getElementById('roastInfoPowerFan1Select').value;
+    roastInfoPowerFan2Select = document.getElementById('roastInfoPowerFan2Select').value;
+    roastInfoPowerHeaterSelect = document.getElementById('roastInfoPowerHeaterSelect').value;
+    memoTextArea = document.getElementById('memoTextArea').value;
+
+    console.log('Recipe Name :', roastInfoRecipeName);
+    console.log('Bean Name :', roastInfoBeanName);
+    console.log('Input Amount :', roastInfoInputAmount);
+    console.log('Stage :', roastInfoStageSelect);
+    console.log('Fan1 :', roastInfoPowerFan1Select);
+    console.log('Fan2 :', roastInfoPowerFan2Select);
+    console.log('Heater :', roastInfoPowerHeaterSelect);
+    console.log('Memo :', memoTextArea);
+
+    document.getElementById('Recipe Name').innerText = roastInfoRecipeName; 
+    document.getElementById('Bean Name').innerText = roastInfoBeanName; 
+    document.getElementById('Input Amount').innerText = roastInfoInputAmount; 
+
+
+
+    // 설정된 값을 사용하여 수동 로스팅을 시작하는 로직 추가
+    document.getElementById('fan1Slider').value = roastInfoPowerFan1Select;
+    document.getElementById('fan2Slider').value = roastInfoPowerFan2Select;
+    document.getElementById('heaterSlider').value = roastInfoPowerHeaterSelect;
+
+    document.getElementById('fan1Value').innerText = roastInfoPowerFan1Select;
+    document.getElementById('fan2Value').innerText = roastInfoPowerFan2Select;
+    document.getElementById('heaterValue').innerText = roastInfoPowerHeaterSelect;
+
+//차트 리셋
+receivedData = [];
+            outputData = [];
+            crackPoints = [];
+            crackPointTimes = [];
+startTime = new Date().getTime();
+            Highcharts.charts[0].series[0].setData([0]); //drum   
+            Highcharts.charts[0].series[1].setData([0]); //heater
+            Highcharts.charts[0].series[2].setData([0]); //inner
+            Highcharts.charts[0].series[3].setData([0]); //ROR drum  
+            Highcharts.charts[0].series[4].setData([0]); //ROR heater        
+            Highcharts.charts[0].series[8].setData([0]); //Turning Point
+            Highcharts.charts[0].series[10].setData([0]);//Cooling Point     
+            Highcharts.charts[1].series[0].setData([0]);
+            Highcharts.charts[1].series[1].setData([0]);
+            Highcharts.charts[1].series[2].setData([0]);
+
+
+    // 로스팅 상태를 수동으로 설정
+    setRoastingState(1);
+
+    console.log('수동 로스팅 시작');
+    // 추가적인 로직이 필요하다면 여기에 작성
+
+    
+}
+
+
+
+
+
+
+// 메인에서 버튼 클릭시 로그인과 블루투스 연결을 확인하는 함수 
+function checkBluetoothConnection() {
+       if(!isLogin){
+        alert("로그인을 해주세요."); return}{
+        if (!isConnected) {
+          alert("블루투스 연결을 해주세요.");
+        } else {
+          showPanel('roastInfoPanel');
+        }
+      }}
+
+          function startNotifications() {
+            notifyCharacteristic.startNotifications().then((_) => {
+              // console.log('Notifications started');
+              notifyCharacteristic.addEventListener(
+                'characteristicvaluechanged',
+                handleData
+              );
+            });
+          }
+
+          function handleData(event) {
+            let value = new TextDecoder().decode(event.target.value);
+            let [temp1, temp2, , temp3] = value.split(',').map(Number);
+            updateReceivedChart(temp1, temp2, temp3);
+            updateIndicators(temp1, temp2, temp3);
+            checkAndSendData();
+          }
+          function updateIndicators(temp1, temp2, temp3) {
+            document.getElementById('temp1Value').innerText = temp1.toFixed(2);
+            document.getElementById('temp2Value').innerText = temp2.toFixed(2);
+            document.getElementById('temp3Value').innerText = temp3.toFixed(2);
+            document.getElementById('infoTemp1Value').innerText = temp1.toFixed(2);
+            document.getElementById('infoTemp2Value').innerText = temp2.toFixed(2);
+                     }
+
+          function getFormattedCurrentTime() {
+            // 2024-08-30 15:05:25 +0000 형식으로 출력하는 함수
+            const now = new Date();
+
+            const year = now.getUTCFullYear();
+            const month = String(now.getUTCMonth() + 1).padStart(2, '0'); // 월은 0부터 시작하므로 +1
+            const day = String(now.getUTCDate()).padStart(2, '0');
+
+            const hours = String(now.getUTCHours()).padStart(2, '0');
+            const minutes = String(now.getUTCMinutes()).padStart(2, '0');
+            const seconds = String(now.getUTCSeconds()).padStart(2, '0');
+
+            const formattedTime = `${year}-${month}-${day} ${hours}:${minutes}:${seconds} +0000`;
+
+            return formattedTime;
+          }
+
+          function isOutlier(newValue, oldValue, threshold = 20) {
+            return Math.abs(newValue - oldValue) > threshold;
+          }
+
+          //******  updateReceivedChart   *******
+          function updateReceivedChart(temp1, temp2, temp3) {
+            var now = new Date().getTime();
+            var elapsed = Math.floor((now - startTime) / 1000);
+
+            if (elapsed > 900) return;
+            if (!isRecordingcharts) return;
+
+            
+        
+            // temp1 값을 기록
+            temp1History5s.push(temp1);
+            temp1History60s.push(temp1);
+            temp2History60s.push(temp2);
+
+            // 5초 이상의 값은 제거
+            if (temp1History5s.length > timeWindow5s) {
+              temp1History5s.shift();            }            
+            // 5초 동안의 평균 계산
+            const temp1Avg5s =
+              temp1History5s.reduce((a, b) => a + b, 0) / temp1History5s.length;
+
+
+              // RoR 계산 
+              const timeDifference = elapsed - previousTime; // 시간 차이 (초 단위)
+              let firstTemp1 = temp1History60s[temp1History60s.length - 60]; // 첫 번째 데이터
+              let lastTemp1 = temp1History60s[temp1History60s.length - 1]; // 마지막 데이터
+              let firstTemp2 = temp2History60s[temp1History60s.length - 60]; // 첫 번째 데이터
+              let lastTemp2 = temp2History60s[temp1History60s.length - 1]; // 마지막 데이터
+
+              RoR1 =(((lastTemp1-firstTemp1) / 60)*60); // temp1의 RoR(60s) 계산
+              RoR2 = (((lastTemp2-firstTemp2) / 60)*60); // temp2의 RoR(60s) 계산
+       
+          // 온도가 떨어지면 isTempDropping 플래그 설정
+          if (temp1 < previousTemp1) {
+              isTempDropping = true;
+              
+            }
+
+
+
+
+            //만약 temp1이 100도이상에서 드랍이면 COOLpoint 기록
+            if(coolingPointFlag){
+                if(!isFirstCp)
+                {     const elapsedValue = document.getElementById('elapsedValue').innerText;
+              coolingPointTimes = elapsedValue; // 터닝 포인트 시간 배열에 추가
+              coolingPointTemps =temp1 ; // 터닝 포인트 온도 배열 추가
+
+              document.getElementById('CPtime').innerText = coolingPointTimes; //쿨링 포인트 시간
+              document.getElementById('CPtemp').innerText = coolingPointTemps; //쿨링 포인트 온도
+
+              logToConsole(
+                `cooling point detected at time: ${elapsedValue}, Temp: ${temp1}`
+              );
+              // 차트에 새로운 터닝 포인트를 점으로 추가
+              Highcharts.charts[0].series[10].addPoint(
+                [elapsed, temp1],
+                true,
+                false
+              );
+              isFirstCp = true;
+              }}
+
+
+
+            // 온도가 하락하다가 상승하는 지점에서 터닝 포인트 감지
+            if (isTempDropping && temp1 > temp1Avg5s) {
+            if(!isFirstTp) //TP에 데이터 한번만 추가하는 if
+            { isTempDropping = false; // 더 이상 하락 중이 아님
+              const elapsedValue =
+                document.getElementById('elapsedValue').innerText;
+              turningPointTimes=elapsedValue; // 터닝 포인트 시간 배열에 추가
+              turningPointTemps=temp1; // 터닝 포인트 온도 배열 추가
+
+              document.getElementById('TPtime').innerText = turningPointTimes; //터닝 포인트 시간
+              document.getElementById('TPtemp').innerText = turningPointTemps; //터닝 포인트 온도
+
+              console.log(
+                `Turning point detected at time: ${elapsedValue}, Temp: ${temp1}`
+              );
+              // 차트에 새로운 터닝 포인트를 점으로 추가
+              Highcharts.charts[0].series[8].addPoint(
+                [elapsed, temp1],
+                true,
+                false
+              );
+              isFirstTp = true;            
+            }}
+
+            // 이전 값을 저장
+            previousTemp1 = temp1;
+            previousTemp2 = temp2;
+            previousTime = elapsed;
+
+            // Highcharts에 데이터 추가
+            Highcharts.charts[0].series[0].addPoint(
+              [elapsed, temp1],
+              true,
+              false
+            );
+            Highcharts.charts[0].series[1].addPoint(
+              [elapsed, temp2],
+              true,
+              false
+            );
+            Highcharts.charts[0].series[2].addPoint(
+              [elapsed, temp3],
+              true,
+              false
+            );
+
+            // 60초 이후부터 RoR 값을 차트에 추가
+            if (elapsed >= 5 && RoR1 !== null && RoR2 !== null) {
+              Highcharts.charts[0].series[3].addPoint(
+                [elapsed, RoR1],
+                true,
+                false
+              ); // RoR1 추가
+              Highcharts.charts[0].series[4].addPoint(
+                [elapsed, RoR2],
+                true,
+                false
+              ); // RoR2 추가
+             
+            }
+
+            // HTML 요소에 수신된 값 업데이트
+            document.getElementById('elapsedValue').innerText =
+              elapsed.toFixed(0); // 경과 시간 표시
+            document.getElementById('temp1Value').innerText = temp1.toFixed(2); // Temp1 표시
+            document.getElementById('temp2Value').innerText = temp2.toFixed(2); // Temp2 표시
+            document.getElementById('temp3Value').innerText = temp3.toFixed(2); // Temp3 표시
+              document.getElementById('RoR1Value').innerText = RoR1.toFixed(2); // RoR1 표시
+              document.getElementById('RoR2Value').innerText = RoR2.toFixed(2); // RoR2 표시
+              
+if(isRecordingCrackPoint){
+            // 실시간으로 crack plotBand의 to 값을 업데이트
+            crackPlotBandIds.forEach(function (plotBandId) {
+              var plotBand =
+                Highcharts.charts[0].xAxis[0].plotLinesAndBands.find(function (
+                  band
+                ) {
+                  return band.id === plotBandId;
+                });
+              if (plotBand) {
+                plotBand.options.to = elapsed; // 현재 시간을 to 값으로 설정
+                Highcharts.charts[0].xAxis[0].update(); // 차트 갱신
+              }
+            });
+
+            // plotBand 비율 계산 및 표시
+            if (crackPlotBandIds.length > 0) {
+              const plotBand =
+                Highcharts.charts[0].xAxis[0].plotLinesAndBands.find(
+                  (band) =>
+                    band.id === crackPlotBandIds[crackPlotBandIds.length - 1]
+                );
+              if (plotBand) {
+                const from = plotBand.options.from;
+                const percentage = (((elapsed - from) / elapsed) * 100).toFixed(
+                  2
+                ); // 비율 계산
+
+                // 비율 텍스트 업데이트
+                plotBandPercentageText.attr({
+                  text: `DTR : ${percentage}%`,
+                });
+              }
+            }
+          }
+            // receivedData 배열에 데이터 추가
+            receivedData.push({
+              time: elapsed,
+              temp1: temp1,
+              temp2: temp2,
+              temp3: temp3,
+            });
+          }
+
+          function updateOutputChart(fan1, heater, fan2) {
+            var now = new Date().getTime();
+            var elapsed = Math.floor((now - startTime) / 1000);
+
+            if (elapsed > 900) return;
+            if (!isRecordingcharts) return;
+
+            Highcharts.charts[1].series[0].addPoint(
+              [elapsed, fan1],
+              true,
+              false
+            );
+            Highcharts.charts[1].series[1].addPoint(
+              [elapsed, heater],
+              true,
+              false
+            );
+            Highcharts.charts[1].series[2].addPoint(
+              [elapsed, fan2],
+              true,
+              false
+            );
+          }
+
+          function formatTime(seconds) {
+            let mins = String(Math.floor(seconds / 60)).padStart(2, '0');
+            let secs = String(seconds % 60).padStart(2, '0');
+            return `${mins}:${secs}`;
+          }
+
+          function updateSliderValue(sliderId, valueId, type) {
+            let sliderValue = parseFloat(
+              document.getElementById(sliderId).value
+            );
+            document.getElementById(valueId).innerText = sliderValue.toFixed(1);
+            checkAndSendData();
+          }
+
+          function setRoastingState(state) {
+            currentRoastingState = state;
+            const stateLabels = ['Home', '열', '로스팅', '출'];
+  
+
+            if (state === 3) {
+              // disableControls();
+              performDisposalSequence();
+            } else {
+              checkAndSendData();
+            }
+          }
+
+          function checkAndSendData() {
+            if (isDisposalSequenceRunning) return;
+
+            let fan1 = parseFloat(
+              document.getElementById('fan1Value').innerText
+            );
+            let heater = parseFloat(
+              document.getElementById('heaterValue').innerText
+            );
+            let fan2 = parseFloat(
+              document.getElementById('fan2Value').innerText
+            );
+            let actuator = currentRoastingState === 3 ? 1 : 0;
+
+            let dataString = `1,${convertValue(fan1)},1,${convertValue(
+              heater
+            )},${actuator},${convertValue(fan2)},${currentRoastingState}\n`;
+
+            // 데이터를 outputData 배열에 저장
+            outputData.push({
+              fan1: fan1,
+              heater: heater,
+              fan2: fan2,
+            });
+            updateOutputChart(fan1, heater, fan2); // Always update chart, even if data is not sent
+
+            // 값을 비교하고 다르면 즉시 전송
+            if (dataString !== previousDataString) {
+              sendDataToDevice(dataString)
+                .then(() => {
+                  document.getElementById('dataStringIndicator').innerText =
+                    dataString.trim();
+                  previousDataString = dataString;
+                  console.log('Data sent: ' + dataString.trim());
+
+                  // 이전 값과 다르면 타이머를 초기화하여 새로운 간격으로 전송
+                  resetTimer(dataString);
+                })
+                .catch((error) => {
+                  console.error('Data transmission failed:', error);
+                  console.log('Data transmission failed: ' + error);
+                });
+            }
+          }
+
+          // 10초마다 값을 재전송하는 함수
+          function resetTimer(dataString) {
+            if (timer) {
+              clearInterval(timer); // 기존 타이머가 있으면 초기화
+            }
+
+            // 10초 간격으로 데이터를 전송
+            timer = setInterval(() => {
+              sendDataToDevice(dataString)
+                .then(() => {
+                    console.log('10초 지나서 보내는 값: ' + dataString.trim());
+                })
+                .catch((error) => {
+                  console.error('Data transmission failed:', error);
+                  console.log('Data transmission failed: ' + error);
+                });
+            }, 10000); // 1초(1000ms) 간격으로 전송
+          }
+
+          function convertValue(value) {
+            if(value == 0){ return  Math.round(value);
+            }else{ return Math.round((value * 2) + 55);} } 
+            
+            
+
+               
+
+          //senddatatodevice
+          async function sendDataToDevice(dataString) {
+            if (writeCharacteristic) {
+              const data = new TextEncoder().encode(dataString);
+              await writeCharacteristic.writeValue(data);
+              console.log('Data sent: ' + dataString.trim());
+            }
+          }
+
+          async function reconnect() {
+            if (device && !device.gatt.connected) {
+              try {
+                console.log('재연결 시도 중...');
+                await device.gatt.connect();
+                console.log('재연결 성공');
+                isConnected = true;
+              } catch (error) {
+                console.log('재연결 실패: ' + error);
+                setTimeout(reconnect, 5000); // 5초 후 재연결 시도
+              }
+            }
+          }
+
+          //예열 pid 제어
+
+          function updateKp() {
+            Kp = parseFloat(document.getElementById('KpSlider').value);
+            document.getElementById('KpValue').innerText = Kp.toFixed(1);
+          }
+
+          function updateKi() {
+            Ki = parseFloat(document.getElementById('KiSlider').value);
+            document.getElementById('KiValue').innerText = Ki.toFixed(2);
+          }
+
+          function updateKd() {
+            Kd = parseFloat(document.getElementById('KdSlider').value);
+            document.getElementById('KdValue').innerText = Kd.toFixed(2);
+          }
+
+          function preHeatPidControl() {
+            console.log('preHeatPidControl() 예열 시작 함수');
+            // fan1 60 fan2 1로 설정
+            document.getElementById('fan1Slider').value = 60;
+            document.getElementById('heaterSlider').value = 0;
+            document.getElementById('fan2Slider').value = 1;
+
+            // 슬라이더 표시값 업데이트
+            document.getElementById('fan1Value').innerText = '60.0';
+            document.getElementById('heaterValue').innerText = '0.0';
+            document.getElementById('fan2Value').innerText = '1';
+
+            const targetTemp2 = parseFloat(
+              document.getElementById('targetTemp2').value
+            );
+
+            if (pidControlInterval) {
+              clearInterval(pidControlInterval);
+            }
+
+            pidControlInterval = setInterval(() => {
+              const currentTemp2 = parseFloat(
+                document.getElementById('temp2Value').innerText
+              );
+              let currentHeater = parseFloat(
+                document.getElementById('heaterSlider').value 
+              );
+            
+              // PID 제어 계산
+              let error = targetTemp2 - currentTemp2;
+              integral += error;
+              let derivative = error - previousError;
+
+              // PID 계산식: 출력 = P + I + D
+              let output = Kp * error + Ki * integral + Kd * derivative;
+
+              // 히터 값 업데이트 (200도 이전에는 max100 min30, 200도 이후에는 max60 min30)
+
+              if (currentTemp2 >= 200) {
+                currentHeater = Math.min(
+                  60,
+                  Math.max(30, currentHeater + output)
+                );
+              } else {
+                currentHeater = Math.min(
+                  100,
+                  Math.max(30, currentHeater + output)
+                );
+              }
+
+              document.getElementById('heaterSlider').value =
+                currentHeater.toFixed(1);
+              document.getElementById('heaterValue').innerText =
+                currentHeater.toFixed(1);
+              previousError = error;
+
+              checkAndSendData(); // 변경된 값을 장비로 전송
+            }, 500); // 1초 간격으로 온도를 제어
+          }
+
+function updatePreheatPercent(){
+    
+    const temp2Value = document.getElementById('temp2Value').innerText;
+    const percent = (exceedCount / maxExceedCount) * 100;   
+    document.getElementById('preheatPercentDisplay').innerText = `${percent}%`;
+
+}
+
+
+
+// 자동 로스팅 예열을 종료하는 함수
+function stopAutoRoastingPreheat() {
+  if (pidControlInterval) {
+    clearInterval(pidControlInterval); // 예열 중단
+    clearInterval(heatPeakInterval); // 히트피크 인터벌 중지
+    console.log("heatPeakInterval",heatPeakInterval)
+    stopPreHeatPidControl(); // PID 제어 중단
+    console.log('예열이 중단되었습니다.');
+  } else {
+    console.log('예열이 실행 중이 아닙니다.');
+  }
+}
+
+        // 자동 로스팅 예열을 시작하는 함수
+function autoRoastingPreheat() {
+  console.log('autoRoastingPreheat() 오토 예열 시작');
+  return new Promise((resolve, reject) => {
+    // 예열 PID 제어 시작
+
+    preHeatPidControl();
+
+    const targetTemp2 = parseFloat(
+      document.getElementById('targetTemp2').value
+    );
+    let percent = 0; 
+    let percent1 = 0;
+    let percent2 = 0; 
+    let exceedCount = 0;
+    const maxExceedCount = 50;
+    const requiredTempMin = 199; // Temp2 최소값
+    const requiredTempMax = 203; // Temp2 최대값
+
+    // 500ms마다 온도를 체크하고 초과 횟수 확인
+    heatPeakInterval = setInterval(() => {
+      const currentTemp2 = parseFloat(
+        document.getElementById('temp2Value').innerText
+      );
+
+      // 예열 퍼센트 계산
+      const temp2Value = parseFloat(document.getElementById('temp2Value').innerText);
+      if (temp2Value <= 100) {
+        percent = 0;
+      } else {
+        if (temp2Value <= 180) {
+          const calculatedPercent1 = Math.floor((((temp2Value - 100) / 80) * 100));
+          percent1 = calculatedPercent1 >= 0 ? calculatedPercent1 : percent1;
+          percent = Math.floor((percent1 * 0.5));
+        } else {
+          percent2 = Math.floor((exceedCount / maxExceedCount) * 100);
+          percent = Math.floor((percent1 * 0.5) + (percent2 * 0.5));
+          if (percent > 100) { percent = 100; }
+        }
+      }
+
+      document.getElementById('preheatPercentDisplay').innerText = `${percent}%`;
+
+      // 온도가 설정 온도를 넘으면 초과 횟수 증가
+      if (currentTemp2 > targetTemp2) {
+        exceedCount++;
+        console.log(`온도가 설정 온도를 넘었습니다. 초과 횟수: ${exceedCount}`);
+
+        // 초과 횟수가 최대치를 넘고 설정 온도 범위 안에 있을 경우
+        if (
+          exceedCount >= maxExceedCount &&
+          currentTemp2 >= requiredTempMin &&
+          currentTemp2 < requiredTempMax
+        ) {
+            console.log(
+            '설정 온도 초과 횟수가 기준을 넘고 목표 범위 내 도달. 예열 완료.'
+          );
+
+          isPreheatCompleted = true;
+
+
+        //   // PID 제어 종료 및 예열 완료 처리
+        //   stopPreHeatPidControl();
+        //   clearInterval(heatPeakInterval); // 히트피크 인터벌 중지
+          
+        //   resolve(); // 예열 완료
+        }
+      }
+    }, 500); // 500ms마다 온도 체크
+  });
+}
+
+          function handleRoastInfoStart() {
+            //예열 퍼센트 초기화 
+            percent = 0; 
+            exceedCount = 0;
+
+              stopPreHeatPidControl();
+              resolve(); // 예열 완료되었으므로 Promise 해결
+               }
+
+          function stopPreHeatPidControl() {
+            console.log('stopPreHeatPidControl() 예열 중지 함수');
+        
+            if (pidControlInterval) {
+  clearInterval(pidControlInterval);
+}
+              exceedCount = 0; // 초과 횟수 초기화
+              console.log('PID 제어가 종료되었습니다.');
+              console.log("pidControlInterval",pidControlInterval)
+              integral = 0;
+              previousError = 0;
+
+              // heater 0으로 설정
+
+              document.getElementById('heaterSlider').value = 0;
+
+              // 슬라이더 표시값 업데이트
+
+              document.getElementById('heaterValue').innerText = '0.0';
+            }
+          
+          function disableControls() {
+            document.getElementById('fan1Slider').disabled = true;
+            document.getElementById('heaterSlider').disabled = true;
+            document.getElementById('fan2Slider').disabled = true;
+
+            document.getElementById('crackBtn').disabled = true;
+
+            document.getElementById('fan1Value').disabled = true;
+            document.getElementById('heaterValue').disabled = true;
+            document.getElementById('fan2Value').disabled = true;
+          }
+
+          function enableControls() {
+            document.getElementById('fan1Slider').disabled = false;
+            document.getElementById('heaterSlider').disabled = false;
+            document.getElementById('fan2Slider').disabled = false;
+
+            document.getElementById('crackBtn').disabled = false;
+
+            document.getElementById('fan1Value').disabled = false;
+            document.getElementById('heaterValue').disabled = false;
+            document.getElementById('fan2Value').disabled = false;
+          }
+          function handleCoolDown() {
+            console.log('handleCoolDown() 쿨다운 함수 실행');
+
+            coolingpointflag()//쿨링포인트 기록 
+            stopRecordingCrackPoint() //크랙 기록 중지 
+            stopPreHeatPidControl();
+            stopAutoRoasting();
+         
+
+            let resetDataString = `1,255,0,0,0,255,0\n`;
+
+            isCoolDownRunning = true;
+
+            // 지속적으로 temp1과 temp2 값을 모니터링하여 40 이하가 되면 handleOutputZero 호출
+            const monitorTemperature = setInterval(() => {
+              const temp1 = parseFloat(
+                document.getElementById('temp1Value').innerText
+              );
+              const temp2 = parseFloat(
+                document.getElementById('temp2Value').innerText
+              );
+
+              if (temp1 <= 50.0 && temp2 <= 50.0) {
+                clearInterval(monitorTemperature);
+                handleOutputZero();
+                console.log('쿨 다운 완료 ');
+
+                isCoolDownRunning = false;
+                disposalConfirmation();
+              } else {
+                // 슬라이더 값을 0으로 설정
+                document.getElementById('fan1Slider').value = 100;
+                document.getElementById('heaterSlider').value = 0;
+                document.getElementById('fan2Slider').value = 100;
+
+                // // 슬라이더 표시값 업데이트
+                document.getElementById('fan1Value').innerText = '100.0';
+                document.getElementById('heaterValue').innerText = '0.0';
+                document.getElementById('fan2Value').innerText = '100.0';
+                sendDataToDevice(resetDataString)
+                  .then(() => {
+                    document.getElementById('dataStringIndicator').innerText =
+                      resetDataString.trim();
+                    enableControls();
+
+                    isDisposalSequenceRunning = false;
+                  })
+                  .catch((error) => {
+                    console.error('Data transmission failed:', error);
+                    console.log('Data transmission failed: ' + error);
+                    enableControls();
+                    isDisposalSequenceRunning = false;
+                  });
+              }
+            }, 5000); // 1초 간격으로 temp1과 temp2를 체크
+          }
+
+        //   function disposalConfirmation() {
+        //     // 확인 창을 띄워 사용자의 응답을 받음
+        //     const userConfirmed = confirm('원두 배출을 진행하시겠습니까?');
+
+        //     if (userConfirmed) {
+        //       // 사용자가 'Yes'를 선택했을 때 실행되는 코드
+        //       performDisposalSequence();
+        //     } else {
+        //       // 사용자가 'No'를 선택했을 때 실행되는 코드
+        //       console.log("사용자가 'No'를 선택했습니다.");
+        //       handleOutputZero();
+        //     }
+        //   }
+
+        
+
+async function beanPuttingforAutoRoasting() {
+
+return new Promise((resolve, reject) => {
+let resetDataString = `0,0,0,0,0,0,0\n`;
+
+console.log('beanPuttingforAutoRoasting() 투입 함수 실행');             
+
+// 슬라이더 값을 0으로 설정
+document.getElementById('fan1Slider').value = 0;
+document.getElementById('heaterSlider').value = 0;
+document.getElementById('fan2Slider').value = 0;
+
+// 슬라이더 표시값 업데이트
+document.getElementById('fan1Value').innerText = '0.0';
+document.getElementById('heaterValue').innerText = '0.0';
+document.getElementById('fan2Value').innerText = '0.0';
+
+// 20초 카운트다운 시작
+let countdown = 10;
+const countdownElement = document.getElementById('beanPuttingCounter');
+countdownElement.style.fontSize = '48px'; // 카운트다운을 크게 표시
+countdownElement.innerText = countdown; // 초기 카운트다운 값 설정
+
+
+
+
+
+const countdownInterval = setInterval(() => {
+    if(document.getElementById('heaterValue').innerText == 0) {
+    countdown -= 1;
+    countdownElement.innerText = countdown; // 카운트다운 값 업데이트
+console.log(  countdown  );
+    // 카운트다운이 0이 되면 종료
+    if (countdown <= 0) {
+        clearInterval(countdownInterval);
+        console.log('beanPutting() 투입 함수 종료');
+        console.log('');
+        // 데이터 전송 및 이후 동작
+        sendDataToDevice(resetDataString)
+            .then(() => {
+                document.getElementById('dataStringIndicator').innerText = resetDataString.trim();
+                enableControls();
+                setRoastingState(0);
+                showPanel('roastContainer');
+                isDisposalSequenceRunning = false;
+            })
+            .catch((error) => {
+                console.error('Data transmission failed:', error);
+                console.log('Data transmission failed: ' + error);
+                enableControls();
+                isDisposalSequenceRunning = false;
+            });
+            resolve(); 
+    }   }  }, 1000); // 1초마다 실행
+
+});
+}
+
+
+          function handleOutputZero() {
+
+                      // 모든 출력을 0으로 하는 함수
+console.log('handleOutputZero() 출력제로 함수 실행');
+            let resetDataString = `0,0,0,0,0,0,0\n`;
+            // 슬라이더 값을 0으로 설정
+            document.getElementById('fan1Slider').value = 0; 
+            document.getElementById('heaterSlider').value = 0;
+            document.getElementById('fan2Slider').value = 0;
+
+            // 슬라이더 표시값 업데이트
+            document.getElementById('fan1Value').innerText = '0.0';
+            document.getElementById('heaterValue').innerText = '0.0';
+            document.getElementById('fan2Value').innerText = '0.0';
+            sendDataToDevice(resetDataString)
+              .then(() => {
+                document.getElementById('dataStringIndicator').innerText =
+                  resetDataString.trim();
+                enableControls();
+                setRoastingState(0);
+                isDisposalSequenceRunning = false;
+              })
+              .catch((error) => {
+                console.error('Data transmission failed:', error);
+                console.log('Data transmission failed: ' + error);
+                enableControls();
+                isDisposalSequenceRunning = false;
+              });
+          }
+
+         //쿨링포인트 기록 함수  
+function coolingpointflag(){ 
+
+if(!coolingPointFlag){
+    coolingPointFlag = true;
+}
+
+
+}
+
+    
+
+
+//로스팅중에 쿨링 동작을 하는 함수 
+function roastingCoolDown(){
+            console.log('roastingCoolDown() 쿨다운 함수 실행');
+            coolingpointflag()//쿨링포인트 기록 
+            stopRecordingCrackPoint() //크랙 기록 중지 
+            stopPreHeatPidControl(); //pid제어 중지 
+
+isCoolDownRunning = true;
+
+// 지속적으로 temp1과 temp2 값을 모니터링하여 50 이하가 되면 handleOutputZero 호출
+const monitorTemperature = setInterval(() => {
+  const temp1 = parseFloat(
+    document.getElementById('temp1Value').innerText
+  );
+  const temp2 = parseFloat(
+    document.getElementById('temp2Value').innerText
+  );
+
+  if (temp1 <= 50.0 && temp2 <= 50.0) {
+    isRecordingcharts = false; // 차트 기록 중지 함수
+
+    clearInterval(monitorTemperature);
+    handleOutputZero(); //출력제로 
+
+    console.log('쿨 다운 완료 ');
+    
+    isCoolDownRunning = false;
+    
+  } else {
+    // 히터 값을 0으로 설정
+    // document.getElementById('fan1Slider').value = 100;
+    document.getElementById('heaterSlider').value = 0;
+    // document.getElementById('fan2Slider').value = 100;
+
+    // // 슬라이더 표시값 업데이트
+    // document.getElementById('fan1Value').innerText = '100.0';
+    document.getElementById('heaterValue').innerText = '0.0';
+    // document.getElementById('fan2Value').innerText = '100.0';
+  }
+}, 3000); // 3초 간격으로 temp1과 temp2를 체크
+}
+
+
+
+                  function performDisposalSequence(){
+
+console.log('performDisposalSequence() 배출 함수 실행');
+
+const temp2 = parseFloat(
+                document.getElementById('temp2Value').innerText
+              );
+
+            if(temp2 >= 60){ //히터 온도가 너무 높으면 배출안됨 
+                alert("온도가 너무 높습니다."); return
+                }else{
+            if (confirm('배출을 하시겠습니까?')) {
+              isDisposalSequenceRunning = true;
+
+              stopAutoRoasting();
+              let disposalDataString = `1,255,0,000,1,255,3\n`;
+              let disposalCount = 0;
+
+              const monitorDisposalCount = setInterval(() => {
+                if (disposalCount == 10) {
+                  let resetDataString = `0,0,0,0,0,0,0\n`;
+                  sendDataToDevice(resetDataString)
+                    .then(() => {
+                      document.getElementById('dataStringIndicator').innerText =
+                        resetDataString.trim();
+                      enableControls();
+
+                      isDisposalSequenceRunning = false;
+                    })
+                    .catch((error) => {
+                      console.error('Data transmission failed:', error);
+                      console.log('Data transmission failed: ' + error);
+                      enableControls();
+                      isDisposalSequenceRunning = false;
+                    });
+
+                  clearInterval(monitorDisposalCount);
+                  handleOutputZero();
+                  disposalCount = 0;
+                  console.log('배출 완료');
+                  if (confirm('저장하시겠습니까?')) {
+              saveData();
+           
+            }
+                  return;
+                } else {               
+                  clearInterval(timer);
+                  disposalCount++;
+                  sendDataToDevice(disposalDataString)
+                    .then(() => {
+                      document.getElementById('dataStringIndicator').innerText =
+                        disposalDataString.trim();
+                      enableControls();
+
+                      isDisposalSequenceRunning = false;
+                    })
+                    .catch((error) => {
+                      console.error('Data transmission failed:', error);
+                      console.log('Data transmission failed: ' + error);
+                      enableControls();
+                      isDisposalSequenceRunning = false;
+                    });
+                }
+              }, 1000);
+            }}
+          }
+
+
+          // 수동 모드에서 자동 로스팅 버튼 클릭 이벤트 리스너
+          document
+            .getElementById('autoRoastBtn2')
+            .addEventListener('click', function () {
+              if (!loadedRoastData) {
+                console.log('Error: 로스팅 데이터를 먼저 불러오세요.');
+                return;
+              }               
+              startAutoRoastingForManua(loadedRoastData);
+        });
+
+
+          // 자동 로스팅 버튼 클릭 이벤트 리스너
+          document
+            .getElementById('autoRoastBtn')
+            .addEventListener('click', function () {
+              if (!loadedRoastData) {
+                console.log('Error: 로스팅 데이터를 먼저 불러오세요.');
+                return;
+              }
+              console.log('차트 리셋');
+
+              resetCharts();
+
+              // autoRoastingPreheat 실행 후, 예열이 완료되면 startAutoRoasting 실행
+              autoRoastingPreheat().then(() => {
+                beanPuttingforAutoRoasting().then(() => {
+                console.log('자동 로스팅을 시작합니다.');
+                startAutoRoasting(loadedRoastData);
+              });
+            });});
+
+
+
+
+
+          //오토 로스팅시 동작하는 쿨다운
+          function startAutoCoolDown() {
+            console.log('startAutoCoolDown 실행');
+
+            stopAutoRoasting();
+            coolingpointflag()//쿨링포인트 기록 
+            stopRecordingCrackPoint() //크랙 기록 중지 
+
+
+            let resetDataString = `1,150,0,0,0,80,0\n`;
+
+            // 슬라이더 값을 0으로 설정
+            document.getElementById('fan1Slider').value = 60;
+            document.getElementById('heaterSlider').value = 0;
+            document.getElementById('fan2Slider').value = 31;
+
+            // // 슬라이더 표시값 업데이트
+            document.getElementById('fan1Value').innerText = '60.0';
+            document.getElementById('heaterValue').innerText = '0.0';
+            document.getElementById('fan2Value').innerText = '31.0';
+
+            isCoolDownRunning = true;
+
+            // 지속적으로 temp1과 temp2 값을 모니터링하여 50 이하가 되면 handleOutputZero 호출
+            const monitorTemperature = setInterval(() => {
+              const temp1 = parseFloat(
+                document.getElementById('temp1Value').innerText
+              );
+              const temp2 = parseFloat(
+                document.getElementById('temp2Value').innerText
+              );
+
+              if (temp1 <= 50.0 && temp2 <= 50.0) {
+                clearInterval(monitorTemperature);
+                handleOutputZero();
+                console.log('쿨 다운 완료 ');
+
+                isCoolDownRunning = false;
+
+                performDisposalSequence();
+              }
+            }, 1000); // 1초 간격으로 temp1과 temp2를 체크
+
+            sendDataToDevice(resetDataString)
+              .then(() => {
+                document.getElementById('dataStringIndicator').innerText =
+                  resetDataString.trim();
+                enableControls();
+                setRoastingState(0);
+                isDisposalSequenceRunning = false;
+              })
+              .catch((error) => {
+                console.error('Data transmission failed:', error);
+                console.log('Data transmission failed: ' + error);
+                enableControls();
+                isDisposalSequenceRunning = false;
+              });
+          }
+
+      // 메뉴얼 에서 자동 로스팅을 시작하는 함수
+      function startAutoRoastingForManual(data) {
+            console.log('startAutoRoastingForManual() 메뉴얼 에서 자동 로스팅 실행');
+        
+            const fan1Values = JSON.parse(data.fan || '[]'); // 불러온 fan 데이터
+            const heaterValues = JSON.parse(data.heater || '[]'); // 불러온 heater 데이터
+            const fan2Values = JSON.parse(data.fan2 || '[]'); // 불러온 fan2 데이터
+            const temp1Values = JSON.parse(data.temp1 || '[]'); // 불러온 temp 데이터
+            const targetTemp1Threshold = 2; // temp1 목표 온도와의 허용 오차 범위 (2°C)
+
+            let index = 0;
+            intervalId = setInterval(() => {
+              if (
+                CpUnderTime == document.getElementById('elapsedValue').innerText
+              ) {
+                console.log('오토로스팅 종료!');
+                clearInterval(intervalId); // 현재 함수 종료
+                startAutoCoolDown();
+                return; // 함수 종료
+              }
+              // temp1 값을 기반으로 heater 값 조절 (temp1 목표 값과의 비교)
+              //   const currentTemp1 = parseFloat(
+              //     document.getElementById('temp1Value').innerText
+              //   );
+              //   const targetTemp1 = temp1Values[index]; // 로드된 temp1 값과 비교
+              //   console.log(currentTemp1);
+              //   console.log(targetTemp1);
+
+              //현재온도와 타겟 온도를 비교하는 if문인데 문제가 있음! 해결해야함 240912 김국진
+
+              //   if (targetTemp1 != currentTemp1) {
+              //     const heaterStep = 1; // heater 값을 조절할 때의 증감 값
+              //     const currentHeater = parseFloat(
+              //       document.getElementById('heaterSlider').value
+              //     );
+              //     let newHeaterValue = currentHeater;
+
+              //     if (currentTemp1 < targetTemp1 - targetTemp1Threshold) {
+              //       // 현재 온도가 목표 온도보다 많이 낮을 때 heater 증가
+              //       newHeaterValue = Math.min(100, currentHeater + heaterStep); // 최대 heater 값은 100
+              //     } else if (currentTemp1 > targetTemp1 + targetTemp1Threshold) {
+              //       // 현재 온도가 목표 온도보다 많이 높을 때 heater 감소
+              //       newHeaterValue = Math.max(0, currentHeater - heaterStep); // 최소 heater 값은 0
+              //     }
+
+              //     // heater 이더와 표시값 업데이트
+              //     document.getElementById('heaterSlider').value =
+              //       newHeaterValue.toFixed(1);
+              //     document.getElementById('heaterValue').innerText =
+              //       newHeaterValue.toFixed(1);
+
+              //     // fan1, fan2 값을 각각 슬라이더에 적용
+              //     document.getElementById('fan1Slider').value = fan1Values[index];
+              //     document.getElementById('fan2Slider').value = fan2Values[index];
+              //     // 슬라이더 표시값 업데이트
+              //     document.getElementById('fan1Value').innerText =
+              //       fan1Values[index].toFixed(1);
+
+              //     document.getElementById('fan2Value').innerText =
+              //       fan2Values[index].toFixed(1);
+              //   } else {
+              // fan1, heater, fan2 값을 각각 슬라이더에 적용
+              document.getElementById('fan1Slider').value = fan1Values[index];
+              document.getElementById('heaterSlider').value =
+                heaterValues[index];
+              document.getElementById('fan2Slider').value = fan2Values[index];
+
+              // 슬라이더 표시값 업데이트
+              document.getElementById('fan1Value').innerText =
+                fan1Values[index].toFixed(1);
+              document.getElementById('heaterValue').innerText =
+                heaterValues[index].toFixed(1);
+              document.getElementById('fan2Value').innerText =
+                fan2Values[index].toFixed(1);
+
+              // 제어 데이터를 장비로 전송
+              checkAndSendData();
+              //   }
+
+              index++;
+            }, 1000); // 1초마다 값을 적용
+          }
+
+          // 자동 로스팅 중지를 위한 함수 추가
+          function stopAutoRoasting() {
+            console.log('stopAutoRoasting()자동로스팅 중지 함수 실행');
+            clearInterval(intervalId); // 인터벌을 종료하여 자동 로스팅 멈춤
+            console.log('자동 로스팅이 중지되었습니다.');
+          }
+          // JSON 파일을 불러와 UI에 반영하는 이벤트 리스너
+          document
+            .getElementById('fileInput')
+            .addEventListener('change', function (event) {
+              const file = event.target.files[0];
+              if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                  const content = e.target.result;
+                  try {
+                    const jsonData = JSON.parse(content); // JSON 데이터를 파싱
+
+                    displayData(jsonData); // 데이터를 UI에 반영
+                  } catch (error) {
+                    console.log('Error: JSON 데이터를 파싱할 수 없습니다.');
+                  }
+                };
+                reader.readAsText(file); // 파일을 텍스트로 읽음
+              }
+            });
+
+
+
+
+          // 자동 로스팅을 시작하는 함수
+          function startAutoRoasting(data) {
+            console.log('startAutoRoasting() 자동 로스팅 실행');
+
+            console.log('차트 리셋');
+            resetChartsforAutoRoasting()
+            const fan1Values = JSON.parse(data.fan || '[]'); // 불러온 fan 데이터
+            const heaterValues = JSON.parse(data.heater || '[]'); // 불러온 heater 데이터
+            const fan2Values = JSON.parse(data.fan2 || '[]'); // 불러온 fan2 데이터
+            const temp1Values = JSON.parse(data.temp1 || '[]'); // 불러온 temp 데이터
+            const targetTemp1Threshold = 2; // temp1 목표 온도와의 허용 오차 범위 (2°C)
+
+            let index = 0;
+            intervalId = setInterval(() => {
+              if (
+                CpUnderTime == document.getElementById('elapsedValue').innerText
+              ) {
+                console.log('오토로스팅 종료!');
+                clearInterval(intervalId); // 현재 함수 종료
+                startAutoCoolDown();
+                return; // 함수 종료
+              }
+              // temp1 값을 기반으로 heater 값 조절 (temp1 목표 값과의 비교)
+              //   const currentTemp1 = parseFloat(
+              //     document.getElementById('temp1Value').innerText
+              //   );
+              //   const targetTemp1 = temp1Values[index]; // 로드된 temp1 값과 비교
+              //   console.log(currentTemp1);
+              //   console.log(targetTemp1);
+
+              //현재온도와 타겟 온도를 비교하는 if문인데 문제가 있음! 해결해야함 240912 김국진
+
+              //   if (targetTemp1 != currentTemp1) {
+              //     const heaterStep = 1; // heater 값을 조절할 때의 증감 값
+              //     const currentHeater = parseFloat(
+              //       document.getElementById('heaterSlider').value
+              //     );
+              //     let newHeaterValue = currentHeater;
+
+              //     if (currentTemp1 < targetTemp1 - targetTemp1Threshold) {
+              //       // 현재 온도가 목표 온도보다 많이 낮을 때 heater 증가
+              //       newHeaterValue = Math.min(100, currentHeater + heaterStep); // 최대 heater 값은 100
+              //     } else if (currentTemp1 > targetTemp1 + targetTemp1Threshold) {
+              //       // 현재 온도가 목표 온도보다 많이 높을 때 heater 감소
+              //       newHeaterValue = Math.max(0, currentHeater - heaterStep); // 최소 heater 값은 0
+              //     }
+
+              //     // heater 이더와 표시값 업데이트
+              //     document.getElementById('heaterSlider').value =
+              //       newHeaterValue.toFixed(1);
+              //     document.getElementById('heaterValue').innerText =
+              //       newHeaterValue.toFixed(1);
+
+              //     // fan1, fan2 값을 각각 슬라이더에 적용
+              //     document.getElementById('fan1Slider').value = fan1Values[index];
+              //     document.getElementById('fan2Slider').value = fan2Values[index];
+              //     // 슬라이더 표시값 업데이트
+              //     document.getElementById('fan1Value').innerText =
+              //       fan1Values[index].toFixed(1);
+
+              //     document.getElementById('fan2Value').innerText =
+              //       fan2Values[index].toFixed(1);
+              //   } else {
+              // fan1, heater, fan2 값을 각각 슬라이더에 적용
+              document.getElementById('fan1Slider').value = fan1Values[index];
+              document.getElementById('heaterSlider').value =
+                heaterValues[index];
+              document.getElementById('fan2Slider').value = fan2Values[index];
+
+              // 슬라이더 표시값 업데이트
+              document.getElementById('fan1Value').innerText =
+                fan1Values[index].toFixed(1);
+              document.getElementById('heaterValue').innerText =
+                heaterValues[index].toFixed(1);
+              document.getElementById('fan2Value').innerText =
+                fan2Values[index].toFixed(1);
+
+              // 제어 데이터를 장비로 전송
+              checkAndSendData();
+              //   }
+
+              index++;
+            }, 1000); // 1초마다 값을 적용
+          }
+
+          // 자동 로스팅 중지를 위한 함수 추가
+          function stopAutoRoasting() {
+            console.log('stopAutoRoasting()자동로스팅 중지 함수 실행');
+            clearInterval(intervalId); // 인터벌을 종료하여 자동 로스팅 멈춤
+            console.log('자동 로스팅이 중지되었습니다.');
+          }
+          // JSON 파일을 불러와 UI에 반영하는 이벤트 리스너
+          document
+            .getElementById('fileInput')
+            .addEventListener('change', function (event) {
+              const file = event.target.files[0];
+              if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                  const content = e.target.result;
+                  try {
+                    const jsonData = JSON.parse(content); // JSON 데이터를 파싱
+
+                    displayData(jsonData); // 데이터를 UI에 반영
+                  } catch (error) {
+                    console.log('Error: JSON 데이터를 파싱할 수 없습니다.');
+                  }
+                };
+                reader.readAsText(file); // 파일을 텍스트로 읽음
+              }
+            });
+
+          // 데이터를 UI에 반영하는 함수
+          function displayData(data) {
+            // 데이터를 전역 변수에 저장
+            loadedRoastData = data;
+            resetChartsAll();
+            console.log(
+              '불러온 json의 coolingPointTime',
+              data.coolingPointTime
+            );
+            extractSecondsFromTime(data.coolingPointTime);
+            extractSecondsFromTimeForTp(data.turningPointTime);
+            // 데이터를 각 UI 요소에 반영하는 예시
+            document.getElementById('temp1Value').innerText = data.temp1
+              ? JSON.parse(data.temp1).slice(-1)[0]
+              : '-';
+            document.getElementById('temp2Value').innerText = data.temp2
+              ? JSON.parse(data.temp2).slice(-1)[0]
+              : '-';
+            document.getElementById('temp3Value').innerText = data.temp3
+              ? JSON.parse(data.temp3).slice(-1)[0]
+              : '-';
+            document.getElementById('fan1Value').innerText = data.fan
+              ? JSON.parse(data.fan).slice(-1)[0]
+              : '0';
+            document.getElementById('heaterValue').innerText = data.heater
+              ? JSON.parse(data.heater).slice(-1)[0]
+              : '0';
+            document.getElementById('fan2Value').innerText = data.fan2
+              ? JSON.parse(data.fan2).slice(-1)[0]
+              : '0';
+
+            const tpUnderTemp = parseFloat(
+              JSON.parse(data.turningPointTemp || '[]')
+            );
+            // 콘솔에 불러온 내용을 출력
+            console.log(
+              '데이터가 불러와졌습니다: ' + JSON.stringify(data, null, 2)
+            );
+
+            const cpUnderTemp = parseFloat(
+              JSON.parse(data.coolingPointTemp || '[]')
+            );
+            // 콘솔에 불러온 내용을 출력
+
+            // 차트에 불러온 데이터를 추가
+            if (Highcharts.charts.length > 0) {
+              Highcharts.charts[0].series[5].setData(
+                JSON.parse(data.temp1 || '[]')
+              );
+              Highcharts.charts[0].series[6].setData(
+                JSON.parse(data.temp2 || '[]')
+              );
+              Highcharts.charts[0].series[7].setData(
+                JSON.parse(data.temp3 || '[]')
+              );
+
+              Highcharts.charts[0].series[9].addPoint(
+                [tpUnderTime, tpUnderTemp],
+                true,
+                false
+              );
+
+              Highcharts.charts[0].series[11].addPoint(
+                [CpUnderTime, cpUnderTemp],
+                true,
+                false
+              );
+
+              Highcharts.charts[1].series[3].setData(
+                JSON.parse(data.fan || '[]')
+              );
+              Highcharts.charts[1].series[4].setData(
+                JSON.parse(data.heater || '[]')
+              );
+              Highcharts.charts[1].series[5].setData(
+                JSON.parse(data.fan2 || '[]')
+              );
+            }
+
+            console.log('cpUnderTemp', cpUnderTemp);
+            console.log('tpUnderTemp', tpUnderTemp);
+
+           
+          }
+
+          // 콘솔에 메시지를 출력하는 함수
+          function logToConsole(message) {
+            const consoleLog = document.getElementById('consoleLog');
+            consoleLog.innerHTML += `<p>${message}</p>`;
+            consoleLog.scrollTop = consoleLog.scrollHeight;
+          }
+
+
+
+          
+          function resetCharts() {
+
+            console.log('resetCharts() 초기화 함수 실행');
+            let latestPlotBandId = crackPlotBandIds[crackPlotBandIds.length - 1]; //crackPlotBandIds 의 마지막 id 
+
+
+            isFirstCp = null; // 쿨링 포인트 플래그 리셋
+            isFirstTp = null; // 터닝 포인트가 플래그 리셋
+            receivedData = [];
+            outputData = [];
+            crackPoints = [];
+            crackPointTimes = [];
+            startTime = new Date().getTime();
+            if (plotBandPercentageText){plotBandPercentageText.destroy();}//plotBandPercentageText 있어야 삭제함
+Highcharts.charts[0].xAxis[0].removePlotBand(latestPlotBandId);
+            Highcharts.charts[0].series[0].setData([0]); //Drum
+            Highcharts.charts[0].series[1].setData([0]); //Heater
+            Highcharts.charts[0].series[2].setData([0]); //Inner
+            Highcharts.charts[0].series[3].setData([0]); //ROR(Drum)
+            Highcharts.charts[0].series[4].setData([0]); // ROR(heater)
+            Highcharts.charts[0].series[8].setData([0]); // TP
+            Highcharts.charts[0].series[10].setData([0]); //Cp
+        
+
+            Highcharts.charts[1].series[0].setData([0]);
+            Highcharts.charts[1].series[1].setData([0]);
+            Highcharts.charts[1].series[2].setData([0]);
+                    console.log('데이터가 초기화되었습니다.');
+          }
+          function resetChartsforAutoRoasting() {
+
+console.log('resetChartsforAutoRoasting() 초기화 함수 실행');
+
+
+let latestPlotBandId = crackPlotBandIds[crackPlotBandIds.length - 1]; //crackPlotBandIds 의 마지막 id 
+isFirstCp = null; // 쿨링 포인트 플래그 리셋
+isFirstTp = null; // 터닝 포인트가 플래그 리셋
+receivedData = [];
+outputData = [];
+crackPoints = [];
+crackPointTimes = [];
+startTime = new Date().getTime();
+if (plotBandPercentageText){plotBandPercentageText.destroy();}//plotBandPercentageText 있어야 삭제함
+Highcharts.charts[0].xAxis[0].removePlotBand(latestPlotBandId);
+Highcharts.charts[0].series[0].setData([0]); //Drum
+            Highcharts.charts[0].series[1].setData([0]); //Heater
+            Highcharts.charts[0].series[2].setData([0]); //Inner
+            Highcharts.charts[0].series[3].setData([0]); //ROR(Drum)
+            Highcharts.charts[0].series[4].setData([0]); // ROR(heater)
+            Highcharts.charts[0].series[8].setData([0]); // TP
+            Highcharts.charts[0].series[10].setData([0]); //Cp
+
+
+Highcharts.charts[1].series[0].setData([0]);
+Highcharts.charts[1].series[1].setData([0]);
+Highcharts.charts[1].series[2].setData([0]);
+
+
+console.log('데이터가 초기화되었습니다.');
+}
+          function resetChartsAll() {
+
+console.log('resetChartsAll() 초기화 함수 실행');
+
+let latestPlotBandId = crackPlotBandIds[crackPlotBandIds.length - 1]; //crackPlotBandIds 의 마지막 id 
+isFirstCp = null; // 쿨링 포인트 플래그 리셋
+isFirstTp = null; // 터닝 포인트가 플래그 리셋
+receivedData = [];
+outputData = [];
+crackPoints = [];
+crackPointTimes = [];
+startTime = new Date().getTime();
+if (plotBandPercentageText){plotBandPercentageText.destroy();}//plotBandPercentageText 있어야 삭제함
+Highcharts.charts[0].xAxis[0].removePlotBand(latestPlotBandId);
+Highcharts.charts[0].series[0].setData([0]);
+Highcharts.charts[0].series[1].setData([0]);
+Highcharts.charts[0].series[2].setData([0]);
+Highcharts.charts[0].series[3].setData([0]);
+Highcharts.charts[0].series[4].setData([0]);
+Highcharts.charts[0].series[5].setData([0]);
+Highcharts.charts[0].series[6].setData([0]);
+Highcharts.charts[0].series[7].setData([0]);
+Highcharts.charts[0].series[8].setData([0]);
+Highcharts.charts[0].series[9].setData([0]);
+Highcharts.charts[0].series[10].setData([0]);
+Highcharts.charts[0].series[11].setData([0]);
+Highcharts.charts[1].series[0].setData([0]);
+Highcharts.charts[1].series[1].setData([0]);
+Highcharts.charts[1].series[2].setData([0]);
+Highcharts.charts[1].series[3].setData([0]);
+Highcharts.charts[1].series[4].setData([0]);
+Highcharts.charts[1].series[5].setData([0]);
+
+console.log('데이터가 초기화되었습니다.');
+}
+
+
+function RecipeWriteTest(){  
+  const crackPointTimeString =
+        crackPointTimes.length > 0
+          ? getFormattedUTCDate(crackPointTimes[0]) // crackPointTimes[0]이 존재하면 해당 시간으로 저장
+          : '[0]'; // 배열이 비어 있으면 '0'으로 저장
+      const jsonData = {"clientId":"4d042c50-bd70-11ee-aa8b-e30685fde2fa","clientName":"reon","memberId":67,"roasterSn":"R2N0BK-0001-20240418","title":"\b나리뇨 게이샤 리브레 셀렉션","fan":"[55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,54.5,54,54,54,54,54,54,54,54,54,54,54,54,54,54,54,54,54,54,54,54,54,54,54,54,54,54,54,54,54,54,54,54,54,54,54,54,54,54,54,54,54,54,54,54,54,54,54,54,54,53.5,53,53,53,53,53,53,53,53,53,53,53,53,53,52.5,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,51.5,51,51,51,51,51,51,50.5,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,49.5,49,49,49,49,49,49,49,49,49,49,49,49,49,49,49,49,49,49,49,49,49,49,49,48.5,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,62.5,62.5,62.5,62.5,62.5,62.5,62.5,62.5,62.5,62.5,62.5,62.5,62.5,62.5,62.5,62.5,62.5,62.5,62.5,62.5,62.5,62.5,62.5,62.5,62.5,62.5,62.5,62.5,62.5,62.5,62.5,62.5,62.5,62.5,62.5,62.5,62.5,62.5,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,0,0,0,0,0,0,0,0,0,0,0]","fan2":"[12,12,12,12,12,12,12,12,12,12,12,12,12,12,11.5,11,11,11,11,11,11,11,11,11,10.5,10,10,10,10,10,10,10,10,10,10,10,10,10,9.5,9,9,9,9,9,9,9,9,8.5,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,7.5,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,6.5,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,5.5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,4.5,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,0,0,0,0,0,0,0,0,0,0,0]","heater":"[100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,99.5,99,99,99,98.5,98,98,98,97.5,97,97,97,97,97,97,97,97,97,97,97,97,96.5,96,96,96,96,96,96,96,96,96,96,96,96,96,96,96,95.5,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,94.5,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,93.5,93,93,93,93,93,93,93,93,93,93,93,93,93,93,93,92.5,92,92,92,92,92,92,92,92,92,92,92,92,92,92,92,92,92,92,92,92,92,92,92,92,92,92,92,92,92,92,92,92,92,92,92,92,92,92,91.5,91.5,91,91,91,91,91,91,90.5,90,90,90,90,90,90,90,90,90,90,90,90,90,90,90,90,90,90,90,90,89.5,89,89,89,89,89,89,89,88.5,88,88,88,88,88,88,88,88,88,88,88,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]","temp1":"[113.29,111.31,108.63,104.82,101.88,100.42,100.73,102.47,104.27,106.38,108.81,111.27,113.88,116.97,119.86,122.47,124.7,127.14,129.45,131.82,134.34,136.54,138.81,140.64,142.18,143.69,145.3,146.95,148.81,150.57,152.29,153.83,155.14,156.47,157.85,158.9,160.1,161.37,162.75,163.77,164.69,165.46,166.35,167.41,168.4,169.24,170.16,171.05,172.11,172.92,173.74,174.58,175.43,176.18,176.85,177.56,178.27,179.01,179.65,180.36,181.42,182.31,182.95,183.59,183.59,184.05,184.69,185.44,186.18,186.79,187.43,187.89,188.17,188.67,189.17,189.77,190.34,190.91,191.34,191.8,192.3,192.94,193.4,193.97,194.29,194.76,195.01,195.29,195.58,196.04,196.43,196.97,197.29,197.5,197.96,198.36,198.86,199.18,199.36,199.57,200,200.28,200.71,201,201.28,201.75,202.18,202.64,203.18,203.53,203.78,204.03,204.21,204.39,204.75,204.93,205.32,205.61,206.07,206.43,206.82,207.25,207.54,208,208.14,208.18,208.36,208.86,209.4,209.86,210.04,210.29,210.69,210.83,211.04,211.22,211.62,211.83,212.37,212.48,212.73,212.91,213.27,213.34,213.48,213.7,213.84,214.02,214.59,214.73,215.02,215.49,215.74,215.92,216.06,216.28,216.53,216.64,216.85,217.07,217.42,217.6,217.6,217.6,217.53,217.6,217.75,218,218.21,218.47,218.79,219.15,219.33,219.47,219.29,219.26,219.36,219.51,219.61,219.69,219.79,220.22,220.55,220.87,221.01,221.23,221.19,221.19,221.3,221.09,221.05,221.16,221.41,221.59,221.73,221.91,222.09,222.16,222.31,222.34,222.63,222.81,223.03,223.14,223.03,223.06,223.06,222.88,222.88,223.03,223.03,223.06,223.17,223.31,223.28,223.24,223.42,223.6,223.6,223.57,223.46,223.39,223.35,223.17,222.2,220.58,218.5,215.67,212.33,208.57,204.25,199.75,195.08,190.48,185.79,181.18,176.57,172.25,168.01,164.05,160.14,156.37,152.74,149.09,145.68,142.32,139.13,136.16,133.22,130.32,127.42,124.56,121.67,118.95,116.48,113.98,111.48,109.15,106.83,104.72,102.64,100.7,98.62,96.62,94.86,93.1,91.27,89.44,87.61,85.92,84.23,82.62,81.17,79.8,78.49,77.22,75.91,74.71,73.58,72.48,71.42,70.46,69.53,68.54,67.61,66.82,66.03,65.32,64.53,63.81,63.13,62.44,61.79,61.14,60.53,59.91,59.3,58.75,58.24,57.69,57.18,56.63,56.12,55.54,55.03,54.58,54.11,53.76,53.42,53.01,52.6,52.19,51.89,51.55,51.21,50.9,50.59,50.25,50.01,49.81,49.47,49.47]","temp2":"[187.5,186.79,185.9,186.68,189.52,193.87,198.96,204.43,209.86,215.09,220.05,224.65,229,232.93,236.54,239.82,242.9,245.79,248.4,250.86,253.15,255.33,257.4,259.32,261.18,262.93,264.57,266.17,267.7,269.16,270.62,271.93,273.25,274.52,275.69,276.9,278,279.06,280.08,281.07,282.02,282.98,283.86,284.74,285.58,286.42,287.19,288,288.77,289.62,290.39,291.16,291.93,292.67,293.4,294.1,294.8,295.5,296.12,296.75,297.3,297.93,298.52,299.07,299.62,300.14,300.61,301.13,301.61,302.05,302.53,302.97,303.38,303.75,304.15,304.52,304.86,305.19,305.52,305.89,306.18,306.52,306.81,307.11,307.4,307.66,308.03,308.33,308.7,308.99,309.29,309.62,309.92,310.25,310.54,310.91,311.28,311.65,311.99,312.36,312.73,313.06,313.39,313.69,314.02,314.32,314.65,314.95,315.32,315.69,316.06,316.39,316.83,317.21,317.61,317.98,318.28,318.69,319.1,319.43,319.76,320.1,320.47,320.76,321.13,321.51,321.88,322.14,322.47,322.8,323.06,323.29,323.58,323.84,324.1,324.4,324.7,324.96,325.22,325.48,325.7,325.92,326.18,326.52,326.78,327.08,327.41,327.71,327.97,328.27,328.56,328.86,329.16,329.42,329.68,329.94,330.2,330.46,330.72,330.94,331.2,331.47,331.8,332.1,332.4,332.66,332.92,333.18,333.4,333.74,334,334.3,334.63,334.89,335.12,335.34,335.56,335.79,336.01,336.23,336.49,336.76,336.94,337.13,337.39,337.54,337.72,337.84,337.95,337.99,338.02,338.02,338.02,338.14,338.21,338.25,338.32,338.43,338.51,338.55,338.58,338.66,338.73,338.81,338.88,338.99,339.07,339.11,339.11,339.14,339.07,339.14,339.18,339.14,339.11,339.03,338.88,338.73,338.58,338.4,338.21,338.02,337.99,337.17,333.81,327.63,319.21,309.18,298.18,286.46,273.98,261.4,249.2,237.62,226.95,216.74,207.07,198.04,189.56,181.67,174.3,167.34,160.84,154.71,148.91,143.47,138.32,133.39,128.78,124.35,120.17,116.21,112.42,108.81,105.38,102.08,99.04,96.07,93.23,90.54,87.99,85.54,83.24,81.03,78.97,76.94,75.05,73.23,71.38,69.63,67.99,66.38,64.9,63.47,62.2,60.94,59.71,58.61,57.55,56.56,55.61,54.69,53.87,53.05,52.3,51.55,50.86,50.22,49.6,48.99,48.45,47.93,47.39,46.91,46.44,45.99,45.59,45.21,44.8,44.43,44.09,43.78,43.48,43.14,42.86,42.63,42.35,42.15,41.88,41.67,41.47,41.23,41.03,40.82,40.69,40.55,40.35,40.18,40.01,39.91,39.7,39.6]","temp3":"[8.7,8.7,9.2,8.7,8.7,8.7,9.7,9.7,9.7,9.2,9.2,8.3,9.2,9.7,8.7,8.7,9.7,9.2,9.7,9.2,9.7,9.2,9.2,9.7,9.7,8.7,8.3,9.7,9.2,8.3,9.7,9.2,9.2,8.3,9.2,9.2,8.7,8.3,8.3,8.3,8.3,8.3,8.3,9.2,8.7,8.7,8.7,9.2,8.7,8.3,9.2,8.7,8.3,8.7,8.7,8.3,9.2,7.8,8.7,7.8,9.2,8.7,8.7,8.3,8.7,8.3,8.7,8.7,8.3,8.7,8.3,8.7,8.7,8.7,7.8,8.3,8.3,8.7,8.7,8.7,8.3,8.3,8.3,8.3,8.3,7.8,8.7,8.3,8.7,8.3,7.3,7.8,7.8,8.7,8.7,8.3,7.8,8.3,8.7,7.3,8.3,7.8,7.8,8.3,8.3,8.7,7.3,8.3,8.3,8.3,7.8,8.3,7.8,6.8,8.3,8.3,8.3,8.7,7.3,7.8,8.3,8.3,7.8,7.8,8.3,7.3,8.3,7.3,8.3,7.8,7.3,7.3,7.8,8.3,7.3,7.3,7.8,8.3,7.3,7.3,7.8,7.3,7.3,7.3,8.7,7.3,8.3,7.3,6.8,8.7,6.8,7.3,7.8,8.3,8.3,7.3,7.8,8.3,6.8,7.8,7.8,7.3,7.8,7.3,7.8,7.3,7.8,8.3,7.3,7.8,7.8,6.8,8.3,7.3,7.3,7.8,7.3,7.3,7.3,7.8,7.3,7.8,7.3,7.3,7.3,6.8,6.8,6.8,7.8,7.3,7.8,8.3,7.8,7.8,6.8,6.8,6.3,7.3,6.8,8.7,7.8,7.3,7.8,7.8,6.8,6.8,7.3,6.3,7.3,6.8,7.8,7.3,7.8,8.3,7.3,7.3,6.3,6.8,7.3,7.3,6.8,7.3,6.3,6.3,5.8,7.3,6.8,6.3,7.3,7.3,6.8,6.8,7.3,6.3,6.8,7.3,6.3,6.8,7.3,6.8,6.8,6.8,7.3,6.3,6.8,6.8,6.8,6.3,6.8,7.3,6.8,7.3,6.8,6.8,6.3,7.3,6.8,6.8,6.8,5.8,6.8,7.3,6.3,7.3,6.8,6.3,6.3,5.8,6.3,6.3,7.3,6.3,6.8,6.8,6.8,7.3,6.8,6.8,6.3,7.3,5.8,6.8,6.3,6.8,6.8,5.8,7.8,6.8,6.3,6.8,6.3,7.3,6.3,7.8,6.8,6.3,7.3,6.3,6.8,6.3,6.8,6.3,6.8,6.3,6.8,6.3,6.3,6.8,6.3,7.3,6.8,6.8,6.8,6.8,6.8,7.8,6.3,6.3,6.3,6.8,6.8,5.8]","temp4":"[0]","ror":"[0]","memo":"No Memo","crackPoint":"[218.21]","crackPointTime":"[2024-09-26 09:17:01 +0000]","turningPointTemp":"[75.33]","turningPointTime":"[2024-07-01 15:00:18 +0000]","coolingPointTemp":"[217.53]","coolingPointTime":"[1970-01-01 00:06:34 +0000]","preheatTemp":200,"disposeTemp":"[0]","disposeTime":"[2024-07-01 15:09:04 +0000]","inputCapacity":"50","dtr":100}
+
+
+
+console.log(jsonData);
+            
+            $.ajax({
+                type:"post",
+                url: "https://www.reonaicoffee.com/api/records/upload",
+                data: JSON.stringify(jsonData),  // js오브젝트를 json으로 파싱
+                headers:{
+                    "content-type":"application/json; charset=utf-8"
+                },
+                dataType:"json"
+            }).done((res)=>{
+                console.log('저장되었습니다.');
+            }).fail((err)=>{
+                console.log(err);
+            });       
+          }
+
+  function RecipeWrite(){  
+    const crackPointTimeString =
+        crackPointTimes.length > 0
+          ? getFormattedUTCDate(crackPointTimes[0]) // crackPointTimes[0]이 존재하면 해당 시간으로 저장
+          : ''; // 배열이 비어 있으면 '0'으로 저장
+      const jsonData = {
+        clientId: '4d042c50-bd70-11ee-aa8b-e30685fde2fa',
+        clientName: 'reon',
+        memberId: 67,
+        roasterSn: 'R2N0BK-0001-20240418',
+        title: roastInfoRecipeName || 'No Title',
+        fan: JSON.stringify(outputData.map((data) => data.fan1)),
+        fan2: JSON.stringify(outputData.map((data) => data.fan2)),
+        heater: JSON.stringify(outputData.map((data) => data.heater)),
+        temp1: JSON.stringify(receivedData.map((data) => data.temp1)),
+        temp2: JSON.stringify(receivedData.map((data) => data.temp2)),
+        temp3: JSON.stringify(receivedData.map((data) => data.temp3)),
+        temp4: '[]',
+        ror: '[]',
+        memo: memoTextArea || 'No Memo',
+        crackPoint: JSON.stringify(crackPoints),
+        crackPointTime: '[' + crackPointTimeString + ']', // crackPointTime [0] 는 실제 시간 저장
+        turningPointTemp: '[75.33]',
+        turningPointTime: '[2024-07-01 15:00:18 +0000]',
+        coolingPointTemp: '[217.53]',
+        coolingPointTime: timeFormetChange(),
+        preheatTemp: 200.0,
+        disposeTemp: JSON.stringify([
+          outputData[outputData.length - 1]?.fan1 || 0,
+        ]),
+        disposeTime: '[2024-07-01 15:09:04 +0000]',
+        inputCapacity: roastInfoInputAmount || '0',
+        dtr: calculateDTR(),
+      };
+
+        console.log(jsonData);
+            
+    $.ajax({
+        type:"post",
+        url: "https://www.reonaicoffee.com/api/records/upload",
+        data: JSON.stringify(jsonData),  // js오브젝트를 json으로 파싱
+        headers:{
+            "content-type":"application/json; charset=utf-8"
+        },
+        dataType:"json"
+    }).done((res)=>{
+        console.log('저장되었습니다.');
+    }).fail((err)=>{
+        console.log(err);
+    });       
+}   
+
+
+          // CpUnderTime 데이터를 분, 초로 변환하고 초 단위로 변환하고 CpUnderTime 전역변수에 저장
+          function extractSecondsFromTime(LoadcoolingPointTime) {
+            const timeParts = LoadcoolingPointTime.split(' ')[1].split(':'); // '15:04:22' 추출
+            const minutes = parseInt(timeParts[1], 10); // 분 추출
+            const seconds = parseInt(timeParts[2], 10); // 초 추출
+
+            CpUnderTime = minutes * 60 + seconds;
+            console.log('CpUnderTime', CpUnderTime);
+            // 분과 초를 초 단위로 변환
+            return;
+          }
+
+          function extractSecondsFromTimeForTp(LoadTpTime) {
+            const timeParts = LoadTpTime.split(' ')[1].split(':'); // '15:04:22' 추출
+            const minutes = parseInt(timeParts[1], 10); // 분 추출
+            const seconds = parseInt(timeParts[2], 10); // 초 추출
+
+            tpUnderTime = minutes * 60 + seconds;
+
+            console.log('tpUnderTime', tpUnderTime);
+            // 분과 초를 초 단위로 변환
+            return;
+          }
+          function timeFormetChange() {
+            const seconds = document.getElementById('elapsedValue').innerText; // 예시 초 값
+            console.log(
+              'timeFormetChange()',
+              convertSecondsToTimeFormat(seconds)
+            );
+            const savecoolingPointTime = convertSecondsToTimeFormat(seconds);
+            return savecoolingPointTime;
+          }
+          function convertSecondsToTimeFormat(seconds) {
+            // 현재 시간을 기준으로 Date 객체 생성
+            const date = new Date(seconds * 1000);
+
+            // YYYY-MM-DD 형식으로 변환
+            const year = date.getUTCFullYear();
+            const month = String(date.getUTCMonth() + 1).padStart(2, '0'); // 월은 0부터 시작하므로 1을 더해줌
+            const day = String(date.getUTCDate()).padStart(2, '0');
+
+            // HH:MM:SS 형식으로 변환
+            const hours = String(date.getUTCHours()).padStart(2, '0');
+            const minutes = String(date.getUTCMinutes()).padStart(2, '0');
+            const secondsStr = String(date.getUTCSeconds()).padStart(2, '0');
+
+            // 최종적으로 [YYYY-MM-DD HH:MM:SS +0000] 형식으로 반환
+            const formattedTime = `[${year}-${month}-${day} ${hours}:${minutes}:${secondsStr} +0000]`;
+
+            return formattedTime;
+          }
+
+
+
+
+          function recordCrackPoint() {
+            console.log('recordCrackPoint() 크랙포인트 함수 실행')
+
+
+             
+
+            if (crackPointCount >= 3) {
+              console.log('크랙 포인트는 최대 3번까지만 기록 가능합니다.');
+              return;
+            }
+
+            const lastData = receivedData[receivedData.length - 1];
+            if (lastData) {
+              crackPoints.push(lastData.temp1);
+              crackPointTimes.push(new Date());
+
+              var now = new Date().getTime();
+              var elapsed = lastData.time;
+               console.log("크랙포인트 기록중 ")
+              // plotBands 추가
+              const plotBandId = 'crackBand-' + crackPointCount;
+              Highcharts.charts[0].xAxis[0].addPlotBand({
+                from: elapsed, // 크랙 시점
+                to: elapsed, // 실시간 업데이트와 연동되도록 설정 (초기값은 크랙 시점)
+                color: 'rgba(255, 192, 0, 0.3)', // #FFC000
+                id: plotBandId,
+                label: {
+                  text: 'CP ' + (crackPointCount + 1),
+                  style: {
+                    color: '#FFC000',
+                  },
+                },
+              });
+
+              // 추가한 plotBand의 id를 저장
+              crackPlotBandIds.push(plotBandId);
+              crackPointCount++;
+
+              console.log("latestPlotBandId",crackPlotBandIds[crackPlotBandIds.length - 1])
+
+              console.log(
+                `크랙 포인트 기록됨 - Temp1: ${
+                  lastData.temp1
+                }, Time: ${new Date().toISOString()}`
+              );
+
+              // 비율 텍스트 추가 (차트의 중앙에 표시)
+              if (!plotBandPercentageText) {
+                plotBandPercentageText = Highcharts.charts[0].renderer
+                  .text(
+                    'DTR: 0%', // 초기 텍스트
+                    Highcharts.charts[0].plotLeft + 50, // x 위치
+                    Highcharts.charts[0].plotTop + 50 // y 위치
+                  )
+                  .css({
+                    color: '#FFC000',
+                    fontSize: '16px',
+                  })
+                  .add();
+              }
+            } else {
+              console.log('크랙 포인트를 기록할 데이터가 없습니다.');
+            }
+          }
+
+
+          // 크랙 포인트 기록 중지 함수 
+          function stopRecordingCrackPoint() {
+    isRecordingCrackPoint = false; // 기록 중지 함수
+    console.log('크랙 포인트 기록이 중지되었습니다.');
+}
+
+// 크랙 포인트 기록 시작 함수 
+function startRecordingCrackPoint() {
+
+    isRecordingCrackPoint = true; // 기록 시작
+    recordCrackPoint() 
+
+}
+
+
+
+   // 차트 기록 기록 중지 함수 
+   function stopRecordingcharts() {
+    isRecordingcharts = false; // 기록 중지 함수
+    console.log('차트 기록이 중지되었습니다.');
+}
+
+// 차트 기록 기록 시작 함수 
+function startRecordingcharts() {
+  isRecordingcharts = true; // 기록 시작
+  console.log('차트 기록이 시작되었습니다.');
+  }
+
+
+
+
+
+
+
+          function getFormattedUTCDate(date) {
+            // 연, , ���, 시간, 분, 초를 져오기 (UTC 기준)
+            const year = date.getUTCFullYear();
+            const month = String(date.getUTCMonth() + 1).padStart(2, '0'); // 월은 0부터 시작하므로 +1
+            const day = String(date.getUTCDate()).padStart(2, '0');
+            const hours = String(date.getUTCHours()).padStart(2, '0');
+            const minutes = String(date.getUTCMinutes()).padStart(2, '0');
+            const seconds = String(date.getUTCSeconds()).padStart(2, '0');
+
+            // "+0000" UTC 오프셋 추가
+            const utcOffset = '+0000';
+
+            // 원하는 포맷으로 변환
+            return `${year}-${month}-${day} ${hours}:${minutes}:${seconds} ${utcOffset}`;
+          }
+          function saveData() {
+            RecipeWrite();
+            const crackPointTimeString =
+              crackPointTimes.length > 0
+                ? getFormattedUTCDate(crackPointTimes[0]) // crackPointTimes[0]이 존재하면 해당 시간으로 저장
+                : '[0]'; // 배열이 비어 있으면 '0'으로 저장
+            const jsonData = {
+              clientId: '4d042c50-bd70-11ee-aa8b-e30685fde2fa',
+              clientName: 'reon',
+              memberId: 67,
+              roasterSn: 'R2N0BK-0001-20240418',
+              title: roastInfoRecipeName || 'No Title',
+              fan: JSON.stringify(outputData.map((data) => data.fan1)),
+              fan2: JSON.stringify(outputData.map((data) => data.fan2)),
+              heater: JSON.stringify(outputData.map((data) => data.heater)),
+              temp1: JSON.stringify(receivedData.map((data) => data.temp1)),
+              temp2: JSON.stringify(receivedData.map((data) => data.temp2)),
+              temp3: JSON.stringify(receivedData.map((data) => data.temp3)),
+              temp4: '[0]',
+              ror: '[0]',
+              memo: memoTextArea || 'No Memo',
+              crackPoint: JSON.stringify(crackPoints),
+              crackPointTime: '[' + crackPointTimeString + ']', // crackPointTime [0] 는 실제 시간 저장
+              turningPointTemp: '[75.33]',
+              turningPointTime: '[2024-07-01 15:00:18 +0000]',
+              coolingPointTemp: '[217.53]',
+              coolingPointTime: timeFormetChange(),
+              preheatTemp: 200.0,
+              disposeTemp: JSON.stringify([
+                outputData[outputData.length - 1]?.fan1 || 0,
+              ]),
+              disposeTime: '[2024-07-01 15:09:04 +0000]',
+              inputCapacity: roastInfoInputAmount || '-',
+              dtr: calculateDTR(),
+            };
+
+            const blob = new Blob([JSON.stringify(jsonData)], {
+              type: 'application/json;charset=utf-8;',
+            });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.setAttribute('href', url);
+            link.setAttribute(
+              'download',
+              `roasting_data_${new Date().toISOString()}.json`
+            );
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            console.log('데이터가 저장되었습니다.');
+          }
+
+          function calculateDTR() {
+            if (crackPointTimes.length > 0 && currentRoastingState === 3) {
+              const crackTime = new Date(
+                crackPointTimes[crackPointTimes.length - 1]
+              );
+              const currentTime = new Date();
+              const totalRoastingTime = (currentTime - startTime) / 1000; // in seconds
+              const dtrTime = (currentTime - crackTime) / 1000; // in seconds
+              return (dtrTime / totalRoastingTime) * 100;
+            }
+            return 100.0;
+          }
+
+    
+          //#mainPanel 배경 이미지 전환 스크립트
+          const mainPanel = document.getElementById('mainPanel');
+          const recipePanel =
+            document.getElementById('recipePanel');
+          // 이미지 배열 생성
+          const images = [
+            // '../img/mainPanel_img_1.jpg',
+            // '../img/mainPanel_img_2.jpg',
+            // '../img/mainPanel_img_3.jpg',
+            // '../img/mainPanel_img_4.jpg',
+            '../img/mainPanel_img_5.jpg',
+          ];
+
+          let currentIndex1 = 0;
+          let currentIndex2 = 0;
+
+          // 배경 이미지를 교체하는 함수
+          function changeBackgroundImage1() {
+            mainPanel.style.backgroundImage = `url(${images[currentIndex1]})`;
+            currentIndex1 = (currentIndex1 + 1) % images.length; // 이미지 배열 순환
+          }
+          // 5초마다 배경 이미지 변경 (5000ms = 5초)
+          setInterval(changeBackgroundImage1, 3000);
+
+          function changeBackgroundImage2() {
+            recipePanel.style.backgroundImage = `url(${images[currentIndex2]})`;
+            currentIndex2 = (currentIndex2 + 1) % images.length; // 이미지 배열 순환
+          }
+          setInterval(changeBackgroundImage2, 3000);
+          // 페이지 로드 시 첫 이미지로 시작
+          changeBackgroundImage1();
+          changeBackgroundImage2();
+
+
+
+//로그인 스크립트 
+document.getElementById('loginForm').addEventListener('submit', function(event) {
+        event.preventDefault(); // 폼의 기본 동작 방지
+
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+
+        const url = 'https://www.reonaicoffee.com/api/login/email';
+
+        const data = {
+            clientName: 'reon',
+            clientId: '4d042c50-bd70-11ee-aa8b-e30685fde2fa',
+            authClientName: '',
+            email: email,
+            password: password
+        };
+
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+        .then(response => {
+            if (!response.ok) {
+                return response.json().then(errorData => {
+                    throw new Error(errorData.message || 'Error decoding error message');
+                });
+            }
+            return response.json();
+        })
+        .then(data => {
+            // 로그인 성공 처리
+            document.getElementById('responseMessage').textContent = '로그인 성공!';
+            
+            // 서버로부터 받은 데이터 출력
+            console.log('서버로부터 받은 데이터:', data);
+isLogin = true; 
+            // 데이터 추출하여 전역 변수에 저장
+            userData.activated = data.data.activated;
+            userData.address = data.data.address;
+            userData.authorityDtoSet = data.data.authorityDtoSet;
+            userData.companyName = data.data.companyName;
+            userData.email = data.data.email;
+            userData.firstName = data.data.firstName;
+            userData.id = data.data.id;
+            userData.lastName = data.data.lastName;
+            userData.oauthClient = data.data.oauthClient;
+            userData.phone = data.data.phone;
+            userData.picture = data.data.picture;
+            userData.prdCode = data.data.prdCode;
+            userData.roasterSn = data.data.roasterSn;
+            userData.type = data.data.type;
+
+            // 전역 변수에 저장된 데이터 확인
+            console.log('저장된 사용자 데이터:', userData);
+         
+
+            // 필요한 후속 작업 수행 (예: 페이지 이동, 토큰 저장 등)
+            getMyRecords(userData);
+            getPilot();
+            return(userData);
+
+        })
+        .catch(error => {
+            // 에러 처리
+            document.getElementById('responseMessage').textContent = `에러: ${error.message}`;
+        });
+    });
+
+
+
+    async function getMyRecords(userData) {
+const getMyId = userData.id;
+const url =
+'https://www.reonaicoffee.com/api/records';
+
+
+const requestData = {
+  clientId: '4d042c50-bd70-11ee-aa8b-e30685fde2fa',
+  clientName: 'reon',
+  memberId: userData.id,
+
+};
+
+try {
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(requestData),
+  });
+
+  if (!response.ok) {
+    console.error('HTTP error: ', response.status);
+    return;
+  }
+
+  const data = await response.json();
+  console.log(data);
+  if (data && data.status === 200) {
+    const myRecords = data.data;
+                document.getElementById('getMyRecordsResult').innerHTML = '';
+                document.getElementById('refGetMyRecordsResult').innerHTML = '';
+                myRecords.forEach((item, index) => {
+                  const recordButton = document.createElement('button');
+                  recordButton.innerText = `ID: ${item.id}, Title: ${item.title}`;
+                  recordButton.className = 'record-btn';
+                
+                  console.log(       item     );
+                  recordButton.onclick = () => fetchRecordDetails(item.id,item.memberId);
+                  document.getElementById('getMyRecordsResult').appendChild(recordButton);
+                  document.getElementById('refGetMyRecordsResult').appendChild(recordButton);
+                });
+
+  } else {
+    console.error('Server error:', data);
+  }
+} catch (error) {
+  console.error('Fetch error:', error);
+    document.getElementById('getMyRecordsResult').innerText =
+      'Error fetching data.';
+      document.getElementById('refGetMyRecordsResult').innerText =
+      'Error fetching data.';
+}
+}
+
+
+          async function getPilot() {
+
+     
+            const url =
+              'https://www.reonaicoffee.com/api/records/contain/pilot';
+            const requestData = {
+              clientId: '4d042c50-bd70-11ee-aa8b-e30685fde2fa',
+              clientName: 'reon',
+              memberId: userData.id,
+            };
+
+            try {
+              const response = await fetch(url, {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(requestData),
+              });
+
+              if (!response.ok) {
+                console.error('HTTP error: ', response.status);
+                return;
+              }
+
+              const data = await response.json();
+
+              if (data && data.status === 200) {
+                const pilotRecords = data.data.pilotRecords;
+                document.getElementById('getPilotresult').innerHTML = '';
+                document.getElementById('refGetPilotresult').innerHTML = '';
+                pilotRecords.forEach((item, index) => {
+                  const recordButton = document.createElement('button');
+                  recordButton.innerText = `ID: ${item.id}, Title: ${item.title}`;
+                  recordButton.className = 'record-btn';
+                  console.log(       item     );
+                  recordButton.onclick = () => fetchRecordDetails(item.id,item.memberId);
+                  document.getElementById('getPilotresult').appendChild(recordButton);
+                  document.getElementById('refGetPilotresult').appendChild(recordButton);
+                });
+              } else {
+                console.error('Server error:', data);
+              }
+            } catch (error) {
+              console.error('Fetch error:', error);
+              document.getElementById('getPilotresult').innerText =
+                'Error fetching data.';
+                document.getElementById('refGetPilotresult').innerText =
+                'Error fetching data.';
+            }
+          }
+          async function fetchRecordDetails(recordId,recordMemberId) {
+            // 요청하려는 URL을 콘솔에 출력하여 확인
+            const url = `https://www.reonaicoffee.com/api/records/${recordId}`; 
+            console.log('Fetching details for:', url);
+
+            console.log(recordMemberId);
+            console.log('userData.id',userData.id);
+            // 요청에 필요한 데이터
+            const requestData = {
+              clientId: '4d042c50-bd70-11ee-aa8b-e30685fde2fa',
+              clientName: 'reon',
+               memberId:userData.id, //  사용자 ID
+               pilot: true,  // 파일럿 로그: true, 
+            };
+
+            try {
+              const response = await fetch(url, {
+                method: 'POST', // 서버에서 허용하는 메서드로 변경 (예: 'POST')
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(requestData), // POST 요청에 필요한 데이터
+              });
+
+              if (!response.ok) {
+                // 응답 상태 코드가 200이 아닌 경우 에러 출력
+                console.error(
+                  'HTTP error:',
+                  response.status,
+                  response.statusText
+                );
+                const errorText = await response.text(); // 에러 상세 내용 확인
+                console.error('Error details:', errorText);
+                return;
+              }
+
+              const jsonData = await response.json();
+              displayData2(jsonData); // JSON 데이터를 UI에 반영
+              console.log('JSON 데이터를 UI에 반영');
+            } catch (error) {
+              console.error('Error fetching record details:', error);
+            }
+          }
+
+          // JSON 데이터를 UI에 반영하는 함수
+          function displayData2(data) {
+            resetChartsAll();
+            // 응답 내의 data 객체 추출
+            const details = data.data;
+            loadedRoastData = data.data;
+            // 추출한 데이터를 사용하여 UI 요소 업데이트
+
+            console.log( 
+              'displayData2 불러온 json의 coolingPointTime',
+              details.coolingPointTime
+            );
+            extractSecondsFromTime(details.coolingPointTime);
+            extractSecondsFromTimeForTp(details.turningPointTime);
+
+            // 데이터를 추출하고 파싱
+
+            document.getElementById('recordId').innerText = details.id ? details.id
+              : '-';
+              document.getElementById('recordTitle').innerText = details.title
+              ?details.title 
+              : '-';
+              document.getElementById('recordDate').innerText = details.createdDate
+
+              ?details.createdDate
+              : '-';
+              document.getElementById('recordTime').innerText = details.createdTime
+
+              ? details.createdTime
+              : '-';
+
+              document.getElementById('refRecordId').innerText = details.id ? details.id
+              : '-';
+              document.getElementById('refRecordTitle').innerText = details.title
+              ?details.title 
+              : '-';
+              document.getElementById('refRecordDate').innerText = details.createdDate
+
+              ?details.createdDate
+              : '-';
+              document.getElementById('refRecordTime').innerText = details.createdTime
+
+              ? details.createdTime
+              : '-';
+
+
+            // 콘솔에 불러온 내용 출력
+            console.log('Data loaded:', data);
+            console.log('Data.data loaded:', details);
+
+            const tpUnderTemp = parseFloat(
+              JSON.parse(details.turningPointTemp || '[]')
+            );
+            // 콘솔에 불러온 내용을 출력
+            console.log(
+              '데이터가 불러와졌습니다: ' + JSON.stringify(details, null, 2)
+            );
+
+            const cpUnderTemp = parseFloat(
+              JSON.parse(details.coolingPointTemp || '[]')
+            );
+
+            // 차트에 불러온 데이터를 추가
+            if (Highcharts.charts.length > 0) {
+              Highcharts.charts[0].series[5].setData(
+                JSON.parse(details.temp1 || '[]')
+              );
+              Highcharts.charts[0].series[6].setData(
+                JSON.parse(details.temp2 || '[]')
+              );
+              Highcharts.charts[0].series[7].setData(
+                JSON.parse(details.temp3 || '[]')
+              );
+
+              Highcharts.charts[0].series[9].addPoint(
+                [tpUnderTime, tpUnderTemp],
+                true,
+                false
+              );
+
+              Highcharts.charts[0].series[11].addPoint(
+                [CpUnderTime, cpUnderTemp],
+                true,
+                false
+              );
+
+              Highcharts.charts[1].series[3].setData(
+                JSON.parse(details.fan || '[]')
+              );
+              Highcharts.charts[1].series[4].setData(
+                JSON.parse(details.heater || '[]') 
+              );
+              Highcharts.charts[1].series[5].setData(
+                JSON.parse(details.fan2 || '[]')
+              );
+            }
+
+            console.log('cpUnderTemp', cpUnderTemp);
+            console.log('tpUnderTemp', tpUnderTemp);
+
+        
+          }
+
+          // autoRoastingButton 버튼 클릭 시 getPilot 함수 호출
+          document
+            .getElementById('autoRoastingButton')
+            .addEventListener('click', getPilot);
+          // referenceFinderBtn 버튼 클릭 시 getPilot 함수 호출
+          document
+            .getElementById('referenceFinderBtn')
+            .addEventListener('click', getPilot);
+
+
+
+
+                // autoRoastingButton 버튼 클릭 시 getPilot 함수 호출
+          document
+            .getElementById('autoRoastingButton')
+            .addEventListener('click', () => getMyRecords(userData));
+
+                // referenceFinderBtnn 버튼 클릭 시 getPilot 함수 호출
+                document
+            .getElementById('referenceFinderBtn')
+            .addEventListener('click', () => getMyRecords(userData));
+
+
+            document.addEventListener('DOMContentLoaded', () => {
+    console.log('DOM_DOM 실행 ');
+    showPanel('mainPanel');
+  });
+         
+  document.addEventListener('DOMContentLoaded', (event) => {
+    const showElements = document.querySelectorAll('.show');
+    showElements.forEach(element => {
+      console.log('Element with class "show" found:', element);
+    });
+  });
+
+  function showPanel(panelId) {
+    console.log(`showPanel called with panelId: ${panelId}`);
+    const panels = ['mainPanel', 'roastContainer', 'roastInfoPanel', 'recipePanel','referenceRecipePanel','beanPuttingCountPanel'];
+    
+    panels.forEach(id => {
+      const panel = document.getElementById(id);
+      if (panel) {
+       
+        if (id === panelId) {
+          
+          panel.style.display = 'block';
+          panel.classList.add('show');
+        } else {
+      
+          panel.style.display = 'none';
+          panel.classList.remove('show');
+        }
+      } else {
+        console.log(`Panel not found: ${id}`);
+      }
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', (event) => {
+    const mainPanel = document.getElementById('mainPanel');
+    console.log('mainPanel 스타일:', window.getComputedStyle(mainPanel).backgroundColor);
+  });
+
+
+
+  function updateMainConnectBluetoothBtnText() {
+    const mainConnectBluetoothBtn = document.getElementById('mainConnectBluetoothBtn');
+        if (isConnected) {
+            mainConnectBluetoothBtn.innerText = '블루투스 연결 완료 ';}
+            else {    mainConnectBluetoothBtn.innerText = '블루투스 연결 버튼';
+    }
+    console.log('refRecordTitle : ',refRecordTitle);
+  }
+
+
+
+  
+  function updateReferenceFinderBtnText() {
+    const refRecordTitle = document.getElementById('refRecordTitle').innerText;
+    const referenceFinderBtn = document.getElementById('referenceFinderBtn');
+        if (refRecordTitle) {
+      referenceFinderBtn.innerText = refRecordTitle;
+    } else {
+      referenceFinderBtn.innerText = 'Reference Finder';
+    }
+    console.log('refRecordTitle : ',refRecordTitle);
+  }
+
+  function resetReferenceFinderBtnText() {
+    const referenceFinderBtn = document.getElementById('referenceFinderBtn');
+    const refRecordId = document.getElementById('refRecordId').innerText;
+    const refRecordTitle = document.getElementById('refRecordTitle').innerText;
+    const refRecordDate = document.getElementById('refRecordDate').innerText;
+    const refRecordTime = document.getElementById('refRecordTime').innerText;
+    refRecordId.innerText = '-';
+    refRecordTitle.innerText = '-';
+    refRecordDate.innerText = '-';
+    refRecordTime.innerText = '-';  
+    referenceFinderBtn.innerText = 'Reference Finder';    
+    resetChartsAll();
+    console.log('resetReferenceFinderBtnText 실행');  
+  }
+        </script>
+      </div>
+    </main>
+  </body>
+</html>

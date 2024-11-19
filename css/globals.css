@@ -1,0 +1,100 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.konkhmer-sleokchher-regular {
+  font-family: 'Konkhmer Sleokchher', system-ui;
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'SUIT-Regular';
+  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_suit@1.0/SUIT-Regular.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'S-CoreDream-3Light';
+  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-3Light.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.S-CoreDream-3Light {
+  font-family: S-CoreDream-3Light;
+}
+
+.GmarketSansMedium {
+  font-family: GmarketSansMedium;
+  font-weight: 700;
+}
+
+@layer base {
+  :root {
+    font-family: S-CoreDream-3Light;
+    --radius: 0.5rem;
+  }
+
+  body {
+    font-family: S-CoreDream-3Light;
+    @apply font-primary;
+  }
+
+  input {
+    @apply flex h-[48px] rounded-md border border-white/10 focus:border-primary font-light bg-brown px-4 py-5 text-base placeholder:text-fontColor outline-none w-[200px];
+  }
+
+  button {
+    @apply inline-flex h-[48px] items-center justify-center whitespace-nowrap rounded-md text-base font-semibold ring-offset-white transition-colors text-black px-2;
+  }
+
+  .h1 {
+    @apply text-[48px] xl:text-[80px] leading-[1.1] font-semibold;
+  }
+
+  .h2 {
+    @apply text-[36px] xl:text-[48px] leading-[1.1] font-semibold;
+  }
+
+  .h3 {
+    @apply text-[20px] xl:text-[24px] leading-[1.1] font-semibold;
+  }
+
+  .text-outline {
+    -webkit-text-stroke: 1px #ffffff;
+  }
+
+  .text-outline-hover {
+    -webkit-text-stroke: 1px #00ff99;
+  }
+
+  .panelBox {
+    @apply flex flex-col gap-8 rounded-xl items-start justify-start px-24 py-8 text-fontColor;
+  }
+
+  .white-round-box {
+    @apply inline-flex items-center justify-center whitespace-nowrap rounded-xl text-base font-semibold ring-offset-white transition-colors text-black py-2 px-4 bg-white w-[200px] min-h-12;
+  }
+
+  .infoBox {
+    @apply border-[2px] border-white p-4 w-48 relative rounded-md;
+  }
+
+  .infoBox-title {
+    @apply text-left font-thin text-xs;
+  }
+
+  .infoBox-content {
+    @apply text-center text-base text-fontColor;
+  }
+
+  input[type='range'] {
+    @apply accent-brown-accent;
+  }
+
+  .S-CoreDream-3Light {
+    font-family: S-CoreDream-3Light;
+  }
+}
