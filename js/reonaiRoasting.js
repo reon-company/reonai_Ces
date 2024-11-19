@@ -156,7 +156,7 @@ document.addEventListener('DOMContentLoaded', () => {
 //go to main 버튼
 function goToMain() {
   const temp2 = parseFloat(document.getElementById('temp2Value').innerText);
-  if (confirm('메인페이지로 이동하시겠습니까?')) {
+  if (confirm('메인페이지로 이동하시겠습니까?222')) {
     if (temp2 >= 60) {
       //히터 온도가 너무 높으면 배출안됨
       alert('온도가 너무 높습니다.');
