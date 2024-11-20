@@ -547,65 +547,108 @@
       <h2>settingPanel</h2>
     </div>
     <div id="signInPanel" style="display: none;">
-      <div class="block-top"></div>
-      <div class="login-box">
-          <div class="login-row">
-              <div class="login-col">
-                  <div class="login-card" style="width: 100%; border-radius: 15px;">
-                      <div class="login-card-body">
-                          <div class="login-card-content">
-                              <h1 id="login-title">Sign In</h1>
-                              <div class="login-page">
-                                  <form class="register-form transform-form" id="register-form" onsubmit="return false;">
-                                      <label>email</label>
-                                      <div class="clearfix">
-                                          <div class="box1">
-                                              <input id="sign-up-email" type="email" placeholder="example@reonaicoffee.com" required/>
-                                          </div>
-                                          <div class="box2">
-                                              <button type="button" class="btn btn-warning" onclick="sendAuthCode()">발송</button>
-                                          </div>
-                                      </div>
-  
-                                      <label>auth code</label>
-                                      <div class="clearfix">
-                                          <div class="box1">
-                                              <input id="email-auth-code" type="text" placeholder="000000" required/>
-                                          </div>
-                                          <div class="box2">
-                                              <button type="button" class="btn btn-warning" onclick="verifyAuthCode()">인증</button>
-                                          </div>
-                                      </div>
-  
-                                      <label>first name</label>
-                                      <input id="sign-up-first-name" type="text" placeholder="first name" required/>
-  
-                                      <label>last name</label>
-                                      <input id="sign-up-last-name" type="text" placeholder="last name" required/>
-  
-                                      <label>password</label>
-                                      <input id="sign-up-password" type="password" placeholder="password" required/>
-  
-                                      <label>confirm password</label>
-                                      <input id="sign-up-confirm-password" type="password" placeholder="confirm password" required/>
-  
-                                      <label>Serial Number</label>
-                                      <input id="sign-up-roasterSn" type="password" placeholder="Serial Number" required/>
-
-
-                                      <button type="button" class="btn btn-warning" onclick="signUp()">SIGN UP</button>
-  
-                                  
-                                  </form>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-          </div>
+    
+      <div class="login-card w-full rounded-lg shadow-lg p-6">
+        <div class="login-card-content">
+          <h1 class="text-3xl font-bold text-center mb-6" id="login-title">Sign In</h1>
+          <form class="register-form space-y-4" id="register-form" onsubmit="return false;">
+            
+            <!-- Email Input -->
+            <div class="flex items-center gap-2">
+              <input
+                class="flex-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary bg-white"
+                id="sign-up-email"
+                type="email"
+                placeholder="example@reonaicoffee.com"
+                required
+              />
+              <button
+                class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary-dark transition"
+                type="button"
+                onclick="sendAuthCode()"
+              >
+                발송
+              </button>
+            </div>
+            
+            <!-- Authentication Code Input -->
+            <div class="flex items-center gap-2">
+              <input
+                class="flex-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary bg-white"
+                id="email-auth-code"
+                type="text"
+                placeholder="000000"
+                required
+              />
+              <button
+                class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary-dark transition"
+                type="button"
+                onclick="verifyAuthCode()"
+              >
+                인증
+              </button>
+            </div>
+            
+            <!-- First Name Input -->
+            <input
+              class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary bg-white"
+              id="sign-up-first-name"
+              type="text"
+              placeholder="First Name"
+              required
+            />
+            
+            <!-- Last Name Input -->
+            <input
+              class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary bg-white"
+              id="sign-up-last-name"
+              type="text"
+              placeholder="Last Name"
+              required
+            />
+            
+            <!-- Password Input -->
+            <input
+              class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary bg-white"
+              id="sign-up-password"
+              type="password"
+              placeholder="Password"
+              required
+            />
+            
+            <!-- Confirm Password Input -->
+            <input
+              class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary bg-white"
+              id="sign-up-confirm-password"
+              type="password"
+              placeholder="Confirm Password"
+              required
+            />
+            
+            <!-- Serial Number Input -->
+            <input
+              class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary bg-white"
+              id="sign-up-roasterSn"
+              type="text"
+              placeholder="Serial Number"
+              required
+            />
+            
+            <!-- Sign Up Button -->
+            <button
+              class="w-full bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary-dark transition "
+              type="button"
+              onclick="signUp()"
+            >
+              SIGN UP
+            </button>
+          </form>
+        </div>
       </div>
-    </div>
-  </div>
+      
+                      
+                  </div>
+        
 
 
 
