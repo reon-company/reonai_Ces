@@ -255,52 +255,93 @@
       </div>
 
     </div>
-    <div id="recipePanel" style="display: none;">
-      <div class="panelBox container">
-        <section id="recipeContainerSection" style="text-align: center; position: relative; height: auto;"
-          class="grid grid-cols-2 gap-8 container items-start h-full">
-          <section id="myRecordList" class="align-items-center ">
-            <span class=" text-[32px]">My Record</span>
-            <div id="getMyRecordsResult" class="record-list border-2 border-black text-fontColor h-32 overflow-y-auto">
-            </div>
-          </section>
-          <section id="pilotRecordList" class="align-items-center">
-            <span class=" text-[32px]">Pilot Record</span>
-            <div id="getPilotresult" class="record-list border-2 border-black text-fontColor h-32 overflow-y-auto">
-            </div>
-          </section>
-          <div class="flex flex-col justify-between gap-8">
-            <div id="selectedRecord" class="flex w-full gap-2">
-              <!-- <span class="text-primary text-[32px]">Selected Record Details</span> -->
-              <div class="infoBox">
-                <div class="infoBox-title"><strong>ID:</strong></div>
-                <div class="infoBox-content"> <span id="recordId">-</span></div>
-              </div>
-              <div class="infoBox">
-                <div class="text-right"><strong>Title:</strong></div>
-                <div> <span id="recordTitle">-</span></div>
-              </div>
-              <div class="infoBox">
-                <div class="text-right"><strong>Date:</strong></div>
-                <div> <span id="recordDate">-</span></div>
-              </div>
-              <div class="infoBox">
-                <div class="text-right"><strong>Time:</strong></div>
-                <div> <span id="recordTime">-</span></div>
-              </div>
-            </div>
-            <div id="buttonContainer" class=" flex flex-col gap-4">
-              <button class="control-btn white-round-box" id="recipeBtn"
-                onclick="showPanel('easyRoastInfoPanel');">자동로스팅(임시)</button>
-              <button class="control-btn white-round-box" id="recipeBtn"
-                onclick="showPanel('roastInfoPanel');">뒤로가기</button>
 
+    <div id="recipePanel" class="hidden p-6">
+      <div class="panelBox container mx-auto space-y-6">
+        <!-- Section Container -->
+        <section id="recipeContainerSection" class="grid grid-cols-2 gap-8 items-start">
+          <!-- My Record Section -->
+          <section id="myRecordList" class="flex flex-col items-center">
+            <span class="text-2xl font-bold mb-4">My Record</span>
+            <div id="getMyRecordsResult" class="record-list border-2 border-black text-fontColor h-32 overflow-y-auto w-full rounded-lg p-2">
+              <!-- Record Items Here -->
+            </div>
+          </section>
+    
+          <!-- Pilot Record Section -->
+          <section id="pilotRecordList" class="flex flex-col items-center">
+            <span class="text-2xl font-bold mb-4">Pilot Record</span>
+            <div id="getPilotresult" class="record-list border-2 border-black text-fontColor h-32 overflow-y-auto w-full rounded-lg p-2">
+              <!-- Record Items Here -->
+            </div>
+          </section>
+        </section>
+    
+        <!-- Selected Record Section -->
+        <div id="selectedRecord" class="flex flex-col gap-4 p-4 bg-gray-50">
+          <!-- 가로로 정렬 및 간격 추가 -->
+          <div class="flex gap-x-8">
+            <div class="infoBox">
+              <div class="infoBox-title font-semibold"><strong>ID:</strong></div>
+              <div class="infoBox-content"> <span id="recordId">-</span></div>
+            </div>
+            <div class="infoBox">
+              <div class="font-semibold"><strong>Title:</strong></div>
+              <div> <span id="recordTitle">-</span></div>
+            </div>
+            <div class="infoBox">
+              <div class="font-semibold"><strong>Date:</strong></div>
+              <div> <span id="recordDate">-</span></div>
+            </div>
+            <div class="infoBox">
+              <div class="font-semibold"><strong>Time:</strong></div>
+              <div> <span id="recordTime">-</span></div>
             </div>
           </div>
+        </div>
+        
+        
+
+    
+        <!-- Chart Section -->
+        <div id="chartContainer" class="w-full">
+          <div id="chartdivRecipe" class="h-3/5 border p-4 rounded-lg"></div>
+          <div id="outputChartdivRecipe" class="h-2/5 border p-4 rounded-lg mt-4"></div>
+        </div>
+    
+        <!-- Button Section -->
+        <div id="buttonContainer" class="flex flex-col gap-4 items-center">
+          <button
+            class="control-btn white-round-box px-6 py-2 border rounded-lg hover:bg-gray-100 transition"
+            id="recipeBtn"
+            onclick="showPanel('easyRoastInfoPanel');">
+            자동로스팅(임시)
+          </button>
+          <button
+            class="control-btn white-round-box px-6 py-2 border rounded-lg hover:bg-gray-100 transition"
+            id="recipeBtn"
+            onclick="showPanel('roastInfoPanel');">
+            뒤로가기
+          </button>
+        </div>
       </div>
-      </section>
-      <button onclick="showPanel('mainPanel')" class="control-btn" id="goToMainForAuto">메인</button>
+    
+      <!-- Main Button -->
+      <div class="mt-4 text-center">
+        <button
+          class="control-btn px-6 py-2 border rounded-lg hover:bg-gray-100 transition"
+          onclick="showPanel('mainPanel')"
+          id="goToMainForAuto">
+          메인
+        </button>
+      </div>
     </div>
+    
+
+
+
+  
+
     <div id="puttingCountPanel" style="display: none;" class="w-full bg-reonaiBlack1 align-items: center">
       <div class="panelBox bg-gray-900 p-6 rounded-lg w-[1200px]text-center max-w-lg mx-auto space-y-4 items-center justify-center">
       <h5 class=" text-[32px]">생두를 투입해주세요!</h5>

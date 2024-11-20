@@ -360,6 +360,38 @@ function displayData(data) {
     Highcharts.charts[1].series[4].setData(JSON.parse(details.heater || '[]'));
     Highcharts.charts[1].series[5].setData(JSON.parse(details.fan2 || '[]'));
 
+    //recipe chart 에 넣기
+    Highcharts.charts[2].update({
+      xAxis: {
+        max: chartLengthData, // 필요한 경우 여유분을 추가 (+10)
+      },
+    });
+    Highcharts.charts[3].update({
+      xAxis: {
+        max: chartLengthData, // 필요한 경우 여유분을 추가 (+10)
+      },
+    });
+
+    Highcharts.charts[2].series[5].setData(JSON.parse(details.temp1 || '[]'));
+    Highcharts.charts[2].series[6].setData(JSON.parse(details.temp2 || '[]'));
+    Highcharts.charts[2].series[7].setData(JSON.parse(details.temp3 || '[]'));
+
+    Highcharts.charts[2].series[9].addPoint(
+      [tpUnderTime, tpUnderTemp],
+      true,
+      false
+    );
+
+    Highcharts.charts[2].series[11].addPoint(
+      [CpUnderTime, cpUnderTemp],
+      true,
+      false
+    );
+
+    Highcharts.charts[3].series[3].setData(JSON.parse(details.fan || '[]'));
+    Highcharts.charts[3].series[4].setData(JSON.parse(details.heater || '[]'));
+    Highcharts.charts[3].series[5].setData(JSON.parse(details.fan2 || '[]'));
+
     autofan1Values = JSON.parse(details.fan || '[]'); // 불러온 fan 데이터
     autoheaterValues = JSON.parse(details.heater || '[]'); // 불러온 heater 데이터
     autofan2Values = JSON.parse(details.fan2 || '[]'); // 불러온 fan2 데이터
@@ -423,6 +455,27 @@ function resetChartsAll() {
   Highcharts.charts[1].series[3].setData([0]);
   Highcharts.charts[1].series[4].setData([0]);
   Highcharts.charts[1].series[5].setData([0]);
+
+  //recipe chart
+  Highcharts.charts[2].xAxis[0].removePlotBand(latestPlotBandId);
+  Highcharts.charts[2].series[0].setData([0]);
+  Highcharts.charts[2].series[1].setData([0]);
+  Highcharts.charts[2].series[2].setData([0]);
+  Highcharts.charts[2].series[3].setData([0]);
+  Highcharts.charts[2].series[4].setData([0]);
+  Highcharts.charts[2].series[5].setData([0]);
+  Highcharts.charts[2].series[6].setData([0]);
+  Highcharts.charts[2].series[7].setData([0]);
+  Highcharts.charts[2].series[8].setData([0]);
+  Highcharts.charts[2].series[9].setData([0]);
+  Highcharts.charts[2].series[10].setData([0]);
+  Highcharts.charts[2].series[11].setData([0]);
+  Highcharts.charts[3].series[0].setData([0]);
+  Highcharts.charts[3].series[1].setData([0]);
+  Highcharts.charts[3].series[2].setData([0]);
+  Highcharts.charts[3].series[3].setData([0]);
+  Highcharts.charts[3].series[4].setData([0]);
+  Highcharts.charts[3].series[5].setData([0]);
 
   console.log('데이터가 초기화되었습니다.');
 }
