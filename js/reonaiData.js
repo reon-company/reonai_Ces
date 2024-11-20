@@ -405,6 +405,13 @@ function displayData(data) {
     autofan2Values = JSON.parse(details.fan2 || '[]'); // 불러온 fan2 데이터
     autotemp1Values = JSON.parse(details.temp1 || '[]'); // 불러온 temp 데이터
     autotemp2Values = JSON.parse(details.temp2 || '[]'); // 불러온 temp 데이터
+
+    document.getElementById('roastInfoPowerFan1Select').value =
+      JSON.parse(details.fan || '[]')[0] || null;
+    document.getElementById('roastInfoPowerFan2Select').value =
+      JSON.parse(details.fan2 || '[]')[0] || null;
+    document.getElementById('roastInfoPowerHeaterSelect').value =
+      JSON.parse(details.heater || '[]')[0] || null;
   }
 
   console.log('cpUnderTemp', cpUnderTemp);
