@@ -95,6 +95,7 @@ document
 
         document.getElementById('logoutBtn').style.display = 'block'; //로그아웃 버튼 보이기
 
+        document.getElementById('signIn').style.display = 'none';
         document.getElementById('loginBtn').style.display = 'none';
         document.getElementById('email').style.display = 'none';
         document.getElementById('password').style.display = 'none'; //로그인창 안보이게
@@ -655,4 +656,134 @@ function logout() {
   location.reload();
 
   console.log('로그아웃 및 데이터 초기화 완료');
+}
+
+//회원 가입 signIN
+
+function signUp() {
+  const requestData = {
+    clientName: 'reon',
+    clientId: '4d042c50-bd70-11ee-aa8b-e30685fde2fa',
+    email: $('#sign-up-email').val(),
+    firstName: $('#sign-up-first-name').val(),
+    lastName: $('#sign-up-last-name').val(),
+    password: $('#sign-up-password').val(),
+    roasterSn: $('#sign-up-roasterSn').val(),
+  };
+
+  if (requestData.email.length == 0) {
+    alert('email is required.');
+    return;
+  }
+
+  if (requestData.firstName.length == 0) {
+    alert('firstName is required.');
+    return;
+  }
+  if (requestData.lastName.length == 0) {
+    alert('lastName is required.');
+    return;
+  }
+
+  const password = requestData.password;
+  if (password.length == 0) {
+    alert('password is required.');
+    return;
+  }
+
+  const confirmPassword = $('#sign-up-confirm-password').val();
+  if (confirmPassword.length == 0) {
+    alert('confirm password is required.');
+    return;
+  }
+
+  if (password !== confirmPassword) {
+    alert('password and confirm-password are different.');
+    return;
+  }
+
+  $.ajax({
+    type: 'POST',
+    url: 'https://www.reonaicoffee.com/api/login/email/sign-up',
+    dataType: 'json',
+    data: JSON.stringify(requestData),
+    contentType: 'application/json; charset=utf-8',
+  })
+    .done(function (response) {
+      alert('Your registration has been completed. Please login again.');
+      showPanel('mainPanel');
+    })
+    .fail(function (error) {
+      let responseJson = error.responseJSON;
+      alert(
+        'Failed to sign up. Please contact the administrator.\n(' +
+          responseJson.message +
+          ')'
+      );
+    });
+}
+
+function sendAuthCode() {
+  const requestData = {
+    clientId: '4d042c50-bd70-11ee-aa8b-e30685fde2fa',
+    clientName: 'reon',
+    purpose: '회원가입',
+    email: $('#sign-up-email').val(),
+  };
+
+  alert('The authentication code has been sent.');
+
+  $.ajax({
+    type: 'POST',
+    url: 'https://www.reonaicoffee.com/api/login/email/auth-code',
+    dataType: 'json',
+    data: JSON.stringify(requestData),
+    contentType: 'application/json; charset=utf-8',
+  })
+    .done(function (response) {
+      if (response.success) {
+        return;
+      }
+      alert('The authentication code sending failed. Please try again.');
+    })
+    .fail(function (error) {
+      let responseJson = error.responseJSON;
+      alert(
+        'Failed to send authentication code. Please contact the administrator.\n(' +
+          responseJson.message +
+          ')'
+      );
+    });
+}
+
+function verifyAuthCode() {
+  const requestData = {
+    clientName: 'reon',
+    clientId: '4d042c50-bd70-11ee-aa8b-e30685fde2fa',
+    email: $('#sign-up-email').val(),
+    authCode: $('#email-auth-code').val(),
+  };
+
+  $.ajax({
+    type: 'POST',
+    url: 'https://www.reonaicoffee.com/api/login/email/auth-code/verify',
+    dataType: 'json',
+    data: JSON.stringify(requestData),
+    contentType: 'application/json; charset=utf-8',
+  })
+    .done(function (response) {
+      if (response.success) {
+        alert('Your email has been verified.');
+        return;
+      }
+      alert('Your email verification has failed. Please try again.');
+    })
+    .fail(function (error) {
+      let responseJson = error.responseJSON;
+      alert(
+        'Failed to verify authentication code. Please contact the administrator.\n(' +
+          responseJson.message +
+          ')'
+      );
+    });
 }

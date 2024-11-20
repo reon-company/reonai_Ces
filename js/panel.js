@@ -9,6 +9,7 @@ function showPanel(panelId) {
     'easyRoastInfoPanel',
     'easyRoastPanel',
     'settingPanel',
+    'signInPanel',
   ];
 
   panels.forEach((id) => {

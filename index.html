@@ -31,6 +31,7 @@
           <button id="loginUserName" class="bg-reonaiWhite text-reonaiRed" style="display: none;"
             style="display: none;"></button>
           <button id="loginBtn" class="bg-primary text-white" type="submit">로그인</button>
+          <button id="signIn" class="bg-primary text-white" type="submit" onclick="showPanel('signInPanel')" >회원가입</button>
 
           <button id="logoutBtn" class="bg-primary text-white" style="display: none;">로그아웃</button>
           <p id="responseMessage" class="text-white"></p>
@@ -49,6 +50,7 @@
     <button class="bg-transparent text-fontColor" onclick="showPanel('easyRoastInfoPanel')">easyRoastInfoPanel</button>
     <button class="bg-transparent text-fontColor" onclick="showPanel('easyRoastPanel')">easyRoastPanel</button>
     <button class="bg-transparent text-fontColor" onclick="showPanel('settingPanel')">settingPanel</button>
+    <button class="bg-transparent text-fontColor" onclick="showPanel('signInPanel')">signInPanel</button>
   </header>
   <div class="fixed bottom-4 right-4">
     <button class="bg-white px-2"
@@ -543,6 +545,65 @@
     </div>
     <div id="settingPanel" style="display: none;">
       <h2>settingPanel</h2>
+    </div>
+    <div id="signInPanel" style="display: none;">
+      <div class="block-top"></div>
+      <div class="login-box">
+          <div class="login-row">
+              <div class="login-col">
+                  <div class="login-card" style="width: 100%; border-radius: 15px;">
+                      <div class="login-card-body">
+                          <div class="login-card-content">
+                              <h1 id="login-title">Sign In</h1>
+                              <div class="login-page">
+                                  <form class="register-form transform-form" id="register-form" onsubmit="return false;">
+                                      <label>email</label>
+                                      <div class="clearfix">
+                                          <div class="box1">
+                                              <input id="sign-up-email" type="email" placeholder="example@reonaicoffee.com" required/>
+                                          </div>
+                                          <div class="box2">
+                                              <button type="button" class="btn btn-warning" onclick="sendAuthCode()">발송</button>
+                                          </div>
+                                      </div>
+  
+                                      <label>auth code</label>
+                                      <div class="clearfix">
+                                          <div class="box1">
+                                              <input id="email-auth-code" type="text" placeholder="000000" required/>
+                                          </div>
+                                          <div class="box2">
+                                              <button type="button" class="btn btn-warning" onclick="verifyAuthCode()">인증</button>
+                                          </div>
+                                      </div>
+  
+                                      <label>first name</label>
+                                      <input id="sign-up-first-name" type="text" placeholder="first name" required/>
+  
+                                      <label>last name</label>
+                                      <input id="sign-up-last-name" type="text" placeholder="last name" required/>
+  
+                                      <label>password</label>
+                                      <input id="sign-up-password" type="password" placeholder="password" required/>
+  
+                                      <label>confirm password</label>
+                                      <input id="sign-up-confirm-password" type="password" placeholder="confirm password" required/>
+  
+                                      <label>Serial Number</label>
+                                      <input id="sign-up-roasterSn" type="password" placeholder="Serial Number" required/>
+
+
+                                      <button type="button" class="btn btn-warning" onclick="signUp()">SIGN UP</button>
+  
+                                  
+                                  </form>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
     </div>
   </div>
 
