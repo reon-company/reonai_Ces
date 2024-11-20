@@ -1295,6 +1295,18 @@ function checkBluetoothConnectionForeasyRoasting() {
   }
 }
 
+function checkBluetoothConnectionForRecipePanel() {
+  if (!isLogin) {
+    alert('로그인을 해주세요.');
+    return;
+  }
+  {
+    headerDisplayNone(); // 헤더 숨기기
+
+    showPanel('recipePanel');
+  }
+}
+
 //오토로스팅을 위한 레시피 플래그 및 버튼 색상 변경
 
 // 버튼 클릭 시 동작

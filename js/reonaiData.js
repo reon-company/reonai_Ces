@@ -167,7 +167,11 @@ async function getMyRecords(userData) {
     const data = await response.json();
     console.log(data);
     if (data && data.status === 200) {
-      const myRecords = data.data;
+      let myRecords = data.data;
+
+      // 최신순 정렬 (assumes `item.date` contains date string)
+      myRecords = myRecords.sort((a, b) => b.id - a.id);
+
       document.getElementById('getMyRecordsResult').innerHTML = '';
       //   document.getElementById('refGetMyRecordsResult').innerHTML = '';
       myRecords.forEach((item, index) => {
@@ -220,7 +224,11 @@ async function getPilot() {
     const data = await response.json();
 
     if (data && data.status === 200) {
-      const pilotRecords = data.data.pilotRecords;
+      let pilotRecords = data.data.pilotRecords;
+
+      // 최신순 정렬 (assumes `item.date` contains date string)
+      pilotRecords = pilotRecords.sort((a, b) => b.id - a.id);
+
       document.getElementById('getPilotresult').innerHTML = '';
       //   document.getElementById('refGetPilotresult').innerHTML = '';
       pilotRecords.forEach((item, index) => {
