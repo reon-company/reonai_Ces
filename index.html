@@ -45,7 +45,7 @@
 
 
 
-  <!-- <header class="absolute bottom-0">
+  <header class="absolute bottom-0">
     <button class="bg-transparent text-fontColor" onclick="showPanel('mainPanel')">mainPanel</button>
     <button class="bg-transparent text-fontColor" onclick="showPanel('roastInfoPanel')">roastInfoPanel</button>
     <button class="bg-transparent text-fontColor" onclick="showPanel('recipePanel')">recipePanel</button>
@@ -55,7 +55,7 @@
     <button class="bg-transparent text-fontColor" onclick="showPanel('easyRoastPanel')">easyRoastPanel</button>
     <button class="bg-transparent text-fontColor" onclick="showPanel('settingPanel')">settingPanel</button>
     <button class="bg-transparent text-fontColor" onclick="showPanel('signInPanel')">signInPanel</button>
-  </header> -->
+  </header>
 
 
 
@@ -242,12 +242,14 @@
           <button id="referenceFinderBtn" onclick="showPanel('recipePanel')" class="white-round-box rounded-sm">
             Reference Finder
           </button>
+        
           <!-- <h1 class="text-[32px] ">MEMO</h1>
           <textarea id="memoTextArea" placeholder="메모를 입력해주세요" class="bg-gray w-full h-[184px]"></textarea> -->
           <div class="flex gap-8">
-            <button id="roastInfoStartBtn" class="white-round-box rounded-sm"
+            <button id="roastInfoStartBtn" class="white-round-box rounded-sm text-reonaiRed"
               onclick="if (document.getElementById('preheatPercentDisplay').innerText !== '100%') { alert('예열이 완료되지 않았습니다'); } else { showPanel('puttingCountPanel'); roastInfoStart(); }">로스팅
               시작</button>
+            
             <!-- <button class="white-round-box rounded-sm" id="roastInfoStartBtn"
               onclick="showPanel('puttingCountPanel'); roastInfoStart();">로스팅로로 시작</button> -->
           </div>
@@ -397,29 +399,62 @@
               <div class="text-lg font-semibold text-fontColor px-3 py-1 rounded-lg shadow-md">시간 </div>
               <div>
                 <p class="text-lg font-bold text-reonaiRed bg-reonaiWhite  px-1 py-1 rounded-lg shadow-md w-13 "><span
-                    id="elapsedValue" class="value-display">-</span>
+                    id="elapsedValue" class="value-display">-</span>  </p>
               </div>
 
             </div>
 
 
-            <div id="timediv" class="flex-col-2 items-center" style="display: none;">
-              RoR1: <span id="RoR1Value" class="value-display">-</span> °C/min
-              RoR2: <span id="RoR2Value" class="value-display">-</span> °C/min
-
+            <div id="ror1div" class="flex-col-2 items-center" >
+              <div class="text-lg font-semibold text-fontColor px-3 py-1 rounded-lg shadow-md">RoR_D </div>
+              <div><p class="text-lg font-bold text-reonaiRed bg-reonaiWhite  px-1 py-1 rounded-lg shadow-md w-13 ">
+                <span id="RoR1Value" class="value-display"></span> °C/min
+                </p>
+              </div>
             </div>
+
+
+
+            <div id="ror2div" class="flex-col-2 items-center" >
+              <div class="text-lg font-semibold text-fontColor px-3 py-1 rounded-lg shadow-md">RoR_H </div>
+              <div><p class="text-lg font-bold text-reonaiRed bg-reonaiWhite  px-1 py-1 rounded-lg shadow-md w-13 ">
+                <span id="RoR2Value" class="value-display"></span> °C/min
+                </p>
+              </div>
+            </div>
+
+
+
+ 
+            <div id="TPCPdiv" class="flex-col-4 items-center" >
+              
+              <div>
+                <p class="text-lg font-bold text-reonaiRed bg-reonaiWhite  px-1 py-1 rounded-lg shadow-md w-13 ">
+                TP:<span id="TPtime" class="value-display"></span>
+                <span id="TPtemp" class="value-display"></span>°C
+                </p>
+              </div>
+              <div>
+                <p class="text-lg font-bold text-reonaiRed bg-reonaiWhite  px-1 py-1 rounded-lg shadow-md w-13 ">
+                CP:<span id="CPtime" class="value-display"></span>
+                <span id="CPtemp" class="value-display"></span>°C
+                </p>
+              </div>
+            </div>
+
+
+
+
+              
+
+
             <div id="timediv" class="flex-col-3 items-center" style="display: none;">
 
               Recipe : <span id="Recipe Name" class="value-display">-</span>
               Bean : <span id="Bean Name" class="value-display">-</span>
               Input: <span id="Input Amount" class="value-display">-</span>
             </div>
-            <div id="timediv" class="flex-col-4 items-center" style="display: none;">
-              TP time <span id="TPtime" class="value-display">-</span>
-              TP temp <span id="TPtemp" class="value-display">-</span>
-              CP time <span id="CPtime" class="value-display">-</span>
-              CP temp <span id="CPtemp" class="value-display">-</span>
-            </div>
+        
           </div>
 
           <div class="grid grid-cols-3 gap-4">

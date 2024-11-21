@@ -156,21 +156,28 @@ document.addEventListener('DOMContentLoaded', () => {
 //go to main 버튼
 function goToMain() {
   const temp2 = parseFloat(document.getElementById('temp2Value').innerText);
-  if (confirm('메인페이지로 이동하시겠습니까?')) {
-    if (temp2 >= 60) {
+  if (confirm('저장되지 않은 내용은 복구 할 수 없습니다.')) {
+    if (temp2 >= 220) {
       //히터 온도가 너무 높으면 배출안됨
       alert('온도가 너무 높습니다.');
       return;
     } else {
-      console.log('go to main!!');
-      showPanel('mainPanel');
-      forceCoolingMode();
-      headerDisplayBlock();
-      stopCoolingMode();
-      autoRoastingFlagOff();
-      autoRoastingStartFlagOff();
-      resetChartsAll();
-      stopRecordingcharts();
+      if (
+        confirm(
+          '메인페이지로 이동하시겠습니까?, 온도가 높을 경우 강제 쿨링모드를 진행합니다.'
+        )
+      ) {
+        console.log('go to main!!');
+        showPanel('mainPanel');
+        // roastingReset();
+        forceCoolingMode();
+        headerDisplayBlock();
+        stopCoolingMode();
+        autoRoastingFlagOff();
+        autoRoastingStartFlagOff();
+        resetChartsAll();
+        stopRecordingcharts();
+      }
     }
   }
 }
@@ -687,6 +694,9 @@ function coolingMode() {
 
   isCoolDownRunning = true;
 
+  autoRoastingFlagOff();
+  autoRoastingStartFlagOff();
+
   // 지속적으로 temp1과 temp2 값을 모니터링하여 50 이하가 되면 handleOutputZero 호출
   monitorTemperature = setInterval(() => {
     const temp1 = parseFloat(document.getElementById('temp1Value').innerText);
@@ -806,8 +816,8 @@ function forceCoolingMode() {
 //쿨링포인트 기록 함수
 function coolingpointflag() {
   if (!coolingPointFlag) {
-    console.log('coolingpointflag()', coolingPointFlag);
     coolingPointFlag = true;
+    console.log('coolingpointflag()', coolingPointFlag);
   }
 }
 
@@ -834,7 +844,7 @@ function disposalMode() {
     if (confirm('채프를 청소 하셨습니까?')) {
       if (confirm('배출을 하시겠습니까?')) {
         const monitorDiopsal = setInterval(() => {
-          if (disposalCount > 8) {
+          if (disposalCount > 20) {
             clearInterval(monitorDiopsal);
             let resetDataString = `0,0,0,0,0,0,0\n`;
             // 슬라이더 값을 0으로 설정

@@ -256,11 +256,10 @@ function updateReceivedChart(temp1, temp2, temp3) {
     temp1History2s.reduce((a, b) => a + b, 0) / temp1History2s.length;
   // temp1 값을 기록
 
-  // temp1History2s.push(temp1);
-  // temp1History5s.push(temp1);
-  // temp1History60s.push(temp1);
-  // temp2History60s.push(temp2);
-
+  temp1History2s.push(temp1);
+  temp1History5s.push(temp1);
+  temp1History60s.push(temp1);
+  temp2History60s.push(temp2);
   // console.log('temp1Avg5s', temp1Avg5s);
   // console.log('temp1', temp1);
 
@@ -273,23 +272,6 @@ function updateReceivedChart(temp1, temp2, temp3) {
     temp1History2s.shift();
   }
 
-  //   // RoR 계산
-  // let firstTemp1 = temp1History60s[temp1History60s.length - 60]; // 첫 번째 데이터
-  //   let lastTemp1 = temp1History60s[temp1History60s.length - 1]; // 마지막 데이터
-  //   let firstTemp2 = temp2History60s[temp1History60s.length - 60]; // 첫 번째 데이터
-  //   let lastTemp2 = temp2History60s[temp1History60s.length - 1]; // 마지막 데이터
-
-  // let firstTemp1 = temp1History60s[temp1History60s.length - 60]; // 첫 번째 데이터
-  // let lastTemp1 = temp1History60s[temp1History60s.length - 1]; // 마지막 데이터
-  // let firstTemp2 = temp2History60s[temp1History60s.length - 60]; // 첫 번째 데이터
-  // let lastTemp2 = temp2History60s[temp1History60s.length - 1]; // 마지막 데이터
-
-  // RoR1 = ((lastTemp1 - firstTemp1) / 60) * 60; // temp1의 RoR(60s) 계산
-  // RoR2 = ((lastTemp2 - firstTemp2) / 60) * 60; // temp2의 RoR(60s) 계산
-
-  // document.getElementById('RoR1Value').innerText = RoR1.toFixed(2); // RoR1 표시
-  // document.getElementById('RoR2Value').innerText = RoR2.toFixed(2); // RoR2 표시
-
   console.log('percentageOfDtr  ', percentageOfDtr);
 
   // 온도가 하락하다가 상승하는 지점에서 터닝 포인트 감지
@@ -301,7 +283,8 @@ function updateReceivedChart(temp1, temp2, temp3) {
       turningPointTimes = elapsedValue; // 터닝 포인트 시간 배열에 추가
       turningPointTemps = temp1; // 터닝 포인트 온도 배열 추가
 
-      document.getElementById('TPtime').innerText = turningPointTimes; //터닝 포인트 시간
+      document.getElementById('TPtime').innerText =
+        formatSecondsToMinutes(turningPointTimes); //터닝 포인트 시간
       document.getElementById('TPtemp').innerText = turningPointTemps; //터닝 포인트 온도
 
       console.log(
@@ -317,8 +300,28 @@ function updateReceivedChart(temp1, temp2, temp3) {
     }
   }
 
-  RoR1 = (temp1 - previousTemp1) * 60;
-  RoR2 = (temp2 - previousTemp2) * 60;
+  //   // RoR 계산
+  let firstTemp1 = temp1History60s[temp1History60s.length - 60]; // 첫 번째 데이터
+  //   let lastTemp1 = temp1History60s[temp1History60s.length - 1]; // 마지막 데이터
+  let firstTemp2 = temp2History60s[temp2History60s.length - 60]; // 첫 번째 데이터
+  //   let lastTemp2 = temp2History60s[temp1History60s.length - 1]; // 마지막 데이터
+
+  // let firstTemp1 = temp1History60s[temp1History60s.length - 60]; // 첫 번째 데이터
+  // let lastTemp1 = temp1History60s[temp1History60s.length - 1]; // 마지막 데이터
+  // let firstTemp2 = temp2History60s[temp1History60s.length - 60]; // 첫 번째 데이터
+  // let lastTemp2 = temp2History60s[temp1History60s.length - 1]; // 마지막 데이터
+
+  if (temp1History60s.length > 60) {
+    console.log('temp1History60s.length : ', temp1History60s.length);
+    RoR1 = ((temp1 - firstTemp1) / 60) * 60; // temp1의 RoR(60s) 계산
+    RoR2 = ((temp2 - firstTemp2) / 60) * 60; // temp2의 RoR(60s) 계산
+  } else {
+    RoR1 = 0;
+    RoR2 = 0;
+  }
+
+  // RoR1 = (temp1 - previousTemp1)
+  // RoR2 = (temp2 - previousTemp2)
 
   // 이전 값을 저장
   previousTemp1 = temp1;
@@ -337,7 +340,10 @@ function updateReceivedChart(temp1, temp2, temp3) {
   //   Highcharts.charts[0].series[4].addPoint([previousTime, RoR2], true, false); // RoR2 추가
   // }
 
-  //HTML 요소에 수신된 값 업데이트
+  //HTML 요소에 ROR 값 업데이트
+  document.getElementById('RoR1Value').innerText = RoR1.toFixed(2); // RoR1 표시
+  document.getElementById('RoR2Value').innerText = RoR2.toFixed(2); // RoR2 표시
+
   document.getElementById('elapsedValue').innerText = formatSecondsToMinutes(
     previousTime.toFixed(0)
   ); // 경과 시간 표시
@@ -357,13 +363,16 @@ function updateReceivedChart(temp1, temp2, temp3) {
 
         stopRecordingCrackPoint(); //크랙 기록 중지
 
-        document.getElementById('CPtime').innerText = coolingPointTimes; //쿨링 포인트 시간
+        document.getElementById('CPtime').innerText =
+          formatSecondsToMinutes(coolingPointTimes); //쿨링 포인트 시간
+
         document.getElementById('CPtemp').innerText = coolingPointTemps; //쿨링 포인트 온도
 
         console.log(
           `cooling point detected at time: ${elapsedValue}, Temp: ${temp1}`
         );
         // 차트에 새로운 쿨링 포인트를 점으로 추가
+        console.log('쿨링포인트 문제가 여기인가?');
         Highcharts.charts[0].series[10].addPoint(
           [currentSecond, temp1],
           true,
@@ -636,4 +645,54 @@ function formatSecondsToMinutes(seconds) {
   const minutes = Math.floor(seconds / 60); // 분 계산
   const remainingSeconds = seconds % 60; // 남은 초 계산
   return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`; // 두 자리로 포맷팅
+}
+
+function roastingReset() {
+  console.log('로스팅 리셋');
+
+  // RoR 계산에 필요한 변수
+  previousTemp1 = null;
+  previousTemp2 = null;
+  previousTime = null;
+  RoR1Values = [];
+  RoR2Values = [];
+
+  //동작 플래그
+
+  isTempDropping = true; // 온도가 하락 중인지를 추적하는 플래그
+  isFirstCp = null; // 쿨링 포인트가 처음인지 확인하는 플래그
+  isFirstTp = null; // 터닝 포인트가 처음인지 확인하는 플래그
+  isFirstDisposal = null; // 배출이 처음인지 확인하는 플래그
+
+  //터닝포인트와 쿨링포인트를 기록하기 위한 변수들
+  temp1History2s = []; // 2초 동안의 temp1 값을 저장할 배열
+  temp1History5s = []; // 5초 동안의 temp1 값을 저장할 배열
+  temp1History60s = []; // 60초 동안의 temp1 값을 저장할 배열
+  temp2History60s = []; // 60초 동안의 temp2 값을 저장할 배열
+  crackPointCount = 0; // 크랙 포인트 기록 횟수
+  crackPlotBandIds = []; // 크랙 plotBands의 id 목록
+
+  coolingPointTimes = null; // 터닝 포인트 시간을 저장하는 배열
+  coolingPointTemps = 0; // 터닝 포인트 온도를 저장하는 배열
+  turningPointTimes = null;
+  turningPointTemps = 0;
+  disposalPointTimes = null; // 배출 포인트  시간을 저장하는 배열
+  disposalPointTemps = []; // 배출 포인트 온도를 저장하는 배열
+  percentageOfDtr = 0.0; //DTR 퍼센트
+
+  firstCrackPointTime = 0;
+  firstCrackPointTemp = [];
+  secondCrackPointTime = 0;
+  secondCrackPointTemp = [];
+  thirdCrackPointTime = 0;
+  thirdCrackPointTemp = [];
+
+  document.getElementById('TPtime').innerText =
+    formatSecondsToMinutes(turningPointTimes); //터닝 포인트 시간
+  document.getElementById('TPtemp').innerText = turningPointTemps; //터닝 포인트 온도
+
+  document.getElementById('CPtime').innerText =
+    formatSecondsToMinutes(coolingPointTimes); //쿨링 포인트 시간
+
+  document.getElementById('CPtemp').innerText = coolingPointTemps; //쿨링 포인트 온도
 }
