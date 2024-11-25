@@ -3,13 +3,26 @@
 
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=1024, height=768, initial-scale=1.0">
-
+  <!-- <meta name="viewport" content="width=1024, height=768, initial-scale=1.0"> -->
+  <meta name="viewport" content="width=device-width,initial-scale=1">
   <link href="./css/output.css" rel="stylesheet">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Konkhmer+Sleokchher&display=swap" rel="stylesheet">
 </head>
+
+
+<style>
+  /* Tailwind 기반으로 화살표 제거 */
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none; /* Chrome, Safari, Edge */
+    margin: 0; /* 기본 여백 제거 */
+  }
+    input[type="number"] {
+    -moz-appearance: textfield; /* Firefox */
+  }
+  </style>
 
 <body class="bg-cover min-h-screen w-screen isolate bg-background relative flex flex-col h-full">
   <header id=topHeader
@@ -45,7 +58,7 @@
 
 
 
-  <!-- <header class="absolute bottom-0">
+  <header class="absolute bottom-0">
     <button class="bg-transparent text-fontColor" onclick="showPanel('mainPanel')">mainPanel</button>
     <button class="bg-transparent text-fontColor" onclick="showPanel('roastInfoPanel')">roastInfoPanel</button>
     <button class="bg-transparent text-fontColor" onclick="showPanel('recipePanel')">recipePanel</button>
@@ -55,7 +68,7 @@
     <button class="bg-transparent text-fontColor" onclick="showPanel('easyRoastPanel')">easyRoastPanel</button>
     <button class="bg-transparent text-fontColor" onclick="showPanel('settingPanel')">settingPanel</button>
     <button class="bg-transparent text-fontColor" onclick="showPanel('signInPanel')">signInPanel</button>
-  </header> -->
+  </header>
 
 
 
@@ -360,132 +373,135 @@
       <div id="beanPuttingCounter"class="text-[200px] text-reonaiRed">0</div>
     </div>
     </div>
-    <div id="roastPanel" style="display: none; height:800px;" class="w-full bg-reonaiBlack1">
-      <div style="height : 100%" class="flex gap-4 w-full bg-reonaiBlack1 h-fit">
-        <div id="chartContainer" class="w-[80%]">
-          <div id="chartdiv" style="height:60%"></div>
-          <div id="outputChartdiv" style="height:40%"></div>
-        </div>
 
 
 
-        <div class="panelBox w-[300px] p-4">
-          <div id="receiveIndicator" class="section grid grid-cols-3 gap-4">
-            <!-- <span id="temp1span" class="text-lg font-semibold text-blue-600 bg-blue-100 px-3 py-1 rounded-lg border border-blue-300 shadow-md">드럼: <span id="temp1Value" class="value-display">-</span> °C</span><br/> -->
 
-            <div id="temp1div" class="flex-col items-center">
-              <div class="text-lg font-semibold text-fontColor  px-3 py-1 rounded-lg shadow-md">드럼 </div>
-              <div>
-                <p class="text-lg font-bold text-fontColor px-3 py-1 rounded-lg shadow-md"><span
-                    id="temp1Value">-</span>°C
-                </p>
-              </div>
 
+
+    <div id="roastPanel" style="display: none; margin: 0 auto; width: 100%" >
+      <div id="roastPanelDiv" style= "height : 932px; width: 100%; " >
+        <div id="receiveIndicator" style="margin: 5px" class="section grid grid-cols-3 gap-4">
+          <!-- <span id="temp1span" class="text-lg font-semibold text-blue-600 bg-blue-100 px-3 py-1 rounded-lg border border-blue-300 shadow-md">드럼: <span id="temp1Value" class="value-display">-</span> °C</span><br/> -->
+          <div id="temp1div" class="flex-col items-center">
+            <!-- <div class="text-lg font-semibold text-fontColor  px-3 py-1 rounded-lg shadow-md">드럼 </div> -->
+            <div>
+              <p class="text-sm font-bold text-fontColor px-3 py-1 rounded-lg shadow-md">
+                D: <span
+                  id="temp1Value"></span>°C
+              </p>
             </div>
-
-
-            <div id="temp2div" class="flex-col items-center">
-              <div class="text-lg font-semibold text-fontColor  px-3 py-1 rounded-lg shadow-md">히터 </div>
-              <div>
-                <p class="text-lg font-bold text-whitepx-3 py-1 rounded-lg shadow-md"><span id="temp2Value">-</span>°C
-                </p>
-              </div>
-
-
+          </div>
+          <div id="temp2div" class="flex-col items-center">
+            <!-- <div class="text-lg font-semibold text-fontColor  px-3 py-1 rounded-lg shadow-md">히터 </div> -->
+            <div>
+           <p class="text-sm font-bold text-whitepx-3 py-1 rounded-lg shadow-md">H: <span id="temp2Value"></span>°C
+              </p>
             </div>
-
-
-
-            <div id="timediv" class="flex-col items-center">
-              <div class="text-lg font-semibold text-fontColor px-3 py-1 rounded-lg shadow-md">시간 </div>
-              <div>
-                <p class="text-lg font-bold text-reonaiRed bg-reonaiWhite  px-1 py-1 rounded-lg shadow-md w-13 "><span
-                    id="elapsedValue" class="value-display">-</span>  </p>
-              </div>
-
-            </div>
-
-
-            <div id="ror1div" class="flex-col-2 items-center" >
-              <div class="text-lg font-semibold text-fontColor px-3 py-1 rounded-lg shadow-md">RoR_D </div>
-              <div><p class="text-lg font-bold text-reonaiRed bg-reonaiWhite  px-1 py-1 rounded-lg shadow-md w-13 ">
-                <span id="RoR1Value" class="value-display"></span> °C/min
-                </p>
-              </div>
-            </div>
-
-
-
-            <div id="ror2div" class="flex-col-2 items-center" >
-              <div class="text-lg font-semibold text-fontColor px-3 py-1 rounded-lg shadow-md">RoR_H </div>
-              <div><p class="text-lg font-bold text-reonaiRed bg-reonaiWhite  px-1 py-1 rounded-lg shadow-md w-13 ">
-                <span id="RoR2Value" class="value-display"></span> °C/min
-                </p>
-              </div>
-            </div>
-
-
-
- 
-            <div id="TPCPdiv" class="flex-col-4 items-center" >
-              
-              <div>
-                <p class="text-lg font-bold text-reonaiRed bg-reonaiWhite  px-1 py-1 rounded-lg shadow-md w-13 ">
-                TP:<span id="TPtime" class="value-display"></span>
-                <span id="TPtemp" class="value-display"></span>°C
-                </p>
-              </div>
-              <div>
-                <p class="text-lg font-bold text-reonaiRed bg-reonaiWhite  px-1 py-1 rounded-lg shadow-md w-13 ">
-                CP:<span id="CPtime" class="value-display"></span>
-                <span id="CPtemp" class="value-display"></span>°C
-                </p>
-              </div>
-            </div>
-
-
-
-
-              
-
-
-            <div id="timediv" class="flex-col-3 items-center" style="display: none;">
-
-              Recipe : <span id="Recipe Name" class="value-display">-</span>
-              Bean : <span id="Bean Name" class="value-display">-</span>
-              Input: <span id="Input Amount" class="value-display">-</span>
-            </div>
-        
           </div>
 
-          <div class="grid grid-cols-3 gap-4">
+
+
+          <div id="timediv" class="flex-col items-center">
+            <!-- <div class="text-lg font-semibold text-fontColor px-3 py-1 rounded-lg shadow-md">시간 </div> -->
+            <div>
+              <p class="text-sm font-bold text-reonaiRed bg-reonaiWhite  px-1 py-1 rounded-lg shadow-md w-13 "><span
+                  id="elapsedValue" class="value-display"></span>S  </p>
+            </div>
+
+          </div>
+
+
+          <div id="ror1div" class="flex-col-2 items-center" >
+            <!-- <div class="text-lg font-semibold text-fontColor px-3 py-1 rounded-lg shadow-md">RoR_D </div> -->
+            <div><p class="text-sm font-bold text-reonaiRed bg-reonaiWhite  px-1 py-1 rounded-lg shadow-md w-13 ">
+              ROR_D: <span id="RoR1Value" class="value-display"></span>
+              </p>
+            </div>
+          </div>
+
+
+
+          <div id="ror2div" class="flex-col-2 items-center" >
+            <!-- <div class="text-lg font-semibold text-fontColor px-3 py-1 rounded-lg shadow-md">RoR_H </div> -->
+            <div><p class="text-sm font-bold text-reonaiRed bg-reonaiWhite  px-1 py-1 rounded-lg shadow-md w-13 ">
+              RoR_H: <span id="RoR2Value" class="value-display"></span>
+              </p>
+            </div>
+          </div>
+
+
+
+
+          <div id="TPCPdiv" class="flex-col-4 items-center" >
+            
+            <!-- <div>
+              <p class="text-lg font-bold text-reonaiRed bg-reonaiWhite  px-1 py-1 rounded-lg shadow-md w-13 ">
+              TP:<span id="TPtime" class="value-display"></span>
+              <span id="TPtemp" class="value-display"></span>°C
+              </p>
+            </div> -->
+            <div>
+              <p class="text-sm font-bold text-reonaiRed bg-reonaiWhite  px-1 py-1 rounded-lg shadow-md w-13 ">
+              CP:<span id="CPtime" class="value-display"></span>
+              <span id="CPtemp" class="value-display"></span>°C
+              </p>
+            </div>
+          </div>
+
+
+
+
+            
+
+
+          <div id="timediv" class="flex-col-3 items-center" style="display: none;">
+
+            Recipe : <span id="Recipe Name" class="value-display">-</span>
+            Bean : <span id="Bean Name" class="value-display">-</span>
+            Input: <span id="Input Amount" class="value-display">-</span>
+          </div>
+      
+        </div>
+        <div id="chartContainer" style="height: 50vh; margin: 5px " >
+          <!-- <div id="chartdiv" style="height:100%"></div> -->
+          <div id="chartdiv" style="height:70%"></div>
+          <div id="outputChartdiv" style="height:30%"></div>
+        </div>
+        <div id = receiveIndicatorBox >
+      
+
+          <div class="grid grid-cols-3 gap-2">
             <!-- <button onclick="stopHeatingMode()">예열 중지</button><p></p>
     <button onclick="heatingMode()">예열</button><p></p> -->
 
+    <button class="inline-flex items-center h-btn-sm px-4 py-2 bg-reonaiRed text-white rounded hover:bg-reonaiBlue transition-colors" onclick="startRecordingCrackPoint()">
+    
+      크랙
+  </button>
 
-
-            <button class="S-CoreDream-3Light bg-reonaiRed text-reonaiWhite text-sm" id="crackBtn"
-              onclick="startRecordingCrackPoint()">크랙</button>
-            <button class="S-CoreDream-3Light bg-reonaiRed text-reonaiWhite text-sm" id="CoolDowndBtn"
-              onclick="coolingMode()">쿨다운</button>
-            <button class="S-CoreDream-3Light bg-reonaiRed text-reonaiWhite text-sm" id="disposeBtn"
-              onclick="disposalMode()">배출</button>
-
-
-            <button class="S-CoreDream-3Light bg-reonaiRed text-reonaiWhite text-sm" id="startRecordingcharts"
-              onclick="startRecordingcharts() ">startRecord</button>
-            <button class="S-CoreDream-3Light bg-reonaiRed text-reonaiWhite text-sm" id="stopRecordingcharts"
-              onclick="stopRecordingcharts()">stopRecording</button>
-            
-            <button class="S-CoreDream-3Light bg-reonaiRed text-reonaiWhite text-sm" id="windowfull"
+      
+            <!-- <button class="inline-flex items-center h-btn-sm px-4 py-2 bg-reonaiRed text-white rounded hover:bg-reonaiBlue transition-colors"  id="CoolDowndBtn"
+              onclick="coolingMode()">쿨다운</button> -->
+          
+              <button class="inline-flex items-center  h-btn-sm px-4 py-2 bg-reonaiRed text-white rounded hover:bg-reonaiBlue transition-colors"  id="windowfull"
               onclick="headerDisplayNone()">전체화면</button>
+              <!-- <button2 class="S-CoreDream-3Light bg-reonaiRed text-reonaiWhite " id="disposeBtn"
+              onclick="disposalMode()">배출</button2> -->
+          <button  class="inline-flex items-center  h-btn-sm px-4 py-2 bg-reonaiRed text-white rounded hover:bg-reonaiBlue transition-colors"  id="startRecordingcharts"
+              onclick="startRecordingcharts() ">startRecord</button>
+            <!--   <button2 class="S-CoreDream-3Light bg-reonaiRed text-reonaiWhite " id="stopRecordingcharts"
+              onclick="stopRecordingcharts()">stopRecording</button2>
+            
+            <button2 class="S-CoreDream-3Light bg-reonaiRed text-reonaiWhite " id="windowfull"
+              onclick="headerDisplayNone()">전체화면</button2>
 
-              <button class="S-CoreDream-3Light bg-reonaiRed text-reonaiWhite text-sm" id="doorTestMode"
-              onclick="doorTestMode()">doorTestMode</button>
-            <button class="S-CoreDream-3Light bg-reonaiRed text-reonaiWhite text-sm" id="autoRoastingFlagOn"
-              onclick="autoRoastingFlagOn(),autoRoastingStartFlagOn()">AUTO_on</button>
-            <button class="S-CoreDream-3Light bg-reonaiRed text-reonaiWhite text-sm" id="autoRoastingFlagOff"
-              onclick="autoRoastingFlagOff(),autoRoastingStartFlagOff()">AUTO_off</button>
+              <button2 class="S-CoreDream-3Light bg-reonaiRed text-reonaiWhite " id="doorTestMode"
+              onclick="doorTestMode()">doorTestMode</button2>
+            <button2 class="S-CoreDream-3Light bg-reonaiRed text-reonaiWhite " id="autoRoastingFlagOn"
+              onclick="autoRoastingFlagOn(),autoRoastingStartFlagOn()">AUTO_on</button2>
+            <button2 class="S-CoreDream-3Light bg-reonaiRed text-reonaiWhite " id="autoRoastingFlagOff"
+              onclick="autoRoastingFlagOff(),autoRoastingStartFlagOff()">AUTO_off</button2> -->
             <!-- <button class="S-CoreDream-3Light bg-reonaiRed text-reonaiWhite text-sm" id="autoRoastingFlagOff"
               onclick="chartLengthUpdate()">차트</button> -->
 <!-- 
@@ -503,42 +519,137 @@
 
 
           <!-- 출력제어 하는 부분 -->
-          <div id="sliderSection " class="section w-full GmarketSansMedium">
-            <div id="fan1SliderContainer" class="sliderContainer">
-              <div class="flex justify-between items-center w-full gap-4">
-                <div class="text-primary text-[18px] GmarketSansMedium">FAN1: <span id="fan1Value"
-                    class="value-display">0</span></div>
-                <div class="gap-2">
-                  <button id="fan1PlusBtn" class="bg-white px-3 py-[0px] text-[24px] text-[18px]">
+          <div id="sliderSection " style="margin: 5px" class="section GmarketSansMedium ">
+
+
+<div id="fan1SliderContainer" class="sliderContainer space-y-1">
+  <!-- FAN1 Label and Buttons -->
+  <div class="flex justify-between items-center w-full">
+    <div class="text-primary text-[18px] font-medium">FAN 1 
+      <span id="fan1Value" class="value-display"  style="display: none; " >0</span>
+    </div>
+
+    <div class="flex gap-2">
+      <input 
+      type="number" 
+      id="fan1Number" 
+      min="30" 
+      max="100" 
+      value="0" 
+      step="0.5" 
+      class="w-full h-btn-sm px-2 py-1 text-center border rounded appearance-none"
+    />
+    <button id="fan1NumberBtn" class="bg-white h-btn-sm px-3 py-1 text-[18px] border rounded">
+      GO
+    </button>
+    <p></p>
+      <button id="fan1PlusBtn" class="bg-white h-btn-sm px-3 py-1 text-[18px] border rounded">
+        +
+      </button>
+      <button id="fan1MinBtn" class="bg-white h-btn-sm px-3 py-1 text-[18px] border rounded">
+        -
+      </button>
+    </div>
+  </div>
+
+  <!-- Input Field and Slider -->
+  <div class="flex flex-col md:flex-row items-center gap-2">
+    <input 
+      type="range" 
+      id="fan1Slider" 
+      min="30" 
+      max="100" 
+      value="0" 
+      step="0.5" 
+      class="w-full h-2 bg-gray-300 rounded-lg cursor-pointer"
+    />
+  
+  </div>
+</div>
+
+      
+
+            <div id="HeaterSliderContainer" class="sliderContainer space-y-1">
+              <div class="flex justify-between items-center w-full">
+                <div class="text-primary text-[18px] font-medium">HEATER
+                  <span id="heaterValue" class="value-display" style="display: none;">0</span>
+                </div>
+          
+
+
+                <div class="flex gap-2">
+
+                  <input type="number" id="heaterNumber" min="0" max="100" value="0" step="0.5"    class="w-full h-btn-sm px-2 py-1 text-center border rounded appearance-none"/>
+                  <button id="heaterNumberBtn" class="bg-white h-btn-sm px-3 py-1 text-[18px] border rounded">
+                    GO
+                  </button>
+                  <p></p>
+                  <button id="heaterPlusBtn" class="bg-white h-btn-sm px-3 py-1 text-[18px] border rounded">
                     +
                   </button>
-                  <button id="fan1MinBtn" class="bg-white px-3 py-[0px] text-[24px]">
+                  <button id="heaterMinBtn" class="bg-white h-btn-sm px-3 py-1 text-[18px] border rounded">
                     -
                   </button>
                 </div>
               </div>
-              <input type="range" id="fan1Slider" min="0" max="100" value="0" step="0.5" class="text-white bg-white" />
+
+
+              <div class="flex flex-col md:flex-row items-center gap-2">
+              <input type="range" id="heaterSlider" min="0" max="100" value="0" step="0.5" class="w-full h-2 bg-gray-300 rounded-lg cursor-pointer"/>
+          
             </div>
 
-            <div id="HeaterSliderContainer" class="sliderContainer">
-              <div class="flex justify-between items-center w-full gap-4">
-                <div class="text-primary text-[18px] GmarketSansMedium">HEATER: <span id="heaterValue"
-                    class="value-display">0</span>
-                </div>
-                <div class="gap-2">
 
-                  <button id="heaterPlusBtn" class="bg-white px-3 py-[0px] text-[24px] text-[18px]">
+
+            <div id="fan2SliderContainer" class="sliderContainer space-y-1">
+              <!-- FAN2 Label and Buttons -->
+              <div class="flex justify-between items-center w-full">
+                <div class="text-primary text-[18px] font-medium">FAN 2 
+                  <span id="fan2Value" class="value-display" style="display: none;">0</span>
+                </div>
+          
+            
+                <div class="flex gap-2">
+                  <input 
+                  type="number" 
+                  id="fan2Number" 
+                  min="2.5"
+                  max="12.5" 
+                  value="2.5" 
+                  step="0.5" 
+                  class="w-full h-btn-sm px-2 py-1 text-center border rounded"
+                />
+                <button id="fan2NumberBtn" class="bg-white h-btn-sm px-3 py-1 text-[18px] border rounded">
+                  GO
+                </button>
+                <p></p>
+                  <button id="fan2PlusBtn" class="bg-white h-btn-sm px-3 py-1 text-[18px] border rounded">
                     +
                   </button>
-                  <button id="heaterMinBtn" class="bg-white px-3 py-[0px] text-[24px]">
+                  <button id="fan2MinBtn" class="bg-white h-btn-sm px-3 py-1 text-[18px] border rounded">
                     -
                   </button>
                 </div>
               </div>
-              <input type="range" id="heaterSlider" min="0" max="100" value="0" step="0.5" />
+            
+              <!-- Input Field and Slider -->
+              <div class="flex flex-col md:flex-row items-center gap-2">
+                <input 
+                  type="range" 
+                  id="fan2Slider" 
+                  min="2.5" 
+                  max="12.5" 
+                  value="0" 
+                  step="0.5" 
+                  class="w-full h-2 bg-gray-300 rounded-lg cursor-pointer"
+                />
+              
+              </div>
             </div>
 
-            <div id="fan2SliderContainer" class="sliderContainer">
+
+
+            <!-- <div id="fan2SliderContainer" class="sliderContainer">
               <div class="flex justify-between items-center w-full gap-4">
                 <div class="text-primary text-[18px] GmarketSansMedium">FAN2: <span id="fan2Value"
                     class="value-display">0</span>
@@ -552,8 +663,12 @@
                   </button>
                 </div>
               </div>
-              <input type="range" id="fan2Slider" min="1" max="100" value="0" step="0.5" />
-            </div>
+
+            
+              <input type="number" id="fan2Number" min="2.5" max="12.5" value="0" step="0.5" />
+            
+              <input type="range" id="fan2Slider" min="2.5" max="12.5" value="0" step="0.5" />
+            </div> -->
 
 
 
@@ -748,14 +863,16 @@
   <script src="js/reonaiData.js"></script>
   <script src="js/panel.js"></script>
   <script src="js/charts.js"></script>
+
+
   <script> //window 이벤트 모음
 
-    window.addEventListener('beforeunload', function (event) {
-      // 브라우저에 따라 다르게 동작할 수 있음
-      event.preventDefault();
-      // 확인 메시지를 사용자에게 보여줌
-      event.returnValue = '페이지를 나가시면, 모든 로스팅이 지됩니다.';
-    });</script>
+    // window.addEventListener('beforeunload', function (event) {
+    //   // 브라우저에 따라 다르게 동작할 수 있음
+    //   event.preventDefault();
+    //   // 확인 메시지를 사용자에게 보여줌
+    //   event.returnValue = '페이지를 나가시면, 모든 로스팅이 지됩니다.';
+    // });</script>
 </body>
 
 </html>

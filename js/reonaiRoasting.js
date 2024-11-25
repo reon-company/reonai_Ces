@@ -89,8 +89,9 @@ let ethiopiaDarkRoast = false; //에티오피아 시다모 벤사 부리소 아�
 const currentSecondUpdatedEvent = new Event('currentSecondUpdated');
 //
 
-function adjustSlider(sliderId, valueId, step) {
+function adjustSlider(sliderId, valueId, step, numberId) {
   const slider = document.getElementById(sliderId);
+  const number = document.getElementById(numberId);
   let newValue = parseFloat(slider.value) + step;
   // Ensure new value is within the slider's range
   if (
@@ -98,58 +99,119 @@ function adjustSlider(sliderId, valueId, step) {
     newValue <= parseFloat(slider.max)
   ) {
     slider.value = newValue;
+    number.value = newValue;
     document.getElementById(valueId).innerText = newValue.toFixed(1);
-    updateSliderValue(sliderId, valueId);
+    updateSliderValue(sliderId, valueId, numberId);
   }
 }
 
-function updateSliderValue(sliderId, valueId, type) {
+function updateSliderValue(sliderId, valueId, NumberId) {
   let sliderValue = parseFloat(document.getElementById(sliderId).value);
+  const number = document.getElementById(NumberId);
+  number.value = sliderValue;
   document.getElementById(valueId).innerText = sliderValue.toFixed(1);
+  //   checkAndSendData(); // 이 함수는 원래 코드에서 데이터 전송을 처리
+}
+function updateNumberValue(NumberId, valueId, sliderId) {
+  let numberValue = parseFloat(document.getElementById(NumberId).value);
+  const slider = document.getElementById(sliderId);
+  slider.value = numberValue;
+  document.getElementById(valueId).innerText = numberValue.toFixed(1);
+
   //   checkAndSendData(); // 이 함수는 원래 코드에서 데이터 전송을 처리
 }
 
 // 슬라이더가 동작되는 것을 감지하여 값변화!
 document.addEventListener('DOMContentLoaded', () => {
   const fan1Slider = document.getElementById('fan1Slider');
+  const fan1Number = document.getElementById('fan1Number');
   const fan1PlusBtn = document.getElementById('fan1PlusBtn');
   const fan1MinBtn = document.getElementById('fan1MinBtn');
+  const fan1NumberBtn = document.getElementById('fan1NumberBtn');
 
   const heaterSlider = document.getElementById('heaterSlider');
+  const heaterNumber = document.getElementById('heaterNumber');
   const heaterPlusBtn = document.getElementById('heaterPlusBtn');
   const heaterMinBtn = document.getElementById('heaterMinBtn');
+  const heaterNumberBtn = document.getElementById('heaterNumberBtn');
 
   const fan2Slider = document.getElementById('fan2Slider');
+  const fan2Number = document.getElementById('fan2Number');
   const fan2PlusBtn = document.getElementById('fan2PlusBtn');
   const fan2MinBtn = document.getElementById('fan2MinBtn');
+  const fan2NumberBtn = document.getElementById('fan2NumberBtn');
 
   fan1Slider.addEventListener('input', () => {
-    updateSliderValue('fan1Slider', 'fan1Value', 'fan1');
+    updateSliderValue('fan1Slider', 'fan1Value', 'fan1Number');
   });
+
+  fan1NumberBtn.addEventListener('click', () => {
+    const fan1NumberInput = document.getElementById('fan1Number');
+    const fan1Number = parseFloat(fan1NumberInput.value);
+
+    if (fan1Number > 30) {
+      if (fan1Number <= 100) {
+        updateNumberValue('fan1Number', 'fan1Value', 'fan1Slider');
+      } else {
+        fan1NumberInput.value = '100';
+      }
+    } else {
+      fan1NumberInput.value = '30';
+    }
+  });
+
   fan1PlusBtn.addEventListener('click', () => {
-    adjustSlider('fan1Slider', 'fan1Value', 0.5);
+    adjustSlider('fan1Slider', 'fan1Value', 0.5, 'fan1Number');
   });
   fan1MinBtn.addEventListener('click', () => {
-    adjustSlider('fan1Slider', 'fan1Value', -0.5);
+    adjustSlider('fan1Slider', 'fan1Value', -0.5, 'fan1Number');
   });
+
   heaterSlider.addEventListener('input', () => {
-    updateSliderValue('heaterSlider', 'heaterValue', 'heater');
+    updateSliderValue('heaterSlider', 'heaterValue', 'heaterNumber');
   });
+
+  heaterNumberBtn.addEventListener('click', () => {
+    const heaterNumberInput = document.getElementById('heaterNumber');
+    const heaterNumber = parseFloat(heaterNumberInput.value);
+
+    if (heaterNumber <= 100) {
+      updateNumberValue('heaterNumber', 'heaterValue', 'heaterSlider');
+    } else {
+      heaterNumberInput.value = '100';
+    }
+  });
+
   heaterPlusBtn.addEventListener('click', () => {
-    adjustSlider('heaterSlider', 'heaterValue', 0.5);
+    adjustSlider('heaterSlider', 'heaterValue', 0.5, 'heaterNumber');
   });
   heaterMinBtn.addEventListener('click', () => {
-    adjustSlider('heaterSlider', 'heaterValue', -0.5);
+    adjustSlider('heaterSlider', 'heaterValue', -0.5, 'heaterNumber');
   });
 
   fan2Slider.addEventListener('input', () => {
-    updateSliderValue('fan2Slider', 'fan2Value', 'fan2');
+    updateSliderValue('fan2Slider', 'fan2Value', 'fan2Number');
   });
+
+  fan2NumberBtn.addEventListener('click', () => {
+    const fan2NumberInput = document.getElementById('fan2Number');
+    const fan2Number = parseFloat(fan2NumberInput.value);
+    if (fan2Number >= 2.5) {
+      if (fan2Number <= 12.5) {
+        updateNumberValue('fan2Number', 'fan2Value', 'fan2Slider');
+      } else {
+        fan2NumberInput.value = '12.5';
+      }
+    } else {
+      fan2NumberInput.value = '2.5';
+    }
+  });
+
   fan2PlusBtn.addEventListener('click', () => {
-    adjustSlider('fan2Slider', 'fan2Value', 0.5);
+    adjustSlider('fan2Slider', 'fan2Value', 0.5, 'fan2Number');
   });
   fan2MinBtn.addEventListener('click', () => {
-    adjustSlider('fan2Slider', 'fan2Value', -0.5);
+    adjustSlider('fan2Slider', 'fan2Value', -0.5, 'fan2Number');
   });
 });
 

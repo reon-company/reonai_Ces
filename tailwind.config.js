@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ['./**/*.{html,js}'],
+  content: ['./**/*.{html,js}', './node_modules/flowbite/**/*.js'],
   theme: {
     fontFamily: {
       primary: 'var(--font-jetbrainsMono)',
@@ -19,6 +19,12 @@ module.exports = {
       },
     },
     extend: {
+      height: {
+        'btn-sm': '32px',
+        'btn-md': '48px',
+        'btn-lg': '64px',
+      },
+
       colors: {
         primary: '#941F25',
         reonaiRed: '#941f24',
@@ -135,5 +141,5 @@ module.exports = {
       },
     },
   },
-  plugins: [],
+  plugins: [require('flowbite/plugin')],
 };

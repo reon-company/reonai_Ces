@@ -442,6 +442,15 @@ function updateOutputChart(fan1, heater, fan2) {
   Highcharts.charts[1].series[0].addPoint([currentSecond, fan1], true, false);
   Highcharts.charts[1].series[1].addPoint([currentSecond, heater], true, false);
   Highcharts.charts[1].series[2].addPoint([currentSecond, fan2], true, false);
+
+  //차트테스트
+  // Highcharts.charts[0].series[12].addPoint([currentSecond, fan1], true, false);
+  // Highcharts.charts[0].series[13].addPoint(
+  //   [currentSecond, heater],
+  //   true,
+  //   false
+  // );
+  // Highcharts.charts[0].series[14].addPoint([currentSecond, fan2], true, false);
 }
 
 function chartLengthUpdate() {

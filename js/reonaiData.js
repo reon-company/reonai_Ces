@@ -464,6 +464,7 @@ function resetChartsAll() {
   Highcharts.charts[0].series[9].setData([0]);
   Highcharts.charts[0].series[10].setData([0]);
   Highcharts.charts[0].series[11].setData([0]);
+
   Highcharts.charts[1].series[0].setData([0]);
   Highcharts.charts[1].series[1].setData([0]);
   Highcharts.charts[1].series[2].setData([0]);
