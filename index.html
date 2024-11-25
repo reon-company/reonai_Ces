@@ -380,7 +380,9 @@
 
 
     <div id="roastPanel" style="display: none; margin: 0 auto; width: 100%" >
-      <div id="roastPanelDiv" style= "height : 932px; width: 100%; " >
+      <div id="roastPanelDiv" style= "height : 932px; width: 100%; ">
+        <!--수신값 div-->
+        <div id="mobileReceiveIndicator">  
         <div id="receiveIndicator" style="margin: 5px" class="section grid grid-cols-3 gap-4">
           <!-- <span id="temp1span" class="text-lg font-semibold text-blue-600 bg-blue-100 px-3 py-1 rounded-lg border border-blue-300 shadow-md">드럼: <span id="temp1Value" class="value-display">-</span> °C</span><br/> -->
           <div id="temp1div" class="flex-col items-center">
@@ -462,15 +464,18 @@
             Input: <span id="Input Amount" class="value-display">-</span>
           </div>
       
-        </div>
+        </div></div>
+      
         <div id="chartContainer" style="height: 50vh; margin: 5px " >
           <!-- <div id="chartdiv" style="height:100%"></div> -->
           <div id="chartdiv" style="height:70%"></div>
           <div id="outputChartdiv" style="height:30%"></div>
         </div>
-        <div id = receiveIndicatorBox >
-      
 
+        
+
+        <div id = receiveIndicatorBox >    
+          <div id="laptopReceiveIndicator"></div>
           <div class="grid grid-cols-3 gap-2">
             <!-- <button onclick="stopHeatingMode()">예열 중지</button><p></p>
     <button onclick="heatingMode()">예열</button><p></p> -->

@@ -673,6 +673,8 @@ function adjustChartSize() {
   const recipePanel = document.getElementById('recipePanel');
   const puttingCountPanel = document.getElementById('puttingCountPanel');
   const roastPanel = document.getElementById('roastPanel');
+  const roastPanelDiv = document.getElementById('roastPanelDiv');
+
   const easyRoastInfoPanel = document.getElementById('easyRoastInfoPanel');
   const easyRoastPanel = document.getElementById('easyRoastPanel');
   const settingPanel = document.getElementById('settingPanel');
@@ -684,22 +686,49 @@ function adjustChartSize() {
     console.log(width, 'px');
     console.log('모바일 환경입니다.');
 
-    console.log('roastPanel.style :', roastPanel.itemStyle);
+    //roastPanel 페이지
+    //receiveIndicator 의 위치 수정
+    const mobileReceiveIndicator = document.getElementById(
+      'mobileReceiveIndicator'
+    );
+    const receiveIndicator = document.getElementById('receiveIndicator');
+    // div를 부모의 마지막으로 이동
+    mobileReceiveIndicator.appendChild(receiveIndicator);
+    //roastPanelDiv에 class 추가
+    roastPanelDiv.classList.remove(
+      'flex',
+      'gap-4',
+      'w-full',
+      'bg-reonaiBlack1',
+      'h-fit'
+    );
 
     // 모든 기존 클래스 제거 후 새로 설정
   } else if (width > 600 && width <= 1024) {
     // 중간 크기 화면 (태블릿)
     console.log(width, 'px');
     console.log('태블릿 환경입니다.');
-
-    console.log('roastPanel.className :', roastPanel.className);
   } else {
     // 큰 화면 (데스크탑, 아이패드 가로 모드 등)
 
     console.log(width, 'px');
     console.log('데스크톱 환경입니다.');
 
-    console.log('roastPanel.className :', roastPanel.className);
+    //receiveIndicator 의 위치 수정
+    const laptopReceiveIndicator = document.getElementById(
+      'laptopReceiveIndicator'
+    );
+    const receiveIndicator = document.getElementById('receiveIndicator');
+    // div를 부모의 마지막으로 이동
+    laptopReceiveIndicator.appendChild(receiveIndicator);
+    //roastPanelDiv에 class 추가
+    roastPanelDiv.classList.add(
+      'flex',
+      'gap-4',
+      'w-full',
+      'bg-reonaiBlack1',
+      'h-fit'
+    );
   }
 
   //Highcharts 반응형
