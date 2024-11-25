@@ -16,6 +16,7 @@ const notifyCharacteristicUUID = '6e400003-b5a3-f393-e0a9-e50e24dcca9e'; // 알�
 let temp1History2s = []; // 2초 동안의 temp1 값을 저장할 배열
 const timeWindow2s = 2; // 2초
 let temp1History5s = []; // 5초 동안의 temp1 값을 저장할 배열
+let temp2History5s = []; // 5초 동안의 temp2 값을 저장할 배열
 const timeWindow5s = 5; // 5초
 let temp1History60s = []; // 60초 동안의 temp1 값을 저장할 배열
 let temp2History60s = []; // 60초 동안의 temp2 값을 저장할 배열
@@ -258,6 +259,7 @@ function updateReceivedChart(temp1, temp2, temp3) {
 
   temp1History2s.push(temp1);
   temp1History5s.push(temp1);
+  temp2History5s.push(temp2);
   temp1History60s.push(temp1);
   temp2History60s.push(temp2);
   // console.log('temp1Avg5s', temp1Avg5s);
@@ -301,20 +303,20 @@ function updateReceivedChart(temp1, temp2, temp3) {
   }
 
   //   // RoR 계산
-  let firstTemp1 = temp1History60s[temp1History60s.length - 60]; // 첫 번째 데이터
-  //   let lastTemp1 = temp1History60s[temp1History60s.length - 1]; // 마지막 데이터
-  let firstTemp2 = temp2History60s[temp2History60s.length - 60]; // 첫 번째 데이터
-  //   let lastTemp2 = temp2History60s[temp1History60s.length - 1]; // 마지막 데이터
+  let firstTemp1for60s = temp1History60s[temp1History60s.length - 60]; // 첫 번째 데이터
 
-  // let firstTemp1 = temp1History60s[temp1History60s.length - 60]; // 첫 번째 데이터
-  // let lastTemp1 = temp1History60s[temp1History60s.length - 1]; // 마지막 데이터
-  // let firstTemp2 = temp2History60s[temp1History60s.length - 60]; // 첫 번째 데이터
-  // let lastTemp2 = temp2History60s[temp1History60s.length - 1]; // 마지막 데이터
+  let firstTemp2for60s = temp2History60s[temp2History60s.length - 60]; // 첫 번째 데이터
 
-  if (temp1History60s.length > 60) {
-    console.log('temp1History60s.length : ', temp1History60s.length);
-    RoR1 = ((temp1 - firstTemp1) / 60) * 60; // temp1의 RoR(60s) 계산
-    RoR2 = ((temp2 - firstTemp2) / 60) * 60; // temp2의 RoR(60s) 계산
+  let firstTemp1for5s = temp1History5s[temp1History5s.length - 5]; // 첫 번째 데이터
+  let lastTemp1for5s = temp1History5s[temp1History5s.length - 1]; // 마지막 데이터
+  let firstTemp2for5s = temp2History5s[temp2History5s.length - 5]; // 첫 번째 데이터
+  let lastTemp2for5s = temp2History5s[temp2History5s.length - 1]; // 마지막 데이터
+
+  if (temp1History5s.length >= 5) {
+    console.log('temp1History5s.length : ', temp1History5s.length);
+
+    RoR1 = ((lastTemp1for5s - firstTemp1for5s) / 5) * 5; // temp1의 RoR(60s) 계산
+    RoR2 = ((lastTemp2for5s - firstTemp2for5s) / 5) * 5; // temp2의 RoR(60s) 계산
   } else {
     RoR1 = 0;
     RoR2 = 0;
