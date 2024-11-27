@@ -674,6 +674,15 @@ function adjustChartSize() {
   const puttingCountPanel = document.getElementById('puttingCountPanel');
   const roastPanel = document.getElementById('roastPanel');
   const roastPanelDiv = document.getElementById('roastPanelDiv');
+  const chartContainer = document.getElementById('chartContainer');
+  const mobileReceiveIndicator = document.getElementById(
+    'mobileReceiveIndicator'
+  );
+  const laptopReceiveIndicator = document.getElementById(
+    'laptopReceiveIndicator'
+  );
+  const receiveIndicator = document.getElementById('receiveIndicator');
+  const receiveIndicatorBox = document.getElementById('receiveIndicatorBox');
 
   const easyRoastInfoPanel = document.getElementById('easyRoastInfoPanel');
   const easyRoastPanel = document.getElementById('easyRoastPanel');
@@ -688,10 +697,6 @@ function adjustChartSize() {
 
     //roastPanel 페이지
     //receiveIndicator 의 위치 수정
-    const mobileReceiveIndicator = document.getElementById(
-      'mobileReceiveIndicator'
-    );
-    const receiveIndicator = document.getElementById('receiveIndicator');
     // div를 부모의 마지막으로 이동
     mobileReceiveIndicator.appendChild(receiveIndicator);
     //roastPanelDiv에 class 추가
@@ -703,9 +708,16 @@ function adjustChartSize() {
       'h-fit'
     );
 
-    // 모든 기존 클래스 제거 후 새로 설정
+    //차트 화면 크기 수정
+    // id="chartContainer" style="height: 50vh; margin: 5px "
+
+    chartContainer.style.height = '50vh';
+    chartContainer.style.width = '100%';
+    roastPanelDiv.style.width = '100%';
+    mobileReceiveIndicator.style.width = '100%';
+    receiveIndicatorBox.style.width = '';
   } else if (width > 600 && width <= 1024) {
-    // 중간 크기 화면 (태블릿)
+    // 중간 크기 화면 (태블릿)c
     console.log(width, 'px');
     console.log('태블릿 환경입니다.');
   } else {
@@ -715,10 +727,7 @@ function adjustChartSize() {
     console.log('데스크톱 환경입니다.');
 
     //receiveIndicator 의 위치 수정
-    const laptopReceiveIndicator = document.getElementById(
-      'laptopReceiveIndicator'
-    );
-    const receiveIndicator = document.getElementById('receiveIndicator');
+
     // div를 부모의 마지막으로 이동
     laptopReceiveIndicator.appendChild(receiveIndicator);
     //roastPanelDiv에 class 추가
@@ -729,6 +738,15 @@ function adjustChartSize() {
       'bg-reonaiBlack1',
       'h-fit'
     );
+
+    //차트 화면 크기 수정
+    // id="chartContainer" style="height: 50vh; margin: 5px "
+
+    chartContainer.style.height = '90vh';
+    chartContainer.style.width = '75%';
+    roastPanelDiv.style.width = 'auto';
+    mobileReceiveIndicator.style.width = '';
+    receiveIndicatorBox.style.width = '20%';
   }
 
   //Highcharts 반응형

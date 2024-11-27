@@ -329,7 +329,7 @@
 
     
         <!-- Chart Section -->
-        <div id="chartContainer" class="w-full">
+        <div id="chartContainerRecipe" class="w-full">
           <div id="chartdivRecipe" class="h-3/5 border p-4 rounded-lg"></div>
           <div id="outputChartdivRecipe" class="h-2/5 border p-4 rounded-lg mt-4"></div>
         </div>
@@ -467,8 +467,7 @@
         </div></div>
       
         <div id="chartContainer" style="height: 50vh; margin: 5px " >
-          <!-- <div id="chartdiv" style="height:100%"></div> -->
-          <div id="chartdiv" style="height:70%"></div>
+                    <div id="chartdiv" style="height:70%"></div>
           <div id="outputChartdiv" style="height:30%"></div>
         </div>
 
@@ -491,18 +490,21 @@
           
               <button class="inline-flex items-center  h-btn-sm px-4 py-2 bg-reonaiRed text-white rounded hover:bg-reonaiBlue transition-colors"  id="windowfull"
               onclick="headerDisplayNone()">전체화면</button>
-              <!-- <button2 class="S-CoreDream-3Light bg-reonaiRed text-reonaiWhite " id="disposeBtn"
-              onclick="disposalMode()">배출</button2> -->
+              <button2 class="S-CoreDream-3Light bg-reonaiRed text-reonaiWhite " id="disposeBtn"
+              onclick="disposalMode()">배출</button2>
           <button  class="inline-flex items-center  h-btn-sm px-4 py-2 bg-reonaiRed text-white rounded hover:bg-reonaiBlue transition-colors"  id="startRecordingcharts"
               onclick="startRecordingcharts() ">startRecord</button>
+
+
+              <button class="S-CoreDream-3Light bg-reonaiRed text-reonaiWhite " id="doorTestMode"
+              onclick="doorTestMode()">doorTestMode</button>
+
             <!--   <button2 class="S-CoreDream-3Light bg-reonaiRed text-reonaiWhite " id="stopRecordingcharts"
               onclick="stopRecordingcharts()">stopRecording</button2>
             
             <button2 class="S-CoreDream-3Light bg-reonaiRed text-reonaiWhite " id="windowfull"
               onclick="headerDisplayNone()">전체화면</button2>
 
-              <button2 class="S-CoreDream-3Light bg-reonaiRed text-reonaiWhite " id="doorTestMode"
-              onclick="doorTestMode()">doorTestMode</button2>
             <button2 class="S-CoreDream-3Light bg-reonaiRed text-reonaiWhite " id="autoRoastingFlagOn"
               onclick="autoRoastingFlagOn(),autoRoastingStartFlagOn()">AUTO_on</button2>
             <button2 class="S-CoreDream-3Light bg-reonaiRed text-reonaiWhite " id="autoRoastingFlagOff"
@@ -524,9 +526,9 @@
 
 
           <!-- 출력제어 하는 부분 -->
-          <div id="sliderSection " style="margin: 5px" class="section GmarketSansMedium ">
+          <div id="sliderSection " style="margin: 5px" class="grid gap-2">
 
-
+      
 <div id="fan1SliderContainer" class="sliderContainer space-y-1">
   <!-- FAN1 Label and Buttons -->
   <div class="flex justify-between items-center w-full">
@@ -558,7 +560,7 @@
   </div>
 
   <!-- Input Field and Slider -->
-  <div class="flex flex-col md:flex-row items-center gap-2">
+  <div  style="display: none;" class="flex flex-col md:flex-row items-center gap-2" >
     <input 
       type="range" 
       id="fan1Slider" 
@@ -574,7 +576,7 @@
 
       
 
-            <div id="HeaterSliderContainer" class="sliderContainer space-y-1">
+<div id="HeaterSliderContainer" class="sliderContainer space-y-1">
               <div class="flex justify-between items-center w-full">
                 <div class="text-primary text-[18px] font-medium">HEATER
                   <span id="heaterValue" class="value-display" style="display: none;">0</span>
@@ -599,14 +601,14 @@
               </div>
 
 
-              <div class="flex flex-col md:flex-row items-center gap-2">
+              <div class="flex flex-col md:flex-row items-center gap-2"  style="display: none;">
               <input type="range" id="heaterSlider" min="0" max="100" value="0" step="0.5" class="w-full h-2 bg-gray-300 rounded-lg cursor-pointer"/>
           
             </div>
+</div>
+            
 
-
-
-            <div id="fan2SliderContainer" class="sliderContainer space-y-1">
+<div id="fan2SliderContainer" class="sliderContainer space-y-1">
               <!-- FAN2 Label and Buttons -->
               <div class="flex justify-between items-center w-full">
                 <div class="text-primary text-[18px] font-medium">FAN 2 
@@ -622,7 +624,7 @@
                   max="12.5" 
                   value="2.5" 
                   step="0.5" 
-                  class="w-full h-btn-sm px-2 py-1 text-center border rounded"
+                  class="w-full h-btn-sm px-2 py-1 text-center border rounded appearance-none"
                 />
                 <button id="fan2NumberBtn" class="bg-white h-btn-sm px-3 py-1 text-[18px] border rounded">
                   GO
@@ -638,7 +640,7 @@
               </div>
             
               <!-- Input Field and Slider -->
-              <div class="flex flex-col md:flex-row items-center gap-2">
+              <div class="flex flex-col md:flex-row items-center gap-2" style="display: none;">
                 <input 
                   type="range" 
                   id="fan2Slider" 
@@ -683,6 +685,7 @@
         </div>
       </div>
     </div>
+  </div>
     <div id="easyRoastInfoPanel" style="display: none;" class="w-full bg-reonaiBlack1 align-items: center">
       <div
         class="panelBox bg-gray-900 p-6 rounded-lg w-[1200px]text-center max-w-lg mx-auto space-y-4 items-center justify-center">
@@ -852,8 +855,7 @@
         </div>
       </div>
       
-                      
-                  </div>
+          
         
 
 
