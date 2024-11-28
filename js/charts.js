@@ -71,7 +71,8 @@ function createReceivedChart() {
           },
         },
         labels: {
-          enabled: false, //라벨 숨김
+          // enabled: false,
+          //라벨 숨김
           style: {
             color: '#941F25',
           },
@@ -278,7 +279,8 @@ function createOutputChart() {
           },
         },
         labels: {
-          enabled: false, //라벨 숨김
+          // enabled: false,
+          //라벨 숨김
           style: {
             color: '#941F25',
           },

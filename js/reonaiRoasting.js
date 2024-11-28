@@ -86,6 +86,20 @@ let colomniaDarkRoast = false; //콜롬비아 나리뇨 게이샤 워시드 다�
 let ethiopiaLightRoast = false; //에티오피아 시다모 벤사 부리소 아마제 네추럴 라이트 로스트 플1래그
 let ethiopiaDarkRoast = false; //에티오피아 시다모 벤사 부리소 아마제 네추럴다크 로스트 플래그
 
+//출력값 입력 함수
+const fan1NumberModal = document.getElementById('fan1Number');
+const heaterNumberModal = document.getElementById('heaterNumber');
+const fan2NumberModal = document.getElementById('fan2Number');
+let choiceOutModal = 0; // 1 : fan1 ,2 : heater ,3 : fan2
+const keypadModal = document.getElementById('keypadModal');
+const keypadButtons = document.querySelectorAll('.keypad-btn');
+const keypadClear = document.getElementById('keypadClear');
+const keypadSubmit = document.getElementById('keypadSubmit');
+const keypadExit = document.getElementById('keypadExit');
+const keypadCurrentValue = document.getElementById('keypadCurrentValue');
+
+let currentValueModalKeypad = '';
+
 const currentSecondUpdatedEvent = new Event('currentSecondUpdated');
 //
 
@@ -1574,3 +1588,219 @@ function recoedAutofetch() {
 
   fetchRecordDetails(recipecode, '');
 }
+
+function showCustomConfirm(message, callback) {
+  const confirmBox = document.getElementById('custom-confirm');
+  const confirmMessage = document.getElementById('confirm-message');
+  const yesButton = document.getElementById('confirm-yes');
+  const noButton = document.getElementById('confirm-no');
+
+  confirmMessage.textContent = message;
+  confirmBox.classList.remove('hidden');
+
+  yesButton.onclick = () => {
+    confirmBox.classList.add('hidden');
+    callback(true);
+  };
+
+  noButton.onclick = () => {
+    confirmBox.classList.add('hidden');
+    callback(false);
+  };
+}
+
+document.getElementById('windowfull').addEventListener('click', () => {
+  showCustomConfirm('전체화면을 실행하시겠습니까?', (result) => {
+    if (result) {
+      headerDisplayNone();
+      console.log('사용자가 확인을 선택했습니다.');
+    } else {
+      console.log('사용자가 취소를 선택했습니다.');
+    }
+  });
+});
+
+//모달창 펑션
+function showCustomConfirm(message, callback) {
+  const confirmBox = document.getElementById('custom-confirm');
+  const confirmMessage = document.getElementById('confirm-message');
+  const yesButton = document.getElementById('confirm-yes');
+  const noButton = document.getElementById('confirm-no');
+
+  confirmMessage.textContent = message;
+  confirmBox.classList.remove('hidden');
+
+  yesButton.onclick = () => {
+    confirmBox.classList.add('hidden');
+    callback(true);
+  };
+
+  noButton.onclick = () => {
+    confirmBox.classList.add('hidden');
+    callback(false);
+  };
+}
+
+function showChapter(chapter) {
+  const content = document.getElementById('chapter-content');
+  switch (chapter) {
+    case 1:
+      content.innerHTML = '<p>챕터 1의 내용이 여기에 표시됩니다.</p>';
+      break;
+    case 2:
+      content.innerHTML =
+        '<p>챕터 2의 내용이 여기에 표시됩니다. 추가 정보나 설명이 여기에 포함될 수 있습니다.</p>';
+      break;
+    case 3:
+      content.innerHTML =
+        '<p>챕터 3의 내용이 여기에 표시됩니다. 더 많은 세부 정보를 여기에 넣을 수 있습니다.</p>';
+      break;
+    default:
+      content.innerHTML = '<p>잘못된 챕터입니다.</p>';
+  }
+}
+
+// Open modal on fan1Number click
+fan1Number.addEventListener('click', () => {
+  currentValueModalKeypad = '';
+  currentFan1Numver = document.getElementById('fan1Slider').value;
+  keypadCurrentValue.textContent = `현재 값 :${currentFan1Numver}`;
+  choiceOutModal = 1; // 1 : fan1 ,2 : heater ,3 : fan2
+  keypadModal.classList.remove('hidden');
+});
+
+heaterNumber.addEventListener('click', () => {
+  currentValueModalKeypad = '';
+  currentHeaterNumver = document.getElementById('heaterSlider').value;
+  keypadCurrentValue.textContent = `현재 값 :${currentHeaterNumver}`;
+  choiceOutModal = 2; // 1 : fan1 ,2 : heater ,3 : fan2
+  keypadModal.classList.remove('hidden');
+});
+
+fan2Number.addEventListener('click', () => {
+  currentValueModalKeypad = '';
+  currentFan2Numver = document.getElementById('fan2Slider').value;
+  keypadCurrentValue.textContent = `현재 값 :${currentFan2Numver}`;
+  choiceOutModal = 3; // 1 : fan1 ,2 : heater ,3 : fan2
+  keypadModal.classList.remove('hidden');
+});
+
+// Add number to currentValue on keypad button click
+keypadButtons.forEach((button) => {
+  button.addEventListener('click', () => {
+    currentValueModalKeypad += button.getAttribute('data-value');
+
+    keypadCurrentValue.textContent = `${currentValueModalKeypad}`; // Update display
+  });
+});
+
+// Clear the currentValue
+keypadClear.addEventListener('click', () => {
+  currentFan1Numver = document.getElementById('fan1Slider').value;
+  currentHeaterNumver = document.getElementById('heaterSlider').value;
+  currentFan2Numver = document.getElementById('fan2Slider').value;
+  if (choiceOutModal == 1) {
+    keypadCurrentValue.textContent = `현재 값 :${currentFan1Numver}`;
+    currentValueModalKeypad = '';
+  } else if (choiceOutModal == 2) {
+    keypadCurrentValue.textContent = `현재 값 :${currentHeaterNumver}`;
+    currentValueModalKeypad = '';
+  } else if (choiceOutModal == 3) {
+    keypadCurrentValue.textContent = `현재 값 :${currentFan2Numver}`;
+    currentValueModalKeypad = '';
+  } else if (choiceOutModal == 4) {
+    currentValueModalKeypad = '';
+    keypadCurrentValue.textContent = `현재 값 :${currentValueModalKeypad}`;
+  }
+
+  // Reset display}
+});
+
+keypadExit.addEventListener('click', () => {
+  keypadModal.classList.add('hidden');
+});
+
+// Submit value and close modal
+keypadSubmit.addEventListener('click', () => {
+  if (choiceOutModal == 1) {
+    if (keypadCurrentValue.textContent < 30) {
+      keypadCurrentValue.textContent = '값이 30보다 작으면 안됩니다.';
+      currentValueModalKeypad = '';
+      return;
+    }
+  } else if (choiceOutModal == 2) {
+    if (keypadCurrentValue.textContent > 100) {
+      keypadCurrentValue.textContent = '값이 100보다 클 수 없습니다.';
+      currentValueModalKeypad = '';
+      return;
+    }
+  } else if (choiceOutModal == 3) {
+    if (keypadCurrentValue.textContent < 2.5) {
+      keypadCurrentValue.textContent = '값이 2.5보다 작을 수 없습니다.';
+      currentValueModalKeypad = '';
+      return;
+    } else if (keypadCurrentValue.textContent > 12.5) {
+      keypadCurrentValue.textContent = '값이 12.5보다 클 수 없습니다.';
+      currentValueModalKeypad = '';
+      return;
+    }
+  }
+
+  keypadModal.classList.add('hidden');
+  if (choiceOutModal == 1) {
+    if (currentValueModalKeypad == '') {
+      //값을 아무것도 입력안했을 경우 기존값으로 입력
+      fan1NumberModal.value = document.getElementById('fan1Slider').value;
+    } else {
+      fan1NumberModal.value = currentValueModalKeypad;
+      console.log('fan1 입력');
+      const fan1Number = parseFloat(fan1NumberModal.value);
+      if (fan1Number > 30) {
+        if (fan1Number <= 100) {
+          updateNumberValue('fan1Number', 'fan1Value', 'fan1Slider');
+        } else {
+          fan1NumberModal.value = '100';
+        }
+      } else {
+        fan1NumberModal.value = '30';
+      }
+    }
+  } else if (choiceOutModal == 2) {
+    if (currentValueModalKeypad == '') {
+      //값을 아무것도 입력안했을 경우 기존값으로 입력
+      heaterNumberModal.value = document.getElementById('heaterSlider').value;
+    } else {
+      console.log('heater 입력');
+      heaterNumberModal.value = currentValueModalKeypad;
+      const heaterNumber = parseFloat(heaterNumberModal.value);
+      if (heaterNumber <= 100) {
+        updateNumberValue('heaterNumber', 'heaterValue', 'heaterSlider');
+      } else {
+        heaterNumberModal.value = '100';
+        updateNumberValue('heaterNumber', 'heaterValue', 'heaterSlider');
+      }
+    }
+  } else if (choiceOutModal == 3) {
+    if (currentValueModalKeypad == '') {
+      //값을 아무것도 입력안했을 경우 기존값으로 입력
+      fan2NumberModal.value = document.getElementById('fan2Slider').value;
+    } else {
+      console.log('fan2 입력');
+      fan2NumberModal.value = currentValueModalKeypad;
+
+      const fan2Number = parseFloat(fan2NumberModal.value);
+      if (fan2Number >= 2.5) {
+        if (fan2Number <= 12.5) {
+          updateNumberValue('fan2Number', 'fan2Value', 'fan2Slider');
+        } else {
+          fan2NumberModal.value = '12.5';
+          updateNumberValue('fan2Number', 'fan2Value', 'fan2Slider');
+        }
+      } else {
+        fan2NumberModal.value = '2.5';
+        updateNumberValue('fan2Number', 'fan2Value', 'fan2Slider');
+      }
+    }
+  } else if (choiceOutModal == 4) {
+  }
+});
