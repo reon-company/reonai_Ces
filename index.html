@@ -382,89 +382,43 @@
     <div id="roastPanel" style="display: none; margin: 0 auto; width: 100%" >
       <div id="roastPanelDiv" style= "height : 932px; width: 100%; ">
         <!--수신값 div-->
+
         <div id="mobileReceiveIndicator">  
-        <div id="receiveIndicator" style="margin: 5px" class="section grid grid-cols-3 gap-4">
-          <!-- <span id="temp1span" class="text-lg font-semibold text-blue-600 bg-blue-100 px-3 py-1 rounded-lg border border-blue-300 shadow-md">드럼: <span id="temp1Value" class="value-display">-</span> °C</span><br/> -->
-          <div id="temp1div" class="flex-col items-center">
-            <!-- <div class="text-lg font-semibold text-fontColor  px-3 py-1 rounded-lg shadow-md">드럼 </div> -->
-            <div>
-              <p class="text-sm font-bold text-fontColor px-3 py-1 rounded-lg shadow-md">
-                D: <span
-                  id="temp1Value"></span>°C
-              </p>
+          
+          <div id="receiveIndicator" class="p-4 rounded-lg shadow-lg w-max flex flex-col gap-2">
+            <!-- 시간 표시 -->
+            <div id="timeIndicator" class="flex justify-end items-center gap-2">
+              <label id=raostingTimeLabel class="text-xs font-bold">로스팅 시간:</label>
+              <span class="text-sm font-extrabold text-gray-700" id="elapsedValue">-</span>
+            </div>            
+            <!-- 온도 및 데이터 표시 -->
+            <div id="tempIndicator" class="flex flex-wrap items-center justify-between gap-2">
+              <div id=temp1Div class="flex items-center gap-2">
+                <label id=dtLabel class="text-sm text-gray-500">DT:</label>
+                <div>
+                <span id="temp1Value" class="text-xl font-bold text-green-500">00.00</span>
+                <span id="cel1Label" class="text-xs">°C</span></div>
+              </div>
+              <div id=temp2div class="flex items-center gap-1">
+                <label id=htLabel class="text-sm text-gray-500">HT:</label>
+                <div>
+                <span id="temp2Value" class="text-sm font-bold text-red-500">00.00</span>
+                <span id="cel2Label" class="text-xs">°C</span></div>
+              </div>
+              <div id="ror1Div" class="flex items-center gap-1">
+                <label id=ror1Label class="text-xs text-gray-500">∆DT min:</label>
+                <span id="RoR1Value" class="text-xs font-bold text-blue-500">0.0</span>
+              </div>
+              <div id=ror2Div class="flex items-center gap-1">
+                <label id=ror2Label class="text-xs text-gray-500">∆HT min:</label>
+                <span id="RoR2Value" class="text-xs font-bold text-purple-500">0.0</span>
+              </div>
             </div>
           </div>
-          <div id="temp2div" class="flex-col items-center">
-            <!-- <div class="text-lg font-semibold text-fontColor  px-3 py-1 rounded-lg shadow-md">히터 </div> -->
-            <div>
-           <p class="text-sm font-bold text-whitepx-3 py-1 rounded-lg shadow-md">H: <span id="temp2Value"></span>°C
-              </p>
-            </div>
-          </div>
+          
 
 
-
-          <div id="timediv" class="flex-col items-center">
-            <!-- <div class="text-lg font-semibold text-fontColor px-3 py-1 rounded-lg shadow-md">시간 </div> -->
-            <div>
-              <p class="text-sm font-bold text-reonaiRed bg-reonaiWhite  px-1 py-1 rounded-lg shadow-md w-13 "><span
-                  id="elapsedValue" class="value-display"></span>S  </p>
-            </div>
-
-          </div>
-
-
-          <div id="ror1div" class="flex-col-2 items-center" >
-            <!-- <div class="text-lg font-semibold text-fontColor px-3 py-1 rounded-lg shadow-md">RoR_D </div> -->
-            <div><p class="text-sm font-bold text-reonaiRed bg-reonaiWhite  px-1 py-1 rounded-lg shadow-md w-13 ">
-              ROR_D: <span id="RoR1Value" class="value-display"></span>
-              </p>
-            </div>
-          </div>
-
-
-
-          <div id="ror2div" class="flex-col-2 items-center" >
-            <!-- <div class="text-lg font-semibold text-fontColor px-3 py-1 rounded-lg shadow-md">RoR_H </div> -->
-            <div><p class="text-sm font-bold text-reonaiRed bg-reonaiWhite  px-1 py-1 rounded-lg shadow-md w-13 ">
-              RoR_H: <span id="RoR2Value" class="value-display"></span>
-              </p>
-            </div>
-          </div>
-
-
-
-
-          <div id="TPCPdiv" class="flex-col-4 items-center" >
-            
-            <!-- <div>
-              <p class="text-lg font-bold text-reonaiRed bg-reonaiWhite  px-1 py-1 rounded-lg shadow-md w-13 ">
-              TP:<span id="TPtime" class="value-display"></span>
-              <span id="TPtemp" class="value-display"></span>°C
-              </p>
-            </div> -->
-            <div>
-              <p class="text-sm font-bold text-reonaiRed bg-reonaiWhite  px-1 py-1 rounded-lg shadow-md w-13 ">
-              CP:<span id="CPtime" class="value-display"></span>
-              <span id="CPtemp" class="value-display"></span>°C
-              </p>
-            </div>
-          </div>
-
-
-
-
-            
-
-
-          <div id="timediv" class="flex-col-3 items-center" style="display: none;">
-
-            Recipe : <span id="Recipe Name" class="value-display">-</span>
-            Bean : <span id="Bean Name" class="value-display">-</span>
-            Input: <span id="Input Amount" class="value-display">-</span>
-          </div>
-      
-        </div></div>
+        </div>
       
         <div id="chartContainer" style="height: 50vh; margin: 5px " >
                     <div id="chartdiv" style="height:70%"></div>
@@ -475,29 +429,28 @@
 
         <div id = receiveIndicatorBox >    
           <div id="laptopReceiveIndicator"></div>
-          <div class="grid grid-cols-3 gap-2">
+          <div id="controlBtnBox" class="p-2 flex gap-2 grid grid-cols-3 justify-center">
             <!-- <button onclick="stopHeatingMode()">예열 중지</button><p></p>
-    <button onclick="heatingMode()">예열</button><p></p> -->
+              <button onclick="heatingMode()">예열</button><p></p> -->
 
-    <button class="inline-flex items-center h-btn-sm px-4 py-2 bg-reonaiRed text-white rounded hover:bg-reonaiBlue transition-colors" onclick="startRecordingCrackPoint()">
-    
-      크랙
-  </button>
+            <button class="bg-reonaiRed text-white py-1 px-2 rounded hover:bg-reonaiBlue" onclick="startRecordingCrackPoint()">
+              크랙
+            </button>
 
       
             <!-- <button class="inline-flex items-center h-btn-sm px-4 py-2 bg-reonaiRed text-white rounded hover:bg-reonaiBlue transition-colors"  id="CoolDowndBtn"
               onclick="coolingMode()">쿨다운</button> -->
           
-              <button class="inline-flex items-center  h-btn-sm px-4 py-2 bg-reonaiRed text-white rounded hover:bg-reonaiBlue transition-colors"  id="windowfull"
+              <button class="bg-reonaiRed text-white py-1 px-2 rounded hover:bg-reonaiBlue" id="windowfull"
               onclick="headerDisplayNone()">전체화면</button>
-              <button2 class="S-CoreDream-3Light bg-reonaiRed text-reonaiWhite " id="disposeBtn"
-              onclick="disposalMode()">배출</button2>
-          <button  class="inline-flex items-center  h-btn-sm px-4 py-2 bg-reonaiRed text-white rounded hover:bg-reonaiBlue transition-colors"  id="startRecordingcharts"
+              <!-- <button class="bg-reonaiRed text-white py-1 px-2 rounded hover:bg-reonaiBlue" id="disposeBtn"
+              onclick="disposalMode()">배출</button> -->
+    <button  class="bg-reonaiRed text-white py-1 px-2 rounded hover:bg-reonaiBlue"  id="startRecordingcharts"
               onclick="startRecordingcharts() ">startRecord</button>
 
-
-              <button class="S-CoreDream-3Light bg-reonaiRed text-reonaiWhite " id="doorTestMode"
-              onclick="doorTestMode()">doorTestMode</button>
+      <!-- 
+              <button class="bg-reonaiRed text-white py-1 px-2 rounded hover:bg-reonaiBlue"id="doorTestMode"
+              onclick="doorTestMode()">doorTestMode</button> -->
 
             <!--   <button2 class="S-CoreDream-3Light bg-reonaiRed text-reonaiWhite " id="stopRecordingcharts"
               onclick="stopRecordingcharts()">stopRecording</button2>
@@ -729,7 +682,7 @@
         <div class="flex" style="display: none;" >
           <div class="grid grid-rows-2 grid-flow-col gap-4">
             <div class="" ><strong>Elapsed Time</strong></div>
-            <div class="text-[32px] text-reonaiRed"><span id="elapsedValue" class="value-display">-</span> s</div>
+            <div class="text-[32px] text-reonaiRed"><span id="elapsedValueForEasy" class="value-display">-</span> s</div>
           
             <!-- <div class=""><strong>Drum</strong></div>
             <div class="text-white"> <span id="temp1Value" class="value-display">-</span> °C</div>

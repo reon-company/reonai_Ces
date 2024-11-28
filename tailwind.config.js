@@ -33,6 +33,10 @@ module.exports = {
         reonaiBlack1: '222222',
         reonaiBlack2: '343434',
         reonaiBlack3: '1e1e1e',
+        reonaiTemp1: '#D3194B',
+        reonaiTemp2: '#F97E2E',
+        reonaiRor1: '#D3194B',
+        reonaiRor2: '#F97E2E',
         // background: {
         //   DEFAULT: '#222222',
         //   navi: '#1E1E1E',

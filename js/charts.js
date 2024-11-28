@@ -683,6 +683,24 @@ function adjustChartSize() {
   );
   const receiveIndicator = document.getElementById('receiveIndicator');
   const receiveIndicatorBox = document.getElementById('receiveIndicatorBox');
+  const timeIndicator = document.getElementById('timeIndicator');
+  const raostingTimeLabel = document.getElementById('raostingTimeLabel');
+  const elapsedValueSpan = document.getElementById('elapsedValue');
+  const tempIndicator = document.getElementById('tempIndicator');
+  const temp1Div = document.getElementById('temp1Div');
+  const dtLabel = document.getElementById('dtLabel');
+  const temp1ValueSpan = document.getElementById('temp1Value');
+  const cel1Label = document.getElementById('cel1Label');
+  const temp2Div = document.getElementById('temp2div');
+  const htLabel = document.getElementById('htLabel');
+  const temp2ValueSpan = document.getElementById('temp2Value');
+  const cel2Label = document.getElementById('cel2Label');
+  const ror1Div = document.getElementById('ror1Div');
+  const ror1Label = document.getElementById('ror1Label');
+  const RoR1ValueSpan = document.getElementById('RoR1Value');
+  const ror2Div = document.getElementById('ror2Div');
+  const ror2Label = document.getElementById('ror2Label');
+  const RoR2ValueSpan = document.getElementById('RoR2Value');
 
   const easyRoastInfoPanel = document.getElementById('easyRoastInfoPanel');
   const easyRoastPanel = document.getElementById('easyRoastPanel');
@@ -708,6 +726,59 @@ function adjustChartSize() {
       'h-fit'
     );
 
+    receiveIndicator.classList.remove(
+      'p-2',
+      'rounded-lg',
+      'shadow-lg',
+      'gap-1',
+      'w-max',
+      'h-auto',
+      'flex-auto'
+    );
+    receiveIndicator.classList.add(
+      'p-4',
+      'rounded-lg',
+      'shadow-lg',
+      'w-full',
+      'flex',
+      'flex-col',
+      'gap-2'
+    );
+    receiveIndicator.style = '';
+
+    //시간 인디게이터
+    timeIndicator.className = 'flex justify-end items-center gap-2';
+    raostingTimeLabel.className = 'text-xs font-bold';
+    elapsedValueSpan.className = 'text-sm font-extra boldtext-gray-700';
+
+    //온도 인디게이터
+    tempIndicator.className =
+      'flex flex-wrap items-center justify-between gap-2';
+
+    //온도1 인디게이터
+    temp1Div.className = 'flex items-center gap-2';
+    dtLabel.className = 'text-xs text-gray-500';
+    temp1ValueSpan.className = 'text-sm font-bold text-reonaiTemp1';
+    cel1Label.className = 'text-xs';
+
+    //온도2 인디게이터
+    temp2Div.className = 'flex items-center gap-2';
+    htLabel.className = 'text-sm text-gray-500';
+    temp2ValueSpan.className = 'text-sm font-bold text-reonaiTemp2';
+    cel2Label.className = 'text-xs';
+
+    //ror1 인디게이터
+    ror1Div.className = 'flex items-center gap-1';
+    ror1Label.className = 'text-xs text-gray-500';
+    RoR1ValueSpan.className = 'text-xs font-bold text-reonaiRor1';
+
+    //ror2 인디게이터
+    ror2Div.className = 'flex items-center gap-1';
+    ror2Label.className = 'text-xs text-gray-500';
+    RoR2ValueSpan.className = 'text-xs font-bold text-reonaiRor2';
+
+    //
+    //
     //차트 화면 크기 수정
     // id="chartContainer" style="height: 50vh; margin: 5px "
 
@@ -738,7 +809,55 @@ function adjustChartSize() {
       'bg-reonaiBlack1',
       'h-fit'
     );
+    receiveIndicator.classList.remove(
+      'p-4',
+      'rounded-lg',
+      'shadow-lg',
+      'w-full',
+      'flex',
+      'flex-col',
+      'gap-2'
+    );
+    receiveIndicator.classList.add(
+      'p-2',
+      'rounded-lg',
+      'shadow-lg',
+      'gap-1',
+      'w-max',
+      'h-auto',
+      'flex-auto'
+    );
+    receiveIndicator.style.margin = '5px';
 
+    //시간 인디게이터
+    timeIndicator.className = 'grid grid-cols-2 gap-4 items-center';
+    raostingTimeLabel.className = 'text-center text-xl font-bold mb-4';
+    elapsedValueSpan.className =
+      'text-center text-3xl font-extrabold text-gray-700 mb-6';
+    //온도 인디게이터
+    tempIndicator.className = 'grid grid-cols-2 gap-4';
+    //온도1 인디게이터
+    temp1Div.className = 'flex flex-col items-center gap-1';
+    dtLabel.className = 'block text-xl text-gray-500';
+    temp1ValueSpan.className = 'text-2xl font-bold text-reonaiTemp1';
+    cel1Label.className = 'text-xl';
+    //온도2 인디게이터
+    temp2Div.className = 'flex flex-col items-center gap-1';
+    htLabel.className = 'text-xl text-gray-500';
+    temp2ValueSpan.className = 'text-2xl font-bold text-reonaiTemp2';
+    cel2Label.className = 'text-xl';
+
+    //ror1 인디게이터
+    ror1Div.className = 'flex flex-col items-center';
+    ror1Label.className = 'text-sm text-gray-500';
+    RoR1ValueSpan.className = 'text-xl font-bold text-reonaiRor1';
+
+    //ror2 인디게이터
+    ror2Div.className = 'flex flex-col items-center';
+    ror2Label.className = 'text-xs text-gray-500';
+    RoR2ValueSpan.className = 'text-xl font-bold text-reonaiRor2';
+    //
+    //
     //차트 화면 크기 수정
     // id="chartContainer" style="height: 50vh; margin: 5px "
 
