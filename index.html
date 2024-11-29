@@ -657,10 +657,6 @@
     <button id="keypadSubmit" class="bg-red-500 text-white py-2 mt-3 w-full rounded">입력</button>
   </div>
 
-
-
-
-
   
 </div>
 
@@ -931,12 +927,16 @@
 
   <script> //window 이벤트 모음
 
-    // window.addEventListener('beforeunload', function (event) {
-    //   // 브라우저에 따라 다르게 동작할 수 있음
-    //   event.preventDefault();
-    //   // 확인 메시지를 사용자에게 보여줌
-    //   event.returnValue = '페이지를 나가시면, 모든 로스팅이 지됩니다.';
-    // });</script>
+    window.addEventListener('beforeunload', function (event) {
+      // 브라우저에 따라 다르게 동작할 수 있음
+      event.preventDefault();
+      // 확인 메시지를 사용자에게 보여줌
+      event.returnValue = '페이지를 나가시면, 모든 로스팅이 지됩니다.';
+    });
+    
+    
+    
+    </script>
 </body>
 
 </html>

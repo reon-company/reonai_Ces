@@ -93,6 +93,24 @@ document
       .then((data) => {
         // 로그인 성공 처리
 
+        // 사용자 정보 저장
+        // const userInfo = {
+        //   activated: data.data.activated,
+        //   address: data.data.address,
+        //   authorityDtoSet: data.data.authorityDtoSet,
+        //   companyName: data.data.companyName,
+        //   email: data.data.email,
+        //   firstName: data.data.firstName,
+        //   id: data.data.id,
+        //   lastName: data.data.lastName,
+        //   oauthClient: data.data.oauthClient,
+        //   phone: data.data.phone,
+        //   picture: data.data.picture,
+        //   prdCode: data.data.prdCode,
+        //   roasterSn: data.data.roasterSn,
+        //   type: data.data.type,
+        // };
+
         document.getElementById('logoutBtn').style.display = 'block'; //로그아웃 버튼 보이기
 
         document.getElementById('signIn').style.display = 'none';
@@ -121,6 +139,7 @@ document
 
         // 전역 변수에 저장된 데이터 확인
         console.log('저장된 사용자 데이터:', userData);
+        localStorage.setItem('userInfo', JSON.stringify(userData));
 
         document.getElementById('loginUserName').style.display = 'block';
         document.getElementById('loginUserName').textContent =
@@ -137,6 +156,8 @@ document
           'responseMessage'
         ).textContent = `에러: ${error.message}`;
       });
+    //에러 삭제
+    document.getElementById('responseMessage').textContent = ``;
   });
 
 //마이레코드 목록을 를 서버에서 가지고오는 함수
@@ -688,9 +709,19 @@ function convertSecondsToTimeFormat(seconds) {
 }
 
 // 로그아웃을 수행하는 함수
+
+//로그아웃 스크립트
+document.getElementById('logoutBtn').addEventListener('click', () => {
+  document.getElementById('logoutBtn').style.display = 'none';
+  document.getElementById('signIn').style.display = 'block';
+  document.getElementById('loginUserName').style.display = 'none';
+  document.getElementById('loginUserName').textContent = '';
+  console.log('로그아웃 완료');
+});
+
 function logout() {
   console.log('로그아웃 수행 중...');
-
+  localStorage.removeItem('userInfo');
   // 로그인 상태 초기화
   isLogin = false;
 
@@ -721,8 +752,6 @@ function logout() {
   document.getElementById('password').style.display = 'block'; // 비밀번호 입력창 보이기
   document.getElementById('email').value = ''; // 이메일 입력창 초기화
   document.getElementById('password').value = ''; // 비밀번호 입력창 초기화
-
-  location.reload();
 
   console.log('로그아웃 및 데이터 초기화 완료');
 }

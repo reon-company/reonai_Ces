@@ -41,5 +41,33 @@ function headerDisplayBlock() {
 document.addEventListener('DOMContentLoaded', () => {
   // showPanel('mainPanel');
   showPanel('roastPanel');
-  showChapter(1); //챕터컨텐츠에 1번으로 실행
+
+  //로그인!
+  const storedUserInfo = localStorage.getItem('userInfo');
+
+  if (storedUserInfo) {
+    // 사용자 정보 복원
+    const userInfo = JSON.parse(storedUserInfo);
+
+    document.getElementById('logoutBtn').style.display = 'block'; // 로그아웃 버튼 보이기
+    document.getElementById('signIn').style.display = 'none';
+    document.getElementById('loginBtn').style.display = 'none';
+    document.getElementById('email').style.display = 'none';
+    document.getElementById('password').style.display = 'none';
+
+    document.getElementById('loginUserName').style.display = 'block';
+    document.getElementById('loginUserName').textContent = userInfo.firstName;
+
+    console.log('로그인 상태 유지:', userInfo);
+    //로그인 플래그 참
+    isLogin = true;
+
+    userData = userInfo;
+
+    // 데이터 추출하여 전역 변수에 저장
+
+    // 필요한 작업 수행
+    getMyRecords(userInfo);
+    getPilot();
+  }
 });
