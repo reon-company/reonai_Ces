@@ -19,8 +19,9 @@ window.onload = function () {
   createOutputChart(); // 'outputChartdiv'에 차트를 생성
   createReceivedChartRecipe(); // 'chartdiv'에 차트를 생성
   createOutputChartRecipe(); // 'outputChartdiv'에 차트를 생성
-
+  logInitialSeries();
   // logHighchartsSeries();
+  console.log('chartRegistry', chartRegistry);
 };
 
 function logInitialSeries() {
@@ -85,6 +86,30 @@ function clearAllCharts() {
   createOutputChartRecipe(); // 'outputChartdiv'에 차트를 생성
 }
 
+function removeChartRecipe() {
+  removeChart('chartdivRecipe');
+  removeChart('outputChartdivRecipe');
+  Highcharts.charts.length = 2; // 배열을 비우기
+  Highcharts.charts[2] = null; // 배열의 해당 인덱스를 null로 설정
+  Highcharts.charts[3] = null; // 배열의 해당 인덱스를 null로 설정
+  createReceivedChartRecipe(); // 'chartdiv'에 차트를 생성
+  createOutputChartRecipe(); // 'outputChartdiv'에 차트를 생성
+
+  logInitialSeries();
+  logHighchartsSeries();
+}
+
+function removeChart(containerId) {
+  if (chartRegistry.has(containerId)) {
+    console.log(`차트 제거: ${containerId}`);
+    chartRegistry.get(containerId).destroy();
+    chartRegistry.delete(containerId);
+    initialSeriesRegistry.delete(containerId); // 초기 데이터도 제거
+  } else {
+    console.error(`차트를 찾을 수 없습니다: ${containerId}`);
+  }
+}
+
 // receivedChart 준비!
 function createReceivedChart() {
   return createChart('chartdiv', {
@@ -97,7 +122,7 @@ function createReceivedChart() {
     },
     title: {
       // text: '1Temperature & RoR',
-      text: '1Temperature & RoR',
+      text: '',
       style: {
         color: '#201A1A',
         fonSize: '24px',
@@ -310,8 +335,8 @@ function createOutputChart() {
       },
     },
     title: {
-      text: '1Output',
       // text: 'Output',
+      text: '',
       style: {
         color: '#201A1A',
       },
@@ -800,7 +825,6 @@ function adjustChartSize() {
     receiveIndicator.classList.remove(
       'p-2',
       'rounded-lg',
-      'shadow-lg',
       'gap-1',
       'w-max',
       'h-auto',
@@ -809,7 +833,6 @@ function adjustChartSize() {
     receiveIndicator.classList.add(
       'p-4',
       'rounded-lg',
-      'shadow-lg',
       'w-full',
       'flex',
       'flex-col',
@@ -883,7 +906,6 @@ function adjustChartSize() {
     receiveIndicator.classList.remove(
       'p-4',
       'rounded-lg',
-      'shadow-lg',
       'w-full',
       'flex',
       'flex-col',
@@ -892,7 +914,6 @@ function adjustChartSize() {
     receiveIndicator.classList.add(
       'p-2',
       'rounded-lg',
-      'shadow-lg',
       'gap-1',
       'w-max',
       'h-auto',

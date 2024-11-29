@@ -28,8 +28,11 @@
   <header id=topHeader
     class="flex justify-between items-center px-4 py-4 w-full bg-reonaiBlack2 border-b-2 border-reonaiBlack3">
     <div>
-      <img src="./images/logo.png" class="w-32" />
+      <a href="https://www.reonai.net" target="_blank">
+        <img src="./images/logo.png" class="w-32 cursor-pointer hover:opacity-80 transition" alt="Company Logo" />
+      </a>
     </div>
+  
     <div id="LoginSection" class="">
       <div id="LoginFormDiv" class="flex gap-2">
         <button id="mainConnectBluetoothBtn" class="bg-primary text-reonaiWhite" onclick="connectBluetooth()">
@@ -58,7 +61,7 @@
 
 
 
-  <header class="absolute bottom-0">
+  <header style="display : none" class="absolute bottom-0">
     <button class="bg-transparent text-fontColor" onclick="showPanel('mainPanel')">mainPanel</button>
     <button class="bg-transparent text-fontColor" onclick="showPanel('roastInfoPanel')">roastInfoPanel</button>
     <button class="bg-transparent text-fontColor" onclick="showPanel('recipePanel')">recipePanel</button>
@@ -82,17 +85,41 @@
     <aside id="sideHeader"
       class="flex flex-col gap-2 font-base bg-reonaiBlack1 min-h-[calc(100vh-80px)] border-r-2 border-black">
 
-      <button class="text-fontColor"
+      <button style="display: none;"     class="text-fontColor"
         onclick="if(isCoolDownRunning) { alert('온도가 높습니다.'); } else {checkBluetoothConnectionForeasyRoasting(),autoStartHeatingMode(),autoRoastingFlagOn()}">자동
         로스팅</button>
       <button class="text-fontColor"
-        onclick="if(isCoolDownRunning) { alert('온도가 높습니다.'); } else {checkBluetoothConnectionForManualRoasting(),heatingMode(),autoRoastingFlagOff()}">초정밀
+        onclick="if(isCoolDownRunning) { alert('온도가 높습니다.'); } else {checkBluetoothConnectionForManualRoasting(),heatingMode(),autoRoastingFlagOff()}">수동
         로스팅</button>
       <button class="text-fontColor" onclick="checkBluetoothConnectionForRecipePanel()">레시피</button>
       <!-- <button class="text-white" onclick="showPanel('settingPanel'), headerDisplayNone()">설정</button> -->
     </aside>
+
+    <!--mainPanel!!-->
     <div id="mainPanel" class="w-full min-h-[calc(100vh-80px)] bg-contain bg-no-repeat bg-center p-16">
-      
+    
+
+<div class="sliderContainer space-y-4 flex flex-col">    <iframe 
+  width="560" 
+  height="315" 
+  src="https://www.youtube.com/embed/ZQKamLGRyD8"
+  title="YouTube video player" 
+  frameborder="0" 
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+  allowfullscreen>
+</iframe>
+
+<iframe 
+width="560" 
+height="315" 
+src="https://www.youtube.com/embed/D88QPtTam5I"
+title="YouTube video player" 
+frameborder="0" 
+allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+allowfullscreen>
+</iframe></div>
+  
+
       <!-- <img src=" /images/hero.png" class="w-full h-full" /> -->
     </div>
 
@@ -264,7 +291,7 @@
               onclick="if (document.getElementById('preheatPercentDisplay').innerText !== '100%') { alert('예열이 완료되지 않았습니다'); } else { showPanel('puttingCountPanel'); roastInfoStart(); }">로스팅
               시작</button>
 
-              <button id="roastInfoStartBtn" class="white-round-box rounded-sm text-reonaiRed"
+              <button style="display: none;" id="roastInfoStartBtn" class="white-round-box rounded-sm text-reonaiRed"
               onclick="showPanel('puttingCountPanel'); roastInfoStart();">예열 생략 로스팅 
               시작</button>
             
@@ -339,12 +366,10 @@
         </div>
     
         <!-- Button Section -->
-        <div id="buttonContainer" class="flex flex-col gap-4 items-center">
-          <button
-            class="control-btn white-round-box px-6 py-2 border rounded-lg hover:bg-gray-100 transition"
-            id="recipeBtn"
-            onclick="showPanel('easyRoastInfoPanel');">
-            자동로스팅(임시)
+        <div id="buttonContainer" class="flex  gap-4 items-center">
+          <button class="control-btn white-round-box px-6 py-2 border rounded-lg hover:bg-gray-100 transition" id="recipeInfoResetBtn"
+          onclick="resetRecipeChart();">
+          선택 취소
           </button>
           <button
             class="control-btn white-round-box px-6 py-2 border rounded-lg hover:bg-gray-100 transition"
@@ -355,20 +380,6 @@
         </div>
       </div>
     
-      <!-- Main Button -->
-      <div class="mt-4 text-center">
-        <button
-          class="control-btn px-6 py-2 border rounded-lg hover:bg-gray-100 transition"
-          onclick="showPanel('mainPanel')"
-          id="goToMainForAuto">
-          메인
-        </button>
-      </div>
-    </div>
-    
-
-
-
   
 
     <div id="puttingCountPanel" style="display: none;" class="w-full bg-reonaiBlack1 align-items: center">
@@ -377,7 +388,7 @@
       <div id="beanPuttingCounter"class="text-[200px] text-reonaiRed">0</div>
     </div>
     </div>
-
+  </div>
 
 
 
@@ -406,7 +417,7 @@
 
         <div id="mobileReceiveIndicator">  
           
-          <div id="receiveIndicator" class="p-4 rounded-lg shadow-lg w-max flex flex-col gap-2">
+          <div id="receiveIndicator" class="p-4 rounded-lg w-max flex flex-col gap-2">
             <!-- 시간 표시 -->
             <div id="timeIndicator" class="flex justify-end items-center gap-2">
               <label id=raostingTimeLabel class="text-xs font-bold">로스팅 시간:</label>
@@ -448,36 +459,42 @@
 
         
 
-        <div id = receiveIndicatorBox >    
+        <div id = receiveIndicatorBox class="flex flex-col gap-2 font-base bg-reonaiBlack1 min-h-[calc(100vh-80px)] border-l-2 border-r-2 border-black" >    
           <div id="laptopReceiveIndicator"></div>
           <div id="controlBtnBox" class="p-2 flex gap-2 grid grid-cols-3 justify-center">
             <!-- <button onclick="stopHeatingMode()">예열 중지</button><p></p>
               <button onclick="heatingMode()">예열</button><p></p> -->
 
-            <button class="inline-flex items-center h-btn-sm px-4 py-2 bg-reonaiRed text-white rounded hover:bg-reonaiBlue transition-colors"  onclick="startRecordingCrackPoint()">
+            <button class="inline-flex items-center h-btn-sm px-4 py-2 bg-reonaiRed text-white text-xs rounded  hover:bg-reonaiBlue transition-colors"  onclick="startRecordingCrackPoint()">
               크랙
             </button>
             
-            <button class="inline-flex items-center h-btn-sm px-4 py-2 bg-reonaiRed text-white rounded hover:bg-reonaiBlue transition-colors"  id="CoolDowndBtn"
-              onclick="coolingMode()">쿨다운</button>
+            <button class="inline-flex items-center h-btn-sm px-4 py-2 bg-reonaiRed text-white text-xs rounded  hover:bg-reonaiBlue transition-colors"id="CoolDowndBtn"
+              >쿨다운</button>
           
-              <button class="inline-flex items-center h-btn-sm px-4 py-2 bg-reonaiRed text-white rounded hover:bg-reonaiBlue transition-colors"  id="disposeBtn"
+              <button class="inline-flex items-center h-btn-sm px-4 py-2 bg-reonaiRed text-white text-xs rounded  hover:bg-reonaiBlue transition-colors"  id="disposeBtn"
               onclick="disposalMode()">배출</button>
 
           
 
-              <button class="inline-flex items-center h-btn-sm px-4 py-2 bg-reonaiRed text-white rounded hover:bg-reonaiBlue transition-colors" 
+              <button class="inline-flex items-center h-btn-sm px-4 py-2 bg-reonaiRed text-white text-xs rounded  hover:bg-reonaiBlue transition-colors"  id="recipeResetBtn"
+              >레시피</button>
+
+
+              <button class="inline-flex items-center h-btn-sm px-4 py-2 bg-reonaiRed text-white text-xs rounded  hover:bg-reonaiBlue transition-colors" 
               id="autoRoastingToggle" 
               onclick="toggleAutoRoasting()">
         AUTO
       </button>
-      <button  class="inline-flex items-center h-btn-sm px-4 py-2 bg-reonaiRed text-white rounded hover:bg-reonaiBlue transition-colors"  id="startRecordingcharts"
-      onclick="startRecordingcharts() ">startRec</button>
+      
       
       <div id="버튼숨김div" style="display: none;"> 
-    <button class="inline-flex items-center h-btn-sm px-4 py-2 bg-reonaiRed text-white rounded hover:bg-reonaiBlue transition-colors"  onclick="stopRecordingCrackPoint()">  크랙중지</button>
+    <button class="inline-flex items-center h-btn-sm px-4 py-2 bg-reonaiRed text-white rounded hover:bg-reonaiBlue transition-colors"  onclick="stopRecordingCrackPoint()">크랙중지</button>
     <button class="inline-flex items-center h-btn-sm px-4 py-2 bg-reonaiRed text-white rounded hover:bg-reonaiBlue transition-colors" id="autoRoastingFlagOn"onclick="autoRoastingFlagOn(),autoRoastingStartFlagOn()">AUTO_on</button>
     <button class="inline-flex items-center h-btn-sm px-4 py-2 bg-reonaiRed text-white rounded hover:bg-reonaiBlue transition-colors"  id="autoRoastingFlagOff"onclick="autoRoastingFlagOff(),autoRoastingStartFlagOff()">AUTO_off</button>
+
+    <button  class="inline-flex items-center h-btn-sm px-4 py-2 bg-reonaiRed text-white rounded hover:bg-reonaiBlue transition-colors"  id="startRecordingcharts"
+      onclick="startRecordingcharts() ">startRec</button>
     <button class="inline-flex items-center h-btn-sm px-4 py-2 bg-reonaiRed text-white rounded hover:bg-reonaiBlue transition-colors"  id="stopRecordingcharts" onclick="stopRecordingcharts()">stopRec</button>
     <button class="inline-flex items-center h-btn-sm px-4 py-2 bg-reonaiRed text-white rounded hover:bg-reonaiBlue transition-colors"  id="doorTestMode" onclick="doorTestMode()">door</button>             
     <button class="inline-flex items-center h-btn-sm px-4 py-2 bg-reonaiRed text-white rounded hover:bg-reonaiBlue transition-colors" id="autoRoastingFlagOn" onclick="autoRoastingFlagOn(),autoRoastingStartFlagOn()">AUTO_on</button>
@@ -490,7 +507,7 @@
 
 
           <!-- 출력제어 하는 부분 -->
-          <div id="sliderSection " style="margin: 5px" class="flex gap-2">
+          <div id="sliderSection " style="margin: 5px" class="p-2 flex gap-2 grid grid-cols-3 justify-center">
 
             <div id="fan1SliderContainer" class="sliderContainer space-y-4 flex flex-col">
               <!-- FAN1 Label and Buttons -->
@@ -524,7 +541,7 @@
               </div>
             
               <!-- Input Field and Slider -->
-              <div style="display: none;" class="flex flex-col items-center gap-2">
+              <div  style="display: none;" class="flex flex-col items-center gap-2">
                 <input 
                   type="range" 
                   id="fan1Slider" 
@@ -627,7 +644,7 @@
 
 <!-- Modal -->
 <div id="keypadModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-  <div class="bg-white p-5 rounded-lg shadow-lg w-64">
+  <div class="bg-white p-5 rounded-lg w-64">
   <!-- Current Value Display -->
    <div class="grid grid-cols-3 gap-2">
     <div id="keypadCurrentValueFan1" class="text-center text-xl font-bold mb-4">현재 값: 0</div>
@@ -677,7 +694,7 @@
 
 <!--정보를 보여주는 부분 -->
 <div id="roastInfoIndicator" 
-     class="p-6 rounded-2xl shadow-lg w-max flex flex-col gap-4 overflow-hidden">
+     class="p-6 rounded-2xl w-max flex flex-col gap-4 overflow-hidden">
   
 
   <!-- 제목 -->

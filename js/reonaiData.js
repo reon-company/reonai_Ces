@@ -520,6 +520,43 @@ function resetChartsAll() {
   console.log('데이터가 초기화되었습니다.');
 }
 
+function resetRecipeChart() {
+  //chart 0 의 레시피값
+  Highcharts.charts[0].series[5].setData([0]);
+  Highcharts.charts[0].series[6].setData([0]);
+  Highcharts.charts[0].series[7].setData([0]);
+  Highcharts.charts[0].series[8].setData([0]);
+  Highcharts.charts[0].series[9].setData([0]);
+  Highcharts.charts[0].series[10].setData([0]);
+  Highcharts.charts[0].series[11].setData([0]);
+  //chart 1 의 레시피값
+  Highcharts.charts[1].series[3].setData([0]);
+  Highcharts.charts[1].series[4].setData([0]);
+  Highcharts.charts[1].series[5].setData([0]);
+  //chart 23 의 레시피값
+  Highcharts.charts[2].series[0].setData([0]);
+  Highcharts.charts[2].series[1].setData([0]);
+  Highcharts.charts[2].series[2].setData([0]);
+  Highcharts.charts[2].series[3].setData([0]);
+  Highcharts.charts[2].series[4].setData([0]);
+  Highcharts.charts[2].series[5].setData([0]);
+  Highcharts.charts[2].series[6].setData([0]);
+  Highcharts.charts[2].series[7].setData([0]);
+  Highcharts.charts[2].series[8].setData([0]);
+  Highcharts.charts[2].series[9].setData([0]);
+  Highcharts.charts[2].series[10].setData([0]);
+  Highcharts.charts[2].series[11].setData([0]);
+  Highcharts.charts[3].series[0].setData([0]);
+  Highcharts.charts[3].series[1].setData([0]);
+  Highcharts.charts[3].series[2].setData([0]);
+  Highcharts.charts[3].series[3].setData([0]);
+  Highcharts.charts[3].series[4].setData([0]);
+  Highcharts.charts[3].series[5].setData([0]);
+
+  toggleAutoRoasting();
+  console.log('레시피 데이터가 초기화되었습니다.');
+}
+
 //각종 데이터 ,시간을 변환하는 함수들
 // CpUnderTime 데이터를 분, 초로 변환하고 초 단위로 변환하고 CpUnderTime 전역변수에 저장
 function extractSecondsFromTime(LoadcoolingPointTime) {

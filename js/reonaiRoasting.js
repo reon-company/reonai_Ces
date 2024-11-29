@@ -173,6 +173,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   fan1Slider.addEventListener('input', () => {
     updateSliderValue('fan1Slider', 'fan1Value', 'fan1Number');
+    updateNumberValue('fan1Number', 'fan1Value', 'fan1Slider');
   });
 
   fan1NumberBtn.addEventListener('click', () => {
@@ -341,6 +342,9 @@ function heatingMode() {
           document.getElementById('heaterSlider').value = 0;
           document.getElementById('heaterValue').innerText = 0;
           document.getElementById('fan1Slider').value = 0;
+          document.getElementById('fan1Number').value = 0;
+          document.getElementById('fan2Number').value = 0;
+          document.getElementById('heaterNumber').value = 0;
           document.getElementById('fan1Value').innerText = 0;
           document.getElementById('fan2Slider').value = 0;
           document.getElementById('fan2Value').innerText = 0;
@@ -386,6 +390,9 @@ function autoStartHeatingMode() {
   document.getElementById('fan1Value').innerText = autoStartHeatingcrrentfan1;
   document.getElementById('fan2Slider').value = autoStartHeatingcrrentfan2;
   document.getElementById('fan2Value').innerText = autoStartHeatingcrrentfan2;
+  document.getElementById('fan1Number').value = autoStartHeatingcrrentfan1;
+  document.getElementById('fan2Number').value = autoStartHeatingcrrentfan2;
+  document.getElementById('heaterNumber').value = autoStartHeatingcurrentHeater;
 
   if (autoStartHeatingModeInterval) {
     clearInterval(autoStartHeatingModeInterval);
@@ -506,6 +513,11 @@ function heatingPidControl() {
     document.getElementById('fan1Value').innerText = crrentfan1.toFixed(1);
     document.getElementById('fan2Slider').value = crrentfan2.toFixed(1);
     document.getElementById('fan2Value').innerText = crrentfan2.toFixed(1);
+
+    document.getElementById('fan1Number').value = crrentfan1.toFixed(1);
+    document.getElementById('fan2Number').value = crrentfan2.toFixed(1);
+    document.getElementById('heaterNumber').value = currentHeater.toFixed(1);
+
     checkAndSendData(); // 변경된 값을 장비로 전송
   }, 1000); // 0.1초 간격으로 온도를 제어
 }
@@ -562,6 +574,9 @@ function roastInfoStart() {
   document.getElementById('fan1Value').innerText = 0;
   document.getElementById('fan2Slider').value = 0;
   document.getElementById('fan2Value').innerText = 0;
+  document.getElementById('fan1Number').value = 0;
+  document.getElementById('fan2Number').value = 0;
+  document.getElementById('heaterNumber').value = 0;
 
   checkAndSendData(); // 변경된 값을 장비로 전송
 
@@ -664,6 +679,9 @@ function infoValueAdd() {
   document.getElementById('fan1Value').innerText = roastInfoPowerFan1Select;
   document.getElementById('fan2Value').innerText = roastInfoPowerFan2Select;
   document.getElementById('heaterValue').innerText = roastInfoPowerHeaterSelect;
+  document.getElementById('fan1Number').value = roastInfoPowerFan1Select;
+  document.getElementById('fan2Number').value = roastInfoPowerFan2Select;
+  document.getElementById('heaterNumber').value = roastInfoPowerHeaterSelect;
 
   //차트 리셋
   receivedData = [];
@@ -701,6 +719,9 @@ function doorTestMode() {
     document.getElementById('fan1Value').innerText = 0;
     document.getElementById('fan2Slider').value = 0;
     document.getElementById('fan2Value').innerText = 0;
+    document.getElementById('fan1Number').value = 0;
+    document.getElementById('fan2Number').value = 0;
+    document.getElementById('heaterNumber').value = 0;
 
     // 20초 카운트다운 시작
     let countdown = 20;
@@ -810,6 +831,9 @@ function coolingMode() {
       document.getElementById('fan1Slider').value = 0;
       document.getElementById('heaterSlider').value = 0;
       document.getElementById('fan2Slider').value = 0;
+      document.getElementById('fan1Number').value = 0;
+      document.getElementById('fan2Number').value = 0;
+      document.getElementById('heaterNumber').value = 0;
       // 슬라이더 표시값 업데이트
       document.getElementById('fan1Value').innerText = '0.0';
       document.getElementById('heaterValue').innerText = '0.0';
@@ -825,11 +849,14 @@ function coolingMode() {
       // 히터 값을 0으로 설정
       // document.getElementById('fan1Slider').value = 100;
       document.getElementById('heaterSlider').value = 0;
+
+      document.getElementById('heaterNumber').value = 0;
       // document.getElementById('fan2Slider').value = 100;
 
       // 슬라이더 표시값 업데이트
       // document.getElementById('fan1Value').innerText = '100.0';
       document.getElementById('heaterValue').innerText = '0.0';
+
       // document.getElementById('fan2Value').innerText = '100.0';
     }
   }, 1000); // 3초 간격으로 temp1과 temp2를 체크
@@ -863,6 +890,9 @@ function forceCoolingMode() {
   document.getElementById('fan1Value').innerText = 0;
   document.getElementById('fan2Slider').value = 0;
   document.getElementById('fan2Value').innerText = 0;
+  document.getElementById('fan1Number').value = 0;
+  document.getElementById('fan2Number').value = 0;
+  document.getElementById('heaterNumber').value = 0;
   isRecordingCrackPoint = false; // 크랙 기록 중지 함수
 
   isCoolDownRunning = true;
@@ -885,6 +915,9 @@ function forceCoolingMode() {
       document.getElementById('fan1Slider').value = 0;
       document.getElementById('heaterSlider').value = 0;
       document.getElementById('fan2Slider').value = 0;
+      document.getElementById('fan1Number').value = 0;
+      document.getElementById('fan2Number').value = 0;
+      document.getElementById('heaterNumber').value = 0;
       // 슬라이더 표시값 업데이트
       document.getElementById('fan1Value').innerText = '0.0';
       document.getElementById('heaterValue').innerText = '0.0';
@@ -902,6 +935,9 @@ function forceCoolingMode() {
       document.getElementById('fan1Slider').value = 100;
       document.getElementById('heaterSlider').value = 0;
       document.getElementById('fan2Slider').value = 30;
+      document.getElementById('fan1Number').value = 100;
+      document.getElementById('fan2Number').value = 0;
+      document.getElementById('heaterNumber').value = 30;
 
       // 슬라이더 표시값 업데이트
       document.getElementById('fan1Value').innerText = '100.0';
@@ -949,6 +985,9 @@ function disposalMode() {
             document.getElementById('fan1Slider').value = 0;
             document.getElementById('heaterSlider').value = 0;
             document.getElementById('fan2Slider').value = 0;
+            document.getElementById('fan1Number').value = 0;
+            document.getElementById('fan2Number').value = 0;
+            document.getElementById('heaterNumber').value = 0;
             // 슬라이더 표시값 업데이트
             document.getElementById('fan1Value').innerText = '0.0';
             document.getElementById('heaterValue').innerText = '0.0';
@@ -972,6 +1011,9 @@ function disposalMode() {
             document.getElementById('fan1Slider').value = 100;
             document.getElementById('heaterSlider').value = 0;
             document.getElementById('fan2Slider').value = 100;
+            document.getElementById('fan1Number').value = 100;
+            document.getElementById('fan2Number').value = 0;
+            document.getElementById('heaterNumber').value = 100;
 
             // 슬라이더 표시값 업데이트
             document.getElementById('fan1Value').innerText = '100.0';
@@ -996,6 +1038,9 @@ function handleOutputZero() {
   document.getElementById('fan1Slider').value = 0;
   document.getElementById('heaterSlider').value = 0;
   document.getElementById('fan2Slider').value = 0;
+  document.getElementById('fan1Number').value = 0;
+  document.getElementById('fan2Number').value = 0;
+  document.getElementById('heaterNumber').value = 0;
   // 슬라이더 표시값 업데이트
   document.getElementById('fan1Value').innerText = '0.0';
   document.getElementById('heaterValue').innerText = '0.0';
@@ -1083,9 +1128,14 @@ document.addEventListener('currentSecondUpdated', () => {
   if (autoRoastingStartFlag) {
     console.log('autoRoastingStartFlag : ', autoRoastingStartFlag);
     document.getElementById('fan1Slider').value = autofan1Values[currentSecond];
+
     document.getElementById('heaterSlider').value =
       autoheaterValues[currentSecond];
     document.getElementById('fan2Slider').value = autofan2Values[currentSecond];
+    document.getElementById('fan1Number').value = autofan1Values[currentSecond];
+    document.getElementById('fan2Number').value = autofan2Values[currentSecond];
+    document.getElementById('heaterNumber').value =
+      autoheaterValues[currentSecond];
 
     //자동 개입!
 
@@ -1642,6 +1692,28 @@ document.getElementById('windowfull').addEventListener('click', () => {
   });
 });
 
+document.getElementById('CoolDowndBtn').addEventListener('click', () => {
+  showCustomConfirm('쿨링을 시작 하시겠습니까?', (result) => {
+    if (result) {
+      coolingMode();
+      console.log('사용자가 확인을 선택했습니다.');
+    } else {
+      console.log('사용자가 취소를 선택했습니다.');
+    }
+  });
+});
+
+document.getElementById('recipeResetBtn').addEventListener('click', () => {
+  showCustomConfirm('레시피 데이터를 삭제하시겠습니까?', (result) => {
+    if (result) {
+      resetRecipeChart();
+      console.log('사용자가 확인을 선택했습니다.');
+    } else {
+      console.log('사용자가 취소를 선택했습니다.');
+    }
+  });
+});
+
 //모달창 펑션
 function showCustomConfirm(message, callback) {
   const confirmBox = document.getElementById('custom-confirm');
@@ -1872,29 +1944,34 @@ keypadSubmit.addEventListener('click', () => {
   if (addvalueModalKeypadFan1 < 30) {
     keypadCurrentValueFan1.textContent = '30';
     currentValueModalKeypadFan1 = '30';
+    updateNumberValue('fan1Number', 'fan1Value', 'fan1Slider');
     // returnCheck++;
   }
 
   if (addvalueModalKeypadFan1 > 100) {
     keypadCurrentValueFan1.textContent = '100';
     currentValueModalKeypadFan1 = '100';
+    updateNumberValue('fan1Number', 'fan1Value', 'fan1Slider');
     // keypadCurrentValueFan1.textContent = '값이 100보다 클 수 없습니다.';
     // returnCheck++;
   }
   if (addValueModalKeypadHeater > 100) {
     keypadCurrentValueHeater.textContent = '100';
     currentValueModalKeypadHeater = '100';
+    updateNumberValue('heaterNumber', 'heaterValue', 'heaterSlider');
     // keypadCurrentValueHeater.textContent = '값이 100보다 클 수 없습니다.';
     // returnCheck++;
   }
   if (addValueModalKeypadFan2 < 2.5) {
     keypadCurrentValueFan2.textContent = '2.5';
     currentValueModalKeypadFan2 = '2.5';
+    updateNumberValue('fan2Number', 'fan2Value', 'fan2Slider');
     // keypadCurrentValueFan2.textContent = '값이 2.5보다 작을 수 없습니다.';
     // returnCheck++;
   } else if (addValueModalKeypadFan2 > 12.5) {
     keypadCurrentValueFan2.textContent = '12.5';
     currentValueModalKeypadFan2 = '12.5';
+    updateNumberValue('fan2Number', 'fan2Value', 'fan2Slider');
     // keypadCurrentValueFan2.textContent = '값이 12.5보다 클 수 없습니다.';
     // returnCheck++;
   }

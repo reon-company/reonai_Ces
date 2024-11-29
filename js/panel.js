@@ -39,8 +39,8 @@ function headerDisplayBlock() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  // showPanel('mainPanel');
-  showPanel('roastPanel');
+  showPanel('mainPanel');
+  // showPanel('roastPanel');
 
   //로그인!
   const storedUserInfo = localStorage.getItem('userInfo');
