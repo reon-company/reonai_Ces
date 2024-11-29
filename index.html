@@ -36,12 +36,12 @@
     <div id="LoginSection" class="">
       <div id="LoginFormDiv" class="flex gap-2">
 
-        <div id="headerBtn" style="display : none" >
-          <button class="bg-reonaiWhite text-reonaiRed" onclick="showPanel('mainPanel')">mainPanel</button>
+        <!-- <div id="headerBtn" style="display : none" >
+          <button class="bg-reonaiWhite text-reonaiRed" onclick="showPanel('mainPanel')">maidnPanel</button>
           <button class="bg-reonaiWhite text-reonaiRed" onclick="showPanel('roastInfoPanel')">roastInfoPanel</button>
           <button class="bg-reonaiWhite text-reonaiRed"  onclick="showPanel('recipePanel')">recipePanel</button>    
           <button class="bg-reonaiWhite text-reonaiRed"  onclick="showPanel('roastPanel')">roastPanel</button>
-        </div>
+        </div> -->
 
         <button id="mainConnectBluetoothBtn" class="bg-primary text-reonaiWhite" onclick="connectBluetooth()">
           <img src="./images/bluetooth-svgrepo-com.svg" width="24" class=" text-white" />
@@ -70,8 +70,7 @@
 
   </header>
 
-
-
+</div>
 
 
 
@@ -87,16 +86,15 @@
     <button class="bg-transparent text-fontColor" onclick="showPanel('signInPanel')">signInPanel</button>
   </header>
 
-  
-
-
-
-
   <div class="fixed bottom-4 right-4">
     <button class="bg-white px-2"
       onclick="goToMain()">go
       to main</button>
   </div>
+
+
+
+  
   <div class="flex min-h-full">
     <aside id="sideHeader"
       class="flex flex-col gap-2 font-base bg-reonaiBlack1 min-h-[calc(100vh-80px)] border-r-2 border-black">
@@ -111,11 +109,16 @@
       <!-- <button class="text-white" onclick="showPanel('settingPanel'), headerDisplayNone()">설정</button> -->
     </aside>
 
+
+
+
+
     <!--mainPanel!!-->
     <div id="mainPanel" class="w-full min-h-[calc(100vh-80px)] bg-contain bg-no-repeat bg-center p-16">
     
 
-<div class="sliderContainer space-y-4 flex flex-col">    <iframe 
+<div class="sliderContainer space-y-4 flex flex-col">
+  <iframe 
   width="560" 
   height="315" 
   src="https://www.youtube.com/embed/ZQKamLGRyD8"
@@ -133,11 +136,12 @@ title="YouTube video player"
 frameborder="0" 
 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
 allowfullscreen>
-</iframe></div>
-  
-
+</iframe>
       <!-- <img src=" /images/hero.png" class="w-full h-full" /> -->
     </div>
+  </div>
+
+  
 
     <div id="roastInfoPanel" style="display: none;">
 
@@ -306,8 +310,8 @@ allowfullscreen>
             <button id="roastInfoStartBtn" class="white-round-box rounded-sm text-reonaiRed"
               onclick="if (document.getElementById('preheatPercentDisplay').innerText !== '100%') { alert('예열이 완료되지 않았습니다'); } else { showPanel('puttingCountPanel'); roastInfoStart(); }">로스팅
               시작</button>
-
-              <button style="display: none;" id="roastInfoStartBtn" class="white-round-box rounded-sm text-reonaiRed"
+            
+              <button style="display: none;"  id="roastInfoStartBtn" class="white-round-box rounded-sm text-reonaiRed"
               onclick="showPanel('puttingCountPanel'); roastInfoStart();">예열 생략 로스팅 
               시작</button>
             
@@ -395,7 +399,7 @@ allowfullscreen>
           </button>
         </div>
       </div>
-    
+      </div>
   
 
     <div id="puttingCountPanel" style="display: none;" class="w-full bg-reonaiBlack1 align-items: center">
@@ -404,7 +408,7 @@ allowfullscreen>
       <div id="beanPuttingCounter"class="text-[200px] text-reonaiRed">0</div>
     </div>
     </div>
-  </div>
+
 
 
 
@@ -770,7 +774,7 @@ allowfullscreen>
 
         </div>
       </div>
-    </div>
+    
   </div>
 
 <!-- roastPanel 끝-->

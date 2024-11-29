@@ -147,10 +147,6 @@ document
 
         // 필요한 후속 작업 수행 (예: 페이지 이동, 토큰 저장 등)
 
-        //아래 버튼 보이도록
-        document.getElementById('headerBtn').style.display = 'block';
-        document.getElementById('headerBtn').classList.add('show');
-
         getMyRecords(userData);
         getPilot();
         return userData;
@@ -800,10 +796,6 @@ function logout() {
   document.getElementById('email').value = ''; // 이메일 입력창 초기화
   document.getElementById('password').value = ''; // 비밀번호 입력창 초기화
 
-  //하단 판넬 버튼 숨김
-
-  document.getElementById('headerBtn').style.display = 'none';
-  document.getElementById('headerBtn').classList.remove('show');
   console.log('localStorage', localStorage);
   console.log('로그아웃 및 데이터 초기화 완료');
 }
