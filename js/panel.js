@@ -39,5 +39,7 @@ function headerDisplayBlock() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  showPanel('mainPanel');
+  // showPanel('mainPanel');
+  showPanel('roastPanel');
+  showChapter(1); //챕터컨텐츠에 1번으로 실행
 });

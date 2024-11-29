@@ -477,8 +477,8 @@ function convertValue(value) {
 
 //senddatatodevice
 async function sendDataToDevice(dataString) {
+  console.log('sendDataToDevice');
   if (writeCharacteristic) {
-    console.log('문제가 어디지');
     const data = new TextEncoder().encode(dataString);
     await writeCharacteristic.writeValue(data);
     console.log('now Data sent: ' + dataString.trim());
