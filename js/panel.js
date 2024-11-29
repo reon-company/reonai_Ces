@@ -58,7 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('loginUserName').style.display = 'block';
     document.getElementById('loginUserName').textContent = userInfo.firstName;
 
-    console.log('로그인 상태 유지:', userInfo);
+    // console.log('로그인 상태 유지:', userInfo);
     //로그인 플래그 참
     isLogin = true;
 

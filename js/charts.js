@@ -1,24 +1,93 @@
+// 차트와 초기 시리즈 데이터를 관리하는 Registry
+const chartRegistry = new Map(); // 컨테이너 ID → 차트 객체
+const initialSeriesRegistry = new Map(); // 컨테이너 ID → 초기 시리즈 데이터
+
 //window 이벤트 모음
 
 let Recivedchartlength = 900;
 let OutputChart = 900;
+// 창 크기 변경 시 레전드 크기 조정
+window.addEventListener('resize', adjustChartSize);
 
+//페이지가 로드될경우!
 window.onload = function () {
   // 차트 생성
   console.log('wellcome reonai studio :)');
   adjustChartSize(); // 초기 레전드 크기 조정
+
   createReceivedChart(); // 'chartdiv'에 차트를 생성
   createOutputChart(); // 'outputChartdiv'에 차트를 생성
   createReceivedChartRecipe(); // 'chartdiv'에 차트를 생성
   createOutputChartRecipe(); // 'outputChartdiv'에 차트를 생성
+
+  // logHighchartsSeries();
 };
 
-// 창 크기 변경 시 레전드 크기 조정
-window.addEventListener('resize', adjustChartSize);
+function logInitialSeries() {
+  console.log('초기 생성된 각 차트의 시리즈 번호 확인:');
+  chartRegistry.forEach((chart, containerId) => {
+    console.log(`컨테이너 ID: ${containerId}`);
+    chart.series.forEach((series, index) => {
+      console.log(`  시리즈 번호: ${index}, 시리즈 이름: ${series.name}`);
+    });
+  });
+}
+
+function logHighchartsSeries() {
+  console.log('Highcharts 배열을 통한 차트 및 시리즈 정보 확인:');
+  Highcharts.charts.forEach((chart, chartIndex) => {
+    if (chart) {
+      // null 체크
+      console.log(`차트 번호: ${chartIndex}`);
+      chart.series.forEach((series, seriesIndex) => {
+        console.log(
+          `  시리즈 번호: ${seriesIndex}, 시리즈 이름: ${series.name}`
+        );
+      });
+    } else {
+      console.log(`차트 번호: ${chartIndex}는 비어 있습니다.`);
+    }
+  });
+}
+
+function createChart(containerId, options) {
+  // 기존 차트가 있다면 제거
+
+  if (chartRegistry.has(containerId)) {
+    // console.log(`기존 차트 제거: ${containerId}`);
+    chartRegistry.get(containerId).destroy();
+    chartRegistry.delete(containerId);
+  }
+
+  // 새 차트 생성 및 등록
+  const newChart = Highcharts.chart(containerId, options);
+  chartRegistry.set(containerId, newChart);
+
+  // console.log(`새 차트 생성: ${containerId}`);
+  return newChart;
+}
+
+function clearAllCharts() {
+  chartRegistry.forEach((chart, containerId) => {
+    // console.log(`차트 제거: ${containerId}`);
+    chart.destroy();
+  });
+  chartRegistry.clear();
+
+  // chartRegistry와 Highcharts.charts 초기화
+  chartRegistry.clear();
+  Highcharts.charts.length = 0; // 배열을 비우기
+  // console.log('모든 차트가 제거되었습니다.');
+  // console.log(chartRegistry);
+  createReceivedChart(); // 'chartdiv'에 차트를 생성
+  createOutputChart(); // 'outputChartdiv'에 차트를 생성
+  createReceivedChartRecipe(); // 'chartdiv'에 차트를 생성
+  createOutputChartRecipe(); // 'outputChartdiv'에 차트를 생성
+}
 
 // receivedChart 준비!
 function createReceivedChart() {
-  return Highcharts.chart('chartdiv', {
+  return createChart('chartdiv', {
     chart: {
       type: 'line', // 'spline',
       backgroundColor: '#F3EDDF',
@@ -27,8 +96,8 @@ function createReceivedChart() {
       },
     },
     title: {
-      // text: 'Temperature & RoR',
-      text: '',
+      // text: '1Temperature & RoR',
+      text: '1Temperature & RoR',
       style: {
         color: '#201A1A',
         fonSize: '24px',
@@ -232,7 +301,7 @@ function createReceivedChart() {
 }
 // outputChart 차 준비!
 function createOutputChart() {
-  return Highcharts.chart('outputChartdiv', {
+  return createChart('outputChartdiv', {
     chart: {
       type: 'line',
       backgroundColor: '#F3EDDF',
@@ -241,7 +310,7 @@ function createOutputChart() {
       },
     },
     title: {
-      text: '',
+      text: '1Output',
       // text: 'Output',
       style: {
         color: '#201A1A',
@@ -357,7 +426,7 @@ function createOutputChart() {
 
 // receivedChart 준비!
 function createReceivedChartRecipe() {
-  return Highcharts.chart('chartdivRecipe', {
+  return createChart('chartdivRecipe', {
     chart: {
       type: 'line', // 'spline',
       backgroundColor: '#F3EDDF',
@@ -547,7 +616,7 @@ function createReceivedChartRecipe() {
 }
 // outputChart 차 준비!
 function createOutputChartRecipe() {
-  return Highcharts.chart('outputChartdivRecipe', {
+  return createChart('outputChartdivRecipe', {
     chart: {
       type: 'line',
       backgroundColor: '#F3EDDF',
@@ -665,7 +734,7 @@ function createOutputChartRecipe() {
 function adjustChartSize() {
   // 현재 화면 너비 가져오기
   const width = window.innerWidth;
-  console.log('adjustChartSize작동함');
+  // console.log('adjustChartSize작동함');
 
   //각 판넬 아이디 선언
   const topHeader = document.getElementById('topHeader');

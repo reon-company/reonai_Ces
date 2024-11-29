@@ -468,11 +468,14 @@ function resetChartsAll() {
   outputData = [];
   crackPoints = [];
   crackPointTimes = [];
+
   startTime = new Date().getTime();
   if (plotBandPercentageText) {
-    plotBandPercentageText.destroy();
+    plotBandPercentageText = null;
+    Highcharts.charts[0].xAxis[0].removePlotBand(latestPlotBandId);
+    Highcharts.charts[2].xAxis[0].removePlotBand(latestPlotBandId);
   } //plotBandPercentageText 있어야 삭제함
-  Highcharts.charts[0].xAxis[0].removePlotBand(latestPlotBandId);
+
   Highcharts.charts[0].series[0].setData([0]);
   Highcharts.charts[0].series[1].setData([0]);
   Highcharts.charts[0].series[2].setData([0]);
@@ -494,7 +497,7 @@ function resetChartsAll() {
   Highcharts.charts[1].series[5].setData([0]);
 
   //recipe chart
-  Highcharts.charts[2].xAxis[0].removePlotBand(latestPlotBandId);
+
   Highcharts.charts[2].series[0].setData([0]);
   Highcharts.charts[2].series[1].setData([0]);
   Highcharts.charts[2].series[2].setData([0]);

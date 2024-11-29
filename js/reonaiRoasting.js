@@ -261,13 +261,17 @@ function goToMain() {
       ) {
         console.log('go to main!!');
         showPanel('mainPanel');
-        // roastingReset();
+        roastingReset();
         forceCoolingMode();
         headerDisplayBlock();
         stopCoolingMode();
         autoRoastingFlagOff();
         autoRoastingStartFlagOff();
-        resetChartsAll();
+        // resetChartsAll();
+        // removeAndCreateChart();
+
+        clearAllCharts();
+
         stopRecordingcharts();
       }
     }
@@ -1866,35 +1870,33 @@ keypadSubmit.addEventListener('click', () => {
   }
 
   if (addvalueModalKeypadFan1 < 30) {
-    keypadCurrentValueFan1.textContent = '값이 30보다 작으면 안됩니다.';
-    currentValueModalKeypadFan1 = '';
-    returnCheck++;
+    keypadCurrentValueFan1.textContent = '30';
+    currentValueModalKeypadFan1 = '30';
+    // returnCheck++;
   }
 
   if (addvalueModalKeypadFan1 > 100) {
-    keypadCurrentValueFan1.textContent = '값이 100보다 클 수 없습니다.';
-    currentValueModalKeypadFan1 = '';
-    returnCheck++;
+    keypadCurrentValueFan1.textContent = '100';
+    currentValueModalKeypadFan1 = '100';
+    // keypadCurrentValueFan1.textContent = '값이 100보다 클 수 없습니다.';
+    // returnCheck++;
   }
   if (addValueModalKeypadHeater > 100) {
-    keypadCurrentValueHeater.textContent = '값이 100보다 클 수 없습니다.';
-    currentValueModalKeypadHeater = '';
-    returnCheck++;
+    keypadCurrentValueHeater.textContent = '100';
+    currentValueModalKeypadHeater = '100';
+    // keypadCurrentValueHeater.textContent = '값이 100보다 클 수 없습니다.';
+    // returnCheck++;
   }
-  if (addValueModalKeypadFan2 > 100) {
-    keypadCurrentValueFan2.textContent = '값이 100보다 클 수 없습니다.';
-    currentValueModalKeypadFan2 = '';
-    returnCheck++;
-  }
-
   if (addValueModalKeypadFan2 < 2.5) {
-    keypadCurrentValueFan2.textContent = '값이 2.5보다 작을 수 없습니다.';
-    currentValueModalKeypadFan2 = '';
-    returnCheck++;
+    keypadCurrentValueFan2.textContent = '2.5';
+    currentValueModalKeypadFan2 = '2.5';
+    // keypadCurrentValueFan2.textContent = '값이 2.5보다 작을 수 없습니다.';
+    // returnCheck++;
   } else if (addValueModalKeypadFan2 > 12.5) {
-    keypadCurrentValueFan2.textContent = '값이 12.5보다 클 수 없습니다.';
-    currentValueModalKeypadFan2 = '';
-    returnCheck++;
+    keypadCurrentValueFan2.textContent = '12.5';
+    currentValueModalKeypadFan2 = '12.5';
+    // keypadCurrentValueFan2.textContent = '값이 12.5보다 클 수 없습니다.';
+    // returnCheck++;
   }
 
   if (returnCheck >= 1) {
@@ -1903,3 +1905,23 @@ keypadSubmit.addEventListener('click', () => {
 
   keypadModal.classList.add('hidden');
 });
+
+function toggleAutoRoasting() {
+  const button = document.getElementById('autoRoastingToggle');
+
+  if (autoRoastingFlag) {
+    console.log('AUTO_off');
+    // AUTO_on 상태 -> AUTO_off로 변경
+    button.textContent = 'AUTO';
+    button.classList.replace('bg-reonaiBlue', 'bg-reonaiRed');
+    autoRoastingFlagOff();
+    autoRoastingStartFlagOff();
+  } else {
+    // AUTO_off 상태 -> AUTO_on으로 변경
+    console.log('AUTO_on');
+    button.textContent = 'AUTO';
+    button.classList.replace('bg-reonaiRed', 'bg-reonaiBlue');
+    autoRoastingFlagOn();
+    autoRoastingStartFlagOn();
+  }
+}

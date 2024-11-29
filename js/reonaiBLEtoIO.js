@@ -698,12 +698,10 @@ function roastingReset() {
   thirdCrackPointTime = 0;
   thirdCrackPointTemp = [];
 
-  document.getElementById('TPtime').innerText =
-    formatSecondsToMinutes(turningPointTimes); //터닝 포인트 시간
-  document.getElementById('TPtemp').innerText = turningPointTemps; //터닝 포인트 온도
-
-  document.getElementById('CPtime').innerText =
-    formatSecondsToMinutes(coolingPointTimes); //쿨링 포인트 시간
-
-  document.getElementById('CPtemp').innerText = coolingPointTemps; //쿨링 포인트 온도
+  document.getElementById('TPtime').innerText = '-';
+  document.getElementById('TPtemp').innerText = '-';
+  document.getElementById('CPtime').innerText = '-';
+  document.getElementById('CPtemp').innerText = '-';
+  document.getElementById('RoR2Value').innerText = '-';
+  document.getElementById('RoR1Value').innerText = '-';
 }

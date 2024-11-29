@@ -455,32 +455,37 @@
               <button onclick="heatingMode()">예열</button><p></p> -->
 
             <button class="inline-flex items-center h-btn-sm px-4 py-2 bg-reonaiRed text-white rounded hover:bg-reonaiBlue transition-colors"  onclick="startRecordingCrackPoint()">
-              크랙시작
+              크랙
             </button>
-            <button class="inline-flex items-center h-btn-sm px-4 py-2 bg-reonaiRed text-white rounded hover:bg-reonaiBlue transition-colors"  onclick="stopRecordingCrackPoint()">
-              크랙중지
-            </button>
+            
             <button class="inline-flex items-center h-btn-sm px-4 py-2 bg-reonaiRed text-white rounded hover:bg-reonaiBlue transition-colors"  id="CoolDowndBtn"
               onclick="coolingMode()">쿨다운</button>
           
               <button class="inline-flex items-center h-btn-sm px-4 py-2 bg-reonaiRed text-white rounded hover:bg-reonaiBlue transition-colors"  id="disposeBtn"
               onclick="disposalMode()">배출</button>
-            <button  class="inline-flex items-center h-btn-sm px-4 py-2 bg-reonaiRed text-white rounded hover:bg-reonaiBlue transition-colors"  id="startRecordingcharts"
-              onclick="startRecordingcharts() ">startRec</button>
-            <button class="inline-flex items-center h-btn-sm px-4 py-2 bg-reonaiRed text-white rounded hover:bg-reonaiBlue transition-colors"  id="stopRecordingcharts"
-              onclick="stopRecordingcharts()">stopRec</button>
-            <button class="inline-flex items-center h-btn-sm px-4 py-2 bg-reonaiRed text-white rounded hover:bg-reonaiBlue transition-colors"  id="doorTestMode"
-              onclick="doorTestMode()">door</button>             
-            <button class="inline-flex items-center h-btn-sm px-4 py-2 bg-reonaiRed text-white rounded hover:bg-reonaiBlue transition-colors" id="autoRoastingFlagOn"
-              onclick="autoRoastingFlagOn(),autoRoastingStartFlagOn()">AUTO_on</button>
-            <button class="inline-flex items-center h-btn-sm px-4 py-2 bg-reonaiRed text-white rounded hover:bg-reonaiBlue transition-colors"  id="autoRoastingFlagOff"
-              onclick="autoRoastingFlagOff(),autoRoastingStartFlagOff()">AUTO_off</button>
-            <button class="inline-flex items-center h-btn-sm px-4 py-2 bg-reonaiRed text-white rounded hover:bg-reonaiBlue transition-colors" id="autoRoastingFlagOff"
-              onclick="chartLengthUpdate()">차트</button>
-              <button class="inline-flex items-center h-btn-sm px-4 py-2 bg-reonaiRed text-white rounded hover:bg-reonaiBlue transition-colors"  id="windowfull">전체화면</button>
-            <button class="inline-flex items-center h-btn-sm px-4 py-2 bg-reonaiRed text-white rounded hover:bg-reonaiBlue transition-colors"  id="crackBtn" onclick="RecipeWrite()">save</button>
 
-          </div>
+          
+
+              <button class="inline-flex items-center h-btn-sm px-4 py-2 bg-reonaiRed text-white rounded hover:bg-reonaiBlue transition-colors" 
+              id="autoRoastingToggle" 
+              onclick="toggleAutoRoasting()">
+        AUTO
+      </button>
+      <button  class="inline-flex items-center h-btn-sm px-4 py-2 bg-reonaiRed text-white rounded hover:bg-reonaiBlue transition-colors"  id="startRecordingcharts"
+      onclick="startRecordingcharts() ">startRec</button>
+      
+      <div id="버튼숨김div" style="display: none;"> 
+    <button class="inline-flex items-center h-btn-sm px-4 py-2 bg-reonaiRed text-white rounded hover:bg-reonaiBlue transition-colors"  onclick="stopRecordingCrackPoint()">  크랙중지</button>
+    <button class="inline-flex items-center h-btn-sm px-4 py-2 bg-reonaiRed text-white rounded hover:bg-reonaiBlue transition-colors" id="autoRoastingFlagOn"onclick="autoRoastingFlagOn(),autoRoastingStartFlagOn()">AUTO_on</button>
+    <button class="inline-flex items-center h-btn-sm px-4 py-2 bg-reonaiRed text-white rounded hover:bg-reonaiBlue transition-colors"  id="autoRoastingFlagOff"onclick="autoRoastingFlagOff(),autoRoastingStartFlagOff()">AUTO_off</button>
+    <button class="inline-flex items-center h-btn-sm px-4 py-2 bg-reonaiRed text-white rounded hover:bg-reonaiBlue transition-colors"  id="stopRecordingcharts" onclick="stopRecordingcharts()">stopRec</button>
+    <button class="inline-flex items-center h-btn-sm px-4 py-2 bg-reonaiRed text-white rounded hover:bg-reonaiBlue transition-colors"  id="doorTestMode" onclick="doorTestMode()">door</button>             
+    <button class="inline-flex items-center h-btn-sm px-4 py-2 bg-reonaiRed text-white rounded hover:bg-reonaiBlue transition-colors" id="autoRoastingFlagOn" onclick="autoRoastingFlagOn(),autoRoastingStartFlagOn()">AUTO_on</button>
+    <button class="inline-flex items-center h-btn-sm px-4 py-2 bg-reonaiRed text-white rounded hover:bg-reonaiBlue transition-colors"  id="autoRoastingFlagOff" onclick="autoRoastingFlagOff(),autoRoastingStartFlagOff()">AUTO_off</button>
+    <button class="inline-flex items-center h-btn-sm px-4 py-2 bg-reonaiRed text-white rounded hover:bg-reonaiBlue transition-colors" id="autoRoastingFlagOff" onclick="chartLengthUpdate()">차트</button>
+    <button class="inline-flex items-center h-btn-sm px-4 py-2 bg-reonaiRed text-white rounded hover:bg-reonaiBlue transition-colors"  id="windowfull">전체화면</button>
+    <button class="inline-flex items-center h-btn-sm px-4 py-2 bg-reonaiRed text-white rounded hover:bg-reonaiBlue transition-colors"  id="crackBtn" onclick="RecipeWrite()">save</button> </div>
+    </div>
 
 
 
@@ -672,7 +677,7 @@
 
 <!--정보를 보여주는 부분 -->
 <div id="roastInfoIndicator" 
-     class="p-6 rounded-2xl shadow-lg w-max flex flex-col gap-4 border-2 overflow-hidden">
+     class="p-6 rounded-2xl shadow-lg w-max flex flex-col gap-4 overflow-hidden">
   
 
   <!-- 제목 -->
@@ -680,7 +685,7 @@
   
   <!-- TP & CP 정보 -->
   <div id="tpcpIndicator" class="flex flex-col gap-4 rounded-lg ">
-    <div id="tpIndicator" class="shadow-xl flex flex-col items-center justify-between bg-gray-100 p-3 rounded-md ">
+    <div id="tpIndicator" class="flex flex-col items-center justify-between bg-gray-100 p-3 rounded-md ">
       <div class="text-gray-600 font-extrabold text-2xl">TP</div>
       <div class="flex gap-4 text-gray-800">
         <span class="flex items-center gap-1">
@@ -693,7 +698,7 @@
         </span>
       </div>
     </div>
-    <div id="cpIndicator" class="shadow-xl flex flex-col items-center justify-between bg-gray-100 p-3 rounded-md ">
+    <div id="cpIndicator" class=" flex flex-col items-center justify-between bg-gray-100 p-3 rounded-md ">
       <div class="text-gray-600 font-extrabold text-2xl">CP</div>
       <div class="flex gap-4 text-gray-800">
         <span class="flex items-center gap-1">
@@ -709,8 +714,8 @@
   </div>
 
   <!-- 레시피 및 정보 -->
-  <div id="roastInfoDetails" class="bg-gray-50 p-4 rounded-md shadow-md">
-    <div class="text-gray-600 font-medium">Recipe Details:</div>
+  <div id="roastInfoDetails" class="bg-gray-50 p-4 rounded-md">
+    
     <div class="flex flex-col gap-2 mt-2 text-gray-800">
       <span class="flex items-center gap-2">
         <span class="font-semibold">Recipe:</span> 
