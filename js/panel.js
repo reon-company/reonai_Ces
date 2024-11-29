@@ -28,6 +28,11 @@ function showPanel(panelId) {
   });
 }
 
+function adminUser() {
+  document.getElementById('adminBtn').style.display = 'block';
+  document.getElementById('adminBtn').classList.add('show');
+}
+
 function headerDisplayNone() {
   document.getElementById('topHeader').classList.add('hidden');
   document.getElementById('sideHeader').classList.add('hidden');

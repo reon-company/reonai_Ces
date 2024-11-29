@@ -43,6 +43,16 @@
           <button class="bg-reonaiWhite text-reonaiRed"  onclick="showPanel('roastPanel')">roastPanel</button>
         </div> -->
 
+
+        <button 
+        id="instagramBtn" 
+        class="bg-primary text-reonaiWhite flex items-center justify-center p-2"
+        onclick="window.open('https://www.instagram.com/reonai_official_kr')"
+      >
+        <img src="./images/instagram_6422200.svg" width="24" alt="Instagram" />
+      </button>
+
+
         <button id="mainConnectBluetoothBtn" class="bg-primary text-reonaiWhite" onclick="connectBluetooth()">
           <img src="./images/bluetooth-svgrepo-com.svg" width="24" class=" text-white" />
         </button>
@@ -73,8 +83,8 @@
 </div>
 
 
-
-  <header style="display : none" class="absolute bottom-0">
+<!-- style="display : none" -->
+  <header id="adminBtn" style="display : none"  class="absolute bottom-0">
     <button class="bg-transparent text-fontColor" onclick="showPanel('mainPanel')">mainPanel</button>
     <button class="bg-transparent text-fontColor" onclick="showPanel('roastInfoPanel')">roastInfoPanel</button>
     <button class="bg-transparent text-fontColor" onclick="showPanel('recipePanel')">recipePanel</button>
@@ -114,8 +124,15 @@
 
 
     <!--mainPanel!!-->
-    <div id="mainPanel" class="w-full min-h-[calc(100vh-80px)] bg-contain bg-no-repeat bg-center p-16">
-    
+    <div id="mainPanel" class="w-full max-w-[800px] bg-contain bg-no-repeat bg-center  flex justify-center items-center">
+      <div class="flex">
+        <img 
+        src="/images/reoaniStudioV0.76.png" 
+        alt="Reonai Studio" 
+        class="w-auto max-w-full h-auto object-contain"
+      />
+
+
 
 <div class="sliderContainer space-y-4 flex flex-col">
   <iframe 
@@ -137,8 +154,9 @@ frameborder="0"
 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
 allowfullscreen>
 </iframe>
-      <!-- <img src=" /images/hero.png" class="w-full h-full" /> -->
-    </div>
+
+    </div></div>
+    
   </div>
 
   

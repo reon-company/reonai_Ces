@@ -17,6 +17,9 @@ let disposeTimeData = [];
 let inputCapacityData = [];
 let dtrData = [];
 
+//관리자 플래그
+let adminFlag = 0;
+
 // 전역 변수로 불러온 데이터를 저장할 변수 선언
 let loadedRoastData = null;
 
@@ -137,6 +140,10 @@ document
         userData.roasterSn = data.data.roasterSn;
         userData.type = data.data.type;
 
+        if (userData.id == 67) {
+          adminFlag = 1;
+        }
+
         // 전역 변수에 저장된 데이터 확인
         console.log('저장된 사용자 데이터:', userData);
         localStorage.setItem('userInfo', JSON.stringify(userData));
@@ -165,6 +172,10 @@ document
 async function getMyRecords(userData) {
   const getMyId = userData.id;
   const url = 'https://www.reonaicoffee.com/api/records';
+
+  if (userData.id == 67) {
+    adminFlag = 1;
+  }
 
   const requestData = {
     clientId: '4d042c50-bd70-11ee-aa8b-e30685fde2fa',
