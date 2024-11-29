@@ -35,6 +35,14 @@
   
     <div id="LoginSection" class="">
       <div id="LoginFormDiv" class="flex gap-2">
+
+        <div id="headerBtn" style="display : none" >
+          <button class="bg-reonaiWhite text-reonaiRed" onclick="showPanel('mainPanel')">mainPanel</button>
+          <button class="bg-reonaiWhite text-reonaiRed" onclick="showPanel('roastInfoPanel')">roastInfoPanel</button>
+          <button class="bg-reonaiWhite text-reonaiRed"  onclick="showPanel('recipePanel')">recipePanel</button>    
+          <button class="bg-reonaiWhite text-reonaiRed"  onclick="showPanel('roastPanel')">roastPanel</button>
+        </div>
+
         <button id="mainConnectBluetoothBtn" class="bg-primary text-reonaiWhite" onclick="connectBluetooth()">
           <img src="./images/bluetooth-svgrepo-com.svg" width="24" class=" text-white" />
         </button>
@@ -42,6 +50,10 @@
           <input class="bg-white" type="email" id="email" placeholder="아이디 입력" name="email" autofocus required>
           <input class="bg-white" type="password" id="password" placeholder="비밀번호 8자~20자" name="password"
             autofocusrequired>
+
+
+
+
 
 
           <button id="loginUserName" class="bg-reonaiWhite text-reonaiRed" style="display: none;"
@@ -61,6 +73,8 @@
 
 
 
+
+
   <header style="display : none" class="absolute bottom-0">
     <button class="bg-transparent text-fontColor" onclick="showPanel('mainPanel')">mainPanel</button>
     <button class="bg-transparent text-fontColor" onclick="showPanel('roastInfoPanel')">roastInfoPanel</button>
@@ -72,6 +86,8 @@
     <button class="bg-transparent text-fontColor" onclick="showPanel('settingPanel')">settingPanel</button>
     <button class="bg-transparent text-fontColor" onclick="showPanel('signInPanel')">signInPanel</button>
   </header>
+
+  
 
 
 

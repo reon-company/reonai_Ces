@@ -26,6 +26,14 @@ function showPanel(panelId) {
       console.log(`Panel not found: ${id}`);
     }
   });
+
+  if (localStorage.length === 2) {
+    document.getElementById('headerBtn').style.display = 'block';
+    document.getElementById('headerBtn').classList.add('show');
+  } else {
+    document.getElementById('headerBtn').style.display = 'none';
+    document.getElementById('headerBtn').classList.remove('show');
+  }
 }
 
 function headerDisplayNone() {
