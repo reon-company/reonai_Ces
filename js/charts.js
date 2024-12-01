@@ -21,6 +21,8 @@ window.onload = function () {
   createOutputChartRecipe(); // 'outputChartdiv'에 차트를 생성
   logInitialSeries();
   // logHighchartsSeries();
+
+  initializeLanguage(); //언어 localStorage 확인
   console.log('chartRegistry', chartRegistry);
 };
 

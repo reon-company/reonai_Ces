@@ -49,7 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // showPanel('roastPanel');
 
   // 접속하는 국가 확인  setLanguageBasedOnLocation();
-  setLanguageBasedOnLocation();
+  // setLanguageBasedOnLocation();
 
   //로그인!
   const storedUserInfo = localStorage.getItem('userInfo');
@@ -145,10 +145,12 @@ function setLanguage(lang) {
 
   if (lang === 'ko') {
     lengFlag = 0;
+    localStorage.setItem('lengFlag', 0); // localStorage에 저장
     koButton.style.display = 'none';
     enButton.style.display = 'inline-block';
   } else if (lang === 'en') {
     lengFlag = 1;
+    localStorage.setItem('lengFlag', 1); // localStorage에 저장
     enButton.style.display = 'none';
     koButton.style.display = 'inline-block';
   }
@@ -199,21 +201,35 @@ function setLanguage(lang) {
     translations[lang].keypadSubmit;
 }
 
-async function setLanguageBasedOnLocation() {
-  try {
-    // IP-API를 사용하여 국가 코드 가져오기
-    const response = await fetch('https://ipapi.co/json/');
-    const data = await response.json();
+// async function setLanguageBasedOnLocation() {
+//   try {
+//     // IP-API를 사용하여 국가 코드 가져오기
+//     const response = await fetch('https://ipapi.co/json/');
+//     const data = await response.json();
 
-    if (data.country_code === 'KR') {
-      console.log('접속위치 한국');
-      setLanguage('ko'); // 한국어 설정
-    } else {
-      console.log('접속위치 외국');
-      setLanguage('en'); // 영어 설정
-    }
-  } catch (error) {
-    console.error('Failed to detect location:', error);
-    setLanguage('en'); // 기본값 영어로 설정
+//     if (data.country_code === 'KR') {
+//       console.log('접속위치 한국');
+//       setLanguage('ko'); // 한국어 설정
+//     } else {
+//       console.log('접속위치 외국');
+//       setLanguage('en'); // 영어 설정
+//     }
+//   } catch (error) {
+//     console.error('Failed to detect location:', error);
+//     setLanguage('en'); // 기본값 영어로 설정
+//   }
+// }
+
+function initializeLanguage() {
+  // localStorage에서 언어 플래그 가져오기
+  const savedFlag = localStorage.getItem('lengFlag');
+
+  if (savedFlag === '0') {
+    setLanguage('ko'); // 한국어 설정
+  } else if (savedFlag === '1') {
+    setLanguage('en'); // 영어 설정
+  } else {
+    // 저장된 값이 없으면 기본 언어 설정
+    setLanguage('ko'); // 한국어를 기본값으로 설정
   }
 }
