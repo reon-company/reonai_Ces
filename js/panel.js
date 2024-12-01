@@ -45,7 +45,11 @@ function headerDisplayBlock() {
 
 document.addEventListener('DOMContentLoaded', () => {
   showPanel('mainPanel');
+
   // showPanel('roastPanel');
+
+  // 접속하는 국가 확인  setLanguageBasedOnLocation();
+  setLanguageBasedOnLocation();
 
   //로그인!
   const storedUserInfo = localStorage.getItem('userInfo');
@@ -76,3 +80,140 @@ document.addEventListener('DOMContentLoaded', () => {
     getPilot();
   }
 });
+
+const translations = {
+  ko: {
+    login: '로그인',
+    signUp: '회원가입',
+    logout: '로그아웃',
+    placeholderEmail: '아이디 입력',
+    placeholderPassword: '비밀번호 8자~20자',
+    confirmYes: '예',
+    confirmNo: '아니오',
+    recipe: '레시피',
+    preheat: '예열',
+    temperatureHigh: '온도가 높습니다.',
+    preheatNotComplete: '예열이 완료되지 않았습니다',
+    manualRoastingBtn: '정밀 로스팅',
+    roastInfoStartBtn: '로스팅 시작',
+    referenceFinderBtn: '레피시 찾기',
+    withoutpreheatingStartBtn: '예열 생략',
+    recipeInfoResetBtn: '선택 취소',
+    recipeInfoApplyBtn: '적용하기',
+    puttingInfo: '생두를 투입해주세요!',
+    raostingTimeLabel: '로스팅 시간:',
+    crackBtn: '크랙',
+    CoolDowndBtn: '쿨링',
+    disposeBtn: '배출',
+    recipeResetBtn: '레시피삭제',
+    keypadSubmit: '입력',
+  },
+  en: {
+    login: 'Login',
+    signUp: 'Sign Up',
+    logout: 'Logout',
+    placeholderEmail: 'Enter your email',
+    placeholderPassword: 'Password (8-20 characters)',
+    confirmYes: 'Yes',
+    confirmNo: 'No',
+    recipe: 'Recipe',
+    preheat: 'Preheat',
+    temperatureHigh: 'Temperature is high.',
+    preheatNotComplete: 'Preheat not completed',
+    manualRoastingBtn: 'Dynamic Roast',
+    roastInfoStartBtn: 'Start',
+    referenceFinderBtn: 'Recipe Finder',
+    withoutpreheatingStartBtn: 'Skip Preheat',
+    recipeInfoResetBtn: 'Cancel selection',
+    recipeInfoApplyBtn: 'Apply',
+    puttingInfo: 'Let’s load the green beans!',
+    raostingTimeLabel: 'Roasting Time:',
+    crackBtn: 'Crack',
+    CoolDowndBtn: 'Cool Down',
+    disposeBtn: 'Dispose',
+    recipeResetBtn: 'Recipe del',
+    keypadSubmit: 'Apply',
+  },
+};
+
+function setLanguage(lang) {
+  const koButton = document.getElementById('languageKo');
+  const enButton = document.getElementById('languageEn');
+
+  ('bg-reonaiBlue text-reonaiWhite');
+  ('bg-reonaiRed text-reonaiWhite');
+
+  if (lang === 'ko') {
+    lengFlag = 0;
+    koButton.style.display = 'none';
+    enButton.style.display = 'inline-block';
+  } else if (lang === 'en') {
+    lengFlag = 1;
+    enButton.style.display = 'none';
+    koButton.style.display = 'inline-block';
+  }
+  document.documentElement.lang = lang;
+  document.getElementById('loginBtn').innerText = translations[lang].login;
+  document.getElementById('logoutBtn').innerText = translations[lang].logout;
+  document.getElementById('signIn').innerText = translations[lang].signUp;
+  document.getElementById('email').placeholder =
+    translations[lang].placeholderEmail;
+  document.getElementById('password').placeholder =
+    translations[lang].placeholderPassword;
+
+  document.getElementById('roastInfoPanelPreheat').innerText =
+    translations[lang].preheat;
+  document.getElementById('roastInfoStartBtn').innerText =
+    translations[lang].roastInfoStartBtn;
+  document.getElementById('referenceFinderBtn').innerText =
+    translations[lang].referenceFinderBtn;
+
+  document.getElementById('manualRoastingBtn').innerText =
+    translations[lang].manualRoastingBtn;
+  document.getElementById('recipeBtnForMain').innerText =
+    translations[lang].recipe;
+  document.getElementById('withoutpreheatingStartBtn').innerText =
+    translations[lang].withoutpreheatingStartBtn;
+  document.getElementById('recipeInfoResetBtn').innerText =
+    translations[lang].recipeInfoResetBtn;
+  document.getElementById('recipeInfoApplyBtn').innerText =
+    translations[lang].recipeInfoApplyBtn;
+  document.getElementById('puttingInfo').innerText =
+    translations[lang].puttingInfo;
+
+  document.getElementById('raostingTimeLabel').innerText =
+    translations[lang].raostingTimeLabel;
+  document.getElementById('crackBtn').innerText = translations[lang].crackBtn;
+  document.getElementById('CoolDowndBtn').innerText =
+    translations[lang].CoolDowndBtn;
+  document.getElementById('disposeBtn').innerText =
+    translations[lang].disposeBtn;
+  document.getElementById('recipeResetBtn').innerText =
+    translations[lang].recipeResetBtn;
+
+  document.getElementById('confirm-yes').innerText =
+    translations[lang].confirmYes;
+  document.getElementById('confirm-no').innerText =
+    translations[lang].confirmNo;
+  document.getElementById('keypadSubmit').innerText =
+    translations[lang].keypadSubmit;
+}
+
+async function setLanguageBasedOnLocation() {
+  try {
+    // IP-API를 사용하여 국가 코드 가져오기
+    const response = await fetch('https://ipapi.co/json/');
+    const data = await response.json();
+
+    if (data.country_code === 'KR') {
+      console.log('접속위치 한국');
+      setLanguage('ko'); // 한국어 설정
+    } else {
+      console.log('접속위치 외국');
+      setLanguage('en'); // 영어 설정
+    }
+  } catch (error) {
+    console.error('Failed to detect location:', error);
+    setLanguage('en'); // 기본값 영어로 설정
+  }
+}

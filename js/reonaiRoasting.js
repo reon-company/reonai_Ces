@@ -1,3 +1,6 @@
+// 사용언어 플래그
+let lengFlag = 0; // 0 = 한국어 , 1= 영어
+
 //pid설정 온도 초과 카운트를 위한
 let exceedCount = 0; // 온도 초과 횟수 저장 변수
 const maxExceedCount = 100; // 최대 초과 횟수
@@ -249,15 +252,19 @@ document.addEventListener('DOMContentLoaded', () => {
 //go to main 버튼
 function goToMain() {
   const temp2 = parseFloat(document.getElementById('temp2Value').innerText);
-  if (confirm('저장되지 않은 내용은 복구 할 수 없습니다.')) {
+  if (
+    confirm(
+      '저장되지 않은 내용은 복구 할 수 없습니다. \n Unsaved changes cannot be recovered.'
+    )
+  ) {
     if (temp2 >= 220) {
       //히터 온도가 너무 높으면 배출안됨
-      alert('온도가 너무 높습니다.');
+      alert('온도가 너무 높습니다.\n Warning: High temperature detected.');
       return;
     } else {
       if (
         confirm(
-          '메인페이지로 이동하시겠습니까?, 온도가 높을 경우 강제 쿨링모드를 진행합니다.'
+          '메인페이지로 이동하시겠습니까?, 온도가 높을 경우 강제 쿨링모드를 진행합니다.\n  Do you want to return to the main page? If the temperature is too high, forced cooling mode will activate.'
         )
       ) {
         console.log('go to main!!');
@@ -972,11 +979,11 @@ function disposalMode() {
 
   if (temp2 >= 60) {
     //히터 온도가 너무 높으면 배출안됨
-    alert('온도가 너무 높습니다.');
+    alert('온도가 너무 높습니다. \n  Warning: High temperature detected.');
     return;
   } else {
-    if (confirm('채프를 청소 하셨습니까?')) {
-      if (confirm('배출을 하시겠습니까?')) {
+    if (confirm('채프를 청소 하셨습니까? \n Did you clean the chaff?')) {
+      if (confirm('배출을 하시겠습니까? \n Ready to dispose?')) {
         const monitorDiopsal = setInterval(() => {
           if (disposalCount > 20) {
             clearInterval(monitorDiopsal);
@@ -996,8 +1003,24 @@ function disposalMode() {
             isFirstDisposal = null;
             console.log('배출 완료 ');
 
-            if (confirm('레시피를 저장 하시겠습니까?')) {
+            if (
+              confirm(
+                '레시피를 저장 하시겠습니까? \n Do you want to save the recipe?'
+              )
+            ) {
               RecipeWrite();
+            }
+
+            if (
+              confirm(
+                '로스팅을 다시 시작 하시겠습니까? \n Do you want to start roasting again?'
+              )
+            ) {
+              checkBluetoothConnectionForManualRoasting();
+              heatingMode();
+              autoRoastingFlagOff();
+            } else {
+              goToMain();
             }
           } else {
             if (!isFirstDisposal) {
@@ -1425,12 +1448,12 @@ function resetCharts() {
 // 메인에서 버튼 클릭시 로그인과 블루투스 연결을 확인하는 함수
 function checkBluetoothConnectionForManualRoasting() {
   if (!isLogin) {
-    alert('로그인을 해주세요.');
+    alert('로그인을 해주세요.\nPlease sign in to access.');
     return;
   }
   {
     if (!isConnected) {
-      alert('블루투스 연결을 해주세요.');
+      alert('블루투스 연결을 해주세요.\nPlease connect to Bluetooth.');
     } else {
       headerDisplayNone(); // 헤더 숨기기
       showPanel('roastInfoPanel');
@@ -1440,12 +1463,12 @@ function checkBluetoothConnectionForManualRoasting() {
 
 function checkBluetoothConnectionForeasyRoasting() {
   if (!isLogin) {
-    alert('로그인을 해주세요.');
+    alert('로그인을 해주세요.\nPlease sign in to access.');
     return;
   }
   {
     if (!isConnected) {
-      alert('블루투스 연결을 해주세요.');
+      alert('블루투스 연결을 해주세요. \nPlease connect to Bluetooth.');
     } else {
       headerDisplayNone(); // 헤더 숨기기
       showPanel('easyRoastInfoPanel');
@@ -1455,7 +1478,7 @@ function checkBluetoothConnectionForeasyRoasting() {
 
 function checkBluetoothConnectionForRecipePanel() {
   if (!isLogin) {
-    alert('로그인을 해주세요.');
+    alert('로그인을 해주세요.\nPlease sign in to access.');
     return;
   }
   {
@@ -1693,25 +1716,47 @@ document.getElementById('windowfull').addEventListener('click', () => {
 });
 
 document.getElementById('CoolDowndBtn').addEventListener('click', () => {
-  showCustomConfirm('쿨링을 시작 하시겠습니까?', (result) => {
-    if (result) {
-      coolingMode();
-      console.log('사용자가 확인을 선택했습니다.');
-    } else {
-      console.log('사용자가 취소를 선택했습니다.');
-    }
-  });
+  if (lengFlag == 0) {
+    showCustomConfirm('쿨링을 시작 하시겠습니까?', (result) => {
+      if (result) {
+        coolingMode();
+        console.log('사용자가 확인을 선택했습니다.');
+      } else {
+        console.log('사용자가 취소를 선택했습니다.');
+      }
+    });
+  } else {
+    showCustomConfirm('Do you want to start cooling?', (result) => {
+      if (result) {
+        coolingMode();
+        console.log('사용자가 확인을 선택했습니다.');
+      } else {
+        console.log('사용자가 취소를 선택했습니다.');
+      }
+    });
+  }
 });
 
 document.getElementById('recipeResetBtn').addEventListener('click', () => {
-  showCustomConfirm('레시피 데이터를 삭제하시겠습니까?', (result) => {
-    if (result) {
-      resetRecipeChart();
-      console.log('사용자가 확인을 선택했습니다.');
-    } else {
-      console.log('사용자가 취소를 선택했습니다.');
-    }
-  });
+  if (lengFlag == 0) {
+    showCustomConfirm('레시피 데이터를 삭제하시겠습니까?', (result) => {
+      if (result) {
+        resetRecipeChart();
+        console.log('사용자가 확인을 선택했습니다.');
+      } else {
+        console.log('사용자가 취소를 선택했습니다.');
+      }
+    });
+  } else {
+    showCustomConfirm('Do you want to delete the recipe data?', (result) => {
+      if (result) {
+        resetRecipeChart();
+        console.log('사용자가 확인을 선택했습니다.');
+      } else {
+        console.log('사용자가 취소를 선택했습니다.');
+      }
+    });
+  }
 });
 
 //모달창 펑션
@@ -1737,6 +1782,7 @@ function showCustomConfirm(message, callback) {
 
 // Open modal on fan1Number click
 fan1Number.addEventListener('click', () => {
+  console.log('이거 되는겨?');
   currentValueModalKeypadFan1 = '';
   currentFan1Numver = document.getElementById('fan1Slider').value;
   keypadCurrentValueFan1.textContent = `Fan 1 ${currentFan1Numver}`;

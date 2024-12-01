@@ -34,6 +34,11 @@
     </div>
   
     <div id="LoginSection" class="">
+
+
+    
+
+
       <div id="LoginFormDiv" class="flex gap-2">
 
         <!-- <div id="headerBtn" style="display : none" >
@@ -42,7 +47,9 @@
           <button class="bg-reonaiWhite text-reonaiRed"  onclick="showPanel('recipePanel')">recipePanel</button>    
           <button class="bg-reonaiWhite text-reonaiRed"  onclick="showPanel('roastPanel')">roastPanel</button>
         </div> -->
-
+        <button id="languageKo" onclick="setLanguage('ko')" class="bg-reonaiBlue text-reonaiWhite px-2 py-1 rounded" style="display: none;">한국어</button>
+        <button id="languageEn" onclick="setLanguage('en')" class="bg-reonaiRed text-reonaiWhite px-2 py-1 rounded" >English</button>
+       
 
         <button 
         id="instagramBtn" 
@@ -84,7 +91,7 @@
 
 
 <!-- style="display : none" -->
-  <header id="adminBtn" style="display : none"  class="absolute bottom-0">
+  <header id="adminBtn" class="absolute bottom-0">
     <button class="bg-transparent text-fontColor" onclick="showPanel('mainPanel')">mainPanel</button>
     <button class="bg-transparent text-fontColor" onclick="showPanel('roastInfoPanel')">roastInfoPanel</button>
     <button class="bg-transparent text-fontColor" onclick="showPanel('recipePanel')">recipePanel</button>
@@ -109,13 +116,12 @@
     <aside id="sideHeader"
       class="flex flex-col gap-2 font-base bg-reonaiBlack1 min-h-[calc(100vh-80px)] border-r-2 border-black">
 
-      <button style="display: none;"     class="text-fontColor"
+      <button id="autoRoastingBtn" style="display: none;"     class="text-fontColor"
         onclick="if(isCoolDownRunning) { alert('온도가 높습니다.'); } else {checkBluetoothConnectionForeasyRoasting(),autoStartHeatingMode(),autoRoastingFlagOn()}">자동
         로스팅</button>
-      <button class="text-fontColor"
-        onclick="if(isCoolDownRunning) { alert('온도가 높습니다.'); } else {checkBluetoothConnectionForManualRoasting(),heatingMode(),autoRoastingFlagOff()}">수동
-        로스팅</button>
-      <button class="text-fontColor" onclick="checkBluetoothConnectionForRecipePanel()">레시피</button>
+      <button id="manualRoastingBtn" class="text-fontColor"
+        onclick="if(isCoolDownRunning) { alert('온도가 높습니다.'); } else {checkBluetoothConnectionForManualRoasting(),heatingMode(),autoRoastingFlagOff()}">정밀 로스팅</button>
+      <button id="recipeBtnForMain" class="text-fontColor" onclick="checkBluetoothConnectionForRecipePanel()">레시피</button>
       <!-- <button class="text-white" onclick="showPanel('settingPanel'), headerDisplayNone()">설정</button> -->
     </aside>
 
@@ -167,7 +173,7 @@ allowfullscreen>
         <h2 class="text-[32px]">Manual Roasting</h2>
         <div class="flex justify-start items-center h-full gap-2">
           <div class="infoBox">
-            <div class="infoBox-title">예열</div>
+            <div id="roastInfoPanelPreheat"class="infoBox-title">예열</div>
             <div class="infoBox-content">
               <span class="" id="preheatPercentDisplay">0%</span>
             </div>
@@ -319,7 +325,7 @@ allowfullscreen>
         </div>
         <section id="roastInfoSection2" class="flex flex-col w-full h-full gap-8">
           <button id="referenceFinderBtn" onclick="showPanel('recipePanel')" class="white-round-box rounded-sm">
-            Reference Finder
+            레피시 찾기
           </button>
         
           <!-- <h1 class="text-[32px] ">MEMO</h1>
@@ -329,9 +335,8 @@ allowfullscreen>
               onclick="if (document.getElementById('preheatPercentDisplay').innerText !== '100%') { alert('예열이 완료되지 않았습니다'); } else { showPanel('puttingCountPanel'); roastInfoStart(); }">로스팅
               시작</button>
               <!-- style="display: none;" -->
-              <button   id="roastInfoStartBtn" class="white-round-box rounded-sm text-reonaiRed"
-              onclick="showPanel('puttingCountPanel'); roastInfoStart();">예열 생략 로스팅 
-              시작</button>
+              <button   id="withoutpreheatingStartBtn" class="white-round-box rounded-sm text-reonaiRed"
+              onclick="showPanel('puttingCountPanel'); roastInfoStart();">예열 생략</button>
             
             <!-- <button class="white-round-box rounded-sm" id="roastInfoStartBtn"
               onclick="showPanel('puttingCountPanel'); roastInfoStart();">로스팅로로 시작</button> -->
@@ -411,9 +416,9 @@ allowfullscreen>
           </button>
           <button
             class="control-btn white-round-box px-6 py-2 border rounded-lg hover:bg-gray-100 transition"
-            id="recipeBtn"
+            id="recipeInfoApplyBtn"
             onclick="showPanel('roastInfoPanel');">
-            뒤로가기
+            적용하기
           </button>
         </div>
       </div>
@@ -422,7 +427,7 @@ allowfullscreen>
 
     <div id="puttingCountPanel" style="display: none;" class="w-full bg-reonaiBlack1 align-items: center">
       <div class="panelBox bg-gray-900 p-6 rounded-lg w-[1200px]text-center max-w-lg mx-auto space-y-4 items-center justify-center">
-      <h5 class=" text-[32px]">생두를 투입해주세요!</h5>
+      <h5 id="puttingInfo" class=" text-[32px]">생두를 투입해주세요!</h5>
       <div id="beanPuttingCounter"class="text-[200px] text-reonaiRed">0</div>
     </div>
     </div>
@@ -503,7 +508,7 @@ allowfullscreen>
             <!-- <button onclick="stopHeatingMode()">예열 중지</button><p></p>
               <button onclick="heatingMode()">예열</button><p></p> -->
 
-            <button class="inline-flex items-center h-btn-sm px-4 py-2 bg-reonaiRed text-white text-xs rounded  hover:bg-reonaiBlue transition-colors"  onclick="startRecordingCrackPoint()">
+            <button id="crackBtn"class="inline-flex items-center h-btn-sm px-4 py-2 bg-reonaiRed text-white text-xs rounded  hover:bg-reonaiBlue transition-colors"  onclick="startRecordingCrackPoint()">
               크랙
             </button>
             
@@ -516,7 +521,7 @@ allowfullscreen>
           
 
               <button class="inline-flex items-center h-btn-sm px-4 py-2 bg-reonaiRed text-white text-xs rounded  hover:bg-reonaiBlue transition-colors"  id="recipeResetBtn"
-              >레시피</button>
+              >레시피삭제</button>
 
 
               <button class="inline-flex items-center h-btn-sm px-4 py-2 bg-reonaiRed text-white text-xs rounded  hover:bg-reonaiBlue transition-colors" 

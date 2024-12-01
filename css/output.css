@@ -1635,10 +1635,6 @@ input[type='range'] {
   width: 200px;
 }
 
-.w-\[400px\] {
-  width: 400px;
-}
-
 .w-\[464px\] {
   width: 464px;
 }
@@ -1653,6 +1649,10 @@ input[type='range'] {
 
 .w-\[weird-and-invalid\] {
   width: weird-and-invalid;
+}
+
+.w-auto {
+  width: auto;
 }
 
 .w-full {
