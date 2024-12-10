@@ -449,3 +449,332 @@ input color
           </div>
         </div>
       </div>
+
+
+
+
+
+
+      //roastInfoPanel 에서 설정값을 받아오는 함수
+function roastInfoStart() {
+  //예열 퍼센트 초기화 및 예열 종료
+  percent = 0;
+  exceedCount = 0;
+
+  stopHeatingMode(); //예열 종료
+  coolingpointflagFalse(); // 쿨링플래그 종료
+
+  document.getElementById('heaterSlider').value = 0;
+  document.getElementById('heaterValue').innerText = 0;
+  document.getElementById('fan1Slider').value = 0;
+  document.getElementById('fan1Value').innerText = 0;
+  document.getElementById('fan2Slider').value = 0;
+  document.getElementById('fan2Value').innerText = 0;
+  document.getElementById('fan1Number').value = 0;
+  document.getElementById('fan2Number').value = 0;
+  document.getElementById('heaterNumber').value = 0;
+
+  checkAndSendData(); // 변경된 값을 장비로 전송
+
+  const roastInfoRecipeName =
+    document.getElementById('roastInfoRecipeName').value || 'no name';
+
+  const roastInfoBeanName =
+    document.getElementById('roastInfoBeanName').value || 'no name';
+
+  const roastInfoInputAmount = document.getElementById(
+    'roastInfoInputAmount'
+  ).value;
+  // const roastInfoStageSelect = document.getElementById(
+  //   'roastInfoStageSelect'
+  // ).value;
+
+  const roastInfoPowerFan1Select = document.getElementById(
+    'roastInfoPowerFan1Select'
+  ).value;
+  const roastInfoPowerFan2Select = document.getElementById(
+    'roastInfoPowerFan2Select'
+  ).value;
+  const roastInfoPowerHeaterSelect = document.getElementById(
+    'roastInfoPowerHeaterSelect'
+  ).value;
+  // const memoTextArea = document.getElementById('memoTextArea').value;
+  console.log('Recipe Name :', roastInfoRecipeName);
+  console.log('Bean Name :', roastInfoBeanName);
+  console.log('Input Amount :', roastInfoInputAmount);
+  // console.log('Steage :', roastInfoStageSelect);
+
+  console.log('Fan1 :', roastInfoPowerFan1Select);
+  console.log('Fan2 :', roastInfoPowerFan2Select);
+  console.log('Heater :', roastInfoPowerHeaterSelect);
+  // console.log('memo :', memoTextArea);
+
+  setTimeout(() => {
+    console.log('1초 후 실행됩니다');
+
+    puttingMode() // 투임함수 시작
+      .then(() => {
+        // 특정 함수 호출
+        console.log('puttingMode() 함수 완료 후 특정 함수 실행');
+        startRecordingcharts();
+        infoValueAdd();
+      })
+      .catch((error) => {
+        console.error('puttingMode() 함수 실패:', error);
+      });
+  }, 2000); // 1000 밀리초 = 1초
+
+}
+
+
+
+
+
+
+//투입을 시작하는 함수, 투입 - 2 - puttingMode()
+async function puttingMode() {
+  return new Promise((resolve, reject) => {
+    let resetDataString = `0,0,0,0,0,0,0\n`;
+    let puttingDataString = `0,0,0,0,1,0,0\n`;
+
+    console.log('puttingMode() 투입 함수 실행');
+
+    sendDataToDevice(puttingDataString);
+
+    // 20초 카운트다운 시작
+    let countdown = 20;
+    const countdownElement = document.getElementById('beanPuttingCounter');
+    countdownElement.style.fontSize = '48px'; // 카운트다운을 크게 표시
+    countdownElement.innerText = countdown; // 초기 카운트다운 값 설정
+
+    const countdownInterval = setInterval(() => {
+      if (document.getElementById('heaterValue').innerText == 0) {
+        countdown -= 1;
+        countdownElement.innerText = countdown; // 카운트다운 값 업데이트
+
+        // 카운트다운이 0이 되면 종료
+        if (countdown <= 0) {
+          clearInterval(countdownInterval);
+
+          console.log('beanPutting() 투입 함수 종료');
+          // console.log('');
+          if (!autoRoastingFlag) {
+            // 데이터 전송 및 이후 동작
+            sendDataToDevice(resetDataString)
+              .then(() => {
+                showPanel('roastPanel');
+              })
+              .catch((error) => {
+                console.error('Data transmission failed:', error);
+                console.log('Data transmission failed: ' + error);
+              });
+            resolve();
+          } else {
+            //오토로스팅에경우!
+            showPanel('easyRoastPanel');
+
+            resolve();
+          }
+        }
+      }
+    }, 1000); // 1초마다 실행
+  });
+}
+
+
+
+
+
+
+
+
+
+
+
+<div id="roastInfoPanel222" style="display: none;">
+
+      <div class="panelBox overflow-y-scroll">
+        <h2 class="text-[32px]">Manual Roasting</h2>
+        <div class="flex justify-start items-center h-full gap-2">
+          <div class="infoBox">
+            <div id="roastInfoPanelPreheat" class="infoBox-title">예열</div>
+            <div class="infoBox-content">
+              <span class="" id="preheatPercentDisplay">0%</span>
+            </div>
+          </div>
+          <div class="infoBox">
+            <div class="infoBox-title">Drum Temp</div>
+            <div class="infoBox-content">
+              <span class="" id="infoTemp1Value">-<span>°C</span></span>
+            </div>
+          </div>
+          <div class="infoBox">
+            <div class="infoBox-title">Heater Temp</div>
+            <div class="infoBox-content">
+              <span class="" id="infoTemp2Value">-<span>°C</span></span>
+            </div>
+          </div>
+        </div>
+        <div id="roastInfoDiv">
+          <section id="roastInfoSection">
+            <h1 class="text-[32px]">Info</h1>
+            <div id="roastInfoInputDiv" class="flex gap-2 items-center">
+              <input id="roastInfoRecipeName" class="white-round-box" placeholder="Recipe Name" autofocus required>
+              <input id="roastInfoBeanName" class="white-round-box" placeholder="Bean Name" autofocus required>
+              <select name="roastInfoInputAmount" id="roastInfoInputAmount" class="white-round-box w-[200px]">
+                <option disabled hidden selected>Input Amount</option>
+                <option value="50">50g</option>
+                <option value="60">60g</option>
+                <option value="70">70g</option>
+                <option value="80">80g</option>
+                <option value="90">90g</option>
+                <option value="100">100g</option>
+                <option value="110">110g</option>
+                <option value="120">120g</option>
+                <option value="130">130g</option>
+                <option value="140">140g</option>
+                <option value="150">150g</option>
+                <option value="160">160g</option>
+                <option value="170">170g</option>∂
+                <option value="180">180g</option>
+                <option value="190">190g</option>
+                <option value="200">200g</option>
+              </select>
+              <!-- 
+              <select name="roastInfoStage" id="roastInfoStageSelect" class="white-round-box w-[200px]">
+                <option disabled hidden selected>Stage</option>
+                <option value="Light">Light</option>
+                <option value="Cinnamon">Cinnamon</option>
+                <option value="Medium">Medium</option>
+                <option value="High">High</option>
+                <option value="Cit">City</option>
+                <option value="Full">Full</option>
+                <option value="French">French</option>
+                <option value="Italian">Italian</option>
+              </select> -->
+              <!-- <select name="roastInfoPreheatTemp" id="roastInfoPreheatTempSelect">
+<option disabled hidden selected>Preheat Temp</option>
+<option value="100">100°C</option>
+<option value="150">150°C</option>
+<option value="200">200°C</option>
+</select> -->
+
+            </div>
+            <div id="roastInfoPowerDiv">
+
+              <h1 class="text-[32px]">Power</h1>
+
+              <div style="display: flex;" class="gap-2">
+                <div id="roastInfoPowerFan1SelectDiv" class="w-[100px]">
+                  <h4>FAN1</h4>
+                  <select name="roastInfoPowerFan1" id="roastInfoPowerFan1Select" class="white-round-box !w-[100px]">
+
+
+                    <option value="25">25</option>
+                    <option value="30">30</option>
+                    <option value="35">35</option>
+                    <option value="40">40</option>
+                    <option value="45">45</option>
+                    <option value="50">50</option>
+                    <option value="55">55</option>
+                    <option value="60">60</option>
+                    <option value="65">65</option>
+                    <option value="70">70</option>
+                    <option value="75">75</option>
+                    <option value="80">80</option>
+                    <option value="85">85</option>
+                    <option value="90">90</option>
+                    <option value="95">95</option>
+                    <option value="100">100</option>
+                  </select>
+                </div>
+                <div id="roastInfoPowerFan2SelectDiv" class="w-[100px]">
+                  <h4>FAN2</h4>
+                  <select name="roastInfoPowerFan2" id="roastInfoPowerFan2Select" class="white-round-box !w-[100px]">
+
+
+                    <option value="2.5">2.5</option>
+                    <option value="3">3</option>
+                    <option value="3.5">3.5</option>
+                    <option value="4">4</option>
+                    <option value="4.5">4.5</option>
+                    <option value="5">5</option>
+                    <option value="5.5">5.5</option>
+                    <option value="6">6</option>
+                    <option value="6.5">6.5</option>
+                    <option value="7">7</option>
+                    <option value="7.5">7.5</option>
+                    <option value="8">8</option>
+                    <option value="8.5">8.5</option>
+                    <option value="9">9</option>
+                    <option value="9.5">9.5</option>
+                    <option value="10">10</option>
+                    <option value="10.5">10.5</option>
+                    <option value="11">11</option>
+                    <option value="11.5">11.5</option>
+                    <option value="12">12</option>
+                    <option value="12.5">12.5</option>
+                  </select>
+                </div>
+                <div id="roastInfoPowerHeaterSelectDiv" class="w-[100px]">
+                  <h4>Heater</h4>
+                  <select name="roastInfoPowerHeater" id="roastInfoPowerHeaterSelect"
+                    class="white-round-box !w-[100px]">
+                    <option value="0">0</option>
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="15">15</option>
+                    <option value="20">20</option>
+                    <option value="25">25</option>
+                    <option value="30">30</option>
+                    <option value="35">35</option>
+                    <option value="40">40</option>
+                    <option value="45">45</option>
+                    <option value="50">50</option>
+                    <option value="55">55</option>
+                    <option value="60">60</option>
+                    <option value="65">65</option>
+                    <option value="70">70</option>
+                    <option value="75">75</option>
+                    <option value="80">80</option>
+                    <option value="85">85</option>
+                    <option value="90">90</option>
+                    <option value="95">95</option>
+                    <option value="100">100</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+        <section id="roastInfoSection2" class="flex flex-col w-full h-full gap-8">
+          <button id="referenceFinderBtn" onclick="showPanel('recipePanel')" class="white-round-box rounded-sm">
+            레피시 찾기
+          </button>
+
+          <!-- <h1 class="text-[32px] ">MEMO</h1>
+          <textarea id="memoTextArea" placeholder="메모를 입력해주세요" class="bg-gray w-full h-[184px]"></textarea> -->
+          <div class="flex gap-8">
+            <button id="roastInfoStartBtn" class="white-round-box rounded-sm text-reonaiRed"
+              onclick="if (document.getElementById('preheatPercentDisplay').innerText !== '100%') { alert('예열이 완료되지 않았습니다'); } else { showPanel('puttingCountPanel'); roastInfoStart(); }">로스팅
+              시작</button>
+            <!-- style="display: none;" -->
+            <button id="withoutpreheatingStartBtn" class="white-round-box rounded-sm text-reonaiRed"
+              onclick="showPanel('puttingCountPanel'); roastInfoStart();">예열 생략</button>
+
+            <!-- <button class="white-round-box rounded-sm" id="roastInfoStartBtn"
+              onclick="showPanel('puttingCountPanel'); roastInfoStart();">로스팅로로 시작</button> -->
+          </div>
+        </section>
+        <!-- <div class="flex gap-8">
+          <button class="white-round-box rounded-sm" id="roastInfoStartBtn" onclick="showPanel('roastContainer')"
+            style="display: none;">로스팅 패널</button>
+          <button class="white-round-box rounded-sm" onclick="handleCoolDown()" class="control-btn"
+            id="roastInfoStartBtn">쿨다운</button>
+          <button class="white-round-box rounded-sm"
+            onclick="showPanel('mainPanel'),stopRecordingcharts(),resetChartsAll(),handleOutputZero(),forceCoolingMode()"
+            class="control-btn" id="goToMainForAuto">메인</button>
+        </div> -->
+      </div>
+
+</div>

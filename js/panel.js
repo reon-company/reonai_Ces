@@ -33,11 +33,6 @@ function adminUser() {
   document.getElementById('adminBtn').classList.add('show');
 }
 
-function headerDisplayNone() {
-  document.getElementById('topHeader').classList.add('hidden');
-  document.getElementById('sideHeader').classList.add('hidden');
-}
-
 function headerDisplayBlock() {
   document.getElementById('topHeader').classList.remove('hidden');
   document.getElementById('sideHeader').classList.remove('hidden');
@@ -46,7 +41,7 @@ function headerDisplayBlock() {
 document.addEventListener('DOMContentLoaded', () => {
   // showPanel('mainPanel');
 
-  showPanel('roastInfoPanel');
+  showPanel('puttingCountPanel');
   // showPanel('roastPanel');
 
   // 접속하는 국가 확인  setLanguageBasedOnLocation();
@@ -97,7 +92,7 @@ const translations = {
     preheatNotComplete: '예열이 완료되지 않았습니다',
     manualRoastingBtn: '정밀 로스팅',
     roastInfoStartBtn: '로스팅 시작',
-    referenceFinderBtn: '레피시 찾기',
+
     withoutpreheatingStartBtn: '예열 생략',
     recipeInfoResetBtn: '취소',
     recipeInfoApplyBtn: '적용',
@@ -123,7 +118,7 @@ const translations = {
     preheatNotComplete: 'Preheat not completed',
     manualRoastingBtn: 'Dynamic Roast',
     roastInfoStartBtn: 'Start',
-    referenceFinderBtn: 'Recipe Finder',
+
     withoutpreheatingStartBtn: 'Skip Preheat',
     recipeInfoResetBtn: 'Cancel',
     recipeInfoApplyBtn: 'Apply',
@@ -167,8 +162,6 @@ function setLanguage(lang) {
     translations[lang].preheat;
   document.getElementById('roastInfoStartBtn').innerText =
     translations[lang].roastInfoStartBtn;
-  document.getElementById('referenceFinderBtn').innerText =
-    translations[lang].referenceFinderBtn;
 
   document.getElementById('manualRoastingBtn').innerText =
     translations[lang].manualRoastingBtn;

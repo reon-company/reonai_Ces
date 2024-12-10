@@ -627,13 +627,36 @@ function roastInfoStart() {
       .then(() => {
         // 특정 함수 호출
         console.log('puttingMode() 함수 완료 후 특정 함수 실행');
-        startRecordingcharts();
-        infoValueAdd();
+
+        document.getElementById('putting-modal').classList.remove('hidden'); // 모달 보이기
+        document.getElementById('putting-modal').classList.add('flex');
       })
       .catch((error) => {
         console.error('puttingMode() 함수 실패:', error);
       });
   }, 2000); // 1000 밀리초 = 1초
+}
+
+//투입 후 로스팅 시작 함수
+function roastStartForPuttingMode() {
+  let resetDataString = `0,0,0,0,0,0,0\n`;
+  // console.log('');
+  if (!autoRoastingFlag) {
+    // 데이터 전송 및 이후 동작
+    sendDataToDevice(resetDataString)
+      .then(() => {
+        showPanel('roastPanel');
+      })
+      .catch((error) => {
+        console.error('Data transmission failed:', error);
+        console.log('Data transmission failed: ' + error);
+      });
+  } else {
+    //오토로스팅에경우!
+    showPanel('easyRoastPanel');
+  }
+  infoValueAdd();
+  startRecordingcharts();
 }
 
 //출력 값에 info에서 설정한 값을 넣어주고 수동로스팅을 진행시키는 함수
@@ -733,12 +756,12 @@ function doorTestMode() {
     // 20초 카운트다운 시작
     let countdown = 20;
     const countdownElement = document.getElementById('beanPuttingCounter');
-    countdownElement.style.fontSize = '48px'; // 카운트다운을 크게 표시
     countdownElement.innerText = countdown; // 초기 카운트다운 값 설정
 
     const countdownInterval = setInterval(() => {
       if (document.getElementById('heaterValue').innerText == 0) {
         countdown -= 1;
+
         countdownElement.innerText = countdown; // 카운트다운 값 업데이트
 
         // 카운트다운이 0이 되면 종료
@@ -753,17 +776,18 @@ function doorTestMode() {
 //투입을 시작하는 함수, 투입 - 2 - puttingMode()
 async function puttingMode() {
   return new Promise((resolve, reject) => {
-    let resetDataString = `0,0,0,0,0,0,0\n`;
     let puttingDataString = `0,0,0,0,1,0,0\n`;
+    let resetDataString = `0,0,0,0,0,0,0\n`;
 
     console.log('puttingMode() 투입 함수 실행');
+    document.getElementById('puttingInfo').innerText = '생두를 투입해주세요!';
 
     sendDataToDevice(puttingDataString);
 
     // 20초 카운트다운 시작
-    let countdown = 20;
+    let countdown = 19;
     const countdownElement = document.getElementById('beanPuttingCounter');
-    countdownElement.style.fontSize = '48px'; // 카운트다운을 크게 표시
+
     countdownElement.innerText = countdown; // 초기 카운트다운 값 설정
 
     const countdownInterval = setInterval(() => {
@@ -771,29 +795,22 @@ async function puttingMode() {
         countdown -= 1;
         countdownElement.innerText = countdown; // 카운트다운 값 업데이트
 
+        if (countdown >= 10) {
+          document.getElementById('puttingInfo').innerText =
+            '투입도어가 열리는 중입니다';
+        } else if (countdown >= 0) {
+          document.getElementById('puttingInfo').innerText =
+            '투입도어가 닫히는 중입니다 \n 잠시만 기다려주세요';
+        }
+
         // 카운트다운이 0이 되면 종료
         if (countdown <= 0) {
+          sendDataToDevice(resetDataString);
           clearInterval(countdownInterval);
 
           console.log('beanPutting() 투입 함수 종료');
-          // console.log('');
-          if (!autoRoastingFlag) {
-            // 데이터 전송 및 이후 동작
-            sendDataToDevice(resetDataString)
-              .then(() => {
-                showPanel('roastPanel');
-              })
-              .catch((error) => {
-                console.error('Data transmission failed:', error);
-                console.log('Data transmission failed: ' + error);
-              });
-            resolve();
-          } else {
-            //오토로스팅에경우!
-            showPanel('easyRoastPanel');
 
-            resolve();
-          }
+          resolve();
         }
       }
     }, 1000); // 1초마다 실행
@@ -1455,7 +1472,6 @@ function checkBluetoothConnectionForManualRoasting() {
     if (!isConnected) {
       alert('블루투스 연결을 해주세요.\nPlease connect to Bluetooth.');
     } else {
-      headerDisplayNone(); // 헤더 숨기기
       showPanel('roastInfoPanel');
     }
   }
@@ -1470,7 +1486,6 @@ function checkBluetoothConnectionForeasyRoasting() {
     if (!isConnected) {
       alert('블루투스 연결을 해주세요. \nPlease connect to Bluetooth.');
     } else {
-      headerDisplayNone(); // 헤더 숨기기
       showPanel('easyRoastInfoPanel');
     }
   }
@@ -1482,8 +1497,6 @@ function checkBluetoothConnectionForRecipePanel() {
     return;
   }
   {
-    headerDisplayNone(); // 헤더 숨기기
-
     showPanel('recipePanel');
   }
 }
@@ -1761,13 +1774,14 @@ document.getElementById('CoolDowndBtn').addEventListener('click', () => {
 
 //모달창 펑션
 function showCustomConfirm(message, callback) {
-  const confirmBox = document.getElementById('custom-confirm');
+  const confirmBox = document.getElementById('showCustomConfirm-modal');
   const confirmMessage = document.getElementById('confirm-message');
   const yesButton = document.getElementById('confirm-yes');
   const noButton = document.getElementById('confirm-no');
 
   confirmMessage.textContent = message;
   confirmBox.classList.remove('hidden');
+  confirmBox.classList.add('flex');
 
   yesButton.onclick = () => {
     confirmBox.classList.add('hidden');
