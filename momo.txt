@@ -1,0 +1,451 @@
+
+
+배경 색상 
+bg-zinc-50 dark:bg-zinc-900
+
+
+
+
+div 색상 
+bg-zinc-100 dark:bg-zinc-800
+
+
+
+
+
+// text color
+        <span id=raostingTimeLabel class="text-sm 
+        
+        
+        
+        text-zinc-950 dark:text-gray-300 
+        
+        
+        flex-1 text-center">로스팅
+                  시간</span>
+
+
+<button colors
+
+
+  <div id="controlBtnBox" class="flex-auto h-1/5 mb-1 grid grid-cols-3 gap-4 p-4  rounded-lg 
+            bg-zinc-100 dark:bg-zinc-800">
+  <button id="crackBtn" onclick="startRecordingCrackPoint()" class="py-2 px-4 rounded-md shadow text-center 
+              bg-white text-zinc-900 dark:bg-zinc-700 dark:text-gray-300
+              
+              hover:bg-zinc-300  dark:hover:bg-zinc-500
+              truncate overflow-hidden text-ellipsis">
+              크랙 1
+            </button>
+input color
+
+  <input type="number" id="fan1Number" min="30" max="100" value="30" step="0.5" class="w-16 h-10 text-center 
+                
+                text-gray-700 rounded-md shadow border border-gray-300 dark:border-zinc-700
+                bg-white text-zinc-900 dark:bg-zinc-700 dark:text-gray-300
+                over:bg-zinc-300  dark:hover:bg-zinc-500
+                  
+                  
+
+            ///////
+
+    <div class="login-card w-full rounded-lg shadow-lg p-6">
+      <div class="login-card-content">
+        <h1 class="text-3xl font-bold text-center mb-6" id="login-title">Sign In</h1>
+        <form class="register-form space-y-4" id="register-form" onsubmit="return false;">
+
+          <!-- Email Input -->
+          <div class="flex items-center gap-2">
+            <input
+              class="flex-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary bg-white"
+              id="sign-up-email" type="email" placeholder="example@reonaicoffee.com" required />
+            <button class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary-dark transition" type="button"
+              onclick="sendAuthCode()">
+              발송
+            </button>
+          </div>
+
+          <!-- Authentication Code Input -->
+          <div class="flex items-center gap-2">
+            <input
+              class="flex-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary bg-white"
+              id="email-auth-code" type="text" placeholder="000000" required />
+            <button class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary-dark transition" type="button"
+              onclick="verifyAuthCode()">
+              인증
+            </button>
+          </div>
+
+          <!-- First Name Input -->
+          <input class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary bg-white"
+            id="sign-up-first-name" type="text" placeholder="First Name" required />
+
+          <!-- Last Name Input -->
+          <input class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary bg-white"
+            id="sign-up-last-name" type="text" placeholder="Last Name" required />
+
+          <!-- Password Input -->
+          <input class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary bg-white"
+            id="sign-up-password" type="password" placeholder="Password" required />
+
+          <!-- Confirm Password Input -->
+          <input class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary bg-white"
+            id="sign-up-confirm-password" type="password" placeholder="Confirm Password" required />
+
+          <!-- Serial Number Input -->
+          <input class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary bg-white"
+            id="sign-up-roasterSn" type="text" placeholder="Serial Number" required />
+
+          <!-- Sign Up Button -->
+          <button class="w-full bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary-dark transition "
+            type="button" onclick="signUp()">
+            SIGN UP
+          </button>
+        </form>
+      </div>
+    </div>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  ///////////////////////
+
+
+
+
+
+
+  <header id=topHeader style="display: none;"
+    class="flex justify-between items-center px-4 py-4 w-full bg-reonaiBlack2 border-b-2 border-reonaiBlack3">
+    <div>
+      <a href="https://www.reonai.net" target="_blank">
+        <img src="./images/logo.png" class="w-32 cursor-pointer hover:opacity-80 transition" alt="Company Logo" />
+      </a>
+    </div>
+
+    <div id="LoginSection" class="">
+
+
+
+
+
+      <div id="LoginFormDiv" class="flex gap-2">
+
+        <!-- <div id="headerBtn" style="display : none" >
+          <button class="bg-reonaiWhite text-reonaiRed" onclick="showPanel('mainPanel')">maidnPanel</button>
+          <button class="bg-reonaiWhite text-reonaiRed" onclick="showPanel('roastInfoPanel')">roastInfoPanel</button>
+          <button class="bg-reonaiWhite text-reonaiRed"  onclick="showPanel('recipePanel')">recipePanel</button>    
+          <button class="bg-reonaiWhite text-reonaiRed"  onclick="showPanel('roastPanel')">roastPanel</button>
+        </div> -->
+        <button id="languageKo" onclick="setLanguage('ko')" class="bg-reonaiBlue text-reonaiWhite px-2 py-1 rounded"
+          style="display: none;">한국어</button>
+        <button id="languageEn" onclick="setLanguage('en')"
+          class="bg-reonaiRed text-reonaiWhite px-2 py-1 rounded">English</button>
+
+
+        <button id="instagramBtn" class="bg-primary text-reonaiWhite flex items-center justify-center p-2"
+          onclick="window.open('https://www.instagram.com/reonai_official_kr')">
+          <img src="./images/instagram_6422200.svg" width="24" alt="Instagram" />
+        </button>
+
+
+        <button id="mainConnectBluetoothBtn" class="bg-primary text-reonaiWhite" onclick="connectBluetooth()">
+          <img src="./images/bluetooth-svgrepo-com.svg" width="24" class=" text-white" />
+        </button>
+        <form id="loginForm" class="flex gap-2">
+          <input class="bg-white" type="email" id="email" placeholder="아이디 입력" name="email" autofocus required>
+          <input class="bg-white" type="password" id="password" placeholder="비밀번호 8자~20자" name="password"
+            autofocusrequired>
+
+
+
+
+
+
+          <button id="loginUserName" class="bg-reonaiWhite text-reonaiRed" style="display: none;"
+            style="display: none;"></button>
+          <button id="loginBtn" class="bg-primary text-white" type="submit">로그인</button>
+          <button id="signIn" class="bg-primary text-white" type="submit"
+            onclick="showPanel('signInPanel')">회원가입</button>
+
+          <button id="logoutBtn" class="bg-primary text-white" style="display: none;">로그아웃</button>
+          <p id="responseMessage" class="text-white"></p>
+
+        </form>
+      </div>
+    </div>
+
+  </header>
+
+
+
+
+
+
+
+  
+  
+
+  
+  <!-- 레시피 및 정보 -->
+  <div id="roastInfoDetails" class="bg-gray-50 p-4 rounded-md">
+  
+  <div class="flex flex-col gap-2 mt-2 text-gray-800">
+    <span class="flex items-center gap-2">
+      <span class="font-semibold">Recipe:</span> 
+      <span id="Recipe Name" class="value-display">-</span>
+    </span>
+    <span class="flex items-center gap-2">
+      <span class="font-semibold">Bean:</span> 
+      <span id="Bean Name" class="value-display">-</span>
+    </span>
+    <span class="flex items-center gap-2">
+      <span class="font-semibold">Input:</span> 
+      <span id="Input Amount" class="value-display">-</span>
+    </span>
+  </div>
+  </div>
+  </div>
+  
+  
+  
+      </div>
+    </div>
+  
+  </div>
+  
+
+  <div class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" id="styled-dashboard" role="tabpanel"
+                aria-labelledby="dashboard-tab">
+
+                <!-- 레시피 및 정보 -->
+                <div id="roastInfoDetails" class="flex flex-col gap-2 mt-2 ">
+                  <span class="flex items-center gap-2">
+                    <span>Recipe:</span>
+                    <span id="Recipe Name" class="value-display">-</span>
+                  </span>
+                  <span class="flex items-center gap-2">
+                    <span>Bean:</span>
+                    <span id="Bean Name" class="value-display">-</span>
+                  </span>
+                  <span class="flex items-center gap-2">
+                    <span>Input:</span>
+                    <span id="Input Amount" class="value-display">-</span>
+                  </span>
+                </div>
+              </div>
+
+
+
+
+
+
+              <div id="roastInfoIndicator"
+              class="flex-auto h-1/3 mb-1 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+  
+  
+  
+              <div class="mb-4 border-b border-gray-200 dark:border-gray-700">
+                <ul class="flex flex-wrap -mb-px text-sm font-medium text-center" id="default-styled-tab"
+                  data-tabs-toggle="#default-styled-tab-content"
+                  data-tabs-active-classes="text-purple-600 hover:text-purple-600 dark:text-purple-500 dark:hover:text-purple-500 border-purple-600 dark:border-purple-500"
+                  data-tabs-inactive-classes="dark:border-transparent text-gray-500 hover:text-gray-600 dark:text-gray-400 border-gray-100 hover:border-gray-300 dark:border-gray-700 dark:hover:text-gray-300"
+                  role="tablist">
+                  <li class="me-2" role="presentation">
+                    <button class="inline-block p-4 border-b-2 rounded-t-lg" id="profile-styled-tab"
+                      data-tabs-target="#styled-profile" type="button" role="tab" aria-controls="profile"
+                      aria-selected="false">Event</button>
+                  </li>
+                  <li class="me-2" role="presentation">
+                    <button
+                      class="inline-block p-4 border-b-2 rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300"
+                      id="dashboard-styled-tab" data-tabs-target="#styled-dashboard" type="button" role="tab"
+                      aria-controls="dashboard" aria-selected="false">Info</button>
+                  </li>
+  
+                </ul>
+              </div>
+              <div id="default-styled-tab-content">
+                <div class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" id="styled-profile" role="tabpanel"
+                  aria-labelledby="profile-tab">
+                  <div id="eventContent" class="grid grid-cols-3 gap-2 text-gray-600 dark:text-gray-300">
+                    <!-- Row 1 -->
+                    <span class="flex items-center text-sm">터닝 포인트</span>
+                    <span id="TPtemp" class="flex items-center justify-end">-</span>
+                    <span id="TPtime" class="flex items-center justify-end">-</span>
+  
+                    <!-- Row 2 -->
+                    <span class="flex items-center text-sm">크랙 포인트</span>
+                    <span class="flex items-center justify-end">-</span>
+                    <span class="flex items-center justify-end">-</span>
+  
+                    <!-- Row 3 -->
+                    <span class="flex items-center text-sm ">쿨링 포인트</span>
+                    <span id="CPtemp" class="flex items-center justify-end">-</span>
+                    <span id="CPtime" class="flex items-center justify-end">-</span>
+                  </div>
+                </div>
+            
+                
+                <div class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" id="styled-dashboard" role="tabpanel"
+                  aria-labelledby="dashboard-tab">
+    
+    <!-- 레시피 및 정보 -->
+                  <div id="roastInfoDetails" class="flex flex-col gap-2 mt-2 ">
+                    <span class="flex items-center gap-2">
+                      <span>Recipe:</span>
+                      <span id="Recipe Name" class="value-display">-</span>
+                    </span>
+                    <span class="flex items-center gap-2">
+                      <span>Bean:</span>
+                      <span id="Bean Name" class="value-display">-</span>
+                    </span>
+                    <span class="flex items-center gap-2">
+                      <span>Input:</span>
+                      <span id="Input Amount" class="value-display">-</span>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+
+
+            <!-- recipePanel 시작-->
+    <div id="recipePanel" class="hidden p-6">
+      <div class="panelBox container mx-auto space-y-6">
+        <!-- Section Container -->
+        <section id="recipeContainerSection" class="grid grid-cols-2 gap-8 items-start">
+          <!-- My Record Section -->
+          <section id="myRecordList" class="flex flex-col items-center">
+            <span class="text-2xl font-bold mb-4">My Record</span>
+            <div id="getMyRecordsResult"
+              class="record-list border-2 border-black text-fontColor h-32 overflow-y-auto w-full rounded-lg p-2">
+              <!-- Record Items Here -->
+            </div>
+          </section>
+
+          <!-- Pilot Record Section -->
+          <section id="pilotRecordList" class="flex flex-col items-center">
+            <span class="text-2xl font-bold mb-4">Pilot Record</span>
+            <div id="getPilotresult"
+              class="record-list border-2 border-black text-fontColor h-32 overflow-y-auto w-full rounded-lg p-2">
+              <!-- Record Items Here -->
+            </div>
+          </section>
+        </section>
+
+        <!-- Selected Record Section -->
+        <div id="selectedRecord" class="flex flex-col gap-4 p-4 bg-gray-50">
+          <!-- 가로로 정렬 및 간격 추가 -->
+          <div class="flex gap-x-8">
+            <div class="infoBox">
+              <div class="infoBox-title font-semibold"><strong>ID:</strong></div>
+              <div class="infoBox-content"> <span id="recordId">-</span></div>
+            </div>
+            <div class="infoBox">
+              <div class="font-semibold"><strong>Title:</strong></div>
+              <div> <span id="recordTitle">-</span></div>
+            </div>
+            <div class="infoBox">
+              <div class="font-semibold"><strong>Date:</strong></div>
+              <div> <span id="recordDate">-</span></div>
+            </div>
+            <div class="infoBox">
+              <div class="font-semibold"><strong>Time:</strong></div>
+              <div> <span id="recordTime">-</span></div>
+            </div>
+          </div>
+        </div>
+
+
+
+
+        <!-- Chart Section -->
+        <div id="chartContainerRecipe" class="w-full">
+          <div id="chartdivRecipe" class="h-3/5 border p-4 rounded-lg"></div>
+          <div id="outputChartdivRecipe" class="h-2/5 border p-4 rounded-lg mt-4"></div>
+        </div>
+
+        <!-- Button Section -->
+        <div id="buttonContainer" class="flex  gap-4 items-center">
+          <button class="control-btn white-round-box px-6 py-2 border rounded-lg hover:bg-zinc-300 transition"
+            id="recipeInfoResetBtn" onclick="resetRecipeChart();">
+            선택 취소
+          </button>
+          <button class="control-btn white-round-box px-6 py-2 border rounded-lg hover:bg-zinc-300 transition"
+            id="recipeInfoApplyBtn" onclick="showPanel('roastInfoPanel');">
+            적용하기
+          </button>
+        </div>
+      </div>
+    </div>
+<!-- recipePanel 끝-->
+
+
+
+
+
+
+
+    <!-- recipe finder modal -->
+      <div id="select-modal" tabindex="-1" aria-hidden="true" data-modal-backdrop="static" 
+        class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+        <div class="relative p-4 w-full max-w-md max-h-full">
+          <!-- Modal content -->
+          <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+            <!-- Modal header -->
+            <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
+              <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+                Recipe Finder
+              </h3>
+              <button type="button"
+                class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm h-8 w-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                data-modal-toggle="select-modal">
+                <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                  viewBox="0 0 14 14">
+                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                </svg>
+                <span class="sr-only">Close modal</span>
+              </button>
+            </div>
+            <!-- Modal body -->
+            <div class="p-4 md:p-5">
+              <!-- Right Column -->
+              <div class="space-y-2">
+                <!-- Empty Box -->
+                <div class="bg-zinc-100 dark:bg-zinc-800 p-4 rounded-lg shadow h-1/5"></div>
+
+                <!-- Recipe Sections -->
+
+                <div class="bg-zinc-100 dark:bg-zinc-800 p-4 rounded-lg shadow h-1/3">
+                  <span class="text-lg font-semibold block     text-zinc-950 dark:text-gray-300 ">My Recipe</span>
+                  <div class="mt-4 h-32 bg-gray-700 rounded   bg-white dark:bg-zinc-700 "></div>
+                </div>
+                <div class="bg-zinc-100 dark:bg-zinc-800 p-4 rounded-lg shadow h-1/3">
+                  <span class="text-lg font-semibold block     text-zinc-950 dark:text-gray-300 ">Pilot Recipe</span>
+                  <div class="mt-4 h-32 bg-gray-700 rounded bg-white dark:bg-zinc-700"></div>
+                  <div class="mt-4 flex space-x-4">
+                    <button class="w-1/2 p-2  rounded   text-gray-700 rounded-md shadow border border-gray-300 dark:border-zinc-700
+                  bg-white text-zinc-900 dark:bg-zinc-700 dark:text-gray-300
+                  over:bg-zinc-300  dark:hover:bg-zinc-500 ">Apply</button>
+                    <button class="w-1/2 p-2  rounded   text-gray-700 rounded-md shadow border border-gray-300 dark:border-zinc-700
+                  bg-white text-zinc-900 dark:bg-zinc-700 dark:text-gray-300
+                  over:bg-zinc-300  dark:hover:bg-zinc-500">Remove</button>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>

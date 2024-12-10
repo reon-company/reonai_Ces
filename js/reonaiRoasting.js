@@ -1704,16 +1704,16 @@ function showCustomConfirm(message, callback) {
   };
 }
 
-document.getElementById('windowfull').addEventListener('click', () => {
-  showCustomConfirm('전체화면을 실행하시겠습니까?', (result) => {
-    if (result) {
-      headerDisplayNone();
-      console.log('사용자가 확인을 선택했습니다.');
-    } else {
-      console.log('사용자가 취소를 선택했습니다.');
-    }
-  });
-});
+// document.getElementById('windowfull').addEventListener('click', () => {
+//   showCustomConfirm('전체화면을 실행하시겠습니까?', (result) => {
+//     if (result) {
+//       headerDisplayNone();
+//       console.log('사용자가 확인을 선택했습니다.');
+//     } else {
+//       console.log('사용자가 취소를 선택했습니다.');
+//     }
+//   });
+// });
 
 document.getElementById('CoolDowndBtn').addEventListener('click', () => {
   if (lengFlag == 0) {
@@ -1737,27 +1737,27 @@ document.getElementById('CoolDowndBtn').addEventListener('click', () => {
   }
 });
 
-document.getElementById('recipeResetBtn').addEventListener('click', () => {
-  if (lengFlag == 0) {
-    showCustomConfirm('레시피 데이터를 삭제하시겠습니까?', (result) => {
-      if (result) {
-        resetRecipeChart();
-        console.log('사용자가 확인을 선택했습니다.');
-      } else {
-        console.log('사용자가 취소를 선택했습니다.');
-      }
-    });
-  } else {
-    showCustomConfirm('Do you want to delete the recipe data?', (result) => {
-      if (result) {
-        resetRecipeChart();
-        console.log('사용자가 확인을 선택했습니다.');
-      } else {
-        console.log('사용자가 취소를 선택했습니다.');
-      }
-    });
-  }
-});
+// document.getElementById('recipeResetBtn').addEventListener('click', () => {
+//   if (lengFlag == 0) {
+//     showCustomConfirm('레시피 데이터를 삭제하시겠습니까?', (result) => {
+//       if (result) {
+//         resetRecipeChart();
+//         console.log('사용자가 확인을 선택했습니다.');
+//       } else {
+//         console.log('사용자가 취소를 선택했습니다.');
+//       }
+//     });
+//   } else {
+//     showCustomConfirm('Do you want to delete the recipe data?', (result) => {
+//       if (result) {
+//         resetRecipeChart();
+//         console.log('사용자가 확인을 선택했습니다.');
+//       } else {
+//         console.log('사용자가 취소를 선택했습니다.');
+//       }
+//     });
+//   }
+// });
 
 //모달창 펑션
 function showCustomConfirm(message, callback) {

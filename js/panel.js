@@ -44,8 +44,9 @@ function headerDisplayBlock() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  showPanel('mainPanel');
+  // showPanel('mainPanel');
 
+  showPanel('roastInfoPanel');
   // showPanel('roastPanel');
 
   // 접속하는 국가 확인  setLanguageBasedOnLocation();
@@ -56,17 +57,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (storedUserInfo) {
     // 사용자 정보 복원
-    const userInfo = JSON.parse(storedUserInfo);
 
-    document.getElementById('logoutBtn').style.display = 'block'; // 로그아웃 버튼 보이기
-    document.getElementById('signIn').style.display = 'none';
-    document.getElementById('loginBtn').style.display = 'none';
-    document.getElementById('email').style.display = 'none';
-    document.getElementById('password').style.display = 'none';
+    console.log('자동로그인?');
+    const userInfo = JSON.parse(storedUserInfo);
+    document.getElementById('loginModalBtn').style.display = 'none';
+    document.getElementById('logoutModalBtn').style.display = 'block'; // 로그아웃 버튼 보이기
 
     document.getElementById('loginUserName').style.display = 'block';
     document.getElementById('loginUserName').textContent = userInfo.firstName;
 
+    document.getElementById('signIn').style.display = 'none';
+    document.getElementById('userName').style.display = 'block';
     // console.log('로그인 상태 유지:', userInfo);
     //로그인 플래그 참
     isLogin = true;
@@ -98,8 +99,8 @@ const translations = {
     roastInfoStartBtn: '로스팅 시작',
     referenceFinderBtn: '레피시 찾기',
     withoutpreheatingStartBtn: '예열 생략',
-    recipeInfoResetBtn: '선택 취소',
-    recipeInfoApplyBtn: '적용하기',
+    recipeInfoResetBtn: '취소',
+    recipeInfoApplyBtn: '적용',
     puttingInfo: '생두를 투입해주세요!',
     raostingTimeLabel: '로스팅 시간:',
     crackBtn: '크랙',
@@ -124,12 +125,12 @@ const translations = {
     roastInfoStartBtn: 'Start',
     referenceFinderBtn: 'Recipe Finder',
     withoutpreheatingStartBtn: 'Skip Preheat',
-    recipeInfoResetBtn: 'Cancel selection',
+    recipeInfoResetBtn: 'Cancel',
     recipeInfoApplyBtn: 'Apply',
     puttingInfo: 'Let’s load the green beans!',
     raostingTimeLabel: 'Roasting Time:',
     crackBtn: 'Crack',
-    CoolDowndBtn: 'Cool Down',
+    CoolDowndBtn: 'Cooling',
     disposeBtn: 'Dispose',
     recipeResetBtn: 'Recipe del',
     keypadSubmit: 'Apply',
@@ -157,7 +158,6 @@ function setLanguage(lang) {
   document.documentElement.lang = lang;
   document.getElementById('loginBtn').innerText = translations[lang].login;
   document.getElementById('logoutBtn').innerText = translations[lang].logout;
-  document.getElementById('signIn').innerText = translations[lang].signUp;
   document.getElementById('email').placeholder =
     translations[lang].placeholderEmail;
   document.getElementById('password').placeholder =
@@ -190,15 +190,15 @@ function setLanguage(lang) {
     translations[lang].CoolDowndBtn;
   document.getElementById('disposeBtn').innerText =
     translations[lang].disposeBtn;
-  document.getElementById('recipeResetBtn').innerText =
-    translations[lang].recipeResetBtn;
+  // document.getElementById('recipeResetBtn').innerText =
+  // //   translations[lang].recipeResetBtn;
 
-  document.getElementById('confirm-yes').innerText =
-    translations[lang].confirmYes;
-  document.getElementById('confirm-no').innerText =
-    translations[lang].confirmNo;
-  document.getElementById('keypadSubmit').innerText =
-    translations[lang].keypadSubmit;
+  // document.getElementById('confirm-yes').innerText =
+  //   translations[lang].confirmYes;
+  // document.getElementById('confirm-no').innerText =
+  //   translations[lang].confirmNo;
+  // document.getElementById('keypadSubmit').innerText =
+  //   translations[lang].keypadSubmit;
 }
 
 // async function setLanguageBasedOnLocation() {

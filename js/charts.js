@@ -15,6 +15,9 @@ window.onload = function () {
   console.log('wellcome reonai studio :)');
   adjustChartSize(); // 초기 레전드 크기 조정
 
+  applyThemeToAllCharts();
+  setupDarkModeListener();
+
   createReceivedChart(); // 'chartdiv'에 차트를 생성
   createOutputChart(); // 'outputChartdiv'에 차트를 생성
   createReceivedChartRecipe(); // 'chartdiv'에 차트를 생성
@@ -64,6 +67,8 @@ function createChart(containerId, options) {
 
   // 새 차트 생성 및 등록
   const newChart = Highcharts.chart(containerId, options);
+  const isDark = isDarkMode();
+  updateChartTheme(newChart, isDark); // 초기 테마 적용
   chartRegistry.set(containerId, newChart);
 
   // console.log(`새 차트 생성: ${containerId}`);
@@ -117,7 +122,8 @@ function createReceivedChart() {
   return createChart('chartdiv', {
     chart: {
       type: 'line', // 'spline',
-      backgroundColor: '#F3EDDF',
+      // backgroundColor: '#F3EDDF',
+      backgroundColor: 'none',
       zooming: {
         type: 'x',
       },
@@ -140,9 +146,8 @@ function createReceivedChart() {
         },
       },
       labels: {
-        enabled: false, //라벨 숨김
         style: {
-          color: '#222',
+          color: '#941f24',
           fonSize: '1em',
         },
         formatter: function () {
@@ -156,6 +161,8 @@ function createReceivedChart() {
       },
       min: 0,
       max: 600,
+      gridLineWidth: 1,
+      tickInterval: 30,
     },
     yAxis: [
       {
@@ -173,9 +180,10 @@ function createReceivedChart() {
             color: '#941F25',
           },
         },
-        min: 0,
+        min: 50,
         max: 300,
-        gridLineColor: '#941F25',
+        gridLineWidth: 1,
+        tickInterval: 5,
       },
       {
         title: {
@@ -194,9 +202,10 @@ function createReceivedChart() {
           },
         },
         opposite: true, // 오른쪽 축
-        min: -150,
-        max: 150,
-        gridLineColor: '#2d2d2d',
+        min: -10,
+        max: 10,
+        gridLineWidth: 0,
+        tickInterval: 5,
       },
     ],
     legend: {
@@ -244,21 +253,32 @@ function createReceivedChart() {
         opacity: 1, //투명도
         dashStyle: 'Dash',
       },
-
       {
         name: 'Drum_under',
         data: [],
         color: '#D3194B',
-        lineWidth: 1,
-        opacity: 0.5, //투명도
+        lineWidth: 3,
       },
       {
         name: 'Heater_under',
         data: [],
         color: '#F97E2E',
-        lineWidth: 1,
-        opacity: 0.5, //투명도
+        lineWidth: 3,
       },
+      // {
+      //   name: 'Drum_under',
+      //   data: [],
+      //   color: '#D3194B',
+      //   lineWidth: 1,
+      //   opacity: 0.5, //투명도
+      // },
+      // {
+      //   name: 'Heater_under',
+      //   data: [],
+      //   color: '#F97E2E',
+      //   lineWidth: 1,
+      //   opacity: 0.5, //투명도
+      // },
       {
         name: 'Inner_under',
         data: [],
@@ -331,7 +351,8 @@ function createOutputChart() {
   return createChart('outputChartdiv', {
     chart: {
       type: 'line',
-      backgroundColor: '#F3EDDF',
+      // backgroundColor: '#F3EDDF',
+      backgroundColor: 'none',
       zooming: {
         type: 'x',
       },
@@ -351,8 +372,9 @@ function createOutputChart() {
         },
       },
       labels: {
+        enabled: false, //라벨 숨김
         style: {
-          color: '#222',
+          color: '#941F25',
         },
         formatter: function () {
           // 초를 분:초 형식으로 변환
@@ -365,6 +387,8 @@ function createOutputChart() {
       },
       min: 0,
       max: 600,
+      gridLineWidth: 1,
+      tickInterval: 30,
     },
     yAxis: [
       {
@@ -383,7 +407,8 @@ function createOutputChart() {
         },
         min: 0,
         max: 100,
-        gridLineColor: '#2d2d2d',
+        gridLineWidth: 1,
+        tickInterval: 5,
       },
       {
         title: {
@@ -404,7 +429,7 @@ function createOutputChart() {
         opposite: true, // 오른쪽 축
         min: 0,
         max: 15,
-        gridLineColor: '#2d2d2d',
+        gridLineWidth: 0,
       },
     ],
     legend: {
@@ -425,27 +450,46 @@ function createOutputChart() {
       { name: 'FAN1', data: [], color: '#800080', lineWidth: 3 },
       { name: 'HEATER', data: [], color: '#FFA500', lineWidth: 3 },
       { name: 'FAN2', data: [], color: '#87CEEB', yAxis: 1, lineWidth: 3 },
+      // {
+      //   name: 'FAN1_UNDER',
+      //   data: [],
+      //   color: '#800080',
+      //   lineWidth: 1,
+      //   opacity: 0.5,
+      // },
+      // {
+      //   name: 'HEATER_UNDER',
+      //   data: [],
+      //   color: '#FFA500',
+      //   lineWidth: 1,
+      //   opacity: 0.5,
+      // },
+      // {
+      //   name: 'FAN2_UNDER',
+      //   data: [],
+      //   color: '#87CEEB',
+      //   yAxis: 1,
+      //   lineWidth: 1,
+      //   opacity: 0.5,
+      // },
       {
         name: 'FAN1_UNDER',
         data: [],
         color: '#800080',
-        lineWidth: 1,
-        opacity: 0.5,
+        lineWidth: 3,
       },
       {
         name: 'HEATER_UNDER',
         data: [],
         color: '#FFA500',
-        lineWidth: 1,
-        opacity: 0.5,
+        lineWidth: 3,
       },
       {
         name: 'FAN2_UNDER',
         data: [],
         color: '#87CEEB',
         yAxis: 1,
-        lineWidth: 1,
-        opacity: 0.5,
+        lineWidth: 3,
       },
     ],
   });
@@ -456,13 +500,15 @@ function createReceivedChartRecipe() {
   return createChart('chartdivRecipe', {
     chart: {
       type: 'line', // 'spline',
-      backgroundColor: '#F3EDDF',
+      // backgroundColor: '#F3EDDF',
+      backgroundColor: 'none',
       zooming: {
         type: 'x',
       },
     },
     title: {
-      text: 'Temperature & RoR',
+      // text: '1Temperature & RoR',
+      text: '',
       style: {
         color: '#201A1A',
         fonSize: '24px',
@@ -470,7 +516,8 @@ function createReceivedChartRecipe() {
     },
     xAxis: {
       title: {
-        text: 'Time',
+        // text: 'Time',
+        text: '',
         style: {
           fonSize: '1em',
           color: '#222',
@@ -478,7 +525,7 @@ function createReceivedChartRecipe() {
       },
       labels: {
         style: {
-          color: '#222',
+          color: '#941f24',
           fonSize: '1em',
         },
         formatter: function () {
@@ -492,42 +539,51 @@ function createReceivedChartRecipe() {
       },
       min: 0,
       max: 600,
+      gridLineWidth: 1,
+      tickInterval: 30,
     },
     yAxis: [
       {
         title: {
-          text: 'Temperature (°C)',
+          // text: 'Temperature (°C)',
+          text: '',
           style: {
             color: '#941F25',
           },
         },
         labels: {
+          // enabled: false,
+          //라벨 숨김
           style: {
             color: '#941F25',
           },
         },
-        min: 0,
-        max: 350,
-        gridLineColor: '#941F25',
+        min: 50,
+        max: 300,
+        gridLineWidth: 1,
+        tickInterval: 10,
       },
       {
         title: {
-          text: 'RoR (°C/min)',
+          // text: 'RoR (°C/min)',
+          text: '',
           style: {
             color: '#941F25',
             opacity: 0.8, //투명도
           },
         },
         labels: {
+          enabled: false, //라벨 숨김
           style: {
             color: '#941F25',
             opacity: 0.8, //투명도
           },
         },
         opposite: true, // 오른쪽 축
-        min: -150,
-        max: 150,
-        gridLineColor: '#2d2d2d',
+        min: -10,
+        max: 10,
+        gridLineWidth: 0,
+        tickInterval: 5,
       },
     ],
     legend: {
@@ -575,24 +631,38 @@ function createReceivedChartRecipe() {
         opacity: 1, //투명도
         dashStyle: 'Dash',
       },
-
       {
         name: 'Drum_under',
         data: [],
         color: '#D3194B',
-        lineWidth: 1,
+        lineWidth: 3,
       },
       {
         name: 'Heater_under',
         data: [],
         color: '#F97E2E',
-        lineWidth: 1,
+        lineWidth: 3,
       },
+      // {
+      //   name: 'Drum_under',
+      //   data: [],
+      //   color: '#D3194B',
+      //   lineWidth: 1,
+      //   opacity: 0.5, //투명도
+      // },
+      // {
+      //   name: 'Heater_under',
+      //   data: [],
+      //   color: '#F97E2E',
+      //   lineWidth: 1,
+      //   opacity: 0.5, //투명도
+      // },
       {
         name: 'Inner_under',
         data: [],
         color: '#7A1B99',
         lineWidth: 1,
+        opacity: 0.5,
       },
       {
         name: 'TP',
@@ -615,6 +685,7 @@ function createReceivedChartRecipe() {
         },
         color: '#ff6347',
         lineWidth: 0,
+        opacity: 0.5, //투명도
       },
       {
         name: 'CP',
@@ -637,7 +708,19 @@ function createReceivedChartRecipe() {
         },
         color: '#87ceeb',
         lineWidth: 0,
+        opacity: 0.5, //투명도
       },
+
+      //ouput 값 테스트!!!!!
+      // { name: 'FAN1', data: [], color: '#800080', lineWidth: 2, opacity: 0.8 },
+      // {
+      //   name: 'HEATER',
+      //   data: [],
+      //   color: '#FFA500',
+      //   lineWidth: 2,
+      //   opacity: 0.8,
+      // },
+      // { name: 'FAN2', data: [], color: '#87CEEB', lineWidth: 2, opacity: 0.8 },
     ],
   });
 }
@@ -805,166 +888,168 @@ function adjustChartSize() {
   const settingPanel = document.getElementById('settingPanel');
   const signInPanel = document.getElementById('signInPanel');
 
-  //roastPanel 반응형
-  if (width <= 600) {
-    // 중간 크기 화면 (태블릿)
-    console.log(width, 'px');
-    console.log('모바일 환경입니다.');
+  // //roastPanel 반응형
+  // if (width <= 600) {
+  //   // 중간 크기 화면 (태블릿)
+  //   console.log(width, 'px');
+  //   console.log('모바일 환경입니다.');
 
-    //roastPanel 페이지
-    //receiveIndicator 의 위치 수정
-    // div를 부모의 마지막으로 이동
-    mobileReceiveIndicator.appendChild(receiveIndicator);
-    //roastPanelDiv에 class 추가
-    roastPanelDiv.classList.remove(
-      'flex',
-      'gap-4',
-      'w-full',
-      'bg-reonaiBlack1',
-      'h-fit'
-    );
+  //   //roastPanel 페이지
+  //   //receiveIndicator 의 위치 수정
+  //   // div를 부모의 마지막으로 이동
+  //   mobileReceiveIndicator.appendChild(receiveIndicator);
+  //   //roastPanelDiv에 class 추가
+  //   roastPanelDiv.classList.remove(
+  //     'flex',
+  //     'gap-4',
+  //     'w-full',
+  //     'bg-reonaiBlack1',
+  //     'h-fit'
+  //   );
 
-    receiveIndicator.classList.remove(
-      'p-2',
-      'rounded-lg',
-      'gap-1',
-      'w-max',
-      'h-auto',
-      'flex-auto'
-    );
-    receiveIndicator.classList.add(
-      'p-4',
-      'rounded-lg',
-      'w-full',
-      'flex',
-      'flex-col',
-      'gap-2'
-    );
-    receiveIndicator.style = '';
+  //   receiveIndicator.classList.remove(
+  //     'p-2',
+  //     'rounded-lg',
+  //     'gap-1',
+  //     'w-max',
+  //     'h-auto',
+  //     'flex-auto'
+  //   );
+  //   receiveIndicator.classList.add(
+  //     'p-4',
+  //     'rounded-lg',
+  //     'w-full',
+  //     'flex',
+  //     'flex-col',
+  //     'gap-2'
+  //   );
+  //   receiveIndicator.style = '';
 
-    //시간 인디게이터
-    timeIndicator.className = 'flex justify-end items-center gap-2';
-    raostingTimeLabel.className = 'text-xs font-bold';
-    elapsedValueSpan.className = 'text-sm font-extra boldtext-gray-700';
+  //   //시간 인디게이터
+  //   timeIndicator.className = 'flex justify-end items-center gap-2';
+  //   raostingTimeLabel.className = 'text-xs font-bold';
+  //   elapsedValueSpan.className = 'text-sm font-extra boldtext-gray-700';
 
-    //온도 인디게이터
-    tempIndicator.className =
-      'flex flex-wrap items-center justify-between gap-2';
+  //   //온도 인디게이터
+  //   tempIndicator.className =
+  //     'flex flex-wrap items-center justify-between gap-2';
 
-    //온도1 인디게이터
-    temp1Div.className = 'flex items-center gap-2';
-    dtLabel.className = 'text-xs text-gray-500';
-    temp1ValueSpan.className = 'text-sm font-bold text-reonaiTemp1';
-    cel1Label.className = 'text-xs';
+  //   //온도1 인디게이터
+  //   temp1Div.className = 'flex items-center gap-2';
+  //   dtLabel.className = 'text-xs text-gray-500';
+  //   temp1ValueSpan.className = 'text-sm font-bold text-reonaiTemp1';
+  //   cel1Label.className = 'text-xs';
 
-    //온도2 인디게이터
-    temp2Div.className = 'flex items-center gap-2';
-    htLabel.className = 'text-sm text-gray-500';
-    temp2ValueSpan.className = 'text-sm font-bold text-reonaiTemp2';
-    cel2Label.className = 'text-xs';
+  //   //온도2 인디게이터
+  //   temp2Div.className = 'flex items-center gap-2';
+  //   htLabel.className = 'text-sm text-gray-500';
+  //   temp2ValueSpan.className = 'text-sm font-bold text-reonaiTemp2';
+  //   cel2Label.className = 'text-xs';
 
-    //ror1 인디게이터
-    ror1Div.className = 'flex items-center gap-1';
-    ror1Label.className = 'text-xs text-gray-500';
-    RoR1ValueSpan.className = 'text-xs font-bold text-reonaiRor1';
+  //   //ror1 인디게이터
+  //   ror1Div.className = 'flex items-center gap-1';
+  //   ror1Label.className = 'text-xs text-gray-500';
+  //   RoR1ValueSpan.className = 'text-xs font-bold text-reonaiRor1';
 
-    //ror2 인디게이터
-    ror2Div.className = 'flex items-center gap-1';
-    ror2Label.className = 'text-xs text-gray-500';
-    RoR2ValueSpan.className = 'text-xs font-bold text-reonaiRor2';
+  //   //ror2 인디게이터
+  //   ror2Div.className = 'flex items-center gap-1';
+  //   ror2Label.className = 'text-xs text-gray-500';
+  //   RoR2ValueSpan.className = 'text-xs font-bold text-reonaiRor2';
 
-    //
-    //
-    //차트 화면 크기 수정
-    // id="chartContainer" style="height: 50vh; margin: 5px "
+  //   //
+  //   //
+  //   //차트 화면 크기 수정
+  //   // id="chartContainer" style="height: 50vh; margin: 5px "
 
-    chartContainer.style.height = '50vh';
-    chartContainer.style.width = '100%';
-    roastPanelDiv.style.width = '100%';
-    mobileReceiveIndicator.style.width = '100%';
-    receiveIndicatorBox.style.width = '';
-  } else if (width > 600 && width <= 1024) {
-    // 중간 크기 화면 (태블릿)c
-    console.log(width, 'px');
-    console.log('태블릿 환경입니다.');
-  } else {
-    // 큰 화면 (데스크탑, 아이패드 가로 모드 등)
+  //   chartContainer.style.height = '50vh';
+  //   chartContainer.style.width = '100%';
+  //   roastPanelDiv.style.width = '100%';
+  //   mobileReceiveIndicator.style.width = '100%';
+  //   receiveIndicatorBox.style.width = '';
+  // } else if (width > 600 && width <= 1024) {
+  //   // 중간 크기 화면 (태블릿)c
+  //   console.log(width, 'px');
+  //   console.log('태블릿 환경입니다.');
+  // } else {
+  //   // 큰 화면 (데스크탑, 아이패드 가로 모드 등)
 
-    console.log(width, 'px');
-    console.log('데스크톱 환경입니다.');
+  //   console.log(width, 'px');
+  //   console.log('데스크톱 환경입니다.');
 
-    //receiveIndicator 의 위치 수정
+  //   //receiveIndicator 의 위치 수정
 
-    // div를 부모의 마지막으로 이동
-    laptopReceiveIndicator.appendChild(receiveIndicator);
-    //roastPanelDiv에 class 추가
-    roastPanelDiv.classList.add(
-      'flex',
-      'gap-4',
-      'w-full',
-      'bg-reonaiBlack1',
-      'h-fit'
-    );
-    receiveIndicator.classList.remove(
-      'p-4',
-      'rounded-lg',
-      'w-full',
-      'flex',
-      'flex-col',
-      'gap-2'
-    );
-    receiveIndicator.classList.add(
-      'p-2',
-      'rounded-lg',
-      'gap-1',
-      'w-max',
-      'h-auto',
-      'flex-auto'
-    );
-    receiveIndicator.style.margin = '5px';
+  //   // div를 부모의 마지막으로 이동
+  //   laptopReceiveIndicator.appendChild(receiveIndicator);
+  //   //roastPanelDiv에 class 추가
+  //   roastPanelDiv.classList.add(
+  //     'flex',
+  //     'gap-4',
+  //     'w-full',
+  //     'bg-reonaiBlack1',
+  //     'h-fit'
+  //   );
+  //   receiveIndicator.classList.remove(
+  //     'p-4',
+  //     'rounded-lg',
+  //     'w-full',
+  //     'flex',
+  //     'flex-col',
+  //     'gap-2'
+  //   );
+  //   receiveIndicator.classList.add(
+  //     'p-2',
+  //     'rounded-lg',
+  //     'gap-1',
+  //     'w-max',
+  //     'h-auto',
+  //     'flex-auto'
+  //   );
+  //   receiveIndicator.style.margin = '5px';
 
-    //시간 인디게이터
-    timeIndicator.className = 'grid grid-cols-2 gap-4 items-center';
-    raostingTimeLabel.className = 'text-center text-xl font-bold mb-4';
-    elapsedValueSpan.className =
-      'text-center text-3xl font-extrabold text-gray-700 mb-6';
-    //온도 인디게이터
-    tempIndicator.className = 'grid grid-cols-2 gap-4';
-    //온도1 인디게이터
-    temp1Div.className = 'flex flex-col items-center gap-1';
-    dtLabel.className = 'block text-xl text-gray-500';
-    temp1ValueSpan.className = 'text-2xl font-bold text-reonaiTemp1';
-    cel1Label.className = 'text-xl';
-    //온도2 인디게이터
-    temp2Div.className = 'flex flex-col items-center gap-1';
-    htLabel.className = 'text-xl text-gray-500';
-    temp2ValueSpan.className = 'text-2xl font-bold text-reonaiTemp2';
-    cel2Label.className = 'text-xl';
+  //   //시간 인디게이터
+  //   timeIndicator.className = 'grid grid-cols-2 gap-4 items-center';
+  //   raostingTimeLabel.className = 'text-center text-xl font-bold mb-4';
+  //   elapsedValueSpan.className =
+  //     'text-center text-3xl font-extrabold text-gray-700 mb-6';
+  //   //온도 인디게이터
+  //   tempIndicator.className = 'grid grid-cols-2 gap-4';
+  //   //온도1 인디게이터
+  //   temp1Div.className = 'flex flex-col items-center gap-1';
+  //   dtLabel.className = 'block text-xl text-gray-500';
+  //   temp1ValueSpan.className = 'text-2xl font-bold text-reonaiTemp1';
+  //   cel1Label.className = 'text-xl';
+  //   //온도2 인디게이터
+  //   temp2Div.className = 'flex flex-col items-center gap-1';
+  //   htLabel.className = 'text-xl text-gray-500';
+  //   temp2ValueSpan.className = 'text-2xl font-bold text-reonaiTemp2';
+  //   cel2Label.className = 'text-xl';
 
-    //ror1 인디게이터
-    ror1Div.className = 'flex flex-col items-center';
-    ror1Label.className = 'text-sm text-gray-500';
-    RoR1ValueSpan.className = 'text-xl font-bold text-reonaiRor1';
+  //   //ror1 인디게이터
+  //   ror1Div.className = 'flex flex-col items-center';
+  //   ror1Label.className = 'text-sm text-gray-500';
+  //   RoR1ValueSpan.className = 'text-xl font-bold text-reonaiRor1';
 
-    //ror2 인디게이터
-    ror2Div.className = 'flex flex-col items-center';
-    ror2Label.className = 'text-xs text-gray-500';
-    RoR2ValueSpan.className = 'text-xl font-bold text-reonaiRor2';
-    //
-    //
-    //차트 화면 크기 수정
-    // id="chartContainer" style="height: 50vh; margin: 5px "
+  //   //ror2 인디게이터
+  //   ror2Div.className = 'flex flex-col items-center';
+  //   ror2Label.className = 'text-xs text-gray-500';
+  //   RoR2ValueSpan.className = 'text-xl font-bold text-reonaiRor2';
+  //   //
+  //   //
+  //   //차트 화면 크기 수정
+  //   // id="chartContainer" style="height: 50vh; margin: 5px "
 
-    chartContainer.style.height = '90vh';
-    chartContainer.style.width = '75%';
-    roastPanelDiv.style.width = 'auto';
-    mobileReceiveIndicator.style.width = '';
-    receiveIndicatorBox.style.width = '20%';
-  }
+  //   chartContainer.style.height = '90vh';
+  //   chartContainer.style.width = '75%';
+  //   roastPanelDiv.style.width = 'auto';
+  //   mobileReceiveIndicator.style.width = '';
+  //   receiveIndicatorBox.style.width = '20%';
+  // }
 
   //Highcharts 반응형
   // Highcharts 인스턴스가 존재하는지 확인
-  if (Highcharts.charts.length > 0) {
+
+  //(Highcharts.charts.length > 0 동작하는 코드 )
+  if (Highcharts.charts.length < 0) {
     // 화면 크기에 따라 레전드의 스타일 변경
     let legendOptions;
     let titleOptions;
@@ -1184,4 +1269,87 @@ function adjustChartSize() {
       });
     });
   }
+}
+
+function isDarkMode() {
+  return (
+    window.matchMedia &&
+    window.matchMedia('(prefers-color-scheme: dark)').matches
+  );
+}
+
+function updateChartTheme(chart, isDark) {
+  const darkTheme = {
+    chart: {
+      backgroundColor: 'none',
+    },
+    title: {
+      style: { color: '#f4f4f5' },
+    },
+    xAxis: {
+      labels: { style: { color: '#a1a1aa' } },
+      lineColor: '#27272a',
+      tickColor: '#27272a', // 눈금 색상 (빨간색)
+      gridLineColor: '#27272a',
+    },
+    yAxis: [
+      {
+        labels: { style: { color: '#a1a1aa' } },
+        gridLineColor: '#27272a',
+      },
+      {
+        labels: { style: { color: '#a1a1aa' } },
+        gridLineColor: '#27272a',
+      },
+    ],
+    legend: {
+      itemStyle: { color: '#ffffff' },
+      itemHoverStyle: { color: '#cccccc' },
+    },
+  };
+
+  const lightTheme = {
+    chart: {
+      backgroundColor: 'none',
+    },
+    title: {
+      style: { color: '#fafafa' },
+    },
+    xAxis: {
+      labels: { style: { color: '#374151' } },
+      lineColor: '#e5e7eb',
+      tickColor: '#e5e7eb', // 눈금 색상 (빨간색)
+      gridLineColor: '#e5e7eb',
+    },
+    yAxis: [
+      {
+        labels: { style: { color: '#374151' } },
+        gridLineColor: '#e5e7eb',
+      },
+      {
+        labels: { style: { color: '#374151' } },
+        gridLineColor: '#e5e7eb',
+      },
+    ],
+    legend: {
+      itemStyle: { color: '#000000' },
+      itemHoverStyle: { color: '#333333' },
+    },
+  };
+
+  chart.update(isDark ? darkTheme : lightTheme);
+}
+
+function applyThemeToAllCharts() {
+  const darkMode = isDarkMode();
+  chartRegistry.forEach((chart) => {
+    updateChartTheme(chart, darkMode);
+  });
+}
+
+function setupDarkModeListener() {
+  const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+  mediaQuery.addEventListener('change', () => {
+    applyThemeToAllCharts();
+  });
 }

@@ -114,13 +114,6 @@ document
         //   type: data.data.type,
         // };
 
-        document.getElementById('logoutBtn').style.display = 'block'; //로그아웃 버튼 보이기
-
-        document.getElementById('signIn').style.display = 'none';
-        document.getElementById('loginBtn').style.display = 'none';
-        document.getElementById('email').style.display = 'none';
-        document.getElementById('password').style.display = 'none'; //로그인창 안보이게
-
         // 서버로부터 받은 데이터 출력
         console.log('서버로부터 받은 데이터:', data);
         isLogin = true;
@@ -148,9 +141,15 @@ document
         console.log('저장된 사용자 데이터:', userData);
         localStorage.setItem('userInfo', JSON.stringify(userData));
 
+        document.getElementById('loginModalBtn').style.display = 'none';
+        document.getElementById('logoutModalBtn').style.display = 'block'; // 로그아웃 버튼 보이기
+
         document.getElementById('loginUserName').style.display = 'block';
         document.getElementById('loginUserName').textContent =
-          userData.firstName;
+          userInfo.firstName;
+
+        document.getElementById('signIn').style.display = 'none';
+        document.getElementById('userName').style.display = 'block';
 
         // 필요한 후속 작업 수행 (예: 페이지 이동, 토큰 저장 등)
 
@@ -209,7 +208,8 @@ async function getMyRecords(userData) {
       //   document.getElementById('refGetMyRecordsResult').innerHTML = '';
       myRecords.forEach((item, index) => {
         const recordButton = document.createElement('button');
-        recordButton.innerText = `ID: ${item.id}, Title: ${item.title}`;
+        // recordButton.innerText = `ID: ${item.id}, Title: ${item.title}`;
+        recordButton.innerText = `${item.title}`;
         recordButton.className = 'record-btn';
 
         console.log(item);
@@ -266,7 +266,7 @@ async function getPilot() {
       //   document.getElementById('refGetPilotresult').innerHTML = '';
       pilotRecords.forEach((item, index) => {
         const recordButton = document.createElement('button');
-        recordButton.innerText = `ID: ${item.id}, Title: ${item.title}`;
+        recordButton.innerText = `${item.title}`;
         recordButton.className = 'record-btn';
         console.log(item);
         recordButton.onclick = () => fetchRecordDetails(item.id, item.memberId);
@@ -345,16 +345,19 @@ function displayData(data) {
   // 데이터를 추출하고 파싱
 
   document.getElementById('recordId').innerText = details.id ? details.id : '-';
-  document.getElementById('recordTitle').innerText = details.title
-    ? details.title
-    : '-';
+
   document.getElementById('recordDate').innerText = details.createdDate
     ? details.createdDate
     : '-';
   document.getElementById('recordTime').innerText = details.createdTime
     ? details.createdTime
     : '-';
-
+  document.getElementById('selectRecipeName').innerText = details.title
+    ? details.title
+    : '-';
+  document.getElementById('recordTitle').innerText = details.title
+    ? details.title
+    : '-';
   // 콘솔에 불러온 내용 출력
   console.log('Data loaded:', data);
   console.log('Data.data loaded:', details);
@@ -564,6 +567,9 @@ function resetRecipeChart() {
   Highcharts.charts[3].series[3].setData([0]);
   Highcharts.charts[3].series[4].setData([0]);
   Highcharts.charts[3].series[5].setData([0]);
+
+  document.getElementById('selectRecipeName').innerText = '';
+  document.getElementById('recordTitle').innerText = '';
 
   toggleAutoRoasting();
   console.log('레시피 데이터가 초기화되었습니다.');
@@ -800,12 +806,17 @@ function logout() {
   loadedRoastData = null;
 
   // UI 요소 초기화
-  document.getElementById('logoutBtn').style.display = 'none'; // 로그아웃 버튼 숨기기
-  document.getElementById('loginBtn').style.display = 'block'; // 로그인 버튼 보이기
-  document.getElementById('email').style.display = 'block'; // 이메일 입력창 보이기
-  document.getElementById('password').style.display = 'block'; // 비밀번호 입력창 보이기
+  document.getElementById('loginModalBtn').style.display = 'block';
+  document.getElementById('logoutModalBtn').style.display = 'none'; // 로그아웃 버튼 보이기
+
+  document.getElementById('loginUserName').style.display = 'none';
+
+  document.getElementById('signIn').style.display = 'block';
+
   document.getElementById('email').value = ''; // 이메일 입력창 초기화
   document.getElementById('password').value = ''; // 비밀번호 입력창 초기화
+
+  document.getElementById('userName').style.display = 'none';
 
   console.log('localStorage', localStorage);
   console.log('로그아웃 및 데이터 초기화 완료');
