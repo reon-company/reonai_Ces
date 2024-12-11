@@ -778,3 +778,97 @@ async function puttingMode() {
       </div>
 
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+function disposalMode() {
+  const temp2 = parseFloat(document.getElementById('temp2Value').innerText);
+  const temp1 = parseFloat(document.getElementById('temp1Value').innerText);
+  let disposalCount = 0;
+  console.log('disposalMode() 배출 함수 실행');
+
+  if (temp2 >= 60) {
+    //히터 온도가 너무 높으면 배출안됨
+    alert('온도가 너무 높습니다. \n  Warning: High temperature detected.');
+    return;
+  } else {
+    if (confirm('채프를 청소 하셨습니까? \n Did you clean the chaff?')) {
+      if (confirm('배출을 하시겠습니까? \n Ready to dispose?')) {
+        const monitorDiopsal = setInterval(() => {
+          if (disposalCount > 20) {
+            clearInterval(monitorDiopsal);
+            let resetDataString = `0,0,0,0,0,0,0\n`;
+            // 슬라이더 값을 0으로 설정
+            document.getElementById('fan1Slider').value = 0;
+            document.getElementById('heaterSlider').value = 0;
+            document.getElementById('fan2Slider').value = 0;
+            document.getElementById('fan1Number').value = 0;
+            document.getElementById('fan2Number').value = 0;
+            document.getElementById('heaterNumber').value = 0;
+            // 슬라이더 표시값 업데이트
+            document.getElementById('fan1Value').innerText = '0.0';
+            document.getElementById('heaterValue').innerText = '0.0';
+            document.getElementById('fan2Value').innerText = '0.0';
+            sendDataToDevice(resetDataString); //출력제로
+            isFirstDisposal = null;
+            console.log('배출 완료 ');
+
+            if (
+              confirm(
+                '레시피를 저장 하시겠습니까? \n Do you want to save the recipe?'
+              )
+            ) {
+              RecipeWrite();
+            }
+
+            if (
+              confirm(
+                '로스팅을 다시 시작 하시겠습니까? \n Do you want to start roasting again?'
+              )
+            ) {
+              checkBluetoothConnectionForManualRoasting();
+              heatingMode();
+              autoRoastingFlagOff();
+            } else {
+              goToMain();
+            }
+          } else {
+            if (!isFirstDisposal) {
+              console.log(currentSecond);
+              disposalPointTimes = currentSecond; // 터닝 포인트 시간 배열에 추가
+              disposalPointTemps = temp1; // 터닝 포인트 온도 배열 추가
+              isFirstDisposal = true;
+            }
+
+            // 히터 값을 0으로 설정
+            document.getElementById('fan1Slider').value = 100;
+            document.getElementById('heaterSlider').value = 0;
+            document.getElementById('fan2Slider').value = 100;
+            document.getElementById('fan1Number').value = 100;
+            document.getElementById('fan2Number').value = 0;
+            document.getElementById('heaterNumber').value = 100;
+
+            // 슬라이더 표시값 업데이트
+            document.getElementById('fan1Value').innerText = '100.0';
+            document.getElementById('heaterValue').innerText = '0.0';
+            document.getElementById('fan2Value').innerText = '100.0';
+
+            disposalCount++;
+            console.log('배출중');
+            console.log(disposalCount);
+          }
+        }, 1000);
+      }
+    }
+  }
+}

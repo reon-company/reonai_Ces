@@ -146,9 +146,8 @@ document
 
         document.getElementById('loginUserName').style.display = 'block';
         document.getElementById('loginUserName').textContent =
-          userInfo.firstName;
+          userData.firstName;
 
-        document.getElementById('signIn').style.display = 'none';
         document.getElementById('userName').style.display = 'block';
 
         // 필요한 후속 작업 수행 (예: 페이지 이동, 토큰 저장 등)
@@ -385,8 +384,10 @@ function displayData(data) {
     });
 
     Highcharts.charts[0].series[5].setData(JSON.parse(details.temp1 || '[]'));
+
     Highcharts.charts[0].series[6].setData(JSON.parse(details.temp2 || '[]'));
-    Highcharts.charts[0].series[7].setData(JSON.parse(details.temp3 || '[]'));
+
+    // Highcharts.charts[0].series[7].setData(JSON.parse(details.temp3 || '[]'));
 
     Highcharts.charts[0].series[9].addPoint(
       [tpUnderTime, tpUnderTemp],
@@ -771,7 +772,7 @@ function convertSecondsToTimeFormat(seconds) {
 //로그아웃 스크립트
 document.getElementById('logoutBtn').addEventListener('click', () => {
   document.getElementById('logoutBtn').style.display = 'none';
-  document.getElementById('signIn').style.display = 'block';
+
   document.getElementById('loginUserName').style.display = 'none';
   document.getElementById('loginUserName').textContent = '';
   console.log('로그아웃 완료');
@@ -810,8 +811,6 @@ function logout() {
   document.getElementById('logoutModalBtn').style.display = 'none'; // 로그아웃 버튼 보이기
 
   document.getElementById('loginUserName').style.display = 'none';
-
-  document.getElementById('signIn').style.display = 'block';
 
   document.getElementById('email').value = ''; // 이메일 입력창 초기화
   document.getElementById('password').value = ''; // 비밀번호 입력창 초기화

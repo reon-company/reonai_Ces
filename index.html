@@ -44,6 +44,31 @@
 </style>
 
 <body>
+
+  <!--popover 시작-->
+  <!-- data-popover-target="popover-default" -->
+  <div data-popover id="popover-default" role="tooltip" class="absolute z-10 invisible inline-block w-64 text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800">
+    <div class="px-3 py-2 bg-gray-100 border-b border-gray-200 rounded-t-lg dark:border-gray-600 dark:bg-gray-700">
+        <h3 class="font-semibold text-gray-900 dark:text-white">Sign up</h3>
+    </div>
+    <div class="px-3 py-2">
+        <p>리오나이가 처음이세요? 회원가입을 해보세요!</p>
+    </div>
+    <div data-popper-arrow></div>
+</div>
+
+<div data-popover id="popover-headerRoastingBTn" role="tooltip" class="absolute z-10 invisible inline-block w-64 text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800">
+  <div class="px-3 py-2 bg-gray-100 border-b border-gray-200 rounded-t-lg dark:border-gray-600 dark:bg-gray-700">
+      <h3 class="font-semibold text-gray-900 dark:text-white">Recipe Finder</h3>
+  </div>
+  <div class="px-3 py-2">
+      <p>수동로스팅에 참고 할 레시피를 선택해보세요. 자동로스팅도 가능합니다. </p>
+  </div>
+  <div data-popper-arrow></div>
+</div>
+
+  <!--popover 끝-->
+
   <!--모달 창 -->
   <!--로그인 모달창-->
   <div id="login-modal" tabindex="-1" aria-hidden="true"
@@ -84,7 +109,7 @@
             </div>
 
 
-            <button id=loginBtn type="submit"
+            <button id=loginBtn type="submit" data-modal-hide="login-modal"
               class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Log
               in</button>
 
@@ -146,7 +171,7 @@
 
               <input id="sign-up-password" type="text" name="name" id="name"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-zinc-100 dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                placeholder="Password" required="">
+                placeholder="Password 대소문자 구분,!@#$%^&*()?_~" required="">
             </div>
             <div class="col-span-2">
 
@@ -207,9 +232,9 @@
   <!--putting modal 끝-->
 
 
-  <!--cooling check modal 시작    style="display : none ;"-->
+  <!--showCustomConfirm modal 시작    style="display : none ;"-->
 
-<button  data-modal-target="showCustomConfirm-modal" data-modal-toggle="showCustomConfirm-modal" class="absolute right-0  block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
+<button  style="display : none" data-modal-target="showCustomConfirm-modal" data-modal-toggle="showCustomConfirm-modal" class="absolute right-0  block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
   Toggle modal
   </button>
   
@@ -235,6 +260,11 @@
           </div>
       </div>
   </div>
+
+
+
+
+
   
 
   <!--모달 창 끝-->
@@ -285,7 +315,7 @@
 
       </a>
       <ul class="space-y-2 font-medium">
-        <li id="mainConnectBluetoothBtn" onclick="connectBluetooth()">
+        <li id="mainConnectBluetoothBtn" onclick="connectBluetooth()" class="text-gray-900  dark:text-zinc-100 ">
           <a href="#"
             class="flex items-center p-2 text-gray-900 rounded-lg dark:text-zinc-100 hover:bg-zinc-300 dark:hover:bg-zinc-700 group">
             <img src="./images/bluetooth-svgrepo-com.svg"
@@ -297,8 +327,8 @@
         </li>
 
         <li>
-          <a href="#"   onclick="if(isCoolDownRunning) { alert('온도가 높습니다.'); } else {checkBluetoothConnectionForManualRoasting(),heatingMode(),autoRoastingFlagOff()}"
-            class="flex items-center p-2 text-gray-900 rounded-lg dark:text-zinc-100 hover:bg-zinc-300 dark:hover:bg-zinc-700 group">
+          <a   href="#"   onclick="if(isCoolDownRunning) { alert('온도가 높습니다.'); } else {checkBluetoothConnectionForManualRoasting(),heatingMode(),autoRoastingFlagOff()}"
+            class="flex items-center p-2 rounded-lg text-gray-900  dark:text-zinc-100 hover:bg-zinc-300  dark:hover:bg-zinc-700 group">
             <svg
               class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
               aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 21">
@@ -336,7 +366,7 @@
               class="flex-1 ms-3 whitespace-nowrap">log In</span>
           </a>
         </li>
-        <li id="signIn" style="display: block;">
+        <li  style="display: none;">
           <a href="#"
             class="flex items-center p-2 text-gray-900 rounded-lg dark:text-zinc-100 hover:bg-zinc-300 dark:hover:bg-zinc-700 group">
             <svg
@@ -500,7 +530,7 @@
               truncate overflow-hidden text-ellipsis">
               크랙 1
             </button>
-            <button id="crackBtn2" class="py-2 px-4 rounded-md shadow text-center 
+            <button style="display: none;" id="crackBtn2" class="py-2 px-4 rounded-md shadow text-center 
             bg-white text-zinc-900 dark:bg-zinc-700 dark:text-gray-300
             
             hover:bg-zinc-300  dark:hover:bg-zinc-500
@@ -514,13 +544,17 @@
             truncate overflow-hidden text-ellipsis">
               startRec
             </button>
-            <button id="autoRoastingToggle" onclick="toggleAutoRoasting()" class="py-2 px-4 rounded-md shadow text-center 
-            bg-white text-zinc-900 dark:bg-zinc-700 dark:text-gray-300
-            
+            <button id="autoRoastingToggle" style="display: none  " onclick="toggleAutoRoasting()" class="py-2 px-4 rounded-md shadow text-center 
+             text-zinc-900 dark:text-gray-300
+            dark:bg-zinc-700 bg-white
             hover:bg-zinc-300  dark:hover:bg-zinc-500
             truncate overflow-hidden text-ellipsis">
               Auto
             </button>
+
+    
+
+
             <button id="CoolDowndBtn" class="py-2 px-4 rounded-md shadow text-center 
             bg-white text-zinc-900 dark:bg-zinc-700 dark:text-gray-300
             
@@ -528,7 +562,7 @@
             truncate overflow-hidden text-ellipsis">
               쿨다운
             </button>
-            <button id="disposeBtn" onclick="disposalMode()" class="py-2 px-4 rounded-md shadow text-center 
+            <button id="disposeBtn" class="py-2 px-4 rounded-md shadow text-center 
               bg-white text-zinc-900 dark:bg-zinc-700 dark:text-gray-300
               
               hover:bg-zinc-300  dark:hover:bg-zinc-500
@@ -539,8 +573,19 @@
 
           </div>
 
+<div class="flex flex-col justify-center items-center h-12 mb-1  rounded-lg 
+bg-zinc-100 dark:bg-zinc-800">      
+<label class="inline-flex items-center me-5 cursor-pointer">
+  <input id="autoRoastingToggleForManualRaosting"  type="checkbox" value="30" class="sr-only peer" >
+  <div class="relative w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-4 peer-focus:ring-red-300 dark:peer-focus:ring-red-800 dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-red-600"></div>
+  <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">AUTO Roasting</span>
+</label>
+</div>
+
+
+
           <!-- 출력제어 하는 부분 -->
-          <div id="sliderSection " class="flex flex-col justify-center items-center h-1/5 mb-1  rounded-lg 
+          <div id="sliderSection"  style="display:block;" class="flex flex-col justify-center items-center h-1/5 mb-1  rounded-lg 
             bg-zinc-100 dark:bg-zinc-800">
 
             <div class="grid grid-cols-3 gap-2 p-2">
@@ -685,8 +730,8 @@
 
                   <!-- Row 2 -->
                   <span class="flex items-center text-sm">크랙 포인트</span>
-                  <span class="flex items-center justify-end">-</span>
-                  <span class="flex items-center justify-end">-</span>
+                  <span id="firstCrackTemp" class="flex items-center justify-end">-</span>
+                  <span id="firstCrackTime" class="flex items-center justify-end">-</span>
 
                   <!-- Row 3 -->
                   <span class="flex items-center text-sm ">쿨링 포인트</span>
@@ -913,7 +958,7 @@
           <div class="bg-zinc-100 dark:bg-zinc-800 p-4 rounded-lg shadow">
             <!-- <span class="text-lg font-semibold block text-zinc-950 dark:text-gray-300">Recipe Finder</span> -->
             <div class="flex justify-between items-center">
-              <button data-modal-target="select-modal" data-modal-toggle="select-modal" class="w-1/2 p-2   text-gray-700 rounded-md shadow border border-gray-300 dark:border-zinc-700
+              <button data-popover-target="popover-headerRoastingBTn"  data-modal-target="select-modal" data-modal-toggle="select-modal" class="w-1/2 p-2   text-gray-700 rounded-md shadow border border-gray-300 dark:border-zinc-700
                   bg-white text-zinc-900 dark:bg-zinc-700 dark:text-gray-300
                   over:bg-zinc-300  dark:hover:bg-zinc-500" type="button">
                 Recipe Finder
@@ -937,7 +982,7 @@
               <span class="" id="infoTemp2Value" style="display: none;">-</span>
               
             </div>
-            <div class="mt-4">
+            <div class="mt-4" style="display: none;">
               <label for="tempSet" class="block text-sm text-zinc-950 dark:text-gray-300">Temp set</label>
               <select id="tempSet" class="w-full p-2 rounded    
               text-gray-700 rounded-md shadow border border-gray-300 dark:border-zinc-700
@@ -1109,12 +1154,9 @@
     <!-- roastInfoPanel 끝-->
 
     <!--mainPanel!!-->
-    <div id="mainPanel" class="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700">
-      <div class="flex">
+    <div id="mainPanel" style="display: none; margin: 0 auto;  " class="flex justify-center items-center h-screen">
+      <!-- <div class="flex">
         <img src="/images/reoaniStudioV0.76.png" alt="Reonai Studio" class="w-auto max-w-full h-auto object-contain" />
-
-
-
         <div class="sliderContainer space-y-4 flex flex-col">
           <iframe width="560" height="315" src="https://www.youtube.com/embed/ZQKamLGRyD8" title="YouTube video player"
             frameborder="0"
@@ -1127,10 +1169,38 @@
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowfullscreen>
           </iframe>
+        </div>
+      </div> -->
 
+
+  
+
+
+
+      <section class="flex">
+        <div class="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 grid lg:grid-cols-2 gap-8 lg:gap-16">
+            <div class="flex flex-col justify-center">
+                <h1 class="mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-6xl dark:text-white">리오나이 스튜디오</h1>
+                <p class="mb-8 text-lg font-normal text-gray-500 lg:text-xl dark:text-gray-400">Anyone Can be a Roaster</p>
+                <div class="flex flex-col space-y-4 sm:flex-row sm:space-y-0">
+                    <a  data-popover-target="popover-default"  data-modal-target="logout-modal" data-modal-toggle="logout-modal" id="signIn"  href="#" class="inline-flex justify-center items-center py-3 px-5 text-base font-medium text-center text-white rounded-lg bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-900">
+                        Sign Up
+                        <svg class="w-3.5 h-3.5 ms-2 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
+                        </svg>
+                    </a>
+                    <a style="display: none;" href="#" class="py-3 px-5 sm:ms-4 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
+                        Learn more
+                    </a>  
+                </div>
+            </div>
+            <div>
+                <iframe class="mx-auto w-full lg:max-w-xl h-64 rounded-lg sm:h-96 shadow-xl" src="https://www.youtube.com/embed/ZQKamLGRyD8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
         </div>
       </div>
-
+    </section>
+    
     </div>
       <!--mainPanel 끝-->
 
@@ -1252,8 +1322,8 @@
 
     <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
 
-    <!-- 
-  <script> //window 이벤트 모음
+    
+  <!-- <script> //window 이벤트 모음
 
     window.addEventListener('beforeunload', function (event) {
       // 브라우저에 따라 다르게 동작할 수 있음

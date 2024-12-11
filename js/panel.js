@@ -39,9 +39,9 @@ function headerDisplayBlock() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  // showPanel('mainPanel');
+  showPanel('mainPanel');
 
-  showPanel('puttingCountPanel');
+  // showPanel('roastPanel');
   // showPanel('roastPanel');
 
   // 접속하는 국가 확인  setLanguageBasedOnLocation();
@@ -61,7 +61,6 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('loginUserName').style.display = 'block';
     document.getElementById('loginUserName').textContent = userInfo.firstName;
 
-    document.getElementById('signIn').style.display = 'none';
     document.getElementById('userName').style.display = 'block';
     // console.log('로그인 상태 유지:', userInfo);
     //로그인 플래그 참

@@ -121,7 +121,7 @@ function removeChart(containerId) {
 function createReceivedChart() {
   return createChart('chartdiv', {
     chart: {
-      type: 'line', // 'spline',
+      type: 'spline', // 'spline','line',
       // backgroundColor: '#F3EDDF',
       backgroundColor: 'none',
       zooming: {
@@ -202,8 +202,8 @@ function createReceivedChart() {
           },
         },
         opposite: true, // 오른쪽 축
-        min: -10,
-        max: 10,
+        min: -50,
+        max: 50,
         gridLineWidth: 0,
         tickInterval: 5,
       },
@@ -223,19 +223,27 @@ function createReceivedChart() {
     },
     series: [
       {
+        //series[0]
         name: 'Drum',
         data: [],
         color: '#D3194B',
         lineWidth: 3,
       },
       {
+        //series[1]
         name: 'Heater',
         data: [],
         color: '#F97E2E',
         lineWidth: 3,
       },
-      { name: 'Inner', data: [], color: '#7A1B99' },
       {
+        //series[2]
+        name: 'Inner',
+        data: [],
+        color: '#7A1B99',
+      },
+      {
+        //series[3]
         name: 'RoR (Drum)',
         data: [],
         color: '#D3194B',
@@ -245,6 +253,7 @@ function createReceivedChart() {
         dashStyle: 'Dash',
       },
       {
+        //series[4]
         name: 'RoR (Heater)',
         data: [],
         color: '#F97E2E',
@@ -254,16 +263,20 @@ function createReceivedChart() {
         dashStyle: 'Dash',
       },
       {
+        //series[5]
         name: 'Drum_under',
         data: [],
         color: '#D3194B',
-        lineWidth: 3,
+        lineWidth: 1,
+        opacity: 0.5,
       },
       {
+        //series[6]
         name: 'Heater_under',
         data: [],
         color: '#F97E2E',
-        lineWidth: 3,
+        lineWidth: 1,
+        opacity: 0.5,
       },
       // {
       //   name: 'Drum_under',
@@ -280,6 +293,7 @@ function createReceivedChart() {
       //   opacity: 0.5, //투명도
       // },
       {
+        //series[7]
         name: 'Inner_under',
         data: [],
         color: '#7A1B99',
@@ -287,6 +301,7 @@ function createReceivedChart() {
         opacity: 0.5,
       },
       {
+        //series[8]
         name: 'TP',
         data: [],
         marker: {
@@ -298,6 +313,7 @@ function createReceivedChart() {
         lineWidth: 0,
       },
       {
+        //series[9]
         name: 'TP_under',
         data: [],
         marker: {
@@ -310,6 +326,7 @@ function createReceivedChart() {
         opacity: 0.5, //투명도
       },
       {
+        //series[10]
         name: 'CP',
         data: [],
         marker: {
@@ -321,6 +338,7 @@ function createReceivedChart() {
         lineWidth: 0,
       },
       {
+        //series[11]
         name: 'CP_under',
         data: [],
         marker: {
@@ -333,6 +351,31 @@ function createReceivedChart() {
         opacity: 0.5, //투명도
       },
 
+      {
+        //series[12]
+        name: '',
+        type: 'area',
+        data: [],
+        color: '#4F6D3D',
+        opacity: 0.8, //투명도
+      },
+
+      {
+        //series[13]
+        name: '',
+        type: 'area',
+        data: [],
+        color: '#F97E2E',
+        opacity: 0.8, //투명도
+      },
+      {
+        //series[14]
+        name: '',
+        type: 'area',
+        data: [],
+        color: '#87ceeb',
+        opacity: 0.8, //투명도
+      },
       //ouput 값 테스트!!!!!
       // { name: 'FAN1', data: [], color: '#800080', lineWidth: 2, opacity: 0.8 },
       // {
@@ -476,20 +519,23 @@ function createOutputChart() {
         name: 'FAN1_UNDER',
         data: [],
         color: '#800080',
-        lineWidth: 3,
+        lineWidth: 1,
+        opacity: 0.5,
       },
       {
         name: 'HEATER_UNDER',
         data: [],
         color: '#FFA500',
-        lineWidth: 3,
+        lineWidth: 1,
+        opacity: 0.5,
       },
       {
         name: 'FAN2_UNDER',
         data: [],
         color: '#87CEEB',
         yAxis: 1,
-        lineWidth: 3,
+        lineWidth: 1,
+        opacity: 0.5,
       },
     ],
   });
@@ -710,7 +756,31 @@ function createReceivedChartRecipe() {
         lineWidth: 0,
         opacity: 0.5, //투명도
       },
+      {
+        //series[12]
+        name: '',
+        type: 'area',
+        data: [],
+        color: '#4F6D3D',
+        opacity: 0.8, //투명도
+      },
 
+      {
+        //series[13]
+        name: '',
+        type: 'area',
+        data: [],
+        color: '#F97E2E',
+        opacity: 0.8, //투명도
+      },
+      {
+        //series[14]
+        name: '',
+        type: 'area',
+        data: [],
+        color: '#87ceeb',
+        opacity: 0.8, //투명도
+      },
       //ouput 값 테스트!!!!!
       // { name: 'FAN1', data: [], color: '#800080', lineWidth: 2, opacity: 0.8 },
       // {

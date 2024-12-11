@@ -24,6 +24,7 @@ const timeWindow60s = 60; // 60초
 let crackPointCount = 0; // 크랙 포인트 기록 횟수
 let crackPlotBandIds = []; // 크랙 plotBands의 id 목록
 let plotBandPercentageText; // 차트에 표시할 비율 텍스트
+let roastPlotBandIds = []; // 크랙 plotBands의 id 목록
 
 //로스팅 데이터를 저장하는 배열
 let receivedData = [];
@@ -336,6 +337,7 @@ function updateReceivedChart(temp1, temp2, temp3) {
 
   Highcharts.charts[0].series[3].addPoint([currentSecond, RoR1], true, false); // RoR1 추가
   Highcharts.charts[0].series[4].addPoint([currentSecond, RoR2], true, false); // RoR2 추가
+
   // // 60초 이후부터 RoR 값을 차트에 추가
   // if (previousTime >= 5 && RoR1 !== null && RoR2 !== null) {
   //   Highcharts.charts[0].series[3].addPoint([previousTime, RoR1], true, false); // RoR1 추가
@@ -374,18 +376,53 @@ function updateReceivedChart(temp1, temp2, temp3) {
           `cooling point detected at time: ${elapsedValue}, Temp: ${temp1}`
         );
         // 차트에 새로운 쿨링 포인트를 점으로 추가
-        console.log('쿨링포인트 문제가 여기인가?');
         Highcharts.charts[0].series[10].addPoint(
           [currentSecond, temp1],
           true,
           false
         );
+
         isFirstCp = true;
       }
     }
   }
+
+  if (isFirstCp) {
+    Highcharts.charts[0].series[14].addPoint([currentSecond, 60], true, false); //쿨링
+  }
+
+  if (!isRecordingCrackPoint) {
+    if (!coolingPointFlag) {
+      //크랙 아닐경우는 초록색 12번 시리즈
+      Highcharts.charts[0].series[12].addPoint(
+        [currentSecond, 60],
+        true,
+        false
+      ); // 로스팅
+      firstCcrackStartSecond = currentSecond;
+      // 실시간으로 crack plotBand의 to 값을 업데이트
+    }
+  }
+
   if (isRecordingCrackPoint) {
     // 실시간으로 crack plotBand의 to 값을 업데이트
+    Highcharts.charts[0].series[13].addPoint([currentSecond, 60], true, false); //크랙
+
+    const from = firstCcrackStartSecond;
+    const percentage = (((currentSecond - from) / currentSecond) * 100).toFixed(
+      2
+    ); // 비율 계산
+
+    const timeDtr = formatSecondsToMinutes(currentSecond - from);
+
+    // 비율 텍스트 업데이트
+    plotBandPercentageText.attr({
+      text: `DTR :  ${percentage}%  ${timeDtr}`,
+    });
+    percentageOfDtr = percentage;
+
+    console.log(percentageOfDtr);
+
     crackPlotBandIds.forEach(function (plotBandId) {
       var plotBand = Highcharts.charts[0].xAxis[0].plotLinesAndBands.find(
         function (band) {
@@ -559,7 +596,7 @@ function startRecordingcharts() {
 function recordCrackPoint() {
   console.log('recordCrackPoint() 크랙포인트 함수 실행');
 
-  if (crackPointCount >= 3) {
+  if (crackPointCount >= 1) {
     console.log('크랙 포인트는 최대 3번까지만 기록 가능합니다.');
     return;
   }
@@ -572,26 +609,32 @@ function recordCrackPoint() {
     var elapsed = lastData.time;
     console.log('크랙포인트 기록중 ');
     // plotBands 추가
-    const plotBandId = 'crackBand-' + crackPointCount;
-    Highcharts.charts[0].xAxis[0].addPlotBand({
-      from: elapsed, // 크랙 시점
-      to: elapsed, // 실시간 업데이트와 연동되도록 설정 (초기값은 크랙 시점)
-      color: 'rgba(255, 192, 0, 0.3)', // #FFC000
-      id: plotBandId,
-      label: {
-        text: 'CP ' + (crackPointCount + 1),
-        style: {
-          color: '#FFC000',
-        },
-      },
-    });
+    // const plotBandId = 'crackBand-' + crackPointCount;
+    // Highcharts.charts[0].xAxis[0].addPlotBand({
+    //   from: elapsed, // 크랙 시점
+    //   to: elapsed, // 실시간 업데이트와 연동되도록 설정 (초기값은 크랙 시점)
+    //   color: 'rgba(255, 192, 0, 0.3)', // #FFC000
+    //   id: plotBandId,
+    //   label: {
+    //     text: 'CP ' + (crackPointCount + 1),
+    //     style: {
+    //       color: '#FFC000',
+    //     },
+    //   },
+    // });
 
     // 추가한 plotBand의 id를 저장
-    crackPlotBandIds.push(plotBandId);
+    // crackPlotBandIds.push(plotBandId);
     crackPointCount++;
     if (crackPointCount == 1) {
       firstCrackPointTime = currentSecond;
       firstCrackPointTemp = lastData.temp1;
+
+      document.getElementById('firstCrackTime').innerText =
+        formatSecondsToMinutes(firstCrackPointTime); //크랙 포인트 시간
+
+      document.getElementById('firstCrackTemp').innerText = firstCrackPointTemp; //크랙 포인트 온도
+
       console.log('firstCrackPointTime', firstCrackPointTime);
       console.log('firstCrackPointTemp', firstCrackPointTemp);
     }
@@ -618,17 +661,35 @@ function recordCrackPoint() {
       `크랙 포인트 기록됨 - Temp1: ${lastData.temp1}, Time: ${currentSecond}`
     );
 
+    // 포인트 추가 후 텍스트 위치를 업데이트
+    const chart = Highcharts.charts[0];
+    const seriesIndex = 13; // 대상 시리즈의 인덱스
+    const newPoint = [currentSecond, 60]; // 새로운 포인트 값
+
+    // 포인트 추가
+    chart.series[seriesIndex].addPoint(newPoint);
+
+    // 추가된 포인트의 픽셀 위치 계산
+    const xPixel = chart.xAxis[0].toPixels(newPoint[0]); // x 좌표를 픽셀로 변환
+    const yPixel = chart.yAxis[0].toPixels(newPoint[1]); // y 좌표를 픽셀로 변환
+
     // 비율 텍스트 추가 (차트의 중앙에 표시)
     if (!plotBandPercentageText) {
       plotBandPercentageText = Highcharts.charts[0].renderer
         .text(
           'DTR: 0%', // 초기 텍스트
-          Highcharts.charts[0].plotLeft + 50, // x 위치
-          Highcharts.charts[0].plotTop + 50 // y 위치
+          xPixel, // 계산된 x 위치
+          yPixel - 10 // 계산된 y 위치
+
+          // Highcharts.charts[0].plotLeft + 50, // x 위치
+          // Highcharts.charts[0].plotTop + 50 // y 위치
         )
         .css({
           color: '#D3194B',
-          fontSize: '16px',
+          fontSize: '15px',
+        })
+        .attr({
+          zIndex: 10, // zIndex를 높게 설정하여 최상단으로 표시
         })
         .add();
     }

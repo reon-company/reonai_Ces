@@ -1,3 +1,5 @@
+// 예열 온도 선택하는거 수정이 필요함,.
+
 // 사용언어 플래그
 let lengFlag = 0; // 0 = 한국어 , 1= 영어
 
@@ -88,6 +90,20 @@ let colomniaLightRoast = false; //콜롬비아 나리뇨 게이샤 워시드 라
 let colomniaDarkRoast = false; //콜롬비아 나리뇨 게이샤 워시드 다크 로스트 플래그
 let ethiopiaLightRoast = false; //에티오피아 시다모 벤사 부리소 아마제 네추럴 라이트 로스트 플1래그
 let ethiopiaDarkRoast = false; //에티오피아 시다모 벤사 부리소 아마제 네추럴다크 로스트 플래그
+
+//modal 확인 문구 텍스트 변수(언어변경을 위함)
+let temp2isHighText = '온도가 너무 높습니다.';
+let chaffCheckText = '채프를 청소 하셨습니까?';
+let readyToDisposeText = '배출을 하시겠습니까?';
+let doYouWantSaveRecipe = '레시피를 저장 하시겠습니까?';
+let doYouWantStartRoasting = '로스팅을 다시 시작 하시겠습니까?';
+let doYouWantDispose = '배출을 더 하시겠습니까?';
+
+//배출 모드 반복을 제어하는 플래그
+let disposmodeFlag = false;
+
+//배출 시간 변수
+let disposeSecond = 20;
 
 //출력값 입력 함수
 const fan1NumberModal = document.getElementById('fan1Number');
@@ -514,13 +530,13 @@ function heatingPidControl() {
     //   crrentfan1 = 20;
     //   crrentfan2 = 2.5;
     // }
+
     document.getElementById('heaterSlider').value = currentHeater.toFixed(1);
     document.getElementById('heaterValue').innerText = currentHeater.toFixed(1);
     document.getElementById('fan1Slider').value = crrentfan1.toFixed(1);
     document.getElementById('fan1Value').innerText = crrentfan1.toFixed(1);
     document.getElementById('fan2Slider').value = crrentfan2.toFixed(1);
     document.getElementById('fan2Value').innerText = crrentfan2.toFixed(1);
-
     document.getElementById('fan1Number').value = crrentfan1.toFixed(1);
     document.getElementById('fan2Number').value = crrentfan2.toFixed(1);
     document.getElementById('heaterNumber').value = currentHeater.toFixed(1);
@@ -589,17 +605,14 @@ function roastInfoStart() {
 
   const roastInfoRecipeName =
     document.getElementById('roastInfoRecipeName').value || 'no name';
-
   const roastInfoBeanName =
     document.getElementById('roastInfoBeanName').value || 'no name';
-
   const roastInfoInputAmount = document.getElementById(
     'roastInfoInputAmount'
   ).value;
   // const roastInfoStageSelect = document.getElementById(
   //   'roastInfoStageSelect'
   // ).value;
-
   const roastInfoPowerFan1Select = document.getElementById(
     'roastInfoPowerFan1Select'
   ).value;
@@ -614,20 +627,16 @@ function roastInfoStart() {
   console.log('Bean Name :', roastInfoBeanName);
   console.log('Input Amount :', roastInfoInputAmount);
   // console.log('Steage :', roastInfoStageSelect);
-
   console.log('Fan1 :', roastInfoPowerFan1Select);
   console.log('Fan2 :', roastInfoPowerFan2Select);
   console.log('Heater :', roastInfoPowerHeaterSelect);
   // console.log('memo :', memoTextArea);
-
   setTimeout(() => {
     console.log('1초 후 실행됩니다');
-
     puttingMode() // 투임함수 시작
       .then(() => {
         // 특정 함수 호출
         console.log('puttingMode() 함수 완료 후 특정 함수 실행');
-
         document.getElementById('putting-modal').classList.remove('hidden'); // 모달 보이기
         document.getElementById('putting-modal').classList.add('flex');
       })
@@ -987,88 +996,136 @@ function coolingpointflagFalse() {
   }
 }
 
-// 수동 로스팅 배출 함수, 배출 - 5 - disposalMode()
-function disposalMode() {
-  const temp2 = parseFloat(document.getElementById('temp2Value').innerText);
-  const temp1 = parseFloat(document.getElementById('temp1Value').innerText);
-  let disposalCount = 0;
-  console.log('disposalMode() 배출 함수 실행');
+async function manualDispose() {
+  //배출 반복을 위한 함수
+  while (!disposmodeFlag) {
+    await disposalMode();
 
-  if (temp2 >= 60) {
-    //히터 온도가 너무 높으면 배출안됨
-    alert('온도가 너무 높습니다. \n  Warning: High temperature detected.');
-    return;
-  } else {
-    if (confirm('채프를 청소 하셨습니까? \n Did you clean the chaff?')) {
-      if (confirm('배출을 하시겠습니까? \n Ready to dispose?')) {
-        const monitorDiopsal = setInterval(() => {
-          if (disposalCount > 20) {
-            clearInterval(monitorDiopsal);
-            let resetDataString = `0,0,0,0,0,0,0\n`;
-            // 슬라이더 값을 0으로 설정
-            document.getElementById('fan1Slider').value = 0;
-            document.getElementById('heaterSlider').value = 0;
-            document.getElementById('fan2Slider').value = 0;
-            document.getElementById('fan1Number').value = 0;
-            document.getElementById('fan2Number').value = 0;
-            document.getElementById('heaterNumber').value = 0;
-            // 슬라이더 표시값 업데이트
-            document.getElementById('fan1Value').innerText = '0.0';
-            document.getElementById('heaterValue').innerText = '0.0';
-            document.getElementById('fan2Value').innerText = '0.0';
-            sendDataToDevice(resetDataString); //출력제로
-            isFirstDisposal = null;
-            console.log('배출 완료 ');
-
-            if (
-              confirm(
-                '레시피를 저장 하시겠습니까? \n Do you want to save the recipe?'
-              )
-            ) {
-              RecipeWrite();
-            }
-
-            if (
-              confirm(
-                '로스팅을 다시 시작 하시겠습니까? \n Do you want to start roasting again?'
-              )
-            ) {
-              checkBluetoothConnectionForManualRoasting();
-              heatingMode();
-              autoRoastingFlagOff();
-            } else {
-              goToMain();
-            }
-          } else {
-            if (!isFirstDisposal) {
-              console.log(currentSecond);
-              disposalPointTimes = currentSecond; // 터닝 포인트 시간 배열에 추가
-              disposalPointTemps = temp1; // 터닝 포인트 온도 배열 추가
-              isFirstDisposal = true;
-            }
-
-            // 히터 값을 0으로 설정
-            document.getElementById('fan1Slider').value = 100;
-            document.getElementById('heaterSlider').value = 0;
-            document.getElementById('fan2Slider').value = 100;
-            document.getElementById('fan1Number').value = 100;
-            document.getElementById('fan2Number').value = 0;
-            document.getElementById('heaterNumber').value = 100;
-
-            // 슬라이더 표시값 업데이트
-            document.getElementById('fan1Value').innerText = '100.0';
-            document.getElementById('heaterValue').innerText = '0.0';
-            document.getElementById('fan2Value').innerText = '100.0';
-
-            disposalCount++;
-            console.log('배출중');
-            console.log(disposalCount);
-          }
-        }, 1000);
+    const result = await showCustomConfirmPromise(
+      doYouWantDispose,
+      (result) => {
+        if (result) {
+        } else {
+        }
       }
-    }
+    );
   }
+
+  //레시피 저장 물어보기
+  showCustomConfirm(doYouWantSaveRecipe, (result) => {
+    if (result) {
+      RecipeWrite();
+      //로스팅 다시 하는거 물어보기
+      showCustomConfirm(doYouWantStartRoasting, (result) => {
+        if (result) {
+          checkBluetoothConnectionForManualRoasting();
+          heatingMode();
+          autoRoastingFlagOff();
+          return;
+        } else {
+          goToMain();
+          return;
+        }
+      });
+    } else {
+      //로스팅 다시 하는거 물어보기
+      showCustomConfirm(doYouWantStartRoasting, (result) => {
+        if (result) {
+          checkBluetoothConnectionForManualRoasting();
+          heatingMode();
+          autoRoastingFlagOff();
+          return;
+        } else {
+          goToMain();
+          return;
+        }
+      });
+    }
+  });
 }
+
+function disposalMode() {
+  return new Promise((resolve) => {
+    const temp2 = parseFloat(document.getElementById('temp2Value').innerText);
+    const temp1 = parseFloat(document.getElementById('temp1Value').innerText);
+    let temp2Limit = 200;
+    let disposalCount = 0;
+    console.log('disposalMode() 배출 함수 실행');
+
+    if (temp2 >= temp2Limit) {
+      showCustomConfirm(temp2isHighText, (result) => {
+        if (result) {
+          return;
+        } else {
+          return;
+        }
+      });
+    } else {
+      showCustomConfirm(chaffCheckText, (result) => {
+        if (result) {
+          showCustomConfirm(readyToDisposeText, (result) => {
+            if (result) {
+              const monitorDiopsal = setInterval(() => {
+                if (disposalCount > disposeSecond) {
+                  disposalCount = 0;
+                  clearInterval(monitorDiopsal);
+                  let resetDataString = `0,0,0,0,0,0,0\n`;
+                  // 슬라이더 값을 0으로 설정
+                  document.getElementById('fan1Slider').value = 0;
+                  document.getElementById('heaterSlider').value = 0;
+                  document.getElementById('fan2Slider').value = 0;
+                  document.getElementById('fan1Number').value = 0;
+                  document.getElementById('fan2Number').value = 0;
+                  document.getElementById('heaterNumber').value = 0;
+                  // 슬라이더 표시값 업데이트
+                  document.getElementById('fan1Value').innerText = '0.0';
+                  document.getElementById('heaterValue').innerText = '0.0';
+                  document.getElementById('fan2Value').innerText = '0.0';
+                  sendDataToDevice(resetDataString); //출력제로
+                  isFirstDisposal = null;
+                  console.log('배출 완료 ');
+                  resolve(); // 작업 완료
+                } else {
+                  if (!isFirstDisposal) {
+                    console.log(currentSecond);
+                    disposalPointTimes = currentSecond; // 터닝 포인트 시간 배열에 추가
+                    disposalPointTemps = temp1; // 터닝 포인트 온도 배열 추가
+                    isFirstDisposal = true;
+                  }
+
+                  // 히터 값을 0으로 설정
+                  document.getElementById('fan1Slider').value = 100;
+                  document.getElementById('heaterSlider').value = 0;
+                  document.getElementById('fan2Slider').value = 100;
+                  document.getElementById('fan1Number').value = 100;
+                  document.getElementById('fan2Number').value = 0;
+                  document.getElementById('heaterNumber').value = 100;
+
+                  // 슬라이더 표시값 업데이트
+                  document.getElementById('fan1Value').innerText = '100.0';
+                  document.getElementById('heaterValue').innerText = '0.0';
+                  document.getElementById('fan2Value').innerText = '100.0';
+
+                  disposalCount++;
+                  console.log('배출중');
+                  console.log(disposalCount);
+                }
+              }, 1000);
+            } else {
+              resolve(); // 작업 완료
+              return;
+            }
+          });
+        } else {
+          resolve(); // 작업 완료
+          return;
+        }
+      });
+    }
+  });
+}
+
+// 수동 로스팅 배출 함수, 배출 - 5 - disposalMode()
 
 // 모든 출력을 0으로 하는 함수
 function handleOutputZero() {
@@ -1750,6 +1807,29 @@ document.getElementById('CoolDowndBtn').addEventListener('click', () => {
   }
 });
 
+document.getElementById('disposeBtn').addEventListener('click', () => {
+  if (lengFlag == 0) {
+    showCustomConfirm('배출을 시작 하시겠습니까?', (result) => {
+      if (result) {
+        manualDispose();
+        console.log('사용자가 확인을 선택했습니다.');
+      } else {
+        console.log('사용자가 취소를 선택했습니다.');
+      }
+    });
+  } else {
+    showCustomConfirm('Do you want to start dispose?', (result) => {
+      if (result) {
+        manualDispose();
+
+        console.log('사용자가 확인을 선택했습니다.');
+      } else {
+        console.log('사용자가 취소를 선택했습니다.');
+      }
+    });
+  }
+});
+
 // document.getElementById('recipeResetBtn').addEventListener('click', () => {
 //   if (lengFlag == 0) {
 //     showCustomConfirm('레시피 데이터를 삭제하시겠습니까?', (result) => {
@@ -1792,6 +1872,36 @@ function showCustomConfirm(message, callback) {
     confirmBox.classList.add('hidden');
     callback(false);
   };
+}
+
+// 함수가 실행되고 반복될때 사용하는 모달 메세지창
+function showCustomConfirmPromise(message) {
+  return new Promise((resolve) => {
+    const confirmBox = document.getElementById('showCustomConfirm-modal');
+    const confirmMessage = document.getElementById('confirm-message');
+    const yesButton = document.getElementById('confirm-yes');
+    const noButton = document.getElementById('confirm-no');
+
+    // 메시지 설정
+    confirmMessage.textContent = message;
+
+    // 모달 표시
+    confirmBox.classList.remove('hidden');
+    confirmBox.classList.add('flex');
+
+    // 버튼 클릭 이벤트 처리
+    yesButton.onclick = () => {
+      confirmBox.classList.add('hidden');
+      resolve(true); // 사용자 확인
+      disposmodeFlag = false;
+    };
+
+    noButton.onclick = () => {
+      confirmBox.classList.add('hidden');
+      resolve(false); // 사용자 취소
+      disposmodeFlag = true;
+    };
+  });
 }
 
 // Open modal on fan1Number click
@@ -2051,14 +2161,34 @@ function toggleAutoRoasting() {
     // AUTO_on 상태 -> AUTO_off로 변경
     button.textContent = 'AUTO';
     button.classList.replace('bg-reonaiBlue', 'bg-reonaiRed');
+
     autoRoastingFlagOff();
     autoRoastingStartFlagOff();
   } else {
     // AUTO_off 상태 -> AUTO_on으로 변경
     console.log('AUTO_on');
     button.textContent = 'AUTO';
-    button.classList.replace('bg-reonaiRed', 'bg-reonaiBlue');
+    button.classList.replace('bg-orange-600', 'bg-reonaiBlue');
     autoRoastingFlagOn();
     autoRoastingStartFlagOn();
   }
 }
+
+const toggle = document.getElementById('autoRoastingToggleForManualRaosting');
+
+toggle.addEventListener('change', (event) => {
+  if (event.target.checked) {
+    console.log('AUTO is ON');
+
+    document.getElementById('sliderSection').style.display = 'none';
+
+    autoRoastingFlagOn();
+    autoRoastingStartFlagOn();
+  } else {
+    console.log('AUTO is OFF');
+
+    document.getElementById('sliderSection').style.display = 'block';
+    autoRoastingFlagOff();
+    autoRoastingStartFlagOff();
+  }
+});
