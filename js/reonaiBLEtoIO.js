@@ -26,6 +26,10 @@ let crackPlotBandIds = []; // 크랙 plotBands의 id 목록
 let plotBandPercentageText; // 차트에 표시할 비율 텍스트
 let roastPlotBandIds = []; // 크랙 plotBands의 id 목록
 
+//simple roast 위한 변수
+let simpleTemp2 = 0;
+let simpleTemp1 = 0;
+
 //로스팅 데이터를 저장하는 배열
 let receivedData = [];
 let outputData = [];
@@ -170,7 +174,29 @@ function updateMainConnectBluetoothBtnText() {
     'mainConnectBluetoothBtn'
   );
   if (isConnected) {
-    mainConnectBluetoothBtn.innerText = device.name;
+    //temp1과2  의 온도에 따라 색상이변경?!
+    if (simpleTemp1 >= 65 && simpleTemp2 >= 70) {
+      mainConnectBluetoothBtn.classList.remove(
+        'text-blue-700',
+        'dark:text-blue-500'
+      );
+      mainConnectBluetoothBtn.classList.add(
+        'text-red-700',
+        'dark:text-red-500'
+      );
+      mainConnectBluetoothBtn.innerText = device.name;
+    } else {
+      mainConnectBluetoothBtn.classList.remove(
+        'text-red-700',
+        'dark:text-red-500'
+      );
+      mainConnectBluetoothBtn.classList.add(
+        'text-blue-700',
+        'dark:text-blue-500'
+      );
+      mainConnectBluetoothBtn.innerText = device.name;
+    }
+
     // mainConnectBluetoothBtn.classList.remove('bg-reonaiBlue');
     // mainConnectBluetoothBtn.classList.add('bg-reonaiRed');
   } else {
@@ -236,13 +262,52 @@ function handleData(event) {
   }
 }
 
+function toNearestTen(value) {
+  return Math.round(value / 10) * 10; // 10의 단위로 반올림
+}
+
 function updateIndicators(temp1, temp2) {
+  const mainConnectBluetoothBtn = document.getElementById(
+    'mainConnectBluetoothBtn'
+  );
+
+  const deviceTemp = `DT ${toNearestTen(temp1)}°C \n HT ${toNearestTen(
+    temp2
+  )}°C`;
+
+  // if (isConnected) {
+  //   if (!isRecordingcharts) {
+  //     mainConnectBluetoothBtn.innerText = deviceTemp;
+  //   } else {
+  //     mainConnectBluetoothBtn.innerText = device.name;
+  //   }
+  // }
+
   document.getElementById('temp1Value').innerText = temp1.toFixed(2);
   document.getElementById('temp2Value').innerText = temp2.toFixed(2);
-
+  simpleTemp2 = temp2.toFixed(2);
+  simpleTemp1 = temp1.toFixed(2);
   //roastInfoPanel 전송
   document.getElementById('infoTemp1Value').innerText = temp1.toFixed(2);
   document.getElementById('infoTemp2Value').innerText = temp2.toFixed(2);
+
+  //온도가 높으면 블루투스네임의 색상으로 상태를 보여줌
+  if (simpleTemp1 >= 65 && simpleTemp2 >= 70) {
+    mainConnectBluetoothBtn.classList.remove(
+      'text-blue-700',
+      'dark:text-blue-500'
+    );
+    mainConnectBluetoothBtn.classList.add('text-red-700', 'dark:text-red-500');
+  } else {
+    mainConnectBluetoothBtn.classList.remove(
+      'text-red-700',
+      'dark:text-red-500'
+    );
+    mainConnectBluetoothBtn.classList.add(
+      'text-blue-700',
+      'dark:text-blue-500'
+    );
+  }
 }
 
 //******  updateReceivedChart   *******

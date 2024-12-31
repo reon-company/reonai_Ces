@@ -68,6 +68,47 @@
     </div>
     <div data-popper-arrow></div>
   </div>
+  <div id="pilotRoastMode" role="tooltip"
+    class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
+    <div class="px-3 py-2 bg-gray-100 border-b border-gray-200 rounded-t-lg dark:border-gray-600 dark:bg-gray-700">
+      <h3 class="font-semibold text-gray-900 dark:text-white">Pilot Roast Mode</h3>
+    </div>
+    <div class="px-3 py-2">
+      <p>안정적인 자동 로스팅을 통해 완벽한 결과를 제공합니다</p>
+    </div>
+    <div data-popper-arrow></div>
+  </div>
+  <div id="simpleRoastMode" role="tooltip"
+    class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
+    <div class="px-3 py-2 bg-gray-100 border-b border-gray-200 rounded-t-lg dark:border-gray-600 dark:bg-gray-700">
+      <h3 class="font-semibold text-gray-900 dark:text-white">Simple Roast Mode</h3>
+    </div>
+    <div class="px-3 py-2">
+      <p>초보자도 쉽게 시작할 수 있도록 설계된 간단하고 직관적인 로스팅 모드입니다</p>
+    </div>
+    <div data-popper-arrow></div>
+  </div>
+
+  <div id="BalanceRoastMode" role="tooltip" 
+    class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
+    <div class="px-3 py-2 bg-gray-100 border-b border-gray-200 rounded-t-lg dark:border-gray-600 dark:bg-gray-700">
+      <h3 class="font-semibold text-gray-900 dark:text-white">Balance Roast Mode</h3>
+    </div>
+    <div class="px-3 py-2">
+      <p>제한된 옵션 안에서도 균형 잡힌 로스팅 경험을 선사합니다</p>
+    </div>
+    <div data-popper-arrow></div>
+  </div>
+  <div id="ExpertRoastMode" role="tooltip"
+    class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
+    <div class="px-3 py-2 bg-gray-100 border-b border-gray-200 rounded-t-lg dark:border-gray-600 dark:bg-gray-700">
+      <h3 class="font-semibold text-gray-900 dark:text-white">Expert Roast Mode</h3>
+    </div>
+    <div class="px-3 py-2">
+      <p>정밀한 제어와 완전한 자유를 통해 전문가다운 로스팅 경험을 제공합니다</p>
+    </div>
+    <div data-popper-arrow></div>
+  </div>
 
   <!--popover 끝-->
 
@@ -285,6 +326,76 @@
     </div>
   </div>
 
+
+  <button style="display : none" data-modal-target="showCustomCheck-modal" data-modal-toggle="showCustomCheck-modal"
+    class="absolute right-0  block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+    type="button">
+    Toggle modal
+  </button>
+
+  <div id="showCustomCheck-modal" tabindex="-1"
+  class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+  <div class="relative p-4 w-full max-w-md max-h-full">
+    <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+      <button style="display: none;" type="button"
+        class="absolute top-3 end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+        data-modal-hide="showCustomCheck-modal">
+        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+        </svg>
+        <span class="sr-only">Close modal</span>
+      </button>
+      <div class="p-4 md:p-5 text-center">
+        <svg class="mx-auto mb-4 text-gray-400 w-12 h-12 dark:text-gray-200" aria-hidden="true"
+          xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+        </svg>
+        <h3 id="Check-message" class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Are you sure you
+          want to delete this product?</h3>
+        <button id="Check" data-modal-hide="showCustomConfirm-modal" type="button"
+          class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center">
+          확인
+        </button>
+    </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+  <!--simple Roast mode Dispose modal 시작-->
+
+<button style="display : none" data-modal-target="simpleRoastDispose-modal" data-modal-toggle="simpleRoastDispose-modal"
+class="absolute right-0  block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+type="button">
+Toggle modal
+</button>
+
+<div id="simpleRoastDispose-modal" tabindex="-1"
+class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+<div class="relative p-4 w-full max-w-md max-h-full">
+  <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+
+    <div class="p-4 md:p-5 text-center">
+      <svg class="mx-auto mb-4 text-gray-400 w-12 h-12 dark:text-gray-200" aria-hidden="true"
+        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+      </svg>
+      <h3 id="simpleRoastModeDiposeCount" class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">배출 중 20
+    </div>
+  </div>
+</div>
+</div>
+
+
+  <!--simple Roast mode Dispose modal 시 끝-->
+
+
+
   <!--모달 창 끝-->
 
 
@@ -324,100 +435,153 @@
 
 
 
+
+
+
+  <!--Aside-->
   <aside id="logo-sidebar"
     class="fixed top-0 left-0 z-40 w-40 h-screen transition-transform -translate-x-full sm:translate-x-0"
     aria-label="Sidebar">
     <div class="h-full px-3 py-4 overflow-y-auto bg-zinc-100 dark:bg-zinc-800">
-      <a href="https://reonai.net/" class="flex items-center ps-2.5 mb-5">
+      <a onclick="goToMain()" class="flex items-center ps-2.5 mb-5">
         <img src="images/logo.png" class="h-6 me-3 sm:h-7" alt="REONAI Logo" />
 
       </a>
       <ul class="space-y-2 font-medium">
-        <li id="mainConnectBluetoothBtn" onclick="connectBluetooth()" class="text-gray-900  dark:text-zinc-100 ">
+        <li id="mainConnectBluetoothBtn" onclick="connectBluetooth()" class="text-blue-700 dark:text-blue-500">
           <a href="#"
             class="flex items-center p-2 text-gray-900 rounded-lg dark:text-zinc-100 hover:bg-zinc-300 dark:hover:bg-zinc-700 group">
             <img src="./images/bluetooth-svgrepo-com.svg" class="w-5 h-5 transition duration-75" aria-hidden="true"
               fill="blue" stroke="blue" viewBox="0 0 22 21">
             </img>
-            <span class="ms-3">연결하기</span>
+            <span class="ms-3">기기 연결</span>
           </a>
-        </li>
 
-        <li>
-          <a href="#"
-            onclick="if(isCoolDownRunning) { alert('온도가 높습니다.'); } else {checkBluetoothConnectionForManualRoasting(),heatingMode(),autoRoastingFlagOff()}"
-            class="flex items-center p-2 rounded-lg text-gray-900  dark:text-zinc-100 hover:bg-zinc-300  dark:hover:bg-zinc-700 group">
-            <svg
-              class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
-              aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 21">
-              <path
-                d="M16.975 11H10V4.025a1 1 0 0 0-1.066-.998 8.5 8.5 0 1 0 9.039 9.039.999.999 0 0 0-1-1.066h.002Z" />
-              <path
-                d="M12.5 0c-.157 0-.311.01-.565.027A1 1 0 0 0 11 1.02V10h8.975a1 1 0 0 0 1-.935c.013-.188.028-.374.028-.565A8.51 8.51 0 0 0 12.5 0Z" />
-            </svg>
-            <span class="ms-3">Roasting</span>
-          </a>
-        </li>
-        <li id="userName" style="display: none;">
-          <a href="#"
-            class="flex items-center p-2 text-gray-900 rounded-lg dark:text-zinc-100 hover:bg-zinc-300 dark:hover:bg-zinc-700 group">
-            <svg
-              class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
-              aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
-              <path
-                d="M14 2a3.963 3.963 0 0 0-1.4.267 6.439 6.439 0 0 1-1.331 6.638A4 4 0 1 0 14 2Zm1 9h-1.264A6.957 6.957 0 0 1 15 15v2a2.97 2.97 0 0 1-.184 1H19a1 1 0 0 0 1-1v-1a5.006 5.006 0 0 0-5-5ZM6.5 9a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9ZM8 10H5a5.006 5.006 0 0 0-5 5v2a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-2a5.006 5.006 0 0 0-5-5Z" />
-            </svg>
-            <span id=loginUserName class="flex-1 ms-3 whitespace-nowrap">Users</span>
-          </a>
-        </li>
-
-        <li id="loginModalBtn">
-          <a href="#"
-            class="flex items-center p-2 text-gray-900 rounded-lg dark:text-zinc-100 hover:bg-zinc-300 dark:hover:bg-zinc-700 group">
-            <svg
-              class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
-              aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 16">
-              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M1 8h11m0 0L8 4m4 4-4 4m4-11h3a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-3" />
-            </svg>
-            <span data-modal-target="login-modal" data-modal-toggle="login-modal"
-              class="flex-1 ms-3 whitespace-nowrap">log In</span>
-          </a>
-        </li>
-        <li style="display: none;">
-          <a href="#"
-            class="flex items-center p-2 text-gray-900 rounded-lg dark:text-zinc-100 hover:bg-zinc-300 dark:hover:bg-zinc-700 group">
-            <svg
-              class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
-              aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-              <path d="M5 5V.13a2.96 2.96 0 0 0-1.293.749L.879 3.707A2.96 2.96 0 0 0 .13 5H5Z" />
-              <path
-                d="M6.737 11.061a2.961 2.961 0 0 1 .81-1.515l6.117-6.116A4.839 4.839 0 0 1 16 2.141V2a1.97 1.97 0 0 0-1.933-2H7v5a2 2 0 0 1-2 2H0v11a1.969 1.969 0 0 0 1.933 2h12.134A1.97 1.97 0 0 0 16 18v-3.093l-1.546 1.546c-.413.413-.94.695-1.513.81l-3.4.679a2.947 2.947 0 0 1-1.85-.227 2.96 2.96 0 0 1-1.635-3.257l.681-3.397Z" />
-              <path
-                d="M8.961 16a.93.93 0 0 0 .189-.019l3.4-.679a.961.961 0 0 0 .49-.263l6.118-6.117a2.884 2.884 0 0 0-4.079-4.078l-6.117 6.117a.96.96 0 0 0-.263.491l-.679 3.4A.961.961 0 0 0 8.961 16Zm7.477-9.8a.958.958 0 0 1 .68-.281.961.961 0 0 1 .682 1.644l-.315.315-1.36-1.36.313-.318Zm-5.911 5.911 4.236-4.236 1.359 1.359-4.236 4.237-1.7.339.341-1.699Z" />
-            </svg>
-            <span data-modal-target="logout-modal" data-modal-toggle="logout-modal"
-              class="flex-1 ms-3 whitespace-nowrap">Sign Up</span>
-          </a>
         </li>
 
 
 
-        <li id="logoutModalBtn" style="display: none;">
-          <a href="#"
-            class="flex items-center p-2 text-gray-900 rounded-lg dark:text-zinc-100 hover:bg-zinc-300 dark:hover:bg-zinc-700 group">
-            <svg
-              class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
-              aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 21">
-              <path
-                d="M16.975 11H10V4.025a1 1 0 0 0-1.066-.998 8.5 8.5 0 1 0 9.039 9.039.999.999 0 0 0-1-1.066h.002Z" />
-              <path
-                d="M12.5 0c-.157 0-.311.01-.565.027A1 1 0 0 0 11 1.02V10h8.975a1 1 0 0 0 1-.935c.013-.188.028-.374.028-.565A8.51 8.51 0 0 0 12.5 0Z" />
-            </svg>
-            <span id="logoutBtn" class="ms-3">Log out</span>
-          </a>
-        </li>
 
+
+        <ul class="pt-4 mt-4 space-y-2 font-medium border-t border-gray-200 dark:border-gray-700">
+          <li>
+            <button type="button"
+              class="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+              aria-controls="dropdown-example" data-collapse-toggle="dropdown-example">
+
+              <svg height="512" viewBox="0 0 69 69" aria-hidden="true" width="512" xmlns="http://www.w3.org/2000/svg"
+                class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white">
+                <g id="Page-1" fill="none" fill-rule="evenodd">
+                  <g id="yum_filled" fill="rgb(148,31,36)" fill-rule="nonzero" transform="translate(-55 -416)">
+                    <path id="roasting,-coffee,-beans,-burn,-drink,-aroma"
+                      d="m59.736544 477.7193c-6.7608936-6.760894-4.656925-19.384705 4.2426407-28.284271 8.8995658-8.899566 21.5233776-11.003535 28.2842713-4.242641 6.7608936 6.760894 4.656925 19.384706-4.2426407 28.284271-8.8995658 8.899566-21.5233776 11.003535-28.2842713 4.242641zm21.3942388-23.819595c-.7636664 3.054666-2.5611883 4.852188-5.6158541 5.615854-4.4878066 1.121952-7.4043299 4.038475-8.5262815 8.526282-.2678975 1.07159.3836239 2.157458 1.4552137 2.425356 1.0715899.267897 2.1574588-.383624 2.4253563-1.455214.7636664-3.054666 2.5611883-4.852187 5.6158541-5.615854 4.4878066-1.121952 7.4043299-4.038475 8.5262815-8.526281.2678975-1.07159-.3836239-2.157459-1.4552137-2.425357-1.0715899-.267897-2.1574588.383624-2.4253563 1.455214zm13.7032003-11.788382c8.1617439-3.565714 18.9527919 1.734532 24.9229859 12.07521 6.292943 10.899698 5.057938 23.637911-3.222432 28.418585-7.387481 4.265164-17.456365.506827-24.0107899-8.093545 8.9446839-10.269161 10.5767659-24.138982 2.568136-32.147612-.0853055-.085305-.171276-.169517-.2579-.252638zm8.2008569 20.541646c-.077808 4.625271 1.984486 8.197268 6.028992 10.44252.965739.536117 2.183234.187839 2.719351-.7779.536117-.96574.187839-2.183235-.7779-2.719352-2.752929-1.52825-4.023969-3.729756-3.971009-6.877988.018579-1.104413-.861664-2.014778-1.966077-2.033357s-2.014778.861664-2.033357 1.966077zm-37.5611565-30.126734c-.9006767 3.302481-.9006767 6.235763-.032161 8.841309.3492955 1.047887-.2170245 2.180527-1.2649111 2.529823-1.0478866.349295-2.1805266-.217025-2.5298221-1.264911-1.1314844-3.394454-1.1314844-7.127839-.0321611-11.158691 1.0784549-3.954334 3.2127124-7.86714 6.3816131-11.740241.719777-.879727 2.0270909-.983499 2.8766423-.228343 6.4485191 5.732017 9.4154534 11.665886 8.655828 17.742888-.137005 1.09604-1.1365853 1.873492-2.2326252 1.736487s-1.8734913-1.136586-1.7364863-2.232625c.5165887-4.13271-1.3506295-8.381471-5.7805021-12.789151-2.1037298 2.882818-3.5347427 5.737658-4.3054145 8.563455zm19.3198625-2.964497c-.8625239.690019-2.1211086.550176-2.8111277-.312348s-.5501764-2.121109.3123475-2.811128c3.0332733-2.426618 5.1410059-5.437665 6.3520235-9.070718.4316874-1.295062 2.0052742-1.786613 3.0973666-.967544 6.8184846 5.113863 9.8195281 9.598339 11.4250211 16.554132 2.59857-1.858233 3.86536-4.775152 3.86536-8.954132 0-1.689719 1.965617-2.618008 3.270557-1.544566 6.13469 5.046387 9.239062 11.612919 9.239062 19.544566 0 1.104569-.895431 2-2 2-1.10457 0-2-.895431-2-2 0-5.37742-1.637513-9.925119-4.950232-13.722007-1.005103 4.522107-3.724077 7.774066-8.098115 9.571852-1.185497.487255-2.5169122-.250729-2.7319593-1.514286-1.1514656-6.765692-3.1169582-10.708672-8.3574746-15.105139-1.5158632 3.23763-3.724964 6.021026-6.6128291 8.331318z" />
+                  </g>
+                </g>
+              </svg>
+
+
+
+
+              <span class="flex-1 ms-3 text-left rtl:text-right whitespace-nowrap">Roasting</span>
+              <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="m1 1 4 4 4-4" />
+              </svg>
+            </button>
+            <ul id="dropdown-example" class="hidden py-2 space-y-2">
+
+              <li>
+                <a href="#" data-tooltip-target="simpleRoastMode" data-tooltip-placement="right"
+                  onclick="if(isCoolDownRunning) { showCustomCheck('온도가 높습니다.'); return } else {checkBluetoothConnectionForSimpleRoasting()}"
+                  class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
+                  Simple
+                </a>
+              </li>
+
+              <li style="display: none">
+                <a href="#" data-tooltip-target="BalanceRoastMode" data-tooltip-placement="right"
+                  onclick="if(isCoolDownRunning) { showCustomCheck('온도가 높습니다.');return} else {checkBluetoothConnectionForBalanceRoast()}"
+                  class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
+                  Balance
+                </a>
+              </li>
+
+              <li>
+                <a href="#" data-tooltip-target="ExpertRoastMode" data-tooltip-placement="right"
+                  onclick="if(isCoolDownRunning) { showCustomCheck('온도가 높습니다.'); return} else {checkBluetoothConnectionForManualRoasting()}"
+                  class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
+                  Expert
+                </a>
+              </li>
+
+            </ul>
+          </li>
+
+
+        </ul>
+        <ul class="pt-4 mt-4 space-y-2 font-medium border-t border-gray-200 dark:border-gray-700">
+
+          <li id="userName" style="display: none;">
+            <a href="#"
+              class="flex items-center p-2 text-gray-900 rounded-lg dark:text-zinc-100 hover:bg-zinc-300 dark:hover:bg-zinc-700 group">
+              <svg
+                class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
+                <path
+                  d="M14 2a3.963 3.963 0 0 0-1.4.267 6.439 6.439 0 0 1-1.331 6.638A4 4 0 1 0 14 2Zm1 9h-1.264A6.957 6.957 0 0 1 15 15v2a2.97 2.97 0 0 1-.184 1H19a1 1 0 0 0 1-1v-1a5.006 5.006 0 0 0-5-5ZM6.5 9a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9ZM8 10H5a5.006 5.006 0 0 0-5 5v2a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-2a5.006 5.006 0 0 0-5-5Z" />
+              </svg>
+              <span id=loginUserName class="flex-1 ms-3 whitespace-nowrap">Users</span>
+            </a>
+          </li>
+
+          <li id="loginModalBtn">
+            <a href="#"
+              class="flex items-center p-2 text-gray-900 rounded-lg dark:text-zinc-100 hover:bg-zinc-300 dark:hover:bg-zinc-700 group">
+              <svg
+                class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 16">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M1 8h11m0 0L8 4m4 4-4 4m4-11h3a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-3" />
+              </svg>
+              <span data-modal-target="login-modal" data-modal-toggle="login-modal"
+                class="flex-1 ms-3 whitespace-nowrap">log In</span>
+            </a>
+          </li>
+          <li style="display: none;">
+            <a href="#"
+              class="flex items-center p-2 text-gray-900 rounded-lg dark:text-zinc-100 hover:bg-zinc-300 dark:hover:bg-zinc-700 group">
+              <svg
+                class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M5 5V.13a2.96 2.96 0 0 0-1.293.749L.879 3.707A2.96 2.96 0 0 0 .13 5H5Z" />
+                <path
+                  d="M6.737 11.061a2.961 2.961 0 0 1 .81-1.515l6.117-6.116A4.839 4.839 0 0 1 16 2.141V2a1.97 1.97 0 0 0-1.933-2H7v5a2 2 0 0 1-2 2H0v11a1.969 1.969 0 0 0 1.933 2h12.134A1.97 1.97 0 0 0 16 18v-3.093l-1.546 1.546c-.413.413-.94.695-1.513.81l-3.4.679a2.947 2.947 0 0 1-1.85-.227 2.96 2.96 0 0 1-1.635-3.257l.681-3.397Z" />
+                <path
+                  d="M8.961 16a.93.93 0 0 0 .189-.019l3.4-.679a.961.961 0 0 0 .49-.263l6.118-6.117a2.884 2.884 0 0 0-4.079-4.078l-6.117 6.117a.96.96 0 0 0-.263.491l-.679 3.4A.961.961 0 0 0 8.961 16Zm7.477-9.8a.958.958 0 0 1 .68-.281.961.961 0 0 1 .682 1.644l-.315.315-1.36-1.36.313-.318Zm-5.911 5.911 4.236-4.236 1.359 1.359-4.236 4.237-1.7.339.341-1.699Z" />
+              </svg>
+              <span data-modal-target="logout-modal" data-modal-toggle="logout-modal"
+                class="flex-1 ms-3 whitespace-nowrap">Sign Up</span>
+            </a>
+          </li>
+
+
+
+          <li id="logoutModalBtn" style="display: none;">
+            <a href="#"
+              class="flex items-center p-2 text-gray-900 rounded-lg dark:text-zinc-100 hover:bg-zinc-300 dark:hover:bg-zinc-700 group">
+              <svg
+                class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 21">
+                <path
+                  d="M16.975 11H10V4.025a1 1 0 0 0-1.066-.998 8.5 8.5 0 1 0 9.039 9.039.999.999 0 0 0-1-1.066h.002Z" />
+                <path
+                  d="M12.5 0c-.157 0-.311.01-.565.027A1 1 0 0 0 11 1.02V10h8.975a1 1 0 0 0 1-.935c.013-.188.028-.374.028-.565A8.51 8.51 0 0 0 12.5 0Z" />
+              </svg>
+              <span id="logoutBtn" class="ms-3">Log out</span>
+            </a>
+          </li>
+
+        </ul>
 
         <li id="languageKo" style="display: none;">
           <a href="#"
@@ -458,17 +622,22 @@
 
   <!-- style="display : none" -->
   <header id="adminBtn" class="absolute bottom-0">
-    <button class="bg-transparent text-fontColor" onclick="showPanel('mainPanel')">mainPanel</button>
-    <button class="bg-transparent text-fontColor" onclick="showPanel('roastInfoPanel')">roastInfoPanel</button>
-    <button class="bg-transparent text-fontColor" onclick="showPanel('recipePanel')">recipePanel</button>
-    <button class="bg-transparent text-fontColor" onclick="showPanel('puttingCountPanel')">puttingCountPanel</button>
-    <button class="bg-transparent text-fontColor" onclick="showPanel('roastPanel')">roastPanel</button>
-    <button class="bg-transparent text-fontColor" onclick="showPanel('easyRoastInfoPanel')">easyRoastInfoPanel</button>
-    <button class="bg-transparent text-fontColor" onclick="showPanel('easyRoastPanel')">easyRoastPanel</button>
-    <button class="bg-transparent text-fontColor" onclick="showPanel('settingPanel')">settingPanel</button>
-    <button class="bg-transparent text-fontColor" onclick="showPanel('signInPanel')">signInPanel</button>
-  </header>
+    <button class="bg-transparent text-zinc-950 dark:text-gray-300" onclick="showPanel('mainPanel')">mainPanel</button>
+    <button class="bg-transparent text-zinc-950 dark:text-gray-300"onclick="showPanel('roastInfoPanel')">roastInfoPanel</button>
+  
+    <button class="bg-transparent text-zinc-950 dark:text-gray-300" onclick="showPanel('pilotRoastInfoPanel')">pilotRoastInfoPanel</button>
+    <button class="bg-transparent text-zinc-950 dark:text-gray-300" onclick="showPanel('recipePanel')">recipePanel</button>
+    <button class="bg-transparent text-zinc-950 dark:text-gray-300" onclick="showPanel('puttingCountPanel')">puttingCountPanel</button>
+    <button class="bg-transparent text-zinc-950 dark:text-gray-300" onclick="showPanel('roastPanel')">roastPanel</button>
+    <button class="bg-transparent text-zinc-950 dark:text-gray-300" onclick="showPanel('easyRoastInfoPanel')">easyRoastInfoPanel</button>
+    <button class="bg-transparent text-zinc-950 dark:text-gray-300" onclick="showPanel('easyRoastPanel')">easyRoastPanel</button>
+    <button class="bg-transparent text-zinc-950 dark:text-gray-300" onclick="showPanel('settingPanel')">settingPanel</button>
+    <button class="bg-transparent text-zinc-950 dark:text-gray-300" onclick="showPanel('signInPanel')">signInPanel</button>
+    <button class="bg-transparent text-zinc-950 dark:text-gray-300" onclick="showPanel('SimpleRoastInfoPanel')">SimpleRoastInfoPanel</button>
 
+
+    
+  </header>
 
 
 
@@ -478,10 +647,10 @@
       class="flex flex-col gap-2 font-base bg-reonaiBlack1 min-h-[calc(100vh-80px)] border-r-2 border-black">
 
       <button id="autoRoastingBtn" style="display: none;" class="text-fontColor"
-        onclick="if(isCoolDownRunning) { alert('온도가 높습니다.'); } else {checkBluetoothConnectionForeasyRoasting(),autoStartHeatingMode(),autoRoastingFlagOn()}">자동
+        onclick="if(isCoolDownRunning) { showCustomCheck('온도가 높습니다.');return } else {checkBluetoothConnectionForeasyRoasting(),autoStartHeatingMode(),autoRoastingFlagOn()}">자동
         로스팅</button>
       <button id="manualRoastingBtn" class="text-fontColor"
-        onclick="if(isCoolDownRunning) { alert('온도가 높습니다.'); } else {checkBluetoothConnectionForManualRoasting(),heatingMode(),autoRoastingFlagOff()}">정밀
+        onclick="if(isCoolDownRunning) { showCustomCheck('온도가 높습니다.'); return} else {checkBluetoothConnectionForManualRoasting(),heatingMode(),autoRoastingFlagOff()}">정밀
         로스팅</button>
       <button id="recipeBtnForMain" class="text-fontColor"
         onclick="checkBluetoothConnectionForRecipePanel()">레시피</button>
@@ -536,7 +705,6 @@
             </div>
 
           </div>
-
 
 
           <div id="controlBtnBox" class="flex-auto h-1/5 mb-1 grid grid-cols-3 gap-4 p-4  rounded-lg 
@@ -786,8 +954,6 @@ bg-zinc-100 dark:bg-zinc-800">
           <!--인디게이터 끝-->
         </div>
 
-
-
         <!-- Modal -->
         <div id="keypadModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
           <div class="bg-white p-5 rounded-lg w-64">
@@ -819,17 +985,10 @@ bg-zinc-100 dark:bg-zinc-800">
               <button id="keypadClear" class="bg-blue-400text-black py-2 rounded col-span-2">Clear</button>
               <button id="keypadExit" class="bg-red-200 text-black py-2 rounded col-span-2">X</button>
             </div>
-
-
             <!-- Submit Button -->
             <button id="keypadSubmit" class="bg-red-500 text-white py-2 mt-3 w-full rounded">입력</button>
           </div>
-
-
         </div>
-
-
-
       </div>
     </div>
     <!--수신값 div-->
@@ -974,6 +1133,7 @@ bg-zinc-100 dark:bg-zinc-800">
       <div class="grid  place-items-center gap-4 p-4 text-gray-200 h-full">
         <!-- Left Column -->
         <div class="space-y-4 ">
+
           <!--Recipe Finder Btn -->
           <div class="bg-zinc-100 dark:bg-zinc-800 p-4 rounded-lg shadow">
             <!-- <span class="text-lg font-semibold block text-zinc-950 dark:text-gray-300">Recipe Finder</span> -->
@@ -986,6 +1146,7 @@ bg-zinc-100 dark:bg-zinc-800">
               </button>
               <span id="selectRecipeName"></span>
             </div>
+
 
           </div>
 
@@ -1157,10 +1318,14 @@ bg-zinc-100 dark:bg-zinc-800">
 
 
 
-            <button id="roastInfoStartBtn" class="w-1/2 p-2   text-gray-700 rounded-md shadow border border-gray-300 dark:border-zinc-700
-            bg-white text-zinc-900 dark:bg-zinc-700 dark:text-gray-300
-            over:bg-zinc-300  dark:hover:bg-zinc-500"
-              onclick="if (document.getElementById('preheatPercentDisplay').innerText !== '100%') { alert('예열이 완료되지 않았습니다'); } else { showPanel('puttingCountPanel'); roastInfoStart(); }">Start</button>
+            <button id="roastInfoStartBtn" class="w-1/2 p-2   text-gray-700 rounded-md shadow border cursor-not-allowed
+            border-gray-300 dark:border-zinc-700
+            bg-white dark:bg-zinc-700 text-zinc-900 
+            dark:text-gray-300 
+            over:bg-zinc-300  
+            dark:hover:bg-zinc-500" 
+            disabled
+              onclick=" if (document.getElementById('preheatPercentDisplay').innerText !== '100%') { showCustomCheck('예열이 완료되지 않았습니다'); return} else { showPanel('puttingCountPanel'); roastInfoStart();disableButton('roastInfoStartBtn'); }">Start</button>
 
 
 
@@ -1173,6 +1338,120 @@ bg-zinc-100 dark:bg-zinc-800">
       </div>
     </div>
     <!-- roastInfoPanel 끝-->
+
+
+    <!-- SimpleRoastInfoPanel 시작-->
+    <div id="SimpleRoastInfoPanel" style="display: none; margin: 0 auto;  "
+      class="flex justify-center items-center h-screen">
+
+      <div class="grid  place-items-center gap-4 p-4 text-gray-200 h-full">
+
+
+        <!-- Left Column -->
+        <div class="space-y-4 ">
+          <span class="text-lg font-semibold block text-zinc-950 dark:text-gray-300">Simple Roast mode</span>
+          <!-- Preheat Section -->
+          <div class="bg-zinc-100 dark:bg-zinc-800 p-4 rounded-lg shadow">
+            <div class="flex justify-between items-center">
+              <span id="roastInfoPanelPreheat"
+                class="text-lg font-semibold text-zinc-950 dark:text-gray-300">Preheat</span>
+              <span id="simpleRoastModePreheatPercentDisplay" class="text-4xl font-bold text-red-500">0%</span>
+              <span class="" id="infoTemp1Value" style="display: none;">-</span>
+              <span class="" id="infoTemp2Value" style="display: none;">-</span>
+
+            </div>
+            <div class="mt-4" style="display: none;">
+              <label for="tempSet" class="block text-sm text-zinc-950 dark:text-gray-300">Temp set</label>
+              <select id="tempSet" class="w-full p-2 rounded    
+            text-gray-700 rounded-md shadow border border-gray-300 dark:border-zinc-700
+              bg-white text-zinc-900 dark:bg-zinc-700 dark:text-gray-300
+              hover:bg-zinc-300  dark:hover:bg-zinc-500
+              ">
+                <option>200°C</option>
+                <option>250°C</option>
+                <option>300°C</option>
+              </select>
+            </div>
+          </div>
+
+          <!--Recipe Choose Btn -->
+          <div class="bg-zinc-100 dark:bg-zinc-800 p-4 rounded-lg shadow">
+            <span class="text-lg font-semibold block text-zinc-950 dark:text-gray-300">Bean Processing</span>
+            <div class="grid grid-cols-2 gap-1 mt-2">
+              <button id="recipeProcessingWashedBtn" class=" p-2   text-gray-700 rounded-md shadow border border-gray-300 dark:border-zinc-700
+                    bg-white text-zinc-900 dark:bg-zinc-700 dark:text-gray-300
+                    over:bg-zinc-300  dark:hover:bg-zinc-500"  onclick="recipeProcessingToggleHover('recipeProcessingWashedBtn')"
+                    >Washed</button>
+
+              <button id="recipeProcessingNaturalBtn" class="p-2   text-gray-700 rounded-md shadow border border-gray-300 dark:border-zinc-700
+                    bg-white text-zinc-900 dark:bg-zinc-700 dark:text-gray-300
+                    over:bg-zinc-300  dark:hover:bg-zinc-500"
+                    onclick="recipeProcessingToggleHover('recipeProcessingNaturalBtn')"
+                    >Natural</button>
+            </div>
+
+            <span class="text-lg font-semibold block text-zinc-950 dark:text-gray-300">Roasting Stages</span>
+            <div class="grid grid-cols-3 gap-1 mt-2">
+              <button id="recipeStagesLightBtn" class=" p-2   text-gray-700 rounded-md shadow border border-gray-300 dark:border-zinc-700
+                    bg-white text-zinc-900 dark:bg-zinc-700 dark:text-gray-300
+                    over:bg-zinc-300  dark:hover:bg-zinc-500"
+                    onclick="recipeStagesToggleHover('recipeStagesLightBtn')">Light</button>
+
+              <button id="recipeStagesMediumBtn" class="p-2   text-gray-700 rounded-md shadow border border-gray-300 dark:border-zinc-700
+                    bg-white text-zinc-900 dark:bg-zinc-700 dark:text-gray-300
+                    over:bg-zinc-300  dark:hover:bg-zinc-500"
+                    onclick="recipeStagesToggleHover('recipeStagesMediumBtn')">Medium</button>
+
+                    <button id="recipeStagesDarkBtn" class="p-2   text-gray-700 rounded-md shadow border border-gray-300 dark:border-zinc-700
+                    bg-white dark:bg-zinc-700 text-zinc-900  dark:text-gray-300
+                    over:bg-zinc-300  dark:hover:bg-zinc-500"
+                    onclick="recipeStagesToggleHover('recipeStagesDarkBtn')">Dark</button>
+            </div>
+
+
+          </div>
+
+
+
+
+
+
+          <!-- Roasting Info Section -->
+          <div id="roastInfoDiv" class="bg-zinc-100 dark:bg-zinc-800 p-4 rounded-lg shadow">
+            <span class="text-lg font-semibold block text-zinc-950 dark:text-gray-300">Roasting Info</span>
+            <div class="mt-4 space-y-4">
+              <div>
+
+                <select name="simpleRoastInfoInputAmount" id="simpleRoastInfoInputAmount" class="w-full p-2   text-gray-700 rounded-md shadow border border-gray-300 dark:border-zinc-700
+                  bg-white text-zinc-900 dark:bg-zinc-700 dark:text-gray-300
+                  over:bg-zinc-300  dark:hover:bg-zinc-500 rounded">
+                  <option disabled hidden selected>Input Amount</option>
+                  <option value="50">50g</option>
+                  <option value="100">100g</option>
+                  <option value="200">200g</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- Start Buttons -->
+          <div class="flex space-x-4">
+
+            <button id="simpleRoastInfoStartBtn" class="w-full p-2   rounded-md shadow border cursor-not-allowed
+            text-zinc-900 dark:text-gray-300 
+            border-gray-300 dark:border-zinc-700
+            bg-white  dark:bg-zinc-700 
+          hover:bg-zinc-300 
+          dark:hover:bg-zinc-500" disabled
+              onclick="simpleRoastModeStartConfirm()">Start</button>
+
+        </div>
+        </div>
+      </div>
+    </div>
+    <!-- pilotRoastInfoPanel 끝-->
+
+
 
     <!--mainPanel!!-->
     <div id="mainPanel" style="display: none; margin: 0 auto;  " class="flex justify-center items-center h-screen">
@@ -1230,131 +1509,128 @@ bg-zinc-100 dark:bg-zinc-800">
           </div>
         </div>
 
-    </section>
+      </section>
 
-  </div>
-  <!--mainPanel 끝-->
-
-
+    </div>
+    <!--mainPanel 끝-->
 
 
-  <!-- recipePanel 시작-->
-  <div id="recipePanel" class="hidden p-6">
-  </div>
-  <!-- roastInfoPanel 끝-->
 
-  <!--puttingPanel 시작-->
-  <div id="puttingCountPanel" style="display: none; margin: 0 auto; " class="flex justify-center items-center h-screen">
-    <div class="grid gap-4 p-4 flex justify-center items-center h-full">
-      <div>
-        <h5 id="puttingInfo" class=" gap-4 p-4 text-zinc-950 dark:text-gray-300 
+
+    <!-- recipePanel 시작-->
+    <div id="recipePanel" class="hidden p-6">
+    </div>
+    <!-- roastInfoPanel 끝-->
+
+    <!--puttingPanel 시작-->
+    <div id="puttingCountPanel" style="display: none; margin: 0 auto; "
+      class="flex justify-center items-center h-screen">
+      <div class="grid gap-4 p-4 flex justify-center items-center h-full">
+        <div>
+          <h5 id="puttingInfo" class=" gap-4 p-4 text-zinc-950 dark:text-gray-300 
           flex-1 text-center text-4xl">생두를 투입해주세요!</h5>
-        <div id="beanPuttingCounter" class="  text-zinc-950 dark:text-gray-300 
+          <div id="beanPuttingCounter" class="  text-zinc-950 dark:text-gray-300 
                   flex-1 text-center text-4xl">20</div>
-      </div>
-    </div>
-  </div>
-  <!--puttingPanel 끝-->
-
-
-
-
-
-
-
-  <div id="easyRoastInfoPanel" style="display: none;" class="w-full bg-reonaiBlack1 align-items: center">
-    <div
-      class="panelBox bg-gray-900 p-6 rounded-lg w-[1200px]text-center max-w-lg mx-auto space-y-4 items-center justify-center">
-      <h2 class="text-[32px] text-fontColor">REONAI </h2>
-      <span class="text-[32px] text-fontColor "> 예열 <span class="text-[32px] text-reonaiRed"
-          id="preheatPercentDisplayForEasyRaosting">0%</span></span>
-      <div class="grid grid-cols-2 gap-2 space-x-4  items-center" id="selectedRecord">
-
-        <button class="bg-reonaiWhite text-reonaiBlack1 rounded-sm w-[200px] h-30" id="ethiopiaBean">에티오피아
-          내추럴</button>
-        <button class="bg-reonaiWhite text-reonaiBlack1 rounded-sm w-[200px] h-30" id="colomniaBean">콜롬비아 워시드</button>
-
-
-
-      </div>
-      <div class="grid grid-cols-2 gap-2 space-x-4  " style="display: none;">
-        <button class="bg-reonaiWhite text-reonaiBlack1 rounded-sm w-[200px] h-30" id="easyLightRoast">Light</button>
-        <button class="bg-reonaiWhite text-reonaiBlack1 rounded-sm w-[200px] h-30" id="easyDarkRoast">Dark</button>
-
-      </div>
-
-      <div class="grid  space-x-4   ">
-
-        <button class="bg-white rounded-sm w-[464px] text-[28px] h-16 text-brown-accent"
-          id="autoRoastBtn">Start</button>
-      </div>
-
-
-
-
-
-    </div>
-  </div>
-  <div id="easyRoastPanel" style="display: none;" class="w-full bg-reonaiBlack1 align-items: center">
-    <div
-      class="panelBox bg-gray-900 p-6 rounded-lg w-[1200px]text-center max-w-lg mx-auto space-y-4 items-center justify-center">
-      <div id="easyPreheatPercent">
-        <span>Roasting</span>
-        <span id="roastingDisplayForEasyRaosting" class="text-[32px]">0%</span>
-      </div>
-      <div class="flex" style="display: none;">
-        <div class="grid grid-rows-2 grid-flow-col gap-4">
-          <div class=""><strong>Elapsed Time</strong></div>
-          <div class="text-[32px] text-reonaiRed"><span id="elapsedValueForEasy" class="value-display">-</span> s
-          </div>
-
-          <!-- <div class=""><strong>Drum</strong></div>
-            <div class="text-white"> <span id="temp1Value" class="value-display">-</span> °C</div>
-            <div class=""><strong>Heater</strong></div>
-            <div class="text-white"><span id="temp2Value" class="value-display">-</span> °C </div> -->
         </div>
       </div>
-      <div class="grid grid-cols-3 gap-2">
-        <!-- <button class="bg-white rounded-sm w-[100px]" id="crackBtn"
-            onclick="startRecordingCrackPoint()">Crack</button>
-          <button class="bg-white rounded-sm w-[100px]" id="CoolDowndBtn" onclick="coolingMode()">CoolDown</button>
-          <button class="bg-white rounded-sm w-[100px]" id="disposeBtn" onclick="disposalMode()">Disposal</button> -->
-      </div>
-
-      <button class="bg-white rounded-sm w-[464px] text-[28px] h-16 text-brown-accent" id="disposeBtn"
-        onclick="disposalMode()">배출</button>
-      <button
-        onclick="showPanel('mainPanel'),forceCoolingMode(),headerDisplayBlock(),autoRoastingFlagOff(),autoRoastingStartFlagOff()">go
-        to main</button>
-
     </div>
-  </div>
-  <div id="settingPanel" style="display: none;">
-    <h2>settingPanel</h2>
-  </div>
-  <div id="signInPanel" style="display: none;">
+    <!--puttingPanel 끝-->
 
 
-  </div>
+    <div id="easyRoastInfoPanel" style="display: none;" class="w-full bg-reonaiBlack1 align-items: center">
+      <div
+        class="panelBox bg-gray-900 p-6 rounded-lg w-[1200px]text-center max-w-lg mx-auto space-y-4 items-center justify-center">
+        <h2 class="text-[32px] text-fontColor">REONAI </h2>
+        <span class="text-[32px] text-fontColor "> 예열 <span class="text-[32px] text-reonaiRed"
+            id="preheatPercentDisplayForEasyRaosting">0%</span></span>
+        <div class="grid grid-cols-2 gap-2 space-x-4  items-center" id="selectedRecord">
+
+          <button class="bg-reonaiWhite text-reonaiBlack1 rounded-sm w-[200px] h-30" id="ethiopiaBean">에티오피아
+            내추럴</button>
+          <button class="bg-reonaiWhite text-reonaiBlack1 rounded-sm w-[200px] h-30" id="colomniaBean">콜롬비아 워시드</button>
+
+
+
+        </div>
+        <div class="grid grid-cols-2 gap-2 space-x-4  " style="display: none;">
+          <button class="bg-reonaiWhite text-reonaiBlack1 rounded-sm w-[200px] h-30" id="easyLightRoast">Light</button>
+          <button class="bg-reonaiWhite text-reonaiBlack1 rounded-sm w-[200px] h-30" id="easyDarkRoast">Dark</button>
+
+        </div>
+
+        <div class="grid  space-x-4   ">
+
+          <button class="bg-white rounded-sm w-[464px] text-[28px] h-16 text-brown-accent"
+            id="autoRoastBtn">Start</button>
+        </div>
 
 
 
 
-  <script src="https://code.highcharts.com/highcharts.js"></script>
-  <script src="https://code.highcharts.com/modules/series-label.js"></script>
-  <script src="https://code.highcharts.com/modules/exporting.js"></script>
-  <script src="https://code.highcharts.com/modules/export-data.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
-  <script src="js/reonaiRoasting.js"></script>
-  <script src="js/reonaiBLEtoIO.js"></script>
-  <script src="js/reonaiData.js"></script>
-  <script src="js/panel.js"></script>
-  <script src="js/charts.js"></script>
 
-  <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
+      </div>
+    </div>
+
+    <div id="easyRoastPanel" style="display: none; margin: 0 auto;  "
+    class="flex justify-center items-center h-screen">
+      <div class="grid  place-items-center gap-4 p-4 text-gray-200 h-full">
+        <div class="space-y-4 ">
+          <span class="text-lg font-semibold block text-zinc-950 dark:text-gray-300">
+          Simple Roast Mode</span>
+          <div class="bg-zinc-100 dark:bg-zinc-800 p-4  rounded-lg shadow">
+            <div class="flex justify-between items-center gap-12">
+              <span id="roastInfoPanelPreheat"
+              class="text-lg font-semibold text-zinc-950 dark:text-gray-300 ">Roasting</span>
+              <span id="roastingDisplayForEasyRaosting" class="text-4xl font-bold text-red-500">0%</span>
+            </div>
+          </div>
+          
+          <div class="flex space-x-4">
+
+            <button id="simpleRoastDisposeBtn" class="w-full p-2   rounded-md shadow border   cursor-not-allowed 
+
+            text-zinc-900 dark:text-gray-300 
+            border-gray-300 dark:border-zinc-700
+            bg-white  dark:bg-zinc-700 
+          hover:bg-zinc-300 
+          dark:hover:bg-zinc-500"  disabled onclick="simpleRoastModeDisposeMode()"
+            >배출</button>
 
 
-  <!-- <script> //window 이벤트 모음
+    
+
+        </div>
+        <div class="flex space-x-4">
+        <button class="w-full p-2   rounded-md shadow border 
+        text-zinc-900 dark:text-gray-300 
+        border-gray-300 dark:border-zinc-700
+        bg-white  dark:bg-zinc-700 
+      hover:bg-zinc-300 
+      dark:hover:bg-zinc-500"
+        onclick="simpleRoastExitConfirm()">로스팅 종료</button>
+        </div>
+        </div>
+      </div>
+    </div>
+
+
+
+
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/series-label.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/export-data.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script src="js/reonaiRoasting.js"></script>
+    <script src="js/reonaiBLEtoIO.js"></script>
+    <script src="js/reonaiData.js"></script>
+    <script src="js/panel.js"></script>
+    <script src="js/charts.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
+
+<!-- 
+    <script> //window 이벤트 모음
 
     window.addEventListener('beforeunload', function (event) {
       // 브라우저에 따라 다르게 동작할 수 있음
@@ -1367,50 +1643,50 @@ bg-zinc-100 dark:bg-zinc-800">
     
     </script> -->
 
-  <script>
-    var themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
-    var themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+    <script>
+      var themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+      var themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
 
-    // Change the icons inside the button based on previous settings
-    if (
-      localStorage.getItem('color-theme') === 'dark' ||
-      (!('color-theme' in localStorage) &&
-        window.matchMedia('(prefers-color-scheme: dark)').matches)
-    ) {
-      themeToggleLightIcon.classList.remove('hidden');
-    } else {
-      themeToggleDarkIcon.classList.remove('hidden');
-    }
-
-    var themeToggleBtn = document.getElementById('theme-toggle');
-
-    themeToggleBtn.addEventListener('click', function () {
-      // toggle icons inside button
-      themeToggleDarkIcon.classList.toggle('hidden');
-      themeToggleLightIcon.classList.toggle('hidden');
-
-      // if set via local storage previously
-      if (localStorage.getItem('color-theme')) {
-        if (localStorage.getItem('color-theme') === 'light') {
-          document.documentElement.classList.add('dark');
-          localStorage.setItem('color-theme', 'dark');
-
-        } else {
-          document.documentElement.classList.remove('dark');
-          localStorage.setItem('color-theme', 'light');
-        }
-
-        // if NOT set via local storage previously
+      // Change the icons inside the button based on previous settings
+      if (
+        localStorage.getItem('color-theme') === 'dark' ||
+        (!('color-theme' in localStorage) &&
+          window.matchMedia('(prefers-color-scheme: dark)').matches)
+      ) {
+        themeToggleLightIcon.classList.remove('hidden');
       } else {
-        if (document.documentElement.classList.contains('dark')) {
-          document.documentElement.classList.remove('dark');
-          localStorage.setItem('color-theme', 'light');
-        } else {
-          document.documentElement.classList.add('dark');
-          localStorage.setItem('color-theme', 'dark');
-        }
+        themeToggleDarkIcon.classList.remove('hidden');
       }
-    });</script>
+
+      var themeToggleBtn = document.getElementById('theme-toggle');
+
+      themeToggleBtn.addEventListener('click', function () {
+        // toggle icons inside button
+        themeToggleDarkIcon.classList.toggle('hidden');
+        themeToggleLightIcon.classList.toggle('hidden');
+
+        // if set via local storage previously
+        if (localStorage.getItem('color-theme')) {
+          if (localStorage.getItem('color-theme') === 'light') {
+            document.documentElement.classList.add('dark');
+            localStorage.setItem('color-theme', 'dark');
+
+          } else {
+            document.documentElement.classList.remove('dark');
+            localStorage.setItem('color-theme', 'light');
+          }
+
+          // if NOT set via local storage previously
+        } else {
+          if (document.documentElement.classList.contains('dark')) {
+            document.documentElement.classList.remove('dark');
+            localStorage.setItem('color-theme', 'light');
+          } else {
+            document.documentElement.classList.add('dark');
+            localStorage.setItem('color-theme', 'dark');
+          }
+        }
+      });</script>
 
 </body>
 

@@ -116,6 +116,11 @@ function removeChart(containerId) {
     console.error(`차트를 찾을 수 없습니다: ${containerId}`);
   }
 }
+// 포인트 추가 함수
+function addPoint(x, y) {
+  const series = Highcharts.charts[0].series[15];
+  series.addPoint([parseFloat(x), parseFloat(y)]);
+}
 
 // receivedChart 준비!
 function createReceivedChart() {
@@ -127,6 +132,17 @@ function createReceivedChart() {
       zooming: {
         type: 'x',
       },
+
+      // events: {
+      //   click: function (event) {
+      //     // 마우스 클릭 이벤트
+      //     console.log('click');
+      //     const x = event.xAxis[0].value;
+      //     const y = event.yAxis[0].value;
+      //     addPoint(x, y);
+      //   },
+
+      // },
     },
     title: {
       // text: '1Temperature & RoR',
@@ -137,6 +153,7 @@ function createReceivedChart() {
       },
     },
     xAxis: {
+      crosshair: true, // X축 십자선 활성화
       title: {
         // text: 'Time',
         text: '',
@@ -166,6 +183,7 @@ function createReceivedChart() {
     },
     yAxis: [
       {
+        crosshair: true, // Y축 십자선 활성화
         title: {
           // text: 'Temperature (°C)',
           text: '',
@@ -208,6 +226,10 @@ function createReceivedChart() {
         tickInterval: 5,
       },
     ],
+    tooltip: {
+      shared: true, // 툴팁이 공유되며 십자선이 활성화됨
+      crosshairs: true, // 마우스 위치의 십자선을 활성화
+    },
     legend: {
       enabled: false,
       // itemStyle: {
@@ -375,6 +397,14 @@ function createReceivedChart() {
         data: [],
         color: '#87ceeb',
         opacity: 0.8, //투명도
+      },
+
+      {
+        //series[15] 마우스 그리는 시리즈
+        name: 'point',
+        data: [],
+        color: '#62fc03',
+        lineWidth: 3,
       },
       //ouput 값 테스트!!!!!
       // { name: 'FAN1', data: [], color: '#800080', lineWidth: 2, opacity: 0.8 },

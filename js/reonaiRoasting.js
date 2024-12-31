@@ -3,6 +3,18 @@
 // 사용언어 플래그
 let lengFlag = 0; // 0 = 한국어 , 1= 영어
 
+// Simple Roast mode Btn 플래그
+let recipeProcessingFlag = 0; // 0 = none , 1 = Washed , 2 = Natural
+let recipeStagesFlag = 0; // 0 = none , 1 = Light , 2 = medium , 3 = Dark
+let simpleRoastInputFlag = false; //simpleRoast info에서 input amunt설정했는지 여부를 확인하는 플래그
+let simpleRoastInputAmount = 0; // simple Roast input Amount을 저장하는 변수
+//roast mode flag 로스팅 모드를 선언하는 플래그
+let roastMode = 0; // 0 = expert mode, 1 = Balance mdoe , 2 = simple mode
+
+// expert mode = 수동모드 고급모드
+// balance mode = 중급모드
+// simple mode = 초급모드 오토 모드
+
 //pid설정 온도 초과 카운트를 위한
 let exceedCount = 0; // 온도 초과 횟수 저장 변수
 const maxExceedCount = 100; // 최대 초과 횟수
@@ -275,7 +287,9 @@ function goToMain() {
   ) {
     if (temp2 >= 220) {
       //히터 온도가 너무 높으면 배출안됨
-      alert('온도가 너무 높습니다.\n Warning: High temperature detected.');
+      showCustomCheck(
+        '온도가 너무 높습니다.\n Warning: High temperature detected.'
+      );
       return;
     } else {
       if (
@@ -287,7 +301,7 @@ function goToMain() {
         showPanel('mainPanel');
         roastingReset();
         forceCoolingMode();
-        headerDisplayBlock();
+
         stopCoolingMode();
         autoRoastingFlagOff();
         autoRoastingStartFlagOff();
@@ -353,8 +367,20 @@ function heatingMode() {
       console.log('예열 퍼센트 : ', percent);
       if (!autoRoastingFlag) {
         document.getElementById(
+          'simpleRoastModePreheatPercentDisplay'
+        ).innerText = `${percent}%`; //예열 퍼센트 표 시
+        document.getElementById(
           'preheatPercentDisplay'
         ).innerText = `${percent}%`; //예열 퍼센트 표 시
+
+        if (percent == 100) {
+          //예열이 100%일경우
+          // 버튼 활성화
+          enableButton('simpleRoastInfoStartBtn');
+          enableButton('roastInfoStartBtn');
+          changeButtonColorToRed('simpleRoastInfoStartBtn');
+          changeButtonColorToRed('roastInfoStartBtn');
+        }
       } else {
         console.log('오토로스팅 예열 퍼센트', percent);
         document.getElementById(
@@ -401,6 +427,122 @@ function heatingMode() {
       }
     }, 1000); // 500ms마다 온도 체크
   });
+}
+
+// Function to get the selected value
+function getSelectedValue(selectName) {
+  const selectElement = document.getElementById(selectName);
+  const selectedValue = selectElement.value; // Get the value of the selected option
+  console.log(selectedValue); // Log the value (for demonstration)
+}
+
+// simpleRoastInfoInputAmount 값이 입력되는지 여부를 확인한다.
+document
+  .getElementById('simpleRoastInfoInputAmount')
+  .addEventListener('change', () => {
+    simpleRoastInputFlag = true;
+    getSelectedValue('simpleRoastInfoInputAmount');
+  });
+
+function simpleRoastInfoInputAmountCheck() {
+  if (simpleRoastInputFlag) {
+    simpleRoastInputFlag = false; //원복
+  } else {
+    showCustomCheck('투입량을 선택해주세요.');
+  }
+}
+
+// 색상 변경 함수
+function changeButtonColorToRed(btnname) {
+  button = document.getElementById(btnname);
+  // 기존 색상 클래스 제거
+  button.classList.remove(
+    'bg-white',
+    'dark:bg-zinc-700',
+    'text-zinc-900',
+    'dark:text-gray-300',
+
+    'dark:hover:bg-zinc-500'
+  );
+  // 새로운 색상 클래스 추가
+  button.classList.add(
+    'bg-red-700',
+    'dark:bg-red-600',
+    'text-white',
+    'dark:text-pink-100',
+    'hover:bg-pink-400',
+    'dark:hover:bg-pink-400'
+  );
+}
+
+function changeButtonColorToOrigin(btnname) {
+  //버튼 색상원복
+  button = document.getElementById(btnname);
+  // 기존 색상 클래스 제거
+  button.classList.add(
+    'bg-white',
+    'dark:bg-zinc-700',
+    'text-zinc-900',
+    'dark:text-gray-300',
+
+    'dark:hover:bg-zinc-500'
+  );
+  // 새로운 색상 클래스 추가
+  button.classList.remove(
+    'bg-red-700',
+    'dark:bg-red-600',
+    'text-white',
+    'dark:text-pink-100',
+    'hover:bg-pink-400',
+    'dark:hover:bg-pink-400'
+  );
+}
+
+// 버튼 활성화 함수
+function enableButton(btnname) {
+  button = document.getElementById(btnname);
+  button.removeAttribute('disabled');
+  button.classList.remove('cursor-not-allowed'); // 비활성화 스타일 제거
+  button.classList.add('cursor-pointer'); // 활성화 스타일 추가
+}
+
+// 버튼 비활성화 함수
+function disableButton(btnname) {
+  button = document.getElementById(btnname);
+  button.setAttribute('disabled', ''); // disabled 속성 추가
+  button.classList.remove('cursor-pointer'); // 활성화 스타일 제거
+  button.classList.add('cursor-not-allowed'); // 비활성화 스타일 추가
+}
+
+function simpleRoastModeReset() {
+  //simple roast mode 를 마친후 리셋 하는 함수
+  disposmodeFlag = false;
+  disableButton('simpleRoastInfoStartBtn');
+  changeButtonColorToOrigin('simpleRoastInfoStartBtn');
+  disableButton('roastInfoStartBtn');
+  changeButtonColorToOrigin('roastInfoStartBtn');
+  disableButton('simpleRoastDisposeBtn');
+  changeButtonColorToOrigin('simpleRoastDisposeBtn');
+  document.getElementById('recipeProcessingWashedBtn').className =
+    'p-2 text-gray-700 rounded-md shadow border border-gray-300 dark:border-zinc-700 bg-white text-zinc-900 dark:bg-zinc-700 dark:text-gray-300 over:bg-zinc-300  dark:hover:bg-zinc-500';
+  document.getElementById('recipeProcessingNaturalBtn').className =
+    'p-2 text-gray-700 rounded-md shadow border border-gray-300 dark:border-zinc-700 bg-white text-zinc-900 dark:bg-zinc-700 dark:text-gray-300 over:bg-zinc-300  dark:hover:bg-zinc-500';
+  document.getElementById('recipeStagesLightBtn').className =
+    'p-2 text-gray-700 rounded-md shadow border border-gray-300 dark:border-zinc-700 bg-white text-zinc-900 dark:bg-zinc-700 dark:text-gray-300 over:bg-zinc-300  dark:hover:bg-zinc-500';
+  document.getElementById('recipeStagesMediumBtn').className =
+    'p-2 text-gray-700 rounded-md shadow border border-gray-300 dark:border-zinc-700 bg-white text-zinc-900 dark:bg-zinc-700 dark:text-gray-300 over:bg-zinc-300  dark:hover:bg-zinc-500';
+  document.getElementById('recipeStagesDarkBtn').className =
+    'p-2 text-gray-700 rounded-md shadow border border-gray-300 dark:border-zinc-700 bg-white text-zinc-900 dark:bg-zinc-700 dark:text-gray-300 over:bg-zinc-300  dark:hover:bg-zinc-500';
+}
+
+function simpleRoastDisposeModal() {
+  const confirmMessage = document.getElementById('Check-message');
+  const CheckButton = document.getElementById('Check');
+
+  closeButton.onclick = () => {
+    confirmBox.classList.add('hidden');
+    callback(true);
+  };
 }
 
 function autoStartHeatingMode() {
@@ -815,6 +957,7 @@ async function puttingMode() {
         // 카운트다운이 0이 되면 종료
         if (countdown <= 0) {
           sendDataToDevice(resetDataString);
+          puttingMode;
           clearInterval(countdownInterval);
 
           console.log('beanPutting() 투입 함수 종료');
@@ -1037,6 +1180,145 @@ async function manualDispose() {
           return;
         } else {
           goToMain();
+          return;
+        }
+      });
+    }
+  });
+}
+
+async function simpleRoastModeDisposeMode() {
+  //배출 반복을 위한 함수
+  while (!disposmodeFlag) {
+    await simpleRoastModeDisposalMode();
+
+    const result = await showCustomConfirmPromise(
+      doYouWantDispose,
+      (result) => {
+        if (result) {
+        } else {
+        }
+      }
+    );
+  }
+
+  disposmodeFlag = false;
+  //로스팅 다시 하는거 물어보기
+  showCustomConfirm(doYouWantStartRoasting, (result) => {
+    if (result) {
+      roastingReset();
+      forceCoolingMode();
+
+      stopCoolingMode();
+      autoRoastingFlagOff();
+      autoRoastingStartFlagOff();
+      // resetChartsAll();
+      // removeAndCreateChart();
+      clearAllCharts();
+      stopRecordingcharts();
+
+      checkBluetoothConnectionForSimpleRoasting();
+      return;
+    } else {
+      goToMain();
+      return;
+    }
+  });
+}
+
+function simpleRoastModeDisposalMode() {
+  return new Promise((resolve) => {
+    const temp2 = parseFloat(document.getElementById('temp2Value').innerText);
+    const temp1 = parseFloat(document.getElementById('temp1Value').innerText);
+    let temp2Limit = 200;
+    let disposalCount = 0;
+    console.log('disposalMode() 배출 함수 실행');
+
+    if (temp2 >= temp2Limit) {
+      showCustomConfirm(temp2isHighText, (result) => {
+        if (result) {
+          return;
+        } else {
+          return;
+        }
+      });
+    } else {
+      showCustomConfirm(chaffCheckText, (result) => {
+        if (result) {
+          showCustomConfirm(readyToDisposeText, (result) => {
+            if (result) {
+              const confirmBox = document.getElementById(
+                'simpleRoastDispose-modal'
+              );
+              const closeButton = document.getElementById(
+                'simpleRoastDispose-modalColoseBtn'
+              );
+
+              confirmBox.classList.remove('hidden');
+              confirmBox.classList.add('flex');
+
+              const monitorDiopsal = setInterval(() => {
+                if (disposalCount > disposeSecond) {
+                  confirmBox.classList.add('hidden'); // modal창 닫기simpleRroastInfoStart
+
+                  disposalCount = 0;
+                  clearInterval(monitorDiopsal);
+                  let resetDataString = `0,0,0,0,0,0,0\n`;
+                  // 슬라이더 값을 0으로 설정
+                  document.getElementById('fan1Slider').value = 0;
+                  document.getElementById('heaterSlider').value = 0;
+                  document.getElementById('fan2Slider').value = 0;
+                  document.getElementById('fan1Number').value = 0;
+                  document.getElementById('fan2Number').value = 0;
+                  document.getElementById('heaterNumber').value = 0;
+                  // 슬라이더 표시값 업데이트
+                  document.getElementById('fan1Value').innerText = '0.0';
+                  document.getElementById('heaterValue').innerText = '0.0';
+                  document.getElementById('fan2Value').innerText = '0.0';
+                  sendDataToDevice(resetDataString); //출력제로
+                  isFirstDisposal = null;
+
+                  console.log('배출 완료 ');
+
+                  simpleRoastModeReset(); //simple roast Btn reset
+                  resolve(); // 작업 완료
+                } else {
+                  if (!isFirstDisposal) {
+                    console.log(currentSecond);
+                    disposalPointTimes = currentSecond; // 터닝 포인트 시간 배열에 추가
+                    disposalPointTemps = temp1; // 터닝 포인트 온도 배열 추가
+                    isFirstDisposal = true;
+                  }
+
+                  // 히터 값을 0으로 설정
+                  document.getElementById('fan1Slider').value = 100;
+                  document.getElementById('heaterSlider').value = 0;
+                  document.getElementById('fan2Slider').value = 100;
+                  document.getElementById('fan1Number').value = 100;
+                  document.getElementById('fan2Number').value = 0;
+                  document.getElementById('heaterNumber').value = 100;
+
+                  // 슬라이더 표시값 업데이트
+                  document.getElementById('fan1Value').innerText = '100.0';
+                  document.getElementById('heaterValue').innerText = '0.0';
+                  document.getElementById('fan2Value').innerText = '100.0';
+
+                  document.getElementById(
+                    'simpleRoastModeDiposeCount'
+                  ).innerText = `배출 중 ${disposeSecond - disposalCount}`; //배출 세컨드 표시
+
+                  disposalCount++;
+                  console.log('배출중');
+                  console.log(disposalCount);
+                }
+              }, 1000);
+            } else {
+              resolve(); // 작업 완료
+              return;
+            }
+          });
+        } else {
+          resolve(); // 작업 완료
           return;
         }
       });
@@ -1386,9 +1668,9 @@ document.addEventListener('currentSecondUpdated', () => {
     //오토로스팅 예열퍼센트 계싼
     console.log('currentSecond : ', currentSecond);
 
-    recipeLength = autofan1Values.length;
-    console.log('autofan1Values.length : ', autofan1Values.length);
-    autoPercent = (currentSecond / autofan1Values.length) * 100;
+    recipeLength = autotemp1Values.length;
+    console.log('autofan1Values.length : ', autotemp1Values.length);
+    autoPercent = (currentSecond / autotemp1Values.length) * 100;
     console.log('autoPercent : ', autoPercent);
 
     document.getElementById(
@@ -1396,8 +1678,21 @@ document.addEventListener('currentSecondUpdated', () => {
     ).innerText = `${autoPercent.toFixed(1)}%`; //예열 퍼센트 표 시
   }
 
+  if (autoPercent.toFixed(1) >= 100 && simpleTemp1 <= 55) {
+    console.log('로스팅 100% 완료 배출 시작! | 향후에 모달창 만들어라!!');
+
+    enableButton('simpleRoastDisposeBtn');
+    changeButtonColorToRed('simpleRoastDisposeBtn');
+    autoRoastingFlagOff();
+    autoRoastingStartFlagOff();
+    stopRecordingcharts(); // 차트 레코드 종료
+    coolingMode();
+
+    // disposalMode();
+  }
+
   //데이턷가 없으면 오토로스팅 플래그 종료
-  if (autofan1Values[currentSecond] == 0) {
+  if (autotemp1Values[currentSecond] == 0) {
     autoRoastingFlagOff();
     autoRoastingStartFlagOff();
     stopRecordingcharts(); // 차트 레코드 종료
@@ -1411,7 +1706,7 @@ document.getElementById('autoRoastBtn').addEventListener('click', function () {
     document.getElementById('preheatPercentDisplayForEasyRaosting')
       .innerText !== '100%'
   ) {
-    alert('예열이 완료되지 않았습니다');
+    showCustomCheck('예열이 완료되지 않았습니다');
   } else {
     if (!loadedRoastData) {
       console.log('Error: 로스팅 데이터를 먼저 불러오세요.');
@@ -1522,39 +1817,108 @@ function resetCharts() {
 // 메인에서 버튼 클릭시 로그인과 블루투스 연결을 확인하는 함수
 function checkBluetoothConnectionForManualRoasting() {
   if (!isLogin) {
-    alert('로그인을 해주세요.\nPlease sign in to access.');
-    return;
+    //lengFlag = 0 한국어  , lengFlag = 1 영어
+    if (lengFlag == 0) {
+      showCustomCheck('로그인을 해주세요.');
+      return;
+    } else {
+      showCustomCheck('Please sign in to access.');
+      return;
+    }
   }
   {
     if (!isConnected) {
-      alert('블루투스 연결을 해주세요.\nPlease connect to Bluetooth.');
+      if (lengFlag == 0) {
+        showCustomCheck('블루투스 연결을 해주세요.');
+        return;
+      } else {
+        showCustomCheck('Please connect to Bluetooth.');
+        return;
+      }
     } else {
+      document.getElementById('roastInfoPowerDiv').style.display = 'block'; // roastInfoPowerDiv 보이기
       showPanel('roastInfoPanel');
+      roastMode = 0;
+      console.log('roastMode = ', roastMode);
+      heatingMode();
+      autoRoastingFlagOff();
     }
   }
 }
 
-function checkBluetoothConnectionForeasyRoasting() {
+function checkBluetoothConnectionForBalanceRoast() {
   if (!isLogin) {
-    alert('로그인을 해주세요.\nPlease sign in to access.');
-    return;
+    //lengFlag = 0 한국어  , lengFlag = 1 영어
+    if (lengFlag == 0) {
+      showCustomCheck('로그인을 해주세요.');
+      return;
+    } else {
+      showCustomCheck('Please sign in to access.');
+      return;
+    }
   }
   {
     if (!isConnected) {
-      alert('블루투스 연결을 해주세요. \nPlease connect to Bluetooth.');
+      if (lengFlag == 0) {
+        showCustomCheck('블루투스 연결을 해주세요.');
+        return;
+      } else {
+        showCustomCheck('Please connect to Bluetooth.');
+        return;
+      }
     } else {
-      showPanel('easyRoastInfoPanel');
+      document.getElementById('roastInfoPowerDiv').style.display = 'none'; // roastInfoPowerDiv 안보이기
+      showPanel('roastInfoPanel');
+      roastMode = 1;
+      console.log('roastMode = ', roastMode);
+      heatingMode();
+      autoRoastingFlagOff();
     }
   }
 }
 
 function checkBluetoothConnectionForRecipePanel() {
   if (!isLogin) {
-    alert('로그인을 해주세요.\nPlease sign in to access.');
-    return;
+    //lengFlag = 0 한국어  , lengFlag = 1 영어
+    if (lengFlag == 0) {
+      showCustomCheck('로그인을 해주세요.');
+      return;
+    } else {
+      showCustomCheck('Please sign in to access.');
+      return;
+    }
   }
   {
     showPanel('recipePanel');
+  }
+}
+
+function checkBluetoothConnectionForSimpleRoasting() {
+  if (!isLogin) {
+    //lengFlag = 0 한국어  , lengFlag = 1 영어
+    if (lengFlag == 0) {
+      showCustomCheck('로그인을 해주세요.');
+      return;
+    } else {
+      showCustomCheck('Please sign in to access.');
+      return;
+    }
+  }
+  {
+    if (!isConnected) {
+      if (lengFlag == 0) {
+        showCustomCheck('블루투스 연결을 해주세요.');
+        return;
+      } else {
+        showCustomCheck('Please connect to Bluetooth.');
+        return;
+      }
+    } else {
+      roastMode = 2;
+      showPanel('SimpleRoastInfoPanel');
+      heatingMode();
+      autoRoastingFlagOff();
+    }
   }
 }
 
@@ -1718,60 +2082,71 @@ document.getElementById('easyDarkRoast').addEventListener('click', function () {
 });
 
 function recoedAutofetch() {
-  let recipecode = 859;
-  resetChartsAll();
+  //오토 로스팅시 레시피를 넣는 함수
+  let recipecode = 1045;
+
   // ethiopiaBeanFlag , easyLightRoastFlag -> 794
   // ethiopiaBeanFlag , easyDarkRoastFlag -> 795
 
   // colomniaBeanFlag, easyLightRoastFlag -> 765
   // colomniaBeanFlag, easyDarkRoastFlag -> 764
 
-  if (ethiopiaBeanFlag && easyLightRoastFlag) {
+  // if (ethiopiaBeanFlag && easyLightRoastFlag) {
+  //   recipecode = 872;
+  //   console.log('레시피 아이디', recipecode);
+  // }
+
+  // if (ethiopiaBeanFlag && easyDarkRoastFlag) {
+  //   recipecode = 872;
+  //   console.log('레시피 아이디', recipecode);
+  // }
+
+  // if (colomniaBeanFlag && easyLightRoastFlag) {
+  //   recipecode = 859;
+  //   console.log('레시피 아이디', recipecode);
+  // }
+
+  // if (colomniaBeanFlag && easyDarkRoastFlag) {
+  //   recipecode = 859;
+  //   console.log('레시피 아이디', recipecode);
+  // }
+
+  // if (!colomniaBeanFlag && !easyDarkRoastFlag) {
+  //   recipecode = 859;
+  //   console.log('레시피 아이디', recipecode);
+  // }
+
+  //simple Raost mo
+  if (recipeProcessingFlag == 1 && recipeStagesFlag == 1) {
+    //1 = Washed ,   1 = Light
     recipecode = 872;
     console.log('레시피 아이디', recipecode);
-  }
-
-  if (ethiopiaBeanFlag && easyDarkRoastFlag) {
+  } else if (recipeProcessingFlag == 1 && recipeStagesFlag == 2) {
+    //1 = Washed , 2 = medium
     recipecode = 872;
     console.log('레시피 아이디', recipecode);
-  }
-
-  if (colomniaBeanFlag && easyLightRoastFlag) {
-    recipecode = 859;
+  } else if (recipeProcessingFlag == 1 && recipeStagesFlag == 3) {
+    //1 = Washed , 3 = Dark
+    // recipecode = 872;
+    recipecode = 1145;
+    console.log('레시피 아이디', recipecode);
+  } else if (recipeProcessingFlag == 2 && recipeStagesFlag == 1) {
+    //2 = Natural, 1 = Light
+    // recipecode = 859;
+    recipecode = 1145;
+    console.log('레시피 아이디', recipecode);
+  } else if (recipeProcessingFlag == 2 && recipeStagesFlag == 2) {
+    //2 = Natural,  2 = medium
+    recipecode = 1145;
+    console.log('레시피 아이디', recipecode);
+  } else if (recipeProcessingFlag == 2 && recipeStagesFlag == 3) {
+    //2 = Natural, 3 = Dark
+    recipecode = 1146;
     console.log('레시피 아이디', recipecode);
   }
 
-  if (colomniaBeanFlag && easyDarkRoastFlag) {
-    recipecode = 859;
-    console.log('레시피 아이디', recipecode);
-  }
-
-  if (!colomniaBeanFlag && !easyDarkRoastFlag) {
-    recipecode = 859;
-    console.log('레시피 아이디', recipecode);
-  }
-
+  resetChartsAll();
   fetchRecordDetails(recipecode, '');
-}
-
-function showCustomConfirm(message, callback) {
-  const confirmBox = document.getElementById('custom-confirm');
-  const confirmMessage = document.getElementById('confirm-message');
-  const yesButton = document.getElementById('confirm-yes');
-  const noButton = document.getElementById('confirm-no');
-
-  confirmMessage.textContent = message;
-  confirmBox.classList.remove('hidden');
-
-  yesButton.onclick = () => {
-    confirmBox.classList.add('hidden');
-    callback(true);
-  };
-
-  noButton.onclick = () => {
-    confirmBox.classList.add('hidden');
-    callback(false);
-  };
 }
 
 // document.getElementById('windowfull').addEventListener('click', () => {
@@ -1830,29 +2205,8 @@ document.getElementById('disposeBtn').addEventListener('click', () => {
   }
 });
 
-// document.getElementById('recipeResetBtn').addEventListener('click', () => {
-//   if (lengFlag == 0) {
-//     showCustomConfirm('레시피 데이터를 삭제하시겠습니까?', (result) => {
-//       if (result) {
-//         resetRecipeChart();
-//         console.log('사용자가 확인을 선택했습니다.');
-//       } else {
-//         console.log('사용자가 취소를 선택했습니다.');
-//       }
-//     });
-//   } else {
-//     showCustomConfirm('Do you want to delete the recipe data?', (result) => {
-//       if (result) {
-//         resetRecipeChart();
-//         console.log('사용자가 확인을 선택했습니다.');
-//       } else {
-//         console.log('사용자가 취소를 선택했습니다.');
-//       }
-//     });
-//   }
-// });
-
 //모달창 펑션
+//컨펌 모달창
 function showCustomConfirm(message, callback) {
   const confirmBox = document.getElementById('showCustomConfirm-modal');
   const confirmMessage = document.getElementById('confirm-message');
@@ -1871,6 +2225,22 @@ function showCustomConfirm(message, callback) {
   noButton.onclick = () => {
     confirmBox.classList.add('hidden');
     callback(false);
+  };
+}
+
+//체크 모달창
+
+function showCustomCheck(message) {
+  const confirmBox = document.getElementById('showCustomCheck-modal');
+  const confirmMessage = document.getElementById('Check-message');
+  const CheckButton = document.getElementById('Check');
+
+  confirmMessage.textContent = message;
+  confirmBox.classList.remove('hidden');
+  confirmBox.classList.add('flex');
+
+  CheckButton.onclick = () => {
+    confirmBox.classList.add('hidden');
   };
 }
 
@@ -1901,6 +2271,50 @@ function showCustomConfirmPromise(message) {
       resolve(false); // 사용자 취소
       disposmodeFlag = true;
     };
+  });
+}
+
+function simpleRoastExitConfirm() {
+  //simple Roasting이 완료 되고 실행되느 함수
+
+  showCustomConfirm('로스팅을 종료하시겠습니까?', (result) => {
+    if (result) {
+      showPanel('mainPanel'),
+        forceCoolingMode(),
+        autoRoastingFlagOff(),
+        autoRoastingStartFlagOff();
+      clearAllCharts();
+      stopRecordingcharts();
+
+      return;
+    } else {
+      return;
+    }
+  });
+}
+
+function simpleRoastModeStartConfirm() {
+  showCustomConfirm('생두 투입을 준비하셨습니까?', (result) => {
+    if (result) {
+      if (!simpleRoastInputFlag) {
+        simpleRoastInfoInputAmountCheck();
+      } else {
+        if (
+          document.getElementById('preheatPercentDisplay').innerText !== '100%'
+        ) {
+          showCustomCheck('예열이 완료되지 않았습니다');
+          return;
+        } else {
+          showPanel('puttingCountPanel');
+          simpleRroastInfoStart();
+          disableButton('simpleRoastInfoStartBtn');
+        }
+      }
+
+      return;
+    } else {
+      return;
+    }
   });
 }
 
@@ -2192,3 +2606,107 @@ toggle.addEventListener('change', (event) => {
     autoRoastingStartFlagOff();
   }
 });
+
+//pilot Roasting 전용
+function recipeProcessingToggleHover(selectedId) {
+  // List of all button IDs
+  const buttonIds = ['recipeProcessingWashedBtn', 'recipeProcessingNaturalBtn'];
+
+  if ('recipeProcessingWashedBtn' == selectedId) {
+    recipeProcessingFlag = 1;
+    console.log('recipeProcessingFlag =', recipeProcessingFlag);
+  }
+  if ('recipeProcessingNaturalBtn' == selectedId) {
+    recipeProcessingFlag = 2;
+    console.log('recipeProcessingFlag =', recipeProcessingFlag);
+  }
+
+  // Loop through all buttons
+  buttonIds.forEach((id) => {
+    const button = document.getElementById(id);
+
+    if (id === selectedId) {
+      // Add hover effect to the selected button
+      button.classList.add('bg-zinc-300', 'dark:bg-zinc-500');
+    } else {
+      // Remove hover effect from other buttons
+      button.classList.remove('bg-zinc-300', 'dark:bg-zinc-500');
+    }
+  });
+}
+
+function recipeStagesToggleHover(selectedId) {
+  // List of all button IDs
+  const buttonIds = [
+    'recipeStagesLightBtn',
+    'recipeStagesMediumBtn',
+    'recipeStagesDarkBtn',
+  ];
+
+  if ('recipeStagesLightBtn' == selectedId) {
+    recipeStagesFlag = 1;
+    console.log('recipeStagesFlag =', recipeStagesFlag);
+  }
+  if ('recipeStagesMediumBtn' == selectedId) {
+    recipeStagesFlag = 2;
+    console.log('recipeStagesFlag =', recipeStagesFlag);
+  }
+  if ('recipeStagesDarkBtn' == selectedId) {
+    recipeStagesFlag = 3;
+    console.log('recipeStagesFlag =', recipeStagesFlag);
+  }
+
+  // Loop through all buttons
+  buttonIds.forEach((id) => {
+    const button = document.getElementById(id);
+
+    if (id === selectedId) {
+      // Add hover effect to the selected button
+      button.classList.add('bg-zinc-300', 'dark:bg-zinc-500');
+    } else {
+      // Remove hover effect from other buttons
+      button.classList.remove('bg-zinc-300', 'dark:bg-zinc-500');
+    }
+  });
+}
+
+//Simple Raostmode start 에서 설정값을 받아오는 함수
+function simpleRroastInfoStart() {
+  //예열 퍼센트 초기화 및 예열 종료
+  percent = 0;
+  exceedCount = 0;
+
+  //알맞는 데이토ㅓ를 불러워야함!!!
+
+  stopHeatingMode(); //예열 종료
+  coolingpointflagFalse(); // 쿨링플래그 종료
+  recoedAutofetch(); // 레시피 데이터 넣기
+  showPanel('puttingCountPanel');
+  document.getElementById('heaterSlider').value = 0;
+  document.getElementById('heaterValue').innerText = 0;
+  document.getElementById('fan1Slider').value = 0;
+  document.getElementById('fan1Value').innerText = 0;
+  document.getElementById('fan2Slider').value = 0;
+  document.getElementById('fan2Value').innerText = 0;
+  document.getElementById('fan1Number').value = 0;
+  document.getElementById('fan2Number').value = 0;
+  document.getElementById('heaterNumber').value = 0;
+
+  checkAndSendData(); // 변경된 값을 장비로 전송
+
+  setTimeout(() => {
+    console.log('1초 후 실행됩니다');
+    puttingMode() // 투임함수 시작
+      .then(() => {
+        // 특정 함수 호출
+        console.log('puttingMode() 함수 완료 후 특정 함수 실행');
+        console.log('자동 로스팅을 시작합니다.');
+        console.log(loadedRoastData);
+        startAutoRoasting(loadedRoastData);
+        showPanel('easyRoastPanel');
+      })
+      .catch((error) => {
+        console.error('puttingMode() 함수 실패:', error);
+      });
+  }, 2000); // 1000 밀리초 = 1초
+}

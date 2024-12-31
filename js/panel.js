@@ -10,6 +10,7 @@ function showPanel(panelId) {
     'easyRoastPanel',
     'settingPanel',
     'signInPanel',
+    'SimpleRoastInfoPanel',
   ];
 
   panels.forEach((id) => {
@@ -40,7 +41,7 @@ function headerDisplayBlock() {
 
 document.addEventListener('DOMContentLoaded', () => {
   showPanel('mainPanel');
-
+  // showPanel('mainPanel');
   // showPanel('roastPanel');
   // showPanel('roastPanel');
 
@@ -223,5 +224,27 @@ function initializeLanguage() {
   } else {
     // 저장된 값이 없으면 기본 언어 설정
     setLanguage('ko'); // 한국어를 기본값으로 설정
+  }
+}
+
+function handleRoastModeChange() {
+  const selectedMode = document.getElementById('roastModeSet').value;
+
+  // All mode divs
+  const modes = ['roastInfoPowerDiv', 'roastInfoDiv', 'expertMode'];
+
+  // Hide all divs
+  modes.forEach((id) => {
+    document.getElementById(id).classList.remove('hidden');
+  });
+
+  // Show the selected mode div
+  if (selectedMode === 'Simple') {
+    document.getElementById('roastInfoPowerDiv').classList.add('hidden');
+    document.getElementById('roastInfoDiv').classList.add('hidden');
+  } else if (selectedMode === 'Balance') {
+    document.getElementById('balanceMode').classList.add('hidden');
+  } else if (selectedMode === 'Expert') {
+    document.getElementById('expertMode').classList.add('hidden');
   }
 }
