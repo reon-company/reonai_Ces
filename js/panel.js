@@ -35,8 +35,17 @@ function adminUser() {
 }
 
 function headerDisplayBlock() {
-  document.getElementById('topHeader').classList.remove('hidden');
-  document.getElementById('sideHeader').classList.remove('hidden');
+  //aslide 보이게
+  document.getElementById('mainDiv').classList.add('sm:ml-40');
+  document.getElementById('logo-sidebar').classList.remove('hidden');
+  document.getElementById('logo-sidebar_sm').classList.remove('hidden');
+}
+
+function headerDisplayNone() {
+  //aslide 안보이게
+  document.getElementById('mainDiv').classList.remove('sm:ml-40');
+  document.getElementById('logo-sidebar').classList.add('hidden');
+  document.getElementById('logo-sidebar_sm').classList.add('hidden');
 }
 
 document.addEventListener('DOMContentLoaded', () => {

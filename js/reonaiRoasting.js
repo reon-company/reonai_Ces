@@ -280,40 +280,48 @@ document.addEventListener('DOMContentLoaded', () => {
 //go to main 버튼
 function goToMain() {
   const temp2 = parseFloat(document.getElementById('temp2Value').innerText);
-  if (
-    confirm(
-      '저장되지 않은 내용은 복구 할 수 없습니다. \n Unsaved changes cannot be recovered.'
-    )
-  ) {
-    if (temp2 >= 220) {
-      //히터 온도가 너무 높으면 배출안됨
-      showCustomCheck(
-        '온도가 너무 높습니다.\n Warning: High temperature detected.'
-      );
-      return;
-    } else {
-      if (
-        confirm(
-          '메인페이지로 이동하시겠습니까?, 온도가 높을 경우 강제 쿨링모드를 진행합니다.\n  Do you want to return to the main page? If the temperature is too high, forced cooling mode will activate.'
-        )
-      ) {
-        console.log('go to main!!');
-        showPanel('mainPanel');
-        roastingReset();
-        forceCoolingMode();
+  // '저장되지 않은 내용은 복구 할 수 없습니다. \n Unsaved changes cannot be recovered.'
+  // '온도가 너무 높습니다.\n Warning: High temperature detected.'
+  // '메인페이지로 이동하시겠습니까?, 온도가 높을 경우 강제 쿨링모드를 진행합니다.\n  Do you want to return to the main page? If the temperature is too high, forced cooling mode will activate.'
 
-        stopCoolingMode();
-        autoRoastingFlagOff();
-        autoRoastingStartFlagOff();
-        // resetChartsAll();
-        // removeAndCreateChart();
+  let confirmText1 = '저장되지 않은 내용은 복구 할 수 없습니다';
+  let confirmText2 = '온도가 너무 높습니다';
+  let confirmText3 =
+    '메인페이지로 이동하시겠습니까?, 온도가 높을 경우 강제 쿨링모드를 진행합니다';
 
-        clearAllCharts();
+  showCustomConfirm(confirmText1, (result) => {
+    if (result) {
+      if (temp2 >= 230) {
+        //히터 온도가 너무 높으면 배출안됨
+        showCustomCheck(confirmText2);
+        return;
+      } else {
+        showCustomConfirm(confirmText3, (result) => {
+          if (result) {
+            console.log('go to main!!');
+            headerDisplayBlock(); //aside 보이게
+            showPanel('mainPanel');
+            roastingReset();
+            forceCoolingMode();
 
-        stopRecordingcharts();
+            stopCoolingMode();
+            autoRoastingFlagOff();
+            autoRoastingStartFlagOff();
+            // resetChartsAll();
+            // removeAndCreateChart();
+
+            clearAllCharts();
+
+            stopRecordingcharts();
+          } else {
+            return;
+          }
+        });
       }
+    } else {
+      return;
     }
-  }
+  });
 }
 
 //예열 pid 제어
@@ -1836,6 +1844,7 @@ function checkBluetoothConnectionForManualRoasting() {
         return;
       }
     } else {
+      headerDisplayNone();
       document.getElementById('roastInfoPowerDiv').style.display = 'block'; // roastInfoPowerDiv 보이기
       showPanel('roastInfoPanel');
       roastMode = 0;
@@ -1867,6 +1876,7 @@ function checkBluetoothConnectionForBalanceRoast() {
         return;
       }
     } else {
+      headerDisplayNone();
       document.getElementById('roastInfoPowerDiv').style.display = 'none'; // roastInfoPowerDiv 안보이기
       showPanel('roastInfoPanel');
       roastMode = 1;
@@ -1916,6 +1926,7 @@ function checkBluetoothConnectionForSimpleRoasting() {
     } else {
       roastMode = 2;
       showPanel('SimpleRoastInfoPanel');
+      headerDisplayNone();
       heatingMode();
       autoRoastingFlagOff();
     }
