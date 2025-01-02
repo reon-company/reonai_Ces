@@ -172,10 +172,10 @@ function setLanguage(lang) {
   document.getElementById('roastInfoStartBtn').innerText =
     translations[lang].roastInfoStartBtn;
 
-  document.getElementById('manualRoastingBtn').innerText =
-    translations[lang].manualRoastingBtn;
-  document.getElementById('recipeBtnForMain').innerText =
-    translations[lang].recipe;
+  // document.getElementById('manualRoastingBtn').innerText =
+  //   translations[lang].manualRoastingBtn;
+  // document.getElementById('recipeBtnForMain').innerText =
+  //   translations[lang].recipe;
   document.getElementById('withoutpreheatingStartBtn').innerText =
     translations[lang].withoutpreheatingStartBtn;
   document.getElementById('recipeInfoResetBtn').innerText =

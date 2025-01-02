@@ -199,7 +199,7 @@ function createReceivedChart() {
           },
         },
         min: 50,
-        max: 300,
+        max: 350,
         gridLineWidth: 1,
         tickInterval: 5,
       },

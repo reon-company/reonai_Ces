@@ -824,10 +824,17 @@ function roastingReset() {
   thirdCrackPointTime = 0;
   thirdCrackPointTemp = [];
 
+  disposmodeFlag = false; //배출 플래그
+
   document.getElementById('TPtime').innerText = '-';
   document.getElementById('TPtemp').innerText = '-';
   document.getElementById('CPtime').innerText = '-';
   document.getElementById('CPtemp').innerText = '-';
   document.getElementById('RoR2Value').innerText = '-';
   document.getElementById('RoR1Value').innerText = '-';
+  document.getElementById('firstCrackTime').innerText = '-';
+  document.getElementById('firstCrackTemp').innerText = '-';
+  document.getElementById('selectRecipeName').innerText = ''; //Recipe Finder 리셋
+
+  simpleRoastModeReset(); //simple roast mode 를 마친후 리셋 하는 함수
 }

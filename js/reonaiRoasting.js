@@ -29,7 +29,7 @@ let autoStartHeatingModeInterval;
 let monitorTemperature; // coolingmode 인터벌
 
 //pid제어를 위한
-let targetTemp2 = 200;
+let targetTemp2 = 250; //200
 let pidControlInterval = null;
 let integral = 0;
 let previousError = 0;
@@ -104,7 +104,7 @@ let ethiopiaLightRoast = false; //에티오피아 시다모 벤사 부리소 아
 let ethiopiaDarkRoast = false; //에티오피아 시다모 벤사 부리소 아마제 네추럴다크 로스트 플래그
 
 //modal 확인 문구 텍스트 변수(언어변경을 위함)
-let temp2isHighText = '온도가 너무 높습니다.';
+let temp2isHighText = '온도가 너무 높습니다. DT온도가 250도 이하로 내려주세요.';
 let chaffCheckText = '채프를 청소 하셨습니까?';
 let readyToDisposeText = '배출을 하시겠습니까?';
 let doYouWantSaveRecipe = '레시피를 저장 하시겠습니까?';
@@ -299,6 +299,7 @@ function goToMain() {
         showCustomConfirm(confirmText3, (result) => {
           if (result) {
             console.log('go to main!!');
+            disposmodeFlag = false; //배출 플래그
             headerDisplayBlock(); //aside 보이게
             showPanel('mainPanel');
             roastingReset();
@@ -307,9 +308,6 @@ function goToMain() {
             stopCoolingMode();
             autoRoastingFlagOff();
             autoRoastingStartFlagOff();
-            // resetChartsAll();
-            // removeAndCreateChart();
-
             clearAllCharts();
 
             stopRecordingcharts();
@@ -334,14 +332,14 @@ function heatingMode() {
 
     heatingPidControl();
 
-    const targetTemp2 = parseFloat(200);
+    const targetTemp2 = parseFloat(200) + 50;
     let percent = 0;
     let percent1 = 0;
     let percent2 = 0;
     let exceedCount = 0;
     const maxExceedCount = 20;
-    const requiredTempMin = 199; // Temp2 최소값
-    const requiredTempMax = 203; // Temp2 최대값
+    const requiredTempMin = 199 + 50; // Temp2 최소값
+    const requiredTempMax = 203 + 50; // Temp2 최대값
 
     // 500ms마다 온도를 체크하고 초과 횟수 확인
     heatPeakInterval = setInterval(() => {
@@ -653,15 +651,43 @@ function heatingPidControl() {
     let derivative = error - previousError;
     // PID 계산식: 출력 = P + I + D
     let output = Kp * error;
-
+    console.log('error error =', error);
     if (error > 0.1) {
-      currentHeater = 100;
-      crrentfan1 = 50;
-      crrentfan2 = 2.5;
+      if (error > 20) {
+        currentHeater = 100;
+        crrentfan1 = 30; //50
+        crrentfan2 = 2.5;
+      } else if (error > 10) {
+        currentHeater = 80;
+        crrentfan1 = 30; //50
+        crrentfan2 = 2.5;
+      } else if (error > 5) {
+        currentHeater = 60;
+        crrentfan1 = 30; //50
+        crrentfan2 = 2.5;
+      } else if (error < 5) {
+        currentHeater = 40;
+        crrentfan1 = 30; //50
+        crrentfan2 = 2.5;
+      }
     } else {
-      currentHeater = 40;
-      crrentfan1 = 50;
-      crrentfan2 = 2.5;
+      if (error < -20) {
+        currentHeater = 0; //40
+        crrentfan1 = 30; //50
+        crrentfan2 = 2.5;
+      } else if (error < -10) {
+        currentHeater = 10; //40
+        crrentfan1 = 30; //50
+        crrentfan2 = 2.5;
+      } else if (error < -5) {
+        currentHeater = 20; //40
+        crrentfan1 = 30; //50
+        crrentfan2 = 2.5;
+      } else if (error > -5) {
+        currentHeater = 30; //40
+        crrentfan1 = 30; //50
+        crrentfan2 = 2.5;
+      }
     }
 
     // + Ki * integral + Kd * derivative;
@@ -786,9 +812,11 @@ function roastInfoStart() {
     puttingMode() // 투임함수 시작
       .then(() => {
         // 특정 함수 호출
-        console.log('puttingMode() 함수 완료 후 특정 함수 실행');
-        document.getElementById('putting-modal').classList.remove('hidden'); // 모달 보이기
-        document.getElementById('putting-modal').classList.add('flex');
+        roastStartForPuttingMode();
+        // heatingMode();
+        // console.log('puttingMode() 함수 완료 후 특정 함수 실행');
+        // document.getElementById('putting-modal').classList.remove('hidden'); // 모달 보이기
+        // document.getElementById('putting-modal').classList.add('flex');
       })
       .catch((error) => {
         console.error('puttingMode() 함수 실패:', error);
@@ -800,20 +828,21 @@ function roastInfoStart() {
 function roastStartForPuttingMode() {
   let resetDataString = `0,0,0,0,0,0,0\n`;
   // console.log('');
-  if (!autoRoastingFlag) {
-    // 데이터 전송 및 이후 동작
-    sendDataToDevice(resetDataString)
-      .then(() => {
-        showPanel('roastPanel');
-      })
-      .catch((error) => {
-        console.error('Data transmission failed:', error);
-        console.log('Data transmission failed: ' + error);
-      });
-  } else {
-    //오토로스팅에경우!
-    showPanel('easyRoastPanel');
-  }
+  // if (!autoRoastingFlag) {
+  //   // 데이터 전송 및 이후 동작
+  // sendDataToDevice(resetDataString).then(() => {
+  //   showPanel('roastPanel');
+  // });
+  //     .catch((error) => {
+  //       console.error('Data transmission failed:', error);
+  //       console.log('Data transmission failed: ' + error);
+  //     });
+  // } else {
+  //   //오토로스팅에경우!
+  //   showPanel('easyRoastPanel');
+  // }
+  showPanel('roastPanel');
+
   infoValueAdd();
   startRecordingcharts();
 }
@@ -991,11 +1020,89 @@ async function puttingMode() {
 
 //로스팅중에 쿨링 동작을 하는 함수 , 쿨링 - 4 - coolingMode()
 
+//input Amount 값에 따라서 set starting value 값이 변경된다.
+document
+  .getElementById('roastInfoInputAmount')
+  .addEventListener('change', function () {
+    // 선택된 값 가져오기
+    const selectedValue = this.value;
+
+    // 50g fan1 70 , fan2 2.5
+    // 100g fan1 75 , fan2 2.5
+    // 150g fan1 90 , fan2 2.5
+    // 200g fan1 95 , fan2 2.5
+
+    // 값이 "50"일 경우 특정 함수 실행
+    if (selectedValue === '50') {
+      setStartingValue(70, 100, 2.5);
+    }
+
+    // 값이 "100"일 경우 특정 함수 실행
+    if (selectedValue === '100') {
+      setStartingValue(75, 100, 2.5);
+    }
+
+    // 값이 "150"일 경우 특정 함수 실행
+    if (selectedValue === '150') {
+      setStartingValue(90, 100, 2.5);
+    }
+
+    // 값이 "200"일 경우 특정 함수 실행
+    if (selectedValue === '200') {
+      setStartingValue(95, 100, 2.5);
+    }
+  });
+
+//input Amount 값에 따라서 set starting value 값이 변경된다.
+function setStartingValue(fan1, heater, fan2) {
+  // select 요소를 가져옵니다.
+  const fan1Select = document.getElementById('roastInfoPowerFan1Select');
+  const heaterSelect = document.getElementById('roastInfoPowerHeaterSelect');
+  const fan2Select = document.getElementById('roastInfoPowerFan2Select');
+
+  // 전달받은 값이 유효한지 확인하고, 유효하면 설정합니다.
+  if (
+    heaterSelect &&
+    [...heaterSelect.options]
+      .map((option) => option.value)
+      .includes(heater.toString())
+  ) {
+    heaterSelect.value = heater;
+    console.log(`HEATER 값이 ${heater}로 설정되었습니다.`);
+  } else {
+    console.error(`"${heater}"는 유효한 값이 아닙니다.`);
+  }
+  if (
+    fan1Select &&
+    [...fan1Select.options]
+      .map((option) => option.value)
+      .includes(fan1.toString())
+  ) {
+    fan1Select.value = fan1;
+    console.log(`fan1Select 값이 ${fan1}로 설정되었습니다.`);
+  } else {
+    console.error(`"${fan1}"는 유효한 값이 아닙니다.`);
+  }
+  if (
+    fan2Select &&
+    [...fan2Select.options]
+      .map((option) => option.value)
+      .includes(fan2.toString())
+  ) {
+    fan2Select.value = fan2;
+    console.log(`fan1Select 값이 ${fan2}로 설정되었습니다.`);
+  } else {
+    console.error(`"${fan2}"는 유효한 값이 아닙니다.`);
+  }
+}
+
 function coolingMode() {
   console.log('coolingMode() 쿨다운 함수 실행');
   coolingpointflag(); //쿨링포인트 기록
 
   isCoolDownRunning = true;
+
+  isCoolDownFirst = false;
 
   autoRoastingFlagOff();
   autoRoastingStartFlagOff();
@@ -1029,19 +1136,122 @@ function coolingMode() {
       isCoolDownRunning = false;
       coolingpointflagFalse();
     } else {
-      console.log(temp1, '50이상', temp2, '50이상');
-      // 히터 값을 0으로 설정
-      // document.getElementById('fan1Slider').value = 100;
-      document.getElementById('heaterSlider').value = 0;
+      if (!isCoolDownFirst) {
+        if (roastInfoInputAmount <= 0) {
+          console.log(temp1, '50이상', temp2, '50이상');
+          // 히터 값을 0으로 설정
+          // document.getElementById('fan1Slider').value = 100;
+          document.getElementById('heaterSlider').value = 0;
 
-      document.getElementById('heaterNumber').value = 0;
-      // document.getElementById('fan2Slider').value = 100;
+          document.getElementById('heaterNumber').value = 0;
+          // document.getElementById('fan2Slider').value = 100;
 
-      // 슬라이더 표시값 업데이트
-      // document.getElementById('fan1Value').innerText = '100.0';
-      document.getElementById('heaterValue').innerText = '0.0';
+          // 슬라이더 표시값 업데이트
+          // document.getElementById('fan1Value').innerText = '100.0';
+          document.getElementById('heaterValue').innerText = '0.0';
+          // document.getElementById('fan2Value').innerText = '100.0';
 
-      // document.getElementById('fan2Value').innerText = '100.0';
+          isCoolDownFirst = true; //쿨링모드값이 처음에만 적용 되도록
+        } else if (roastInfoInputAmount == 50) {
+          //input amaount 50g 투입일 경우
+          // 50g fan1 60 , fan2 12.5
+          // 히터 값을 0으로 설정
+          document.getElementById('fan1Slider').value = 60;
+          document.getElementById('fan1Number').value = 60;
+          document.getElementById('fan2Slider').value = 12.5;
+          document.getElementById('fan2Number').value = 12.5;
+          document.getElementById('heaterSlider').value = 0;
+          document.getElementById('heaterNumber').value = 0;
+
+          // 슬라이더 표시값 업데이트
+          document.getElementById('fan1Value').innerText = '60.0';
+          document.getElementById('fan2Value').innerText = '12.5';
+          document.getElementById('heaterValue').innerText = '0';
+          console.log(temp1, '50이상', temp2, '50이상');
+          isCoolDownFirst = true; //쿨링모드값이 처음에만 적용 되도록
+        } else if (roastInfoInputAmount == 100) {
+          //inout amaount 100g 투입일 경우
+          //100g fan1 70 , fan2 5
+          // 히터 값을 0으로 설정
+          document.getElementById('fan1Slider').value = 70;
+          document.getElementById('fan1Number').value = 70;
+          document.getElementById('fan2Slider').value = 5;
+          document.getElementById('fan2Number').value = 5;
+          document.getElementById('heaterSlider').value = 0;
+          document.getElementById('heaterNumber').value = 0;
+
+          // 슬라이더 표시값 업데이트
+          document.getElementById('fan1Value').innerText = '70.0';
+          document.getElementById('fan2Value').innerText = '5';
+          document.getElementById('heaterValue').innerText = '0';
+          console.log(temp1, '50이상', temp2, '50이상');
+          isCoolDownFirst = true; //쿨링모드값이 처음에만 적용 되도록
+        } else if (roastInfoInputAmount == 150) {
+          //input amaount 150g 투입일 경우
+          //150g fan1 60 , fan2 3
+          // 히터 값을 0으로 설정
+          document.getElementById('fan1Slider').value = 60;
+          document.getElementById('fan1Number').value = 60;
+          document.getElementById('fan2Slider').value = 3;
+          document.getElementById('fan2Number').value = 3;
+          document.getElementById('heaterSlider').value = 0;
+          document.getElementById('heaterNumber').value = 0;
+
+          // 슬라이더 표시값 업데이트
+          document.getElementById('fan1Value').innerText = '60.0';
+          document.getElementById('fan2Value').innerText = '3';
+          document.getElementById('heaterValue').innerText = '0';
+          console.log(temp1, '50이상', temp2, '50이상');
+          isCoolDownFirst = true; //쿨링모드값이 처음에만 적용 되도록
+        } else if (roastInfoInputAmount == 200) {
+          //input amaount 200g 투입일 경우
+          //200g fan1 55 , fan2 2.5
+          // 히터 값을 0으로 설정
+          document.getElementById('fan1Slider').value = 55;
+          document.getElementById('fan1Number').value = 55;
+          document.getElementById('fan2Slider').value = 2.5;
+          document.getElementById('fan2Number').value = 2.5;
+          document.getElementById('heaterSlider').value = 0;
+          document.getElementById('heaterNumber').value = 0;
+
+          // 슬라이더 표시값 업데이트
+          document.getElementById('fan1Value').innerText = '55.0';
+          document.getElementById('fan2Value').innerText = '2.5';
+          document.getElementById('heaterValue').innerText = '0';
+          console.log(temp1, '50이상', temp2, '50이상');
+          isCoolDownFirst = true; //쿨링모드값이 처음에만 적용 되도록
+        } else {
+          //input amaount 불특정일 투입일 경우
+          console.log(temp1, '50이상', temp2, '50이상');
+          // 히터 값을 0으로 설정
+          // document.getElementById('fan1Slider').value = 100;
+          document.getElementById('heaterSlider').value = 0;
+
+          document.getElementById('heaterNumber').value = 0;
+          // document.getElementById('fan2Slider').value = 100;
+
+          // 슬라이더 표시값 업데이트
+          // document.getElementById('fan1Value').innerText = '100.0';
+          document.getElementById('heaterValue').innerText = '0.0';
+          // document.getElementById('fan2Value').innerText = '100.0';
+          isCoolDownFirst = true; //쿨링모드값이 처음에만 적용 되도록
+        }
+      } else {
+        //input amaount 불특정일 투입일 경우
+        console.log(temp1, '50이상', temp2, '50이상');
+        // 히터 값을 0으로 설정
+        // document.getElementById('fan1Slider').value = 100;
+        document.getElementById('heaterSlider').value = 0;
+
+        document.getElementById('heaterNumber').value = 0;
+        // document.getElementById('fan2Slider').value = 100;
+
+        // 슬라이더 표시값 업데이트
+        // document.getElementById('fan1Value').innerText = '100.0';
+        document.getElementById('heaterValue').innerText = '0.0';
+        // document.getElementById('fan2Value').innerText = '100.0';}
+        isCoolDownFirst = true; //쿨링모드값이 처음에만 적용 되도록
+      }
     }
   }, 1000); // 3초 간격으로 temp1과 temp2를 체크
 }
@@ -1169,9 +1379,20 @@ async function manualDispose() {
       //로스팅 다시 하는거 물어보기
       showCustomConfirm(doYouWantStartRoasting, (result) => {
         if (result) {
+          disposmodeFlag = false;
+          roastingReset();
+
+          stopCoolingMode();
+          autoRoastingFlagOff();
+          autoRoastingStartFlagOff();
+
+          clearAllCharts();
+
+          stopRecordingcharts();
+
           checkBluetoothConnectionForManualRoasting();
           heatingMode();
-          autoRoastingFlagOff();
+
           return;
         } else {
           goToMain();
@@ -1182,9 +1403,19 @@ async function manualDispose() {
       //로스팅 다시 하는거 물어보기
       showCustomConfirm(doYouWantStartRoasting, (result) => {
         if (result) {
+          disposmodeFlag = false;
+          roastingReset();
+
+          stopCoolingMode();
+          autoRoastingFlagOff();
+          autoRoastingStartFlagOff();
+
+          clearAllCharts();
+
+          stopRecordingcharts();
+
           checkBluetoothConnectionForManualRoasting();
           heatingMode();
-          autoRoastingFlagOff();
           return;
         } else {
           goToMain();
@@ -1338,7 +1569,7 @@ function disposalMode() {
   return new Promise((resolve) => {
     const temp2 = parseFloat(document.getElementById('temp2Value').innerText);
     const temp1 = parseFloat(document.getElementById('temp1Value').innerText);
-    let temp2Limit = 200;
+    let temp2Limit = 250;
     let disposalCount = 0;
     console.log('disposalMode() 배출 함수 실행');
 
@@ -1351,6 +1582,27 @@ function disposalMode() {
         }
       });
     } else {
+      stopCoolingMode(); //쿨링모드 종료
+      stopRecordingCrackPoint(); //크랙 기록 중지
+      autoRoastingFlagOff(); //
+      autoRoastingStartFlagOff();
+      disposmodeFlag = false;
+      let resetDataString = `0,0,0,0,0,0,0\n`;
+      // 슬라이더 값을 0으로 설정
+      document.getElementById('fan1Slider').value = 0;
+      document.getElementById('heaterSlider').value = 0;
+      document.getElementById('fan2Slider').value = 0;
+      document.getElementById('fan1Number').value = 0;
+      document.getElementById('fan2Number').value = 0;
+      document.getElementById('heaterNumber').value = 0;
+      // 슬라이더 표시값 업데이트
+      document.getElementById('fan1Value').innerText = '0.0';
+      document.getElementById('heaterValue').innerText = '0.0';
+      document.getElementById('fan2Value').innerText = '0.0';
+      sendDataToDevice(resetDataString); //출력제로
+
+      isRecordingcharts = false; // 차트 기록 중지 함수
+
       showCustomConfirm(chaffCheckText, (result) => {
         if (result) {
           showCustomConfirm(readyToDisposeText, (result) => {
@@ -1389,7 +1641,7 @@ function disposalMode() {
                   document.getElementById('fan2Slider').value = 100;
                   document.getElementById('fan1Number').value = 100;
                   document.getElementById('fan2Number').value = 0;
-                  document.getElementById('heaterNumber').value = 100;
+                  document.getElementById('heaterNumber').value = 0;
 
                   // 슬라이더 표시값 업데이트
                   document.getElementById('fan1Value').innerText = '100.0';
@@ -2720,4 +2972,19 @@ function simpleRroastInfoStart() {
         console.error('puttingMode() 함수 실패:', error);
       });
   }, 2000); // 1000 밀리초 = 1초
+}
+
+function expertModeInfoStart() {
+  let text = '생두 투입 준비가 완료되셨습니까?';
+
+  showCustomConfirm(text, (result) => {
+    if (result) {
+      showPanel('puttingCountPanel');
+      roastInfoStart();
+      disableButton('roastInfoStartBtn');
+    } else {
+      resolve(); // 작업 완료
+      return;
+    }
+  });
 }
