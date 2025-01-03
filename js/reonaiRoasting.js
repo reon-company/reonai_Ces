@@ -4,8 +4,9 @@
 let lengFlag = 0; // 0 = 한국어 , 1= 영어
 
 //admin 플래그
-let adminFlag = false;
+let isAdminFlag = false;
 let isAdminActive = false;
+//어디민플래스 다시 ~!
 
 // Simple Roast mode Btn 플래그
 let recipeProcessingFlag = 0; // 0 = none , 1 = Washed , 2 = Natural
@@ -2998,7 +2999,7 @@ function adminActivation() {
     const adminName = document.getElementById('loginUserName').textContent;
 
     if (adminName == 'REON') {
-      adminFlag = true;
+      isAdminFlag = true;
 
       document.getElementById('doorTestBtn').style.display = 'block'; // roastInfoPowerDiv 보이기
       document.getElementById('startRecordingchartsBtn').style.display =
@@ -3007,7 +3008,7 @@ function adminActivation() {
       document.getElementById('adminBtn').style.display = 'block'; // roastInfoPowerDiv 보이기
     }
   } else {
-    adminFlag = false;
+    isAdminFlag = false;
 
     document.getElementById('doorTestBtn').style.display = 'none'; // roastInfoPowerDiv 보이기
     document.getElementById('startRecordingchartsBtn').style.display = 'none'; // roastInfoPowerDiv 보이기
