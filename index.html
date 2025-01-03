@@ -627,7 +627,7 @@
         </ul>
         <ul class="pt-4 mt-4 space-y-2 font-medium border-t border-gray-200 dark:border-gray-700">
 
-          <li id="userName" style="display: none;">
+          <li id="userName" style="display: none;" onclick="adminActivation()">
             <a href="#"
               class="flex items-center p-2 text-gray-900 rounded-lg dark:text-zinc-100 hover:bg-zinc-300 dark:hover:bg-zinc-700 group">
               <svg
@@ -727,7 +727,7 @@
 
 
   <!-- style="display : none" -->
-  <header id="adminBtn" class="absolute bottom-0" style="display : none">
+  <header id="adminBtn" style="display : none" class="absolute bottom-0" >
     <button class="bg-transparent text-zinc-950 dark:text-gray-300" onclick="showPanel('mainPanel')">mainPanel</button>
     <button class="bg-transparent text-zinc-950 dark:text-gray-300"
       onclick="showPanel('roastInfoPanel')">roastInfoPanel</button>
@@ -835,7 +835,7 @@
             truncate overflow-hidden text-ellipsis">
               크랙 2
             </button>
-            <button id="startRecordingcharts"  style="display: none" onclick="startRecordingcharts() " class="py-2 px-4 rounded-md shadow text-center 
+            <button id="startRecordingchartsBtn" style="display : none;" onclick="startRecordingcharts() " class="py-2 px-4 rounded-md shadow text-center 
             bg-white text-zinc-900 dark:bg-zinc-700 dark:text-gray-300
             
             hover:bg-zinc-300  dark:hover:bg-zinc-500
@@ -844,7 +844,7 @@
             </button>
 
 
-            <button id="startRecordingcharts" style="display: none"   onclick="doorTestMode()" class="py-2 px-4 rounded-md shadow text-center 
+            <button id="doorTestBtn" style="display : none;"   onclick="doorTestMode()" class="py-2 px-4 rounded-md shadow text-center 
             bg-white text-zinc-900 dark:bg-zinc-700 dark:text-gray-300
             
             hover:bg-zinc-300  dark:hover:bg-zinc-500
@@ -1781,13 +1781,16 @@ bg-zinc-100 dark:bg-zinc-800">
     
     <script> //window 이벤트 모음
 
-    window.addEventListener('beforeunload', function (event) {
-      // 브라우저에 따라 다르게 동작할 수 있음
+
+
+ window.addEventListener('beforeunload', function (event) {
+  if(!adminFlag){     // 브라우저에 따라 다르게 동작할 수 있음
       event.preventDefault();
       // 확인 메시지를 사용자에게 보여줌
-      event.returnValue = '페이지를 나가시면, 모든 로스팅이 지됩니다.';
+      event.returnValue = '페이지를 나가시면, 모든 로스팅이 지됩니다.';}
     });
     
+
     
     
     </script>

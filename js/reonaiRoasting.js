@@ -3,6 +3,10 @@
 // 사용언어 플래그
 let lengFlag = 0; // 0 = 한국어 , 1= 영어
 
+//admin 플래그
+let adminFlag = false;
+let isAdminActive = false;
+
 // Simple Roast mode Btn 플래그
 let recipeProcessingFlag = 0; // 0 = none , 1 = Washed , 2 = Natural
 let recipeStagesFlag = 0; // 0 = none , 1 = Light , 2 = medium , 3 = Dark
@@ -658,15 +662,15 @@ function heatingPidControl() {
         crrentfan1 = 30; //50
         crrentfan2 = 2.5;
       } else if (error > 10) {
-        currentHeater = 80;
+        currentHeater = 90; //80
         crrentfan1 = 30; //50
         crrentfan2 = 2.5;
       } else if (error > 5) {
-        currentHeater = 60;
+        currentHeater = 80; //60
         crrentfan1 = 30; //50
         crrentfan2 = 2.5;
       } else if (error < 5) {
-        currentHeater = 40;
+        currentHeater = 70; //40
         crrentfan1 = 30; //50
         crrentfan2 = 2.5;
       }
@@ -676,15 +680,15 @@ function heatingPidControl() {
         crrentfan1 = 30; //50
         crrentfan2 = 2.5;
       } else if (error < -10) {
-        currentHeater = 10; //40
+        currentHeater = 10; //40 //10
         crrentfan1 = 30; //50
         crrentfan2 = 2.5;
       } else if (error < -5) {
-        currentHeater = 20; //40
+        currentHeater = 20; //40 //20
         crrentfan1 = 30; //50
         crrentfan2 = 2.5;
       } else if (error > -5) {
-        currentHeater = 30; //40
+        currentHeater = 30; //40 //30
         crrentfan1 = 30; //50
         crrentfan2 = 2.5;
       }
@@ -994,7 +998,7 @@ async function puttingMode() {
         // 카운트다운이 0이 되면 종료
         if (countdown <= 0) {
           sendDataToDevice(resetDataString);
-          puttingMode;
+          // puttingMode;
           clearInterval(countdownInterval);
 
           console.log('beanPutting() 투입 함수 종료');
@@ -2987,4 +2991,29 @@ function expertModeInfoStart() {
       return;
     }
   });
+}
+
+function adminActivation() {
+  if (isAdminActive) {
+    const adminName = document.getElementById('loginUserName').textContent;
+
+    if (adminName == 'REON') {
+      adminFlag = true;
+
+      document.getElementById('doorTestBtn').style.display = 'block'; // roastInfoPowerDiv 보이기
+      document.getElementById('startRecordingchartsBtn').style.display =
+        'block'; // roastInfoPowerDiv 보이기
+
+      document.getElementById('adminBtn').style.display = 'block'; // roastInfoPowerDiv 보이기
+    }
+  } else {
+    adminFlag = false;
+
+    document.getElementById('doorTestBtn').style.display = 'none'; // roastInfoPowerDiv 보이기
+    document.getElementById('startRecordingchartsBtn').style.display = 'none'; // roastInfoPowerDiv 보이기
+
+    document.getElementById('adminBtn').style.display = 'none'; // roastInfoPowerDiv 보이기
+  }
+
+  isAdminActive = !isAdminActive; // 상태를 반전
 }
