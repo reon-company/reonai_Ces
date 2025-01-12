@@ -1576,6 +1576,9 @@ function disposalMode() {
     const temp1 = parseFloat(document.getElementById('temp1Value').innerText);
     let temp2Limit = 250;
     let disposalCount = 0;
+    let disposalCountStep1 = 0;
+    let disposalCountStep2 = 0;
+    let disposalCountStep3 = 0;
     console.log('disposalMode() 배출 함수 실행');
 
     if (temp2 >= temp2Limit) {
@@ -1640,18 +1643,72 @@ function disposalMode() {
                     isFirstDisposal = true;
                   }
 
-                  // 히터 값을 0으로 설정
-                  document.getElementById('fan1Slider').value = 100;
-                  document.getElementById('heaterSlider').value = 0;
-                  document.getElementById('fan2Slider').value = 100;
-                  document.getElementById('fan1Number').value = 100;
-                  document.getElementById('fan2Number').value = 0;
-                  document.getElementById('heaterNumber').value = 0;
+                  if (disposalCount <= 3) {
+                    // 히터 값을 0으로 설정
+                    document.getElementById('fan1Slider').value = 0; //100
+                    document.getElementById('heaterSlider').value = 0;
+                    document.getElementById('fan2Slider').value = 100;
+                    document.getElementById('fan1Number').value = 0; // 100
+                    document.getElementById('fan2Number').value = 100;
+                    document.getElementById('heaterNumber').value = 0;
 
-                  // 슬라이더 표시값 업데이트
-                  document.getElementById('fan1Value').innerText = '100.0';
-                  document.getElementById('heaterValue').innerText = '0.0';
-                  document.getElementById('fan2Value').innerText = '100.0';
+                    // 슬라이더 표시값 업데이트
+                    document.getElementById('fan1Value').innerText = '0.0'; // 100.0
+                    document.getElementById('heaterValue').innerText = '0.0';
+                    document.getElementById('fan2Value').innerText = '100.0';
+                  } else if (disposalCount >= 3 && disposalCount <= 5) {
+                    // 히터 값을 0으로 설정
+                    document.getElementById('fan1Slider').value = 50; //100
+                    document.getElementById('heaterSlider').value = 0;
+                    document.getElementById('fan2Slider').value = 100;
+                    document.getElementById('fan1Number').value = 50; // 100
+                    document.getElementById('fan2Number').value = 100;
+                    document.getElementById('heaterNumber').value = 0;
+
+                    // 슬라이더 표시값 업데이트
+                    document.getElementById('fan1Value').innerText = '50.0'; // 100.0
+                    document.getElementById('heaterValue').innerText = '0.0';
+                    document.getElementById('fan2Value').innerText = '100.0';
+                  } else if (disposalCount >= 5 && disposalCount <= 7) {
+                    // 히터 값을 0으로 설정
+                    document.getElementById('fan1Slider').value = 0; //100
+                    document.getElementById('heaterSlider').value = 0;
+                    document.getElementById('fan2Slider').value = 20;
+                    document.getElementById('fan1Number').value = 0; // 100
+                    document.getElementById('fan2Number').value = 0;
+                    document.getElementById('heaterNumber').value = 20;
+
+                    // 슬라이더 표시값 업데이트
+                    document.getElementById('fan1Value').innerText = '0.0'; // 100.0
+                    document.getElementById('heaterValue').innerText = '0.0';
+                    document.getElementById('fan2Value').innerText = '20.0';
+                  } else if (disposalCount >= 7 && disposalCount <= 15) {
+                    // 히터 값을 0으로 설정
+                    document.getElementById('fan1Slider').value = 100; //100
+                    document.getElementById('heaterSlider').value = 0;
+                    document.getElementById('fan2Slider').value = 100;
+                    document.getElementById('fan1Number').value = 100; // 100
+                    document.getElementById('fan2Number').value = 100;
+                    document.getElementById('heaterNumber').value = 0;
+
+                    // 슬라이더 표시값 업데이트
+                    document.getElementById('fan1Value').innerText = '100.0'; // 100.0
+                    document.getElementById('heaterValue').innerText = '0.0';
+                    document.getElementById('fan2Value').innerText = '100.0';
+                  } else if (disposalCount >= 15) {
+                    // 히터 값을 0으로 설정
+                    document.getElementById('fan1Slider').value = 0; //100
+                    document.getElementById('heaterSlider').value = 0;
+                    document.getElementById('fan2Slider').value = 100;
+                    document.getElementById('fan1Number').value = 0; // 100
+                    document.getElementById('fan2Number').value = 100;
+                    document.getElementById('heaterNumber').value = 0;
+
+                    // 슬라이더 표시값 업데이트
+                    document.getElementById('fan1Value').innerText = '0.0'; // 100.0
+                    document.getElementById('heaterValue').innerText = '0.0';
+                    document.getElementById('fan2Value').innerText = '100.0';
+                  }
 
                   disposalCount++;
                   console.log('배출중');
