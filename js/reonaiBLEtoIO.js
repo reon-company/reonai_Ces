@@ -381,8 +381,8 @@ function updateReceivedChart(temp1, temp2, temp3) {
   if (temp1History5s.length >= 5) {
     console.log('temp1History5s.length : ', temp1History5s.length);
 
-    RoR1 = ((lastTemp1for5s - firstTemp1for5s) / 5) * 5; // temp1의 RoR(60s) 계산
-    RoR2 = ((lastTemp2for5s - firstTemp2for5s) / 5) * 5; // temp2의 RoR(60s) 계산
+    RoR1 = ((lastTemp1for5s - firstTemp1for5s) / 5) * 5 * 60; // temp1의 RoR(60s) 계산
+    RoR2 = ((lastTemp2for5s - firstTemp2for5s) / 5) * 5 * 60; // temp2의 RoR(60s) 계산
   } else {
     RoR1 = 0;
     RoR2 = 0;

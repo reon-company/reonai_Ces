@@ -34,7 +34,7 @@ let autoStartHeatingModeInterval;
 let monitorTemperature; // coolingmode 인터벌
 
 //pid제어를 위한
-let targetTemp2 = 250; //200
+let targetTemp2 = 100; //200
 let pidControlInterval = null;
 let integral = 0;
 let previousError = 0;
@@ -659,19 +659,19 @@ function heatingPidControl() {
     console.log('error error =', error);
     if (error > 0.1) {
       if (error > 20) {
-        currentHeater = 100;
+        currentHeater = 80;
         crrentfan1 = 30; //50
         crrentfan2 = 2.5;
       } else if (error > 10) {
-        currentHeater = 90; //80
+        currentHeater = 60; //80
         crrentfan1 = 30; //50
         crrentfan2 = 2.5;
       } else if (error > 5) {
-        currentHeater = 80; //60
+        currentHeater = 40; //60
         crrentfan1 = 30; //50
         crrentfan2 = 2.5;
       } else if (error < 5) {
-        currentHeater = 70; //40
+        currentHeater = 30; //40
         crrentfan1 = 30; //50
         crrentfan2 = 2.5;
       }
@@ -681,19 +681,57 @@ function heatingPidControl() {
         crrentfan1 = 30; //50
         crrentfan2 = 2.5;
       } else if (error < -10) {
-        currentHeater = 10; //40 //10
+        currentHeater = 5; //40 //10
         crrentfan1 = 30; //50
         crrentfan2 = 2.5;
       } else if (error < -5) {
-        currentHeater = 20; //40 //20
+        currentHeater = 10; //40 //20
         crrentfan1 = 30; //50
         crrentfan2 = 2.5;
       } else if (error > -5) {
-        currentHeater = 30; //40 //30
+        currentHeater = 15; //40 //30
         crrentfan1 = 30; //50
         crrentfan2 = 2.5;
       }
     }
+
+    // if (error > 0.1) {
+    //   if (error > 20) {
+    //     currentHeater = 100;
+    //     crrentfan1 = 30; //50
+    //     crrentfan2 = 2.5;
+    //   } else if (error > 10) {
+    //     currentHeater = 90; //80
+    //     crrentfan1 = 30; //50
+    //     crrentfan2 = 2.5;
+    //   } else if (error > 5) {
+    //     currentHeater = 80; //60
+    //     crrentfan1 = 30; //50
+    //     crrentfan2 = 2.5;
+    //   } else if (error < 5) {
+    //     currentHeater = 70; //40
+    //     crrentfan1 = 30; //50
+    //     crrentfan2 = 2.5;
+    //   }
+    // } else {
+    //   if (error < -20) {
+    //     currentHeater = 0; //40
+    //     crrentfan1 = 30; //50
+    //     crrentfan2 = 2.5;
+    //   } else if (error < -10) {
+    //     currentHeater = 10; //40 //10
+    //     crrentfan1 = 30; //50
+    //     crrentfan2 = 2.5;
+    //   } else if (error < -5) {
+    //     currentHeater = 20; //40 //20
+    //     crrentfan1 = 30; //50
+    //     crrentfan2 = 2.5;
+    //   } else if (error > -5) {
+    //     currentHeater = 30; //40 //30
+    //     crrentfan1 = 30; //50
+    //     crrentfan2 = 2.5;
+    //   }
+    // }
 
     // + Ki * integral + Kd * derivative;
     // 히터 값 업데이트 (200도 이전에는 max100 min30, 200도 이후에는 max60 min30)
@@ -3058,6 +3096,9 @@ function adminActivation() {
     if (adminName == 'REON') {
       isAdminFlag = true;
 
+      document.getElementById('recipeFinderDiv').style.display = 'block'; // recipeFinderDiv 보이기
+      document.getElementById('autoRoastingToggleDiv').style.display = 'block'; // autoRoastingToggleDiv 보이기
+
       document.getElementById('doorTestBtn').style.display = 'block'; // roastInfoPowerDiv 보이기
       document.getElementById('startRecordingchartsBtn').style.display =
         'block'; // roastInfoPowerDiv 보이기
@@ -3066,6 +3107,9 @@ function adminActivation() {
     }
   } else {
     isAdminFlag = false;
+
+    document.getElementById('recipeFinderDiv').style.display = 'none'; // recipeFinderDiv 보이기
+    document.getElementById('autoRoastingToggleDiv').style.display = 'none'; // autoRoastingToggleDiv 보이기
 
     document.getElementById('doorTestBtn').style.display = 'none'; // roastInfoPowerDiv 보이기
     document.getElementById('startRecordingchartsBtn').style.display = 'none'; // roastInfoPowerDiv 보이기
