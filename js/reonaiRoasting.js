@@ -22,7 +22,7 @@ let roastMode = 0; // 0 = expert mode, 1 = Balance mdoe , 2 = simple mode
 
 //pid설정 온도 초과 카운트를 위한
 let exceedCount = 0; // 온도 초과 횟수 저장 변수
-const maxExceedCount = 100; // 최대 초과 횟수
+const maxExceedCount = 50; // 최대 초과 횟수
 
 let autoRoastingFlag = false; // 오토로스팅 동작 플래그
 let autoRoastingStartFlag = false; // 오토로스팅 동작 플래그
@@ -337,14 +337,19 @@ function heatingMode() {
 
     heatingPidControl();
 
-    const targetTemp2 = parseFloat(200) + 50;
+    // const targetTemp2 = parseFloat(200) + 50;
+    const targetTemp2 = parseFloat(100);
     let percent = 0;
     let percent1 = 0;
     let percent2 = 0;
     let exceedCount = 0;
-    const maxExceedCount = 20;
-    const requiredTempMin = 199 + 50; // Temp2 최소값
-    const requiredTempMax = 203 + 50; // Temp2 최대값
+
+    // const requiredTempMin = 199 + 50; // Temp2 최소값
+    // const requiredTempMax = 203 + 50; // Temp2 최대값
+    const requiredTempMin = 103 + 50 - 100; // Temp2 최소값
+    const requiredTempMax = 203 + 50 - 100; // Temp2 최대값
+    const upperTempMin = requiredTempMax - 80;
+    const upperTempMax = requiredTempMax - 20;
 
     // 500ms마다 온도를 체크하고 초과 횟수 확인
     heatPeakInterval = setInterval(() => {
@@ -356,23 +361,33 @@ function heatingMode() {
       const temp2Value = parseFloat(
         document.getElementById('temp2Value').innerText
       );
-      if (temp2Value <= 100) {
+      if (temp2Value <= upperTempMin) {
         percent = 0;
       } else {
         console.log('temp2 100이상');
-        if (temp2Value <= 180) {
-          const calculatedPercent1 = Math.floor(
-            ((temp2Value - 100) / 80) * 100
-          );
-          percent1 = calculatedPercent1 >= 0 ? calculatedPercent1 : percent1;
-          percent = Math.floor(percent1 * 0.5);
+
+        if (percent >= 100) {
+          percent = 100;
         } else {
-          percent2 = Math.floor((exceedCount / maxExceedCount) * 100);
-          percent = Math.floor(percent1 * 0.5 + percent2 * 0.5);
-          if (percent > 100) {
-            percent = 100;
-          }
+          percent = exceedCount * 2;
         }
+
+        // console.log('temp2 100이상');
+        // if (temp2Value <= upperTempMax) {
+        //   const calculatedPercent1 = Math.floor(
+        //     // ((temp2Value - 100) / 80) * 100
+
+        //     (temp2Value / 80) * 100
+        //   );
+        //   percent1 = calculatedPercent1 >= 0 ? calculatedPercent1 : percent1;
+        //   percent = Math.floor(percent1 * 0.5);
+        // } else {
+        //   percent2 = Math.floor((exceedCount / maxExceedCount) * 100);
+        //   percent = Math.floor(percent1 * 0.5 + percent2 * 0.5);
+        //   if (percent > 100) {
+        //     percent = 100;
+        //   }
+        // }
       }
 
       console.log('예열 퍼센트 : ', percent);
@@ -659,38 +674,38 @@ function heatingPidControl() {
     console.log('error error =', error);
     if (error > 0.1) {
       if (error > 20) {
-        currentHeater = 80;
-        crrentfan1 = 30; //50
+        currentHeater = 60;
+        crrentfan1 = 40; //50
         crrentfan2 = 2.5;
       } else if (error > 10) {
-        currentHeater = 60; //80
-        crrentfan1 = 30; //50
+        currentHeater = 30; //80
+        crrentfan1 = 40; //50
         crrentfan2 = 2.5;
       } else if (error > 5) {
-        currentHeater = 40; //60
-        crrentfan1 = 30; //50
+        currentHeater = 15; //60
+        crrentfan1 = 40; //50
         crrentfan2 = 2.5;
       } else if (error < 5) {
-        currentHeater = 30; //40
-        crrentfan1 = 30; //50
+        currentHeater = 5; //40
+        crrentfan1 = 40; //50
         crrentfan2 = 2.5;
       }
     } else {
       if (error < -20) {
         currentHeater = 0; //40
-        crrentfan1 = 30; //50
+        crrentfan1 = 40; //50
         crrentfan2 = 2.5;
       } else if (error < -10) {
-        currentHeater = 5; //40 //10
-        crrentfan1 = 30; //50
+        currentHeater = 2; //40 //10
+        crrentfan1 = 40; //50
         crrentfan2 = 2.5;
       } else if (error < -5) {
-        currentHeater = 10; //40 //20
-        crrentfan1 = 30; //50
+        currentHeater = 5; //40 //20
+        crrentfan1 = 40; //50
         crrentfan2 = 2.5;
       } else if (error > -5) {
-        currentHeater = 15; //40 //30
-        crrentfan1 = 30; //50
+        currentHeater = 10; //40 //30
+        crrentfan1 = 40; //50
         crrentfan2 = 2.5;
       }
     }
