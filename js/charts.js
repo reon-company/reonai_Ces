@@ -220,8 +220,8 @@ function createReceivedChart() {
           },
         },
         opposite: true, // 오른쪽 축
-        min: -50,
-        max: 50,
+        min: -100,
+        max: 100,
         gridLineWidth: 0,
         tickInterval: 5,
       },
