@@ -675,37 +675,37 @@ function heatingPidControl() {
     if (error > 0.1) {
       if (error > 20) {
         currentHeater = 60;
-        crrentfan1 = 40; //50
+        crrentfan1 = 20; //50
         crrentfan2 = 2.5;
       } else if (error > 10) {
-        currentHeater = 30; //80
-        crrentfan1 = 40; //50
+        currentHeater = 50; //80
+        crrentfan1 = 20; //50
         crrentfan2 = 2.5;
       } else if (error > 5) {
-        currentHeater = 15; //60
-        crrentfan1 = 40; //50
+        currentHeater = 30; //60
+        crrentfan1 = 20; //50
         crrentfan2 = 2.5;
       } else if (error < 5) {
         currentHeater = 5; //40
-        crrentfan1 = 40; //50
+        crrentfan1 = 20; //50
         crrentfan2 = 2.5;
       }
     } else {
       if (error < -20) {
         currentHeater = 0; //40
-        crrentfan1 = 40; //50
+        crrentfan1 = 20; //50
         crrentfan2 = 2.5;
       } else if (error < -10) {
         currentHeater = 2; //40 //10
-        crrentfan1 = 40; //50
+        crrentfan1 = 20; //50
         crrentfan2 = 2.5;
       } else if (error < -5) {
         currentHeater = 5; //40 //20
-        crrentfan1 = 40; //50
+        crrentfan1 = 20; //50
         crrentfan2 = 2.5;
       } else if (error > -5) {
         currentHeater = 10; //40 //30
-        crrentfan1 = 40; //50
+        crrentfan1 = 20; //50
         crrentfan2 = 2.5;
       }
     }
@@ -1711,10 +1711,10 @@ function disposalMode() {
                     document.getElementById('fan2Value').innerText = '100.0';
                   } else if (disposalCount >= 3 && disposalCount <= 5) {
                     // 히터 값을 0으로 설정
-                    document.getElementById('fan1Slider').value = 50; //100
+                    document.getElementById('fan1Slider').value = 100; //100
                     document.getElementById('heaterSlider').value = 0;
                     document.getElementById('fan2Slider').value = 100;
-                    document.getElementById('fan1Number').value = 50; // 100
+                    document.getElementById('fan1Number').value = 100; // 100
                     document.getElementById('fan2Number').value = 100;
                     document.getElementById('heaterNumber').value = 0;
 
@@ -1724,12 +1724,12 @@ function disposalMode() {
                     document.getElementById('fan2Value').innerText = '100.0';
                   } else if (disposalCount >= 5 && disposalCount <= 7) {
                     // 히터 값을 0으로 설정
-                    document.getElementById('fan1Slider').value = 0; //100
+                    document.getElementById('fan1Slider').value = 50; //100
                     document.getElementById('heaterSlider').value = 0;
-                    document.getElementById('fan2Slider').value = 20;
-                    document.getElementById('fan1Number').value = 0; // 100
-                    document.getElementById('fan2Number').value = 0;
-                    document.getElementById('heaterNumber').value = 20;
+                    document.getElementById('fan2Slider').value = 100;
+                    document.getElementById('fan1Number').value = 50; // 100
+                    document.getElementById('fan2Number').value = 100;
+                    document.getElementById('heaterNumber').value = 0;
 
                     // 슬라이더 표시값 업데이트
                     document.getElementById('fan1Value').innerText = '0.0'; // 100.0
@@ -1750,10 +1750,10 @@ function disposalMode() {
                     document.getElementById('fan2Value').innerText = '100.0';
                   } else if (disposalCount >= 15) {
                     // 히터 값을 0으로 설정
-                    document.getElementById('fan1Slider').value = 0; //100
+                    document.getElementById('fan1Slider').value = 100; //100
                     document.getElementById('heaterSlider').value = 0;
                     document.getElementById('fan2Slider').value = 100;
-                    document.getElementById('fan1Number').value = 0; // 100
+                    document.getElementById('fan1Number').value = 100; // 100
                     document.getElementById('fan2Number').value = 100;
                     document.getElementById('heaterNumber').value = 0;
 
