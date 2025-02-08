@@ -3119,6 +3119,17 @@ function adminActivation() {
         'block'; // roastInfoPowerDiv 보이기
 
       document.getElementById('adminBtn').style.display = 'block'; // roastInfoPowerDiv 보이기
+    } else {
+      isAdminFlag = true;
+
+      document.getElementById('recipeFinderDiv').style.display = 'block'; // recipeFinderDiv 보이기
+      document.getElementById('autoRoastingToggleDiv').style.display = 'block'; // autoRoastingToggleDiv 보이기
+
+      document.getElementById('doorTestBtn').style.display = 'block'; // roastInfoPowerDiv 보이기
+      document.getElementById('startRecordingchartsBtn').style.display =
+        'block'; // roastInfoPowerDiv 보이기
+
+      document.getElementById('adminBtn').style.display = 'block'; // roastInfoPowerDiv 보이기
     }
   } else {
     isAdminFlag = false;
