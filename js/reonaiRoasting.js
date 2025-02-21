@@ -2661,13 +2661,13 @@ function simpleRoastModeStartConfirm() {
 fan1Number.addEventListener('click', () => {
   console.log('이거 되는겨?');
   currentValueModalKeypadFan1 = '';
-  currentFan1Numver = document.getElementById('fan1Slider').value;
+  currentFan1Numver = document.getElementById('fan1Number').value;
   keypadCurrentValueFan1.textContent = `Fan 1 ${currentFan1Numver}`;
   currentValueModalKeypadHeater = '';
-  currentHeaterNumver = document.getElementById('heaterSlider').value;
+  currentHeaterNumver = document.getElementById('heaterNumber').value;
   keypadCurrentValueHeater.textContent = `Heater ${currentHeaterNumver}`;
   currentValueModalKeypadFan2 = '';
-  currentFan2Numver = document.getElementById('fan2Slider').value;
+  currentFan2Numver = document.getElementById('fan2Number').value;
   keypadCurrentValueFan2.textContent = `Fan 2 ${currentFan2Numver}`;
   //key 색상변경
   keyFan1.className = 'keypad-btn bg-reonaiRed text-reonaiWhite py-2 rounded';
@@ -2681,13 +2681,13 @@ fan1Number.addEventListener('click', () => {
 
 heaterNumber.addEventListener('click', () => {
   currentValueModalKeypadFan1 = '';
-  currentFan1Numver = document.getElementById('fan1Slider').value;
+  currentFan1Numver = document.getElementById('fan1Number').value;
   keypadCurrentValueFan1.textContent = `Fan 1 ${currentFan1Numver}`;
   currentValueModalKeypadHeater = '';
-  currentHeaterNumver = document.getElementById('heaterSlider').value;
+  currentHeaterNumver = document.getElementById('heaterNumber').value;
   keypadCurrentValueHeater.textContent = `Heater ${currentHeaterNumver}`;
   currentValueModalKeypadFan2 = '';
-  currentFan2Numver = document.getElementById('fan2Slider').value;
+  currentFan2Numver = document.getElementById('fan2Number').value;
   keypadCurrentValueFan2.textContent = `Fan 2 ${currentFan2Numver}`;
 
   //key 색상변경
@@ -2700,13 +2700,13 @@ heaterNumber.addEventListener('click', () => {
 
 fan2Number.addEventListener('click', () => {
   currentValueModalKeypadFan1 = '';
-  currentFan1Numver = document.getElementById('fan1Slider').value;
+  currentFan1Numver = document.getElementById('fan1Number').value;
   keypadCurrentValueFan1.textContent = `Fan 1 ${currentFan1Numver}`;
   currentValueModalKeypadHeater = '';
-  currentHeaterNumver = document.getElementById('heaterSlider').value;
+  currentHeaterNumver = document.getElementById('heaterNumber').value;
   keypadCurrentValueHeater.textContent = `Heater ${currentHeaterNumver}`;
   currentValueModalKeypadFan2 = '';
-  currentFan2Numver = document.getElementById('fan2Slider').value;
+  currentFan2Numver = document.getElementById('fan2Number').value;
   keypadCurrentValueFan2.textContent = `Fan 2 ${currentFan2Numver}`;
   //key 색상변경
   keyFan2.className = 'keypad-btn bg-reonaiRed text-reonaiWhite py-2 rounded';
@@ -2809,8 +2809,8 @@ keypadSubmit.addEventListener('click', () => {
 
   if (addvalueModalKeypadFan1 == '') {
     //값을 아무것도 입력안했을 경우 기존값으로 입력
-    fan1NumberModal.value = document.getElementById('fan1Slider').value;
-    addvalueModalKeypadFan1 = document.getElementById('fan1Slider').value;
+    fan1NumberModal.value = document.getElementById('fan1Number').value;
+    addvalueModalKeypadFan1 = document.getElementById('fan1Number').value;
   } else {
     fan1NumberModal.value = addvalueModalKeypadFan1;
     console.log('fan1 입력');
@@ -2828,8 +2828,8 @@ keypadSubmit.addEventListener('click', () => {
 
   if (addValueModalKeypadHeater == '') {
     //값을 아무것도 입력안했을 경우 기존값으로 입력
-    heaterNumberModal.value = document.getElementById('heaterSlider').value;
-    addValueModalKeypadHeater = document.getElementById('heaterSlider').value;
+    heaterNumberModal.value = document.getElementById('heaterNumber').value;
+    addValueModalKeypadHeater = document.getElementById('heaterNumber').value;
   } else {
     console.log('heater 입력');
     heaterNumberModal.value = addValueModalKeypadHeater;
@@ -2844,8 +2844,8 @@ keypadSubmit.addEventListener('click', () => {
 
   if (addValueModalKeypadFan2 == '') {
     //값을 아무것도 입력안했을 경우 기존값으로 입력
-    fan2NumberModal.value = document.getElementById('fan2Slider').value;
-    addValueModalKeypadFan2 = document.getElementById('fan2Slider').value;
+    fan2NumberModal.value = document.getElementById('fan2Number').value;
+    addValueModalKeypadFan2 = document.getElementById('fan2Number').value;
   } else {
     console.log('fan2 입력');
     fan2NumberModal.value = addValueModalKeypadFan2;
