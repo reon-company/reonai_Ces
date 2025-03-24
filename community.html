@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <!-- <meta name="viewport" content="width=1024, height=768, initial-scale=1.0"> -->
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <link href="./css/output.css" rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Konkhmer+Sleokchher&display=swap"
+      rel="stylesheet"
+    />
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.css"
+      rel="stylesheet"
+    />
+
+    <script>
+      // On page load or when changing themes, best to add inline in `head` to avoid FOUC
+      if (
+        localStorage.getItem('color-theme') === 'dark' ||
+        (!('color-theme' in localStorage) &&
+          window.matchMedia('(prefers-color-scheme: dark)').matches)
+      ) {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+    </script>
+  </head>
+
+  <style>
+    /* Tailwind 기반으로 화살표 제거 */
+    input[type='number']::-webkit-inner-spin-button,
+    input[type='number']::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      /* Chrome, Safari, Edge */
+      margin: 0;
+      /* 기본 여백 제거 */
+    }
+
+    input[type='number'] {
+      -moz-appearance: textfield;
+      /* Firefox */
+    }
+  </style>
+
+  <div
+    id="myRecipePanel"
+    style="display: none; margin: 0 auto"
+    class="flex justify-center items-center h-screen"
+  >
+    <!--go to main!!-->
+    <div class="fixed bottom-4 right-4">
+      <button
+        class="py-2 px-4 rounded-md shadow text-center truncate overflow-hidden text-ellipsis dark:bg-white bg-zinc-700 dark:text-zinc-900 text-gray-300 dark:hover:bg-zinc-300 hover:bg-zinc-500"
+        onclick="goToMain()"
+      >
+        로스팅 종료
+      </button>
+    </div>
+    <!--go to main!!-->
+
+    <div class="grid place-items-center gap-4 p-4 text-gray-200 h-full">
+      <!-- Left Column -->
+      <div class="space-y-4">
+        <!-- Modal body -->
+        <div class="p-2 md:p-2 items-center">
+          <div
+            class="panelBox container flex flex-col items-center mx-auto space-y-2 max-w-fit max-h-full"
+          >
+            <!-- Selected Record Section -->
+            <div
+              id="selectedRecord"
+              class="flex flex-col items-center gap-1 p-1"
+            >
+              <div class="flex gap-x-8">
+                <div class="infoBox" style="display: none">
+                  <div
+                    class="infoBox-title font-semibold"
+                    style="display: none"
+                  >
+                    <strong>ID:</strong>
+                  </div>
+                  <div class="infoBox-content"><span id="recordId"></span></div>
+                </div>
+                <div class="infoBox">
+                  <div class="font-semibold" style="display: none">
+                    <strong>Title:</strong>
+                  </div>
+                  <div>
+                    <span
+                      id="recordTitle"
+                      class="text-zinc-950 dark:text-gray-300"
+                    ></span>
+                  </div>
+                </div>
+                <div class="infoBox" style="display: none">
+                  <div class="font-semibold" style="display: none">
+                    <strong>Date:</strong>
+                  </div>
+                  <div>
+                    <span
+                      id="recordDate"
+                      class="text-zinc-950 dark:text-gray-300"
+                      >-</span
+                    >
+                  </div>
+                </div>
+                <div class="infoBox" style="display: none">
+                  <div class="font-semibold" style="display: none">
+                    <strong>Time:</strong>
+                  </div>
+                  <div>
+                    <span
+                      id="recordTime"
+                      class="text-zinc-950 dark:text-gray-300"
+                      >-</span
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- chartdivRecipe Section -->
+            <div
+              id="chartdivRecipe"
+              class="max-h-48 max-w-64 rounded-lg bg-zinc-50 dark:bg-zinc-900"
+            ></div>
+            <section id="recipeContainerSection" class="grid gap-8 items-start">
+              <!-- My Record Section -->
+              <section id="myRecordList" class="flex flex-col items-center">
+                <span
+                  class="text-2xl font-bold mb-4 text-zinc-950 dark:text-gray-300"
+                  >My Record</span
+                >
+                <div
+                  id="getMyRecordsResult"
+                  class="overflow-x-hidden record-list bg-zinc-50 dark:bg-zinc-900 text-zinc-950 dark:text-gray-300 rounded-lg p-4 max-w-64 max-h-32 overflow-y-auto"
+                >
+                  <ul class="list-group divide-y divide-gray-200">
+                    <!-- Example Record Item -->
+                    <li
+                      class="grid grid-col-1 list-group-item flex items-center justify-between p-4 cursor-pointer rounded-lg"
+                    >
+                      <span class="font-medium">Record 1</span>
+                      <span class="text-sm">2024-12-10</span>
+                    </li>
+                    <!-- Add your record items dynamically here -->
+                  </ul>
+                </div>
+              </section>
+
+              <!-- Pilot Record Section -->
+              <section id="pilotRecordList" class="flex flex-col items-center">
+                <span
+                  class="text-2xl font-bold mb-4 text-zinc-950 dark:text-gray-300"
+                  >Pilot Record</span
+                >
+                <div
+                  id="getPilotresult"
+                  class="overflow-x-hidden record-list bg-zinc-50 dark:bg-zinc-900 text-zinc-950 dark:text-gray-300 rounded-lg p-4 max-w-64 max-h-52 overflow-y-auto"
+                >
+                  <ul class="list-group divide-y divide-gray-200">
+                    <!-- Example Pilot Record Item -->
+                    <li
+                      class="list-group-item flex items-center justify-between p-4 hover:bg-gray-100 cursor-pointer rounded-lg"
+                    >
+                      <span class="font-medium text-gray-700"
+                        >Pilot Record 1</span
+                      >
+                      <span class="text-sm text-gray-500">2024-12-10</span>
+                    </li>
+                    <!-- Add your pilot record items dynamically here -->
+                  </ul>
+                </div>
+              </section>
+            </section>
+
+            <!-- Chart Section -->
+            <div
+              id="chartContainerMyRecipe"
+              class="max-h-max w-full"
+              style="display: none"
+            >
+              <div
+                id="outputChartdivMyRecipe"
+                class="border border-gray-300 rounded-lg shadow p-4 mt-4"
+              ></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <body>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/series-label.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/export-data.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script src="js/reonaiRoasting.js"></script>
+    <script src="js/reonaiBLEtoIO.js"></script>
+    <script src="js/reonaiData.js"></script>
+    <script src="js/panel.js"></script>
+    <script src="js/charts.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
+
+    <script>
+      //window 이벤트 모음
+
+      window.addEventListener('beforeunload', function (event) {
+        if (!adminFlag) {
+          // 브라우저에 따라 다르게 동작할 수 있음
+          event.preventDefault();
+          // 확인 메시지를 사용자에게 보여줌
+          event.returnValue = '페이지를 나가시면, 모든 로스팅이 지됩니다.';
+        }
+      });
+    </script>
+  </body>
+</html>

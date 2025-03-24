@@ -204,19 +204,38 @@ async function getMyRecords(userData) {
       myRecords = myRecords.sort((a, b) => b.id - a.id);
 
       document.getElementById('getMyRecordsResult').innerHTML = '';
+      document.getElementById('getMyRecordsResult_myRecipe').innerHTML = '';
       //   document.getElementById('refGetMyRecordsResult').innerHTML = '';
-      myRecords.forEach((item, index) => {
-        const recordButton = document.createElement('button');
-        // recordButton.innerText = `ID: ${item.id}, Title: ${item.title}`;
-        recordButton.innerText = `${item.title}`;
-        recordButton.className = 'record-btn';
+      myRecords.forEach((item) => {
+        const recordCard = document.createElement('div');
+        recordCard.className =
+          'border rounded-2xl shadow-md p-4 hover:shadow-lg transition cursor-pointer';
 
-        console.log(item);
-        recordButton.onclick = () => fetchRecordDetails(item.id, item.memberId);
-        document.getElementById('getMyRecordsResult').appendChild(recordButton);
-        // document
-        //   .getElementById('refGetMyRecordsResult')
-        //   .appendChild(recordButton);
+        recordCard.innerHTML = `
+          <h3 class="text-sm font-semibold mb-1">${item.title}</h3>
+          <p class="text-sm text-gray-600">ID: ${item.id}</p>
+        
+        `;
+
+        recordCard.onclick = () => fetchRecordDetails(item.id, item.memberId);
+
+        document.getElementById('getMyRecordsResult').appendChild(recordCard);
+
+        const myRecordCard = document.createElement('div');
+        myRecordCard.className =
+          'border rounded-2xl shadow-md p-4 hover:shadow-lg transition cursor-pointer';
+
+        myRecordCard.innerHTML = `
+            <h3 class="text-sm font-semibold mb-1">${item.title}</h3>
+            <p class="text-sm text-gray-600">ID: ${item.id}</p>
+          
+          `;
+
+        myRecordCard.onclick = () => fetchRecordDetails(item.id, item.memberId);
+
+        document
+          .getElementById('getMyRecordsResult_myRecipe')
+          .appendChild(myRecordCard);
       });
     } else {
       console.error('Server error:', data);
@@ -224,6 +243,8 @@ async function getMyRecords(userData) {
   } catch (error) {
     console.error('Fetch error:', error);
     document.getElementById('getMyRecordsResult').innerText =
+      'Error fetching data.';
+    document.getElementById('getMyRecordsResult_myRecipe').innerText =
       'Error fetching data.';
     // document.getElementById('refGetMyRecordsResult').innerText =
     //   'Error fetching data.';
@@ -262,15 +283,31 @@ async function getPilot() {
       pilotRecords = pilotRecords.sort((a, b) => b.id - a.id);
 
       document.getElementById('getPilotresult').innerHTML = '';
+      document.getElementById('getPilotresult_myRecipe').innerHTML = '';
       //   document.getElementById('refGetPilotresult').innerHTML = '';
-      pilotRecords.forEach((item, index) => {
-        const recordButton = document.createElement('button');
-        recordButton.innerText = `${item.title}`;
-        recordButton.className = 'record-btn';
-        console.log(item);
-        recordButton.onclick = () => fetchRecordDetails(item.id, item.memberId);
-        document.getElementById('getPilotresult').appendChild(recordButton);
-        // document.getElementById('refGetPilotresult').appendChild(recordButton);
+      pilotRecords.forEach((item) => {
+        const recordCard = document.createElement('div');
+        recordCard.className =
+          'border rounded-2xl shadow-md p-4 hover:shadow-lg transition cursor-pointer';
+        recordCard.innerHTML = `
+          <h3 class="text-sm font-semibold mb-1 ">${item.title}</h3>
+          <p class="text-sm text-gray-600">ID: ${item.id}</p>
+        `;
+        recordCard.onclick = () => fetchRecordDetails(item.id, item.memberId);
+
+        document.getElementById('getPilotresult').appendChild(recordCard);
+
+        const myRecordCard = document.createElement('div');
+        myRecordCard.className =
+          'border rounded-2xl shadow-md p-4 hover:shadow-lg transition cursor-pointer';
+        myRecordCard.innerHTML = `
+            <h3 class="text-sm font-semibold mb-1 ">${item.title}</h3>
+            <p class="text-sm text-gray-600">ID: ${item.id}</p>
+          `;
+        myRecordCard.onclick = () => fetchRecordDetails(item.id, item.memberId);
+        document
+          .getElementById('getPilotresult_myRecipe')
+          .appendChild(myRecordCard);
       });
     } else {
       console.error('Server error:', data);
@@ -278,6 +315,8 @@ async function getPilot() {
   } catch (error) {
     console.error('Fetch error:', error);
     document.getElementById('getPilotresult').innerText =
+      'Error fetching data.';
+    document.getElementById('getPilotresult_myRecipe').innerText =
       'Error fetching data.';
     // document.getElementById('refGetPilotresult').innerText =
     //   'Error fetching data.';
@@ -405,7 +444,39 @@ function displayData(data) {
     Highcharts.charts[1].series[4].setData(JSON.parse(details.heater || '[]'));
     Highcharts.charts[1].series[5].setData(JSON.parse(details.fan2 || '[]'));
 
-    //recipe chart 에 넣기
+    //my Recipe chart 에 넣기
+    Highcharts.charts[4].update({
+      xAxis: {
+        max: chartLengthData, // 필요한 경우 여유분을 추가 (+10)
+      },
+    });
+    Highcharts.charts[5].update({
+      xAxis: {
+        max: chartLengthData, // 필요한 경우 여유분을 추가 (+10)
+      },
+    });
+
+    Highcharts.charts[4].series[5].setData(JSON.parse(details.temp1 || '[]'));
+    Highcharts.charts[4].series[6].setData(JSON.parse(details.temp2 || '[]'));
+    Highcharts.charts[4].series[7].setData(JSON.parse(details.temp3 || '[]'));
+
+    Highcharts.charts[4].series[9].addPoint(
+      [tpUnderTime, tpUnderTemp],
+      true,
+      false
+    );
+
+    Highcharts.charts[4].series[11].addPoint(
+      [CpUnderTime, cpUnderTemp],
+      true,
+      false
+    );
+
+    Highcharts.charts[5].series[3].setData(JSON.parse(details.fan || '[]'));
+    Highcharts.charts[5].series[4].setData(JSON.parse(details.heater || '[]'));
+    Highcharts.charts[5].series[5].setData(JSON.parse(details.fan2 || '[]'));
+
+    //recipe finder chart 에 넣기
     Highcharts.charts[2].update({
       xAxis: {
         max: chartLengthData, // 필요한 경우 여유분을 추가 (+10)
@@ -533,6 +604,27 @@ function resetChartsAll() {
   Highcharts.charts[3].series[4].setData([0]);
   Highcharts.charts[3].series[5].setData([0]);
 
+  //my recipe chart
+
+  Highcharts.charts[4].series[0].setData([0]);
+  Highcharts.charts[4].series[1].setData([0]);
+  Highcharts.charts[4].series[2].setData([0]);
+  Highcharts.charts[4].series[3].setData([0]);
+  Highcharts.charts[4].series[4].setData([0]);
+  Highcharts.charts[4].series[5].setData([0]);
+  Highcharts.charts[4].series[6].setData([0]);
+  Highcharts.charts[4].series[7].setData([0]);
+  Highcharts.charts[4].series[8].setData([0]);
+  Highcharts.charts[4].series[9].setData([0]);
+  Highcharts.charts[4].series[10].setData([0]);
+  Highcharts.charts[4].series[11].setData([0]);
+  Highcharts.charts[5].series[0].setData([0]);
+  Highcharts.charts[5].series[1].setData([0]);
+  Highcharts.charts[5].series[2].setData([0]);
+  Highcharts.charts[5].series[3].setData([0]);
+  Highcharts.charts[5].series[4].setData([0]);
+  Highcharts.charts[5].series[5].setData([0]);
+
   console.log('데이터가 초기화되었습니다.');
 }
 
@@ -568,6 +660,27 @@ function resetRecipeChart() {
   Highcharts.charts[3].series[3].setData([0]);
   Highcharts.charts[3].series[4].setData([0]);
   Highcharts.charts[3].series[5].setData([0]);
+
+  //chart 45의 레시피 값
+
+  Highcharts.charts[4].series[0].setData([0]);
+  Highcharts.charts[4].series[1].setData([0]);
+  Highcharts.charts[4].series[2].setData([0]);
+  Highcharts.charts[4].series[3].setData([0]);
+  Highcharts.charts[4].series[4].setData([0]);
+  Highcharts.charts[4].series[5].setData([0]);
+  Highcharts.charts[4].series[6].setData([0]);
+  Highcharts.charts[4].series[7].setData([0]);
+  Highcharts.charts[4].series[8].setData([0]);
+  Highcharts.charts[4].series[9].setData([0]);
+  Highcharts.charts[4].series[10].setData([0]);
+  Highcharts.charts[4].series[11].setData([0]);
+  Highcharts.charts[5].series[0].setData([0]);
+  Highcharts.charts[5].series[1].setData([0]);
+  Highcharts.charts[5].series[2].setData([0]);
+  Highcharts.charts[5].series[3].setData([0]);
+  Highcharts.charts[5].series[4].setData([0]);
+  Highcharts.charts[5].series[5].setData([0]);
 
   document.getElementById('selectRecipeName').innerText = '';
   document.getElementById('recordTitle').innerText = '';

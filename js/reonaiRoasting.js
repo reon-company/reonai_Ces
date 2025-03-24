@@ -2855,8 +2855,8 @@ keypadSubmit.addEventListener('click', () => {
       if (fan2Number <= 12.5) {
         updateNumberValue('fan2Number', 'fan2Value', 'fan2Slider');
       } else {
-        fan2NumberModal.value = '12.5';
-        // fan2NumberModal.value = '100';
+        // fan2NumberModal.value = '12.5';
+        fan2NumberModal.value = '100';
         updateNumberValue('fan2Number', 'fan2Value', 'fan2Slider');
       }
     } else {

@@ -22,6 +22,8 @@ window.onload = function () {
   createOutputChart(); // 'outputChartdiv'에 차트를 생성
   createReceivedChartRecipe(); // 'chartdiv'에 차트를 생성
   createOutputChartRecipe(); // 'outputChartdiv'에 차트를 생성
+  createReceivedChartRecipe_myrecipe();
+  createOutputChartRecipe_myrecipe();
   logInitialSeries();
   // logHighchartsSeries();
 
@@ -91,6 +93,8 @@ function clearAllCharts() {
   createOutputChart(); // 'outputChartdiv'에 차트를 생성
   createReceivedChartRecipe(); // 'chartdiv'에 차트를 생성
   createOutputChartRecipe(); // 'outputChartdiv'에 차트를 생성
+  createReceivedChartRecipe_myrecipe();
+  createOutputChartRecipe_myrecipe();
 }
 
 function removeChartRecipe() {
@@ -101,6 +105,8 @@ function removeChartRecipe() {
   Highcharts.charts[3] = null; // 배열의 해당 인덱스를 null로 설정
   createReceivedChartRecipe(); // 'chartdiv'에 차트를 생성
   createOutputChartRecipe(); // 'outputChartdiv'에 차트를 생성
+  createReceivedChartRecipe_myrecipe();
+  createOutputChartRecipe_myrecipe(); // 'outputChartdiv'에 차트를 생성
 
   logInitialSeries();
   logHighchartsSeries();
@@ -827,6 +833,376 @@ function createReceivedChartRecipe() {
 // outputChart 차 준비!
 function createOutputChartRecipe() {
   return createChart('outputChartdivRecipe', {
+    chart: {
+      type: 'line',
+      backgroundColor: '#F3EDDF',
+      zooming: {
+        type: 'x',
+      },
+    },
+    title: {
+      text: 'Output',
+      style: {
+        color: '#201A1A',
+      },
+    },
+    xAxis: {
+      title: {
+        text: 'Time (s)',
+        style: {
+          color: '#222',
+        },
+      },
+      labels: {
+        style: {
+          color: '#222',
+        },
+        formatter: function () {
+          // 초를 분:초 형식으로 변환
+          // let totalSeconds = this.value * 0.5; 0.5초 단위일경우 킴
+          let totalSeconds = this.value;
+          let minutes = Math.floor(totalSeconds / 60);
+          let seconds = totalSeconds % 60;
+          return minutes + ':' + (seconds < 10 ? '0' : '') + seconds;
+        },
+      },
+      min: 0,
+      max: 600,
+    },
+    yAxis: [
+      {
+        title: {
+          text: 'Output Value',
+          style: {
+            color: '#941F25',
+          },
+        },
+        labels: {
+          style: {
+            color: '#941F25',
+          },
+        },
+        min: 0,
+        max: 100,
+        gridLineColor: '#2d2d2d',
+      },
+      {
+        title: {
+          text: 'FAN2',
+          style: {
+            color: '#941F25',
+            opacity: 0.8, //투명도
+          },
+        },
+        labels: {
+          style: {
+            color: '#941F25',
+            opacity: 0.8, //투명도
+          },
+        },
+        opposite: true, // 오른쪽 축
+        min: 0,
+        max: 15,
+        gridLineColor: '#2d2d2d',
+      },
+    ],
+    legend: {
+      enabled: false,
+      // itemStyle: {
+      //   color: '#222', // 범례 텍스트 색상 (기본 상태)
+      //   fontSize: '1em',
+      // },
+      // itemHoverStyle: {
+      //   color: '#FFFFff', // 범례 텍스트 색상 (마우스 오버 시)
+      // },
+      // itemHiddenStyle: {
+      //   color: '#606060', // 숨겨진 항목의 범례 텍스트 색상
+      // },
+    },
+
+    series: [
+      { name: 'FAN1', data: [], color: '#800080', lineWidth: 3 },
+      { name: 'HEATER', data: [], color: '#FFA500', lineWidth: 3 },
+      { name: 'FAN2', data: [], color: '#87CEEB', yAxis: 1, lineWidth: 3 },
+      {
+        name: 'FAN1_UNDER',
+        data: [],
+        color: '#800080',
+        lineWidth: 1,
+      },
+      {
+        name: 'HEATER_UNDER',
+        data: [],
+        color: '#FFA500',
+        lineWidth: 1,
+      },
+      {
+        name: 'FAN2_UNDER',
+        data: [],
+        color: '#87CEEB',
+        yAxis: 1,
+        lineWidth: 1,
+      },
+    ],
+  });
+}
+
+// receivedChart_myrecipe준비!
+function createReceivedChartRecipe_myrecipe() {
+  return createChart('chartdivRecipe_myrecipe', {
+    chart: {
+      type: 'line', // 'spline',
+      // backgroundColor: '#F3EDDF',
+      backgroundColor: 'none',
+      zooming: {
+        type: 'x',
+      },
+    },
+    title: {
+      // text: '1Temperature & RoR',
+      text: '',
+      style: {
+        color: '#201A1A',
+        fonSize: '24px',
+      },
+    },
+    xAxis: {
+      title: {
+        // text: 'Time',
+        text: '',
+        style: {
+          fonSize: '1em',
+          color: '#222',
+        },
+      },
+      labels: {
+        style: {
+          color: '#941f24',
+          fonSize: '1em',
+        },
+        formatter: function () {
+          // 초를 분:초 형식으로 변환
+          // let totalSeconds = this.value * 0.5; 0.5초 단위일경우 킴
+          let totalSeconds = this.value;
+          let minutes = Math.floor(totalSeconds / 60);
+          let seconds = totalSeconds % 60;
+          return minutes + ':' + (seconds < 10 ? '0' : '') + seconds;
+        },
+      },
+      min: 0,
+      max: 600,
+      gridLineWidth: 1,
+      tickInterval: 30,
+    },
+    yAxis: [
+      {
+        title: {
+          // text: 'Temperature (°C)',
+          text: '',
+          style: {
+            color: '#941F25',
+          },
+        },
+        labels: {
+          // enabled: false,
+          //라벨 숨김
+          style: {
+            color: '#941F25',
+          },
+        },
+        min: 50,
+        max: 350,
+        gridLineWidth: 1,
+        tickInterval: 10,
+      },
+      {
+        title: {
+          // text: 'RoR (°C/min)',
+          text: '',
+          style: {
+            color: '#941F25',
+            opacity: 0.8, //투명도
+          },
+        },
+        labels: {
+          enabled: false, //라벨 숨김
+          style: {
+            color: '#941F25',
+            opacity: 0.8, //투명도
+          },
+        },
+        opposite: true, // 오른쪽 축
+        min: -10,
+        max: 10,
+        gridLineWidth: 0,
+        tickInterval: 5,
+      },
+    ],
+    legend: {
+      enabled: false,
+      // itemStyle: {
+      //   color: '#222', // 범례 텍스트 색상 (기본 상태)
+      //   fontSize: '1em',
+      // },
+      // itemHoverStyle: {
+      //   color: '#FFFFff', // 범례 텍스트 색상 (마우스 오버 시)
+      // },
+      // itemHiddenStyle: {
+      //   color: '#606060', // 숨겨진 항목의 범례 텍스트 색상
+      // },
+    },
+    series: [
+      {
+        name: 'Drum',
+        data: [],
+        color: '#D3194B',
+        lineWidth: 3,
+      },
+      {
+        name: 'Heater',
+        data: [],
+        color: '#F97E2E',
+        lineWidth: 3,
+      },
+      { name: 'Inner', data: [], color: '#7A1B99' },
+      {
+        name: 'RoR (Drum)',
+        data: [],
+        color: '#D3194B',
+        yAxis: 1, // RoR 값을 두 번째 Y축에 표시
+        lineWidth: 1,
+        opacity: 1, //투명도
+        dashStyle: 'Dash',
+      },
+      {
+        name: 'RoR (Heater)',
+        data: [],
+        color: '#F97E2E',
+        yAxis: 1,
+        lineWidth: 1,
+        opacity: 1, //투명도
+        dashStyle: 'Dash',
+      },
+      {
+        name: 'Drum_under',
+        data: [],
+        color: '#D3194B',
+        lineWidth: 3,
+      },
+      {
+        name: 'Heater_under',
+        data: [],
+        color: '#F97E2E',
+        lineWidth: 3,
+      },
+      // {
+      //   name: 'Drum_under',
+      //   data: [],
+      //   color: '#D3194B',
+      //   lineWidth: 1,
+      //   opacity: 0.5, //투명도
+      // },
+      // {
+      //   name: 'Heater_under',
+      //   data: [],
+      //   color: '#F97E2E',
+      //   lineWidth: 1,
+      //   opacity: 0.5, //투명도
+      // },
+      {
+        name: 'Inner_under',
+        data: [],
+        color: '#7A1B99',
+        lineWidth: 1,
+        opacity: 0.5,
+      },
+      {
+        name: 'TP',
+        data: [],
+        marker: {
+          enabled: true, // 포인트 표시
+          radius: 4, // 포인트의 크기
+          symbol: 'circle', // 원형 모양으로 표시 (다른 모양 선택 가능)
+        },
+        color: '#ff6347',
+        lineWidth: 0,
+      },
+      {
+        name: 'TP_under',
+        data: [],
+        marker: {
+          enabled: true, // 포인트 표시
+          radius: 4, // 포인트의 크기
+          symbol: 'circle', // 원형 모양으로 표시 (다른 모양 선택 가능)
+        },
+        color: '#ff6347',
+        lineWidth: 0,
+        opacity: 0.5, //투명도
+      },
+      {
+        name: 'CP',
+        data: [],
+        marker: {
+          enabled: true, // 포인트 표시
+          radius: 4, // 포인트의 크기
+          symbol: 'circle', // 원형 모양으로 표시 (다른 모양 선택 가능)
+        },
+        color: '#87ceeb',
+        lineWidth: 0,
+      },
+      {
+        name: 'CP_under',
+        data: [],
+        marker: {
+          enabled: true, // 포인트 표시
+          radius: 4, // 포인트의 크기
+          symbol: 'circle', // 원형 모양으로 표시 (다른 모양 선택 가능)
+        },
+        color: '#87ceeb',
+        lineWidth: 0,
+        opacity: 0.5, //투명도
+      },
+      {
+        //series[12]
+        name: '',
+        type: 'area',
+        data: [],
+        color: '#4F6D3D',
+        opacity: 0.8, //투명도
+      },
+
+      {
+        //series[13]
+        name: '',
+        type: 'area',
+        data: [],
+        color: '#F97E2E',
+        opacity: 0.8, //투명도
+      },
+      {
+        //series[14]
+        name: '',
+        type: 'area',
+        data: [],
+        color: '#87ceeb',
+        opacity: 0.8, //투명도
+      },
+      //ouput 값 테스트!!!!!
+      // { name: 'FAN1', data: [], color: '#800080', lineWidth: 2, opacity: 0.8 },
+      // {
+      //   name: 'HEATER',
+      //   data: [],
+      //   color: '#FFA500',
+      //   lineWidth: 2,
+      //   opacity: 0.8,
+      // },
+      // { name: 'FAN2', data: [], color: '#87CEEB', lineWidth: 2, opacity: 0.8 },
+    ],
+  });
+}
+// outputChart myrecipe 준비!
+function createOutputChartRecipe_myrecipe() {
+  return createChart('outputChartdivRecipe_myrecipe', {
     chart: {
       type: 'line',
       backgroundColor: '#F3EDDF',

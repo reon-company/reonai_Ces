@@ -11,6 +11,7 @@ function showPanel(panelId) {
     'settingPanel',
     'signInPanel',
     'SimpleRoastInfoPanel',
+    'myRecipePanel',
   ];
 
   panels.forEach((id) => {
@@ -49,8 +50,10 @@ function headerDisplayNone() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+  // headerDisplayNone();
   showPanel('mainPanel');
-  // showPanel('mainPanel');
+  // showPanel('myRecipePanel');
+
   // showPanel('roastPanel');
   // showPanel('roastPanel');
 
