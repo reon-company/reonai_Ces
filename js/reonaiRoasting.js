@@ -864,13 +864,41 @@ function stopCoolingMode() {
 }
 
 //roastInfoPanel 에서 설정값을 받아오는 함수
-function roastInfoStart() {
+async function roastInfoStart() {
   //예열 퍼센트 초기화 및 예열 종료
   percent = 0;
   exceedCount = 0;
 
   stopHeatingMode(); //예열 종료
   coolingpointflagFalse(); // 쿨링플래그 종료
+
+  await new Promise((resolve) => {
+    const checker = setInterval(() => {
+      const temp2 = parseFloat(document.getElementById('temp2Value').innerText);
+
+      document.getElementById('puttingInfo').innerText = '잠시만 기다려주세요.';
+
+      console.log('120도 기다리는중');
+      console.log(temp2);
+
+      document.getElementById('heaterSlider').value = 10;
+      document.getElementById('heaterValue').innerText = 10;
+      document.getElementById('fan1Slider').value = 3;
+      document.getElementById('fan1Value').innerText = 3;
+      document.getElementById('fan2Slider').value = 0;
+      document.getElementById('fan2Value').innerText = 0;
+      document.getElementById('fan1Number').value = 3;
+      document.getElementById('fan2Number').value = 0;
+      document.getElementById('heaterNumber').value = 10;
+
+      checkAndSendData(); // 변경된 값을 장비로 전송
+
+      if (temp2 >= 120.0) {
+        clearInterval(checker);
+        resolve();
+      }
+    }, 100); // 0.1초마다 체크
+  });
 
   document.getElementById('heaterSlider').value = 0;
   document.getElementById('heaterValue').innerText = 0;
@@ -912,11 +940,13 @@ function roastInfoStart() {
   console.log('Fan2 :', roastInfoPowerFan2Select);
   console.log('Heater :', roastInfoPowerHeaterSelect);
   // console.log('memo :', memoTextArea);
+
   setTimeout(() => {
     console.log('1초 후 실행됩니다');
     puttingMode() // 투임함수 시작
       .then(() => {
         // 특정 함수 호출
+
         roastStartForPuttingMode();
         // heatingMode();
         // console.log('puttingMode() 함수 완료 후 특정 함수 실행');
@@ -930,7 +960,7 @@ function roastInfoStart() {
 }
 
 //투입 후 로스팅 시작 함수
-function roastStartForPuttingMode() {
+async function roastStartForPuttingMode() {
   let resetDataString = `0,0,0,0,0,0,0\n`;
   // console.log('');
   // if (!autoRoastingFlag) {
@@ -946,8 +976,36 @@ function roastStartForPuttingMode() {
   //   //오토로스팅에경우!
   //   showPanel('easyRoastPanel');
   // }
-  showPanel('roastPanel');
 
+  await new Promise((resolve) => {
+    const checker2 = setInterval(() => {
+      const temp2 = parseFloat(document.getElementById('temp2Value').innerText);
+
+      document.getElementById('puttingInfo').innerText = '잠시만 기다려주세요.';
+
+      console.log('110도 기다리는중');
+      console.log(temp2);
+
+      document.getElementById('heaterSlider').value = 10;
+      document.getElementById('heaterValue').innerText = 10;
+      document.getElementById('fan1Slider').value = 3;
+      document.getElementById('fan1Value').innerText = 3;
+      document.getElementById('fan2Slider').value = 0;
+      document.getElementById('fan2Value').innerText = 0;
+      document.getElementById('fan1Number').value = 3;
+      document.getElementById('fan2Number').value = 0;
+      document.getElementById('heaterNumber').value = 10;
+
+      checkAndSendData(); // 변경된 값을 장비로 전송
+
+      if (temp2 >= 120.0) {
+        clearInterval(checker2);
+        resolve();
+      }
+    }, 100); // 0.1초마다 체크
+  });
+
+  showPanel('roastPanel');
   infoValueAdd();
   startRecordingcharts();
 }
@@ -1069,7 +1127,8 @@ function doorTestMode() {
 //투입을 시작하는 함수, 투입 - 2 - puttingMode()
 async function puttingMode() {
   return new Promise((resolve, reject) => {
-    let puttingDataString = `0,0,0,0,1,0,0\n`;
+    // let puttingDataString = `0,0,0,0,1,0,0\n`;
+    let puttingDataString = `0,0,0,0,0,0,0\n`;
     let resetDataString = `0,0,0,0,0,0,0\n`;
 
     console.log('puttingMode() 투입 함수 실행');
@@ -1078,22 +1137,24 @@ async function puttingMode() {
     sendDataToDevice(puttingDataString);
 
     // 20초 카운트다운 시작
-    let countdown = 10;
+    let countdown = 20;
     const countdownElement = document.getElementById('beanPuttingCounter');
 
     countdownElement.innerText = countdown; // 초기 카운트다운 값 설정
 
     const countdownInterval = setInterval(() => {
+      const temp2 = parseFloat(document.getElementById('temp2Value').innerText);
+
       if (document.getElementById('heaterValue').innerText == 0) {
         countdown -= 1;
         countdownElement.innerText = countdown; // 카운트다운 값 업데이트
 
-        if (countdown >= 5) {
+        if (countdown >= 10) {
           document.getElementById('puttingInfo').innerText =
-            '투입도어가 열리는 중입니다';
+            '투입도어를 열고 생두를 투입해주세요!';
         } else if (countdown >= 0) {
           document.getElementById('puttingInfo').innerText =
-            '투입도어가 닫히는 중입니다 \n 잠시만 기다려주세요';
+            '투입도어를 닫고 \n 잠시만 기다려주세요';
         }
 
         // 카운트다운이 0이 되면 종료
@@ -1106,6 +1167,31 @@ async function puttingMode() {
 
           resolve();
         }
+      } else {
+        // if (countdown <= 0) {
+        //   if (temp2 >= 120.0) {
+        //     sendDataToDevice(resetDataString);
+        //     // puttingMode;
+        //     clearInterval(countdownInterval);
+        //     console.log('beanPutting() 투입 함수 종료');
+        //     resolve();
+        //   } else {
+        //     console.log('100도 기다리는중');
+        //     console.log(temp2);
+        //     document.getElementById('puttingInfo').innerText =
+        //       '시작 온도를 맞추는 중입니다.\n 잠시만 기다려주세요';
+        //     document.getElementById('heaterSlider').value = 10;
+        //     document.getElementById('heaterValue').innerText = 10;
+        //     document.getElementById('fan1Slider').value = 3;
+        //     document.getElementById('fan1Value').innerText = 3;
+        //     document.getElementById('fan2Slider').value = 0;
+        //     document.getElementById('fan2Value').innerText = 0;
+        //     document.getElementById('fan1Number').value = 3;
+        //     document.getElementById('fan2Number').value = 0;
+        //     document.getElementById('heaterNumber').value = 10;
+        //     checkAndSendData(); // 변경된 값을 장비로 전송
+        //   }
+        // }
       }
     }, 1000); // 1초마다 실행
   });
