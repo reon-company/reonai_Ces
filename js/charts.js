@@ -1205,27 +1205,33 @@ function createOutputChartRecipe_myrecipe() {
   return createChart('outputChartdivRecipe_myrecipe', {
     chart: {
       type: 'line',
-      backgroundColor: '#F3EDDF',
+      backgroundColor: 'none',
+      // backgroundColor: '#F3EDDF',
       zooming: {
         type: 'x',
       },
     },
     title: {
-      text: 'Output',
+      // text: 'Output',
+      text: '',
       style: {
         color: '#201A1A',
       },
     },
     xAxis: {
       title: {
-        text: 'Time (s)',
+        // text: 'Time',
+        text: '',
         style: {
           color: '#222',
         },
       },
       labels: {
+        enabled: false, //라벨 숨김
         style: {
-          color: '#222',
+          // color: '#222',
+          color: '#941f24',
+          fonSize: '1em',
         },
         formatter: function () {
           // 초를 분:초 형식으로 변환
@@ -1238,11 +1244,14 @@ function createOutputChartRecipe_myrecipe() {
       },
       min: 0,
       max: 600,
+      gridLineWidth: 1,
+      tickInterval: 30,
     },
     yAxis: [
       {
         title: {
-          text: 'Output Value',
+          // text: 'Output Value',
+          text: '',
           style: {
             color: '#941F25',
           },
@@ -1255,25 +1264,35 @@ function createOutputChartRecipe_myrecipe() {
         min: 0,
         max: 100,
         gridLineColor: '#2d2d2d',
+        gridLineWidth: 1,
+        tickInterval: 10,
       },
       {
         title: {
-          text: 'FAN2',
+          // text: 'FAN2',
+          text: '',
           style: {
             color: '#941F25',
             opacity: 0.8, //투명도
           },
         },
         labels: {
+          enabled: false, //라벨 숨김
           style: {
             color: '#941F25',
             opacity: 0.8, //투명도
           },
         },
+        // opposite: true, // 오른쪽 축
+        // min: 0,
+        // max: 15,
+        // gridLineColor: '#2d2d2d',
+        // gridLineWidth: 0,
         opposite: true, // 오른쪽 축
-        min: 0,
-        max: 15,
-        gridLineColor: '#2d2d2d',
+        min: -10,
+        max: 10,
+        gridLineWidth: 0,
+        tickInterval: 5,
       },
     ],
     legend: {
