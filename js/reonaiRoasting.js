@@ -3,6 +3,8 @@
 // 사용언어 플래그
 let lengFlag = 0; // 0 = 한국어 , 1= 영어
 
+//새로고침 블래그
+let webReloadFlag = 0; //
 //admin 플래그
 let isAdminFlag = false;
 let isAdminActive = false;
@@ -281,6 +283,51 @@ document.addEventListener('DOMContentLoaded', () => {
     adjustSlider('fan2Slider', 'fan2Value', -0.5, 'fan2Number');
   });
 });
+
+function webReload() {
+  let confirmText1 = '저장되지 않은 내용은 복구 할 수 없습니다';
+  let confirmText3 =
+    '메인페이지로 이동하시겠습니까? 안전을 위해 블루투스 연결이 리셋됩니다.';
+
+  webReloadFlag = 1;
+  showCustomConfirm(confirmText1, (result) => {
+    showCustomConfirm(confirmText3, (result) => {
+      if (result) {
+        location.reload();
+      } else {
+        return;
+      }
+    });
+  });
+}
+
+function goToMainLight() {
+  const temp2 = parseFloat(document.getElementById('temp2Value').innerText);
+  // '저장되지 않은 내용은 복구 할 수 없습니다. \n Unsaved changes cannot be recovered.'
+  // '온도가 너무 높습니다.\n Warning: High temperature detected.'
+  // '메인페이지로 이동하시겠습니까?, 온도가 높을 경우 강제 쿨링모드를 진행합니다.\n  Do you want to return to the main page? If the temperature is too high, forced cooling mode will activate.'
+
+  let confirmText1 = '저장되지 않은 내용은 복구 할 수 없습니다';
+  let confirmText2 = '온도가 너무 높습니다';
+  let confirmText3 =
+    '메인페이지로 이동하시겠습니까?, 온도가 높을 경우 강제 쿨링모드를 진행합니다';
+
+  showCustomConfirm(confirmText3, (result) => {
+    console.log('go to main!!');
+    disposmodeFlag = false; //배출 플래그
+    headerDisplayBlock(); //aside 보이게
+    showPanel('mainPanel');
+    roastingReset();
+    forceCoolingMode();
+
+    stopCoolingMode();
+    autoRoastingFlagOff();
+    autoRoastingStartFlagOff();
+    clearAllCharts();
+
+    stopRecordingcharts();
+  });
+}
 
 //go to main 버튼
 function goToMain() {

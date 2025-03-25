@@ -861,7 +861,7 @@
       <div class="fixed bottom-4 right-4">
         <button class=  "py-2 px-4 rounded-md shadow text-center  truncate overflow-hidden text-ellipsis dark:bg-white bg-zinc-700  dark:text-zinc-900  text-gray-300
         dark:hover:bg-zinc-300  hover:bg-zinc-500"
-          onclick="goToMain()">로스팅 종료</button>
+          onclick="webReload()">로스팅 종료</button>
       </div>
 <!--go to main!!-->
       
@@ -1576,7 +1576,7 @@ bg-zinc-100 dark:bg-zinc-800" >
       <div class="fixed bottom-4 right-4">
         <button class=  "py-2 px-4 rounded-md shadow text-center  truncate overflow-hidden text-ellipsis dark:bg-white bg-zinc-700  dark:text-zinc-900  text-gray-300
         dark:hover:bg-zinc-300  hover:bg-zinc-500"
-          onclick="goToMain()">로스팅 종료</button>
+          onclick="webReload()">로스팅 종료</button>
       </div>
 <!--go to main!!-->
 
@@ -1809,7 +1809,7 @@ bg-zinc-100 dark:bg-zinc-800" >
       <div class="fixed bottom-4 right-4">
         <button class=  "py-2 px-4 rounded-md shadow text-center  truncate overflow-hidden text-ellipsis dark:bg-white bg-zinc-700  dark:text-zinc-900  text-gray-300
         dark:hover:bg-zinc-300  hover:bg-zinc-500"
-          onclick="goToMain()">로스팅 종료</button>
+          onclick="webReload()">로스팅 종료</button>
       </div>
 <!--go to main!!-->
       <div class="grid  place-items-center gap-4 p-4 text-gray-200 h-full">
@@ -1856,7 +1856,7 @@ bg-zinc-100 dark:bg-zinc-800" >
     <div class="fixed bottom-4 right-4">
       <button class="py-2 px-4 rounded-md shadow text-center  truncate overflow-hidden text-ellipsis dark:bg-white bg-zinc-700  dark:text-zinc-900  text-gray-300
       dark:hover:bg-zinc-300  hover:bg-zinc-500"
-        onclick="goToMain()">뒤로가기</button>
+        onclick="webReload()">뒤로가기</button>
     </div>
     <!--go to main!!-->
     <div class="grid  place-items-center gap-4 p-4 text-gray-200 h-full">
@@ -1944,14 +1944,11 @@ bg-zinc-100 dark:bg-zinc-800" >
 
 
  window.addEventListener('beforeunload', function (event) {
-  if(!adminFlag){     // 브라우저에 따라 다르게 동작할 수 있음
-      event.preventDefault();
-      // 확인 메시지를 사용자에게 보여줌
-      event.returnValue = '페이지를 나가시면, 모든 로스팅이 지됩니다.';}
-    });
-    
 
-    
+  if(!webReloadFlag){      // // 확인 메시지를 사용자에게 보여줌
+      // event.returnValue = '페이지를 나가시면, 모든 로스팅이 지됩니다.';
+      event.preventDefault();}
+      });
     
     </script>
 
