@@ -3073,9 +3073,6 @@ function adminActivation() {
     if (adminName == 'REON') {
       isAdminFlag = true;
 
-      document.getElementById('recipeFinderDiv').style.display = 'block'; // recipeFinderDiv 보이기
-      document.getElementById('autoRoastingToggleDiv').style.display = 'block'; // autoRoastingToggleDiv 보이기
-
       document.getElementById('doorTestBtn').style.display = 'block'; // roastInfoPowerDiv 보이기
       document.getElementById('startRecordingchartsBtn').style.display =
         'block'; // roastInfoPowerDiv 보이기
@@ -3083,9 +3080,6 @@ function adminActivation() {
       document.getElementById('adminBtn').style.display = 'block'; // roastInfoPowerDiv 보이기
     } else {
       isAdminFlag = true;
-
-      document.getElementById('recipeFinderDiv').style.display = 'block'; // recipeFinderDiv 보이기
-      document.getElementById('autoRoastingToggleDiv').style.display = 'block'; // autoRoastingToggleDiv 보이기
 
       document.getElementById('doorTestBtn').style.display = 'block'; // roastInfoPowerDiv 보이기
       document.getElementById('startRecordingchartsBtn').style.display =
@@ -3095,14 +3089,6 @@ function adminActivation() {
     }
   } else {
     isAdminFlag = false;
-
-    document.getElementById('recipeFinderDiv').style.display = 'none'; // recipeFinderDiv 보이기
-    document.getElementById('autoRoastingToggleDiv').style.display = 'none'; // autoRoastingToggleDiv 보이기
-
-    document.getElementById('doorTestBtn').style.display = 'none'; // roastInfoPowerDiv 보이기
-    document.getElementById('startRecordingchartsBtn').style.display = 'none'; // roastInfoPowerDiv 보이기
-
-    document.getElementById('adminBtn').style.display = 'none'; // roastInfoPowerDiv 보이기
   }
 
   isAdminActive = !isAdminActive; // 상태를 반전
