@@ -932,17 +932,25 @@
               startRec
             </button>
 
-            headerDisplayNone();
-            <button id="doorTestBtn" style="display : none;"   onclick="doorTestMode()" class="py-2 px-4 rounded-md shadow text-center 
+
+            <!-- <button id="doorTestBtn" style="display : none;"   onclick="doorTestMode()" class="py-2 px-4 rounded-md shadow text-center 
             bg-white text-zinc-900 dark:bg-zinc-700 dark:text-gray-300
             
             hover:bg-zinc-300  dark:hover:bg-zinc-500
             truncate overflow-hidden text-ellipsis">
               Door
-            </button>
+            </button> -->
+
 
 
       
+            <button id="doorTestBtn" style="display : none;"   onclick="headerDisplayNone()" class="py-2 px-4 rounded-md shadow text-center 
+            bg-white text-zinc-900 dark:bg-zinc-700 dark:text-gray-300
+            
+            hover:bg-zinc-300  dark:hover:bg-zinc-500
+            truncate overflow-hidden text-ellipsis">
+              slider
+            </button>
             
             <button id="autoRoastingToggle" style="display: none" onclick="toggleAutoRoasting()" class="py-2 px-4 rounded-md shadow text-center 
              text-zinc-900 dark:text-gray-300
@@ -1690,7 +1698,29 @@ bg-zinc-100 dark:bg-zinc-800" >
 
 
     <!--mainPanel!!-->
-    <!-- <div id="mainPanel" style="display: none; margin: 0 auto;  " class="flex justify-center items-center h-screen">
+    <div id="mainPanel" style="display: none; margin: 0 auto;  " class="flex justify-center items-center h-screen">
+      <!-- <div class="flex">
+        <img src="/images/reoaniStudioV0.76.png" alt="Reonai Studio" class="w-auto max-w-full h-auto object-contain" />
+        <div class="sliderContainer space-y-4 flex flex-col">
+          <iframe width="560" height="315" src="https://www.youtube.com/embed/ZQKamLGRyD8" title="YouTube video player"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen>
+          </iframe>
+
+          <iframe width="560" height="315" src="https://www.youtube.com/embed/D88QPtTam5I" title="YouTube video player"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen>
+          </iframe>
+        </div>
+      </div> -->
+
+
+
+
+
+
       <section class="flex">
         <div class="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 grid lg:grid-cols-2 gap-8 lg:gap-16">
           <div class="flex flex-col justify-center">
@@ -1725,51 +1755,7 @@ bg-zinc-100 dark:bg-zinc-800" >
 
       </section>
 
-    </div> -->
-<!--mainPanel!!-->
-<div id="mainPanel" style="display: none; margin: 0 auto;" class="flex justify-center items-center h-screen">
-  <section class="flex">
-    <div class="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 grid lg:grid-cols-2 gap-8 lg:gap-16">
-      <div class="flex flex-col justify-center">
-        <h1 class="mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-6xl dark:text-white">
-          리오나이 스튜디오
-        </h1>
-        <p class="mb-8 text-lg font-normal text-gray-500 lg:text-xl dark:text-gray-400">
-          Anyone Can be a Roaster
-        </p>
-        <div class="flex flex-col space-y-4 sm:flex-row sm:space-y-0">
-          <a data-popover-target="popover-default" data-modal-target="logout-modal" data-modal-toggle="logout-modal"
-            id="signIn" href="#"
-            class="inline-flex justify-center items-center py-3 px-5 text-base font-medium text-center text-white rounded-lg bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-900">
-            Sign Up
-            <svg class="w-3.5 h-3.5 ms-2 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-              viewBox="0 0 14 10">
-              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9" />
-            </svg>
-          </a>
-        </div>
-      </div>
-      <div>
-        <iframe class="mx-auto w-full lg:max-w-xl h-64 rounded-lg sm:h-96 shadow-xl" src="https://www.youtube.com/embed/ZQKamLGRyD8" 
-          title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowfullscreen></iframe>
-      </div>
     </div>
-  </section>
-
-  <!-- 공지사항 영역 추가 V0.1-->
-  <section class="py-8 px-4 mx-auto max-w-screen-xl lg:py-16">
-    <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-4">업데이트 내역</h2>
-    <div class="space-y-4">
-      <div class="bg-white p-4 rounded-lg shadow-md hover:bg-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700">
-        <h3 class="text-xl font-semibold text-blue-700 dark:text-blue-400">V1.43</h3>
-        <p class="text-gray-500 dark:text-gray-300">25.03.31 : 이제 ‘My Recipe’ 기능으로 나만의 로스팅 기록을 관리하고, 직접 만든 레시피를 언제든지 돌아볼 수 있습니다.</p>
-      </div>
-
-    </div>
-  </section>
-</div>
-<!--mainPanel 끝-->
     <!--mainPanel 끝-->
 
 
