@@ -32,6 +32,7 @@ let simpleTemp1 = 0;
 
 //로스팅 데이터를 저장하는 배열
 let receivedData = [];
+let rorData = [];
 let outputData = [];
 let crackPoints = [];
 let crackPointTimes = [];
@@ -530,6 +531,13 @@ function updateReceivedChart(temp1, temp2, temp3) {
     time: currentSecond,
     temp1: temp1,
     temp2: temp2,
+  });
+
+  // rorData 배열에 데이터 추가
+  rorData.push({
+    time: currentSecond,
+    ror1: RoR1,
+    ror2: RoR2,
   });
 }
 

@@ -4,7 +4,7 @@ const clientNameData = 'reon';
 let memberIdData = 67;
 let roasterSnData = 'R2N0BK-0001-20240418';
 let titleData = 0;
-let rorData = [];
+
 let crackPointsData = [];
 let crackPointTimeData = [];
 let turningPointTempData = [];
@@ -795,8 +795,8 @@ function RecipeWrite() {
     temp1: JSON.stringify(receivedData.map((data) => data.temp1)),
     temp2: JSON.stringify(receivedData.map((data) => data.temp2)),
     temp3: '[]',
-    temp4: '[]',
-    ror: '[]',
+    temp4: JSON.stringify(rorData.map((data) => data.ror1)), //ror추가
+    ror: JSON.stringify(rorData.map((data) => data.ror2)),
     memo: memoTextArea || 'No Memo',
 
     crackPoint: '[' + firstCrackPointTemp + ']',
