@@ -260,3 +260,98 @@ function handleRoastModeChange() {
     document.getElementById('expertMode').classList.add('hidden');
   }
 }
+
+// 전체화면 요청 함수
+function goFullScreen() {
+  const element = document.documentElement; // 전체 화면을 요청할 HTML 요소 (문서의 루트)
+
+  if (element.requestFullscreen) {
+    // 표준 전체화면 API
+    element.requestFullscreen();
+  } else if (element.mozRequestFullScreen) {
+    // Firefox 전체화면 API
+    element.mozRequestFullScreen();
+  } else if (element.webkitRequestFullscreen) {
+    // Chrome 및 Safari 전체화면 API
+    element.webkitRequestFullscreen();
+  } else if (element.msRequestFullscreen) {
+    // IE11 전체화면 API
+    element.msRequestFullscreen();
+  } else {
+    console.log('이 브라우저는 전체화면을 지원하지 않습니다.');
+  }
+}
+
+// 전체화면 종료 함수
+function exitFullScreen() {
+  if (document.exitFullscreen) {
+    document.exitFullscreen();
+  } else if (document.mozCancelFullScreen) {
+    document.mozCancelFullScreen();
+  } else if (document.webkitExitFullscreen) {
+    document.webkitExitFullscreen();
+  } else if (document.msExitFullscreen) {
+    document.msExitFullscreen();
+  } else {
+    console.log('이 브라우저는 전체화면 종료를 지원하지 않습니다.');
+  }
+}
+
+// 키보드 이벤트 리스너
+document.addEventListener('keydown', function (event) {
+  console.log('keydown');
+  console.log(event);
+
+  if (event.key == 'q') {
+    console.log('fan1Number keypad');
+    currentValueModalKeypadFan1 = '';
+    currentFan1Numver = document.getElementById('fan1Number').value;
+    keypadCurrentValueFan1.textContent = `Fan 1 ${currentFan1Numver}`;
+    currentValueModalKeypadHeater = '';
+    currentHeaterNumver = document.getElementById('heaterNumber').value;
+    keypadCurrentValueHeater.textContent = `Heater ${currentHeaterNumver}`;
+    currentValueModalKeypadFan2 = '';
+    currentFan2Numver = document.getElementById('fan2Number').value;
+    keypadCurrentValueFan2.textContent = `Fan 2 ${currentFan2Numver}`;
+    //key 색상변경
+    keyFan1.className = 'keypad-btn bg-reonaiRed text-reonaiWhite py-2 rounded';
+    keyHeater.className = 'keypad-btn bg-reonaiWhite text-black py-2 rounded';
+    keyFan2.className = 'keypad-btn bg-reonaiWhite text-black py-2 rounded';
+
+    //출력 선택
+    choiceOutModal = 1; // 1 : fan1 ,2 : heater ,3 : fan2
+    keypadModal.classList.remove('hidden');
+  }
+
+  if (event.key == 'w') {
+    currentValueModalKeypadFan1 = '';
+    currentFan1Numver = document.getElementById('fan1Number').value;
+    keypadCurrentValueFan1.textContent = `Fan 1 ${currentFan1Numver}`;
+    currentValueModalKeypadHeater = '';
+    currentHeaterNumver = document.getElementById('heaterNumber').value;
+    keypadCurrentValueHeater.textContent = `Heater ${currentHeaterNumver}`;
+    currentValueModalKeypadFan2 = '';
+    currentFan2Numver = document.getElementById('fan2Number').value;
+    keypadCurrentValueFan2.textContent = `Fan 2 ${currentFan2Numver}`;
+
+    //key 색상변경
+    keyHeater.className =
+      'keypad-btn bg-reonaiRed text-reonaiWhite py-2 rounded';
+    keyFan1.className = 'keypad-btn bg-reonaiWhite text-black py-2 rounded';
+    keyFan2.className = 'keypad-btn bg-reonaiWhite text-black py-2 rounded';
+    choiceOutModal = 2; // 1 : fan1 ,2 : heater ,3 : fan2
+    keypadModal.classList.remove('hidden');
+  }
+
+  if (event.ctrlKey && event.key === 'v') {
+    // Ctrl + F 키를 눌렀을 때 전체화면 활성화
+    goFullScreen();
+    console.log('goFullScreen()');
+  } else if (event.ctrlKey && event.key === 'e') {
+    // Ctrl + E 키를 눌렀을 때 전체화면 종료
+    exitFullScreen();
+  } else if (event.key === 'Escape') {
+    // Escape 키를 눌렀을 때 전체화면 종료
+    exitFullScreen();
+  }
+});

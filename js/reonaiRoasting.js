@@ -2792,7 +2792,6 @@ function simpleRoastModeStartConfirm() {
 
 // Open modal on fan1Number click
 fan1Number.addEventListener('click', () => {
-  console.log('이거 되는겨?');
   currentValueModalKeypadFan1 = '';
   currentFan1Numver = document.getElementById('fan1Number').value;
   keypadCurrentValueFan1.textContent = `Fan 1 ${currentFan1Numver}`;
