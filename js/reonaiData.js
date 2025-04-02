@@ -171,6 +171,8 @@ async function getMyRecords(userData) {
   const getMyId = userData.id;
   const url = 'https://www.reonaicoffee.com/api/records';
 
+  // https://www.reonaicoffee.com/admin/records
+
   if (userData.id == 67) {
     adminFlag = 1;
   }
@@ -455,7 +457,8 @@ function displayData(data) {
         max: chartLengthData, // 필요한 경우 여유분을 추가 (+10)
       },
     });
-
+    Highcharts.charts[4].series[3].setData(JSON.parse(details.temp4 || '[]'));
+    Highcharts.charts[4].series[4].setData(JSON.parse(details.ror || '[]'));
     Highcharts.charts[4].series[5].setData(JSON.parse(details.temp1 || '[]'));
     Highcharts.charts[4].series[6].setData(JSON.parse(details.temp2 || '[]'));
     Highcharts.charts[4].series[7].setData(JSON.parse(details.temp3 || '[]'));
@@ -488,6 +491,8 @@ function displayData(data) {
       },
     });
 
+    Highcharts.charts[2].series[3].setData(JSON.parse(details.temp4 || '[]'));
+    Highcharts.charts[2].series[4].setData(JSON.parse(details.ror || '[]'));
     Highcharts.charts[2].series[5].setData(JSON.parse(details.temp1 || '[]'));
     Highcharts.charts[2].series[6].setData(JSON.parse(details.temp2 || '[]'));
     Highcharts.charts[2].series[7].setData(JSON.parse(details.temp3 || '[]'));
