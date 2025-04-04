@@ -30,6 +30,9 @@ let roastPlotBandIds = []; // 크랙 plotBands의 id 목록
 let simpleTemp2 = 0;
 let simpleTemp1 = 0;
 
+// actuator state 배출 도어 솔레노이드 동작 스테이트
+let actuatorFlag = 0; // 0 : 기본 , 1 : 동작
+
 //로스팅 데이터를 저장하는 배열
 let receivedData = [];
 let rorData = [];
@@ -601,11 +604,10 @@ function checkAndSendData() {
   let fan1 = parseFloat(document.getElementById('fan1Value').innerText);
   let heater = parseFloat(document.getElementById('heaterValue').innerText);
   let fan2 = parseFloat(document.getElementById('fan2Value').innerText);
-  let actuator = currentRoastingState === 3 ? 1 : 0;
 
   let dataString = `1,${convertValue(fan1)},1,${convertValue(
     heater
-  )},${actuator},${convertValue(fan2)},${currentRoastingState}\n`;
+  )},${actuatorFlag},${convertValue(fan2)},${currentRoastingState}\n`;
 
   console.log('dataString', dataString);
 
