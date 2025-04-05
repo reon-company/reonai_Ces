@@ -2811,9 +2811,9 @@ fan1Number.addEventListener('click', () => {
   currentFan2Numver = document.getElementById('fan2Number').value;
   keypadCurrentValueFan2.textContent = `Fan 2 ${currentFan2Numver}`;
   //key 색상변경
-  keyFan1.className = 'keypad-btn bg-reonaiRed text-reonaiWhite py-2 rounded';
-  keyHeater.className = 'keypad-btn bg-reonaiWhite text-black py-2 rounded';
-  keyFan2.className = 'keypad-btn bg-reonaiWhite text-black py-2 rounded';
+  keyFan1.className = 'g-red-500 text-white py-2rounded';
+  keyHeater.className = 'bg-gray-200 text-black py-2 rounded';
+  keyFan2.className = 'bg-gray-200 text-black py-2 rounded';
 
   //출력 선택
   choiceOutModal = 1; // 1 : fan1 ,2 : heater ,3 : fan2
@@ -2832,9 +2832,9 @@ heaterNumber.addEventListener('click', () => {
   keypadCurrentValueFan2.textContent = `Fan 2 ${currentFan2Numver}`;
 
   //key 색상변경
-  keyHeater.className = 'keypad-btn bg-reonaiRed text-reonaiWhite py-2 rounded';
-  keyFan1.className = 'keypad-btn bg-reonaiWhite text-black py-2 rounded';
-  keyFan2.className = 'keypad-btn bg-reonaiWhite text-black py-2 rounded';
+  keyHeater.className = 'bg-red-500 text-white py-2rounded';
+  keyFan1.className = 'bg-gray-200 text-black py-2 rounded';
+  keyFan2.className = 'bg-gray-200 text-black py-2 rounded';
   choiceOutModal = 2; // 1 : fan1 ,2 : heater ,3 : fan2
   keypadModal.classList.remove('hidden');
 });
@@ -2850,9 +2850,9 @@ fan2Number.addEventListener('click', () => {
   currentFan2Numver = document.getElementById('fan2Number').value;
   keypadCurrentValueFan2.textContent = `Fan 2 ${currentFan2Numver}`;
   //key 색상변경
-  keyFan2.className = 'keypad-btn bg-reonaiRed text-reonaiWhite py-2 rounded';
-  keyFan1.className = 'keypad-btn bg-reonaiWhite text-black py-2 rounded';
-  keyHeater.className = 'keypad-btn bg-reonaiWhite text-black py-2 rounded';
+  keyFan2.className = 'bg-red-500 text-white py-2rounded';
+  keyFan1.className = 'bg-gray-200 text-black py-2 rounded';
+  keyHeater.className = 'bg-gray-200 text-black py-2 rounded';
   choiceOutModal = 3; // 1 : fan1 ,2 : heater ,3 : fan2
   keypadModal.classList.remove('hidden');
 });
@@ -2884,9 +2884,9 @@ keyFan1.addEventListener('click', () => {
   keypadCurrentValueFan1.textContent = `Fan 1 ${currentFan1Numver}`;
 
   //key 색상변경
-  keyFan1.className = 'keypad-btn bg-reonaiRed text-reonaiWhite py-2 rounded';
-  keyHeater.className = 'keypad-btn bg-reonaiWhite text-black py-2 rounded';
-  keyFan2.className = 'keypad-btn bg-reonaiWhite text-black py-2 rounded';
+  keyFan1.className = 'bg-red-500 text-white py-2rounded';
+  keyHeater.className = 'bg-gray-200 text-black py-2 rounded';
+  keyFan2.className = 'bg-gray-200 text-black py-2 rounded';
   //출력 선택
   choiceOutModal = 1;
 });
@@ -2896,9 +2896,9 @@ keyHeater.addEventListener('click', () => {
   keypadCurrentValueHeater.textContent = `Heater ${currentHeaterNumver}`;
 
   //key 색상변경
-  keyHeater.className = 'keypad-btn bg-reonaiRed text-reonaiWhite py-2 rounded';
-  keyFan1.className = 'keypad-btn bg-reonaiWhite text-black py-2 rounded';
-  keyFan2.className = 'keypad-btn bg-reonaiWhite text-black py-2 rounded';
+  keyHeater.className = 'bg-red-500 text-white py-2 rounded';
+  keyFan1.className = 'bg-gray-200 text-black py-2 rounded';
+  keyFan2.className = 'bg-gray-200 text-black py-2 rounded';
   //출력 선택
   choiceOutModal = 2;
 });
@@ -2908,9 +2908,9 @@ keyFan2.addEventListener('click', () => {
   keypadCurrentValueFan2.textContent = `Fan 2 ${currentFan2Numver}`;
 
   //key 색상변경
-  keyFan2.className = 'keypad-btn bg-reonaiRed text-reonaiWhite py-2 rounded';
-  keyFan1.className = 'keypad-btn bg-reonaiWhite text-black py-2 rounded';
-  keyHeater.className = 'keypad-btn bg-reonaiWhite text-black py-2 rounded';
+  keyFan2.className = 'bg-red-500 text-white py-2 rounded';
+  keyFan1.className = 'bg-gray-200 text-black py-2 rounded';
+  keyHeater.className = 'bg-gray-200 text-black py-2 rounded';
   //출력 선택
   choiceOutModal = 3;
 });

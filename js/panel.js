@@ -301,46 +301,396 @@ function exitFullScreen() {
 document.addEventListener('keydown', function (event) {
   console.log('keydown');
   console.log(event);
-
+  const modal = document.getElementById('keypadModal');
   if (event.key == 'q') {
-    console.log('fan1Number keypad');
-    currentValueModalKeypadFan1 = '';
-    currentFan1Numver = document.getElementById('fan1Number').value;
-    keypadCurrentValueFan1.textContent = `Fan 1 ${currentFan1Numver}`;
-    currentValueModalKeypadHeater = '';
-    currentHeaterNumver = document.getElementById('heaterNumber').value;
-    keypadCurrentValueHeater.textContent = `Heater ${currentHeaterNumver}`;
-    currentValueModalKeypadFan2 = '';
-    currentFan2Numver = document.getElementById('fan2Number').value;
-    keypadCurrentValueFan2.textContent = `Fan 2 ${currentFan2Numver}`;
-    //key 색상변경
-    keyFan1.className = 'keypad-btn bg-reonaiRed text-reonaiWhite py-2 rounded';
-    keyHeater.className = 'keypad-btn bg-reonaiWhite text-black py-2 rounded';
-    keyFan2.className = 'keypad-btn bg-reonaiWhite text-black py-2 rounded';
+    //fan1선택
 
-    //출력 선택
-    choiceOutModal = 1; // 1 : fan1 ,2 : heater ,3 : fan2
-    keypadModal.classList.remove('hidden');
+    if (modal.classList.contains('hidden')) {
+      //modal 창이 켜져있으면 현재 값을 넣고 아니면 모달창값을 변경하지 않는다
+      currentValueModalKeypadFan1 = '';
+      currentFan1Numver = document.getElementById('fan1Number').value;
+      keypadCurrentValueFan1.textContent = `Fan 1 ${currentFan1Numver}`;
+      currentValueModalKeypadHeater = '';
+      currentHeaterNumver = document.getElementById('heaterNumber').value;
+      keypadCurrentValueHeater.textContent = `Heater ${currentHeaterNumver}`;
+      currentValueModalKeypadFan2 = '';
+      currentFan2Numver = document.getElementById('fan2Number').value;
+      keypadCurrentValueFan2.textContent = `Fan 2 ${currentFan2Numver}`;
+      //key 색상변경
+      keyFan1.className = 'bg-red-500 text-white py-2rounded';
+      keyHeater.className = 'bg-gray-200 text-black py-2 rounded';
+      keyFan2.className = 'bg-gray-200 text-black py-2 rounded';
+
+      //출력 선택
+      choiceOutModal = 1; // 1 : fan1 ,2 : heater ,3 : fan2
+      keypadModal.classList.remove('hidden');
+    } else {
+      console.log('check');
+      currentValueModalKeypadFan1 = '';
+      currentFan1Numver = document.getElementById('fan1Slider').value;
+      keypadCurrentValueFan1.textContent = `Fan 1 ${currentFan1Numver}`;
+
+      //key 색상변경
+      keyFan1.className = 'bg-red-500 text-white py-2rounded';
+      keyHeater.className = 'bg-gray-200 text-black py-2 rounded';
+      keyFan2.className = 'bg-gray-200 text-black py-2 rounded';
+      //출력 선택
+      choiceOutModal = 1;
+    }
   }
 
   if (event.key == 'w') {
-    currentValueModalKeypadFan1 = '';
-    currentFan1Numver = document.getElementById('fan1Number').value;
-    keypadCurrentValueFan1.textContent = `Fan 1 ${currentFan1Numver}`;
-    currentValueModalKeypadHeater = '';
-    currentHeaterNumver = document.getElementById('heaterNumber').value;
-    keypadCurrentValueHeater.textContent = `Heater ${currentHeaterNumver}`;
-    currentValueModalKeypadFan2 = '';
-    currentFan2Numver = document.getElementById('fan2Number').value;
-    keypadCurrentValueFan2.textContent = `Fan 2 ${currentFan2Numver}`;
+    //heater 선택
+    const modal = document.getElementById('keypadModal');
 
-    //key 색상변경
-    keyHeater.className =
-      'keypad-btn bg-reonaiRed text-reonaiWhite py-2 rounded';
-    keyFan1.className = 'keypad-btn bg-reonaiWhite text-black py-2 rounded';
-    keyFan2.className = 'keypad-btn bg-reonaiWhite text-black py-2 rounded';
-    choiceOutModal = 2; // 1 : fan1 ,2 : heater ,3 : fan2
-    keypadModal.classList.remove('hidden');
+    if (modal.classList.contains('hidden')) {
+      currentValueModalKeypadFan1 = '';
+      currentFan1Numver = document.getElementById('fan1Number').value;
+      keypadCurrentValueFan1.textContent = `Fan 1 ${currentFan1Numver}`;
+      currentValueModalKeypadHeater = '';
+      currentHeaterNumver = document.getElementById('heaterNumber').value;
+      keypadCurrentValueHeater.textContent = `Heater ${currentHeaterNumver}`;
+      currentValueModalKeypadFan2 = '';
+      currentFan2Numver = document.getElementById('fan2Number').value;
+      keypadCurrentValueFan2.textContent = `Fan 2 ${currentFan2Numver}`;
+
+      //key 색상변경
+      keyHeater.className = 'bg-red-500 text-white py-2rounded';
+      keyFan1.className = 'bg-gray-200 text-black py-2 rounded';
+      keyFan2.className = 'bg-gray-200 text-black py-2 rounded';
+      choiceOutModal = 2; // 1 : fan1 ,2 : heater ,3 : fan2
+      keypadModal.classList.remove('hidden');
+    } else {
+      currentValueModalKeypadHeater = '';
+      currentHeaterNumver = document.getElementById('heaterSlider').value;
+      keypadCurrentValueHeater.textContent = `Heater ${currentHeaterNumver}`;
+
+      //key 색상변경
+      keyHeater.className = 'bg-red-500 text-white py-2rounded';
+      keyFan1.className = 'bg-gray-200 text-black py-2 rounded';
+      keyFan2.className = 'bg-gray-200 text-black py-2 rounded';
+      //출력 선택
+      choiceOutModal = 2;
+    }
+  }
+
+  if (event.key == 'e') {
+    //fan2 선택
+
+    const modal = document.getElementById('keypadModal');
+    if (modal.classList.contains('hidden')) {
+      currentValueModalKeypadFan1 = '';
+      currentFan1Numver = document.getElementById('fan1Number').value;
+      keypadCurrentValueFan1.textContent = `Fan 1 ${currentFan1Numver}`;
+      currentValueModalKeypadHeater = '';
+      currentHeaterNumver = document.getElementById('heaterNumber').value;
+      keypadCurrentValueHeater.textContent = `Heater ${currentHeaterNumver}`;
+      currentValueModalKeypadFan2 = '';
+      currentFan2Numver = document.getElementById('fan2Number').value;
+      keypadCurrentValueFan2.textContent = `Fan 2 ${currentFan2Numver}`;
+      //key 색상변경
+      keyFan2.className = 'bg-red-500 text-white py-2 rounded';
+      keyFan1.className = 'bg-gray-200 text-black py-2 rounded';
+      keyHeater.className = 'bg-gray-200 text-black py-2 rounded';
+      choiceOutModal = 3; // 1 : fan1 ,2 : heater ,3 : fan2
+      keypadModal.classList.remove('hidden');
+    } else {
+      currentValueModalKeypadFan2 = '';
+      currentFan2Numver = document.getElementById('fan2Slider').value;
+      keypadCurrentValueFan2.textContent = `Fan 2 ${currentFan2Numver}`;
+
+      //key 색상변경
+      keyFan2.className = 'bg-red-500 text-white py-2 rounded';
+      keyFan1.className = 'bg-gray-200 text-black py-2 rounded';
+      keyHeater.className = 'bg-gray-200 text-black py-2 rounded';
+      //출력 선택
+      choiceOutModal = 3;
+    }
+  }
+
+  if (event.key == 'c') {
+    if (!modal.classList.contains('hidden')) {
+      currentFan1Numver = document.getElementById('fan1Slider').value;
+      currentHeaterNumver = document.getElementById('heaterSlider').value;
+      currentFan2Numver = document.getElementById('fan2Slider').value;
+
+      keypadCurrentValueFan1.textContent = `Fan 1 ${currentFan1Numver}`;
+      keypadCurrentValueHeater.textContent = `Heater ${currentHeaterNumver}`;
+      keypadCurrentValueFan2.textContent = `Fan 2 ${currentFan2Numver}`;
+      currentValueModalKeypadFan1 = '';
+      currentValueModalKeypadHeater = '';
+      currentValueModalKeypadFan2 = '';
+    }
+  }
+
+  if (event.key == 'Enter') {
+    //입력!
+    if (!modal.classList.contains('hidden')) {
+      let returnCheck = 0;
+
+      if (addvalueModalKeypadFan1 == '') {
+        //값을 아무것도 입력안했을 경우 기존값으로 입력
+        fan1NumberModal.value = document.getElementById('fan1Number').value;
+        addvalueModalKeypadFan1 = document.getElementById('fan1Number').value;
+      } else {
+        fan1NumberModal.value = addvalueModalKeypadFan1;
+        console.log('fan1 입력');
+        const fan1Number = parseFloat(fan1NumberModal.value);
+        if (fan1Number > 30) {
+          if (fan1Number <= 100) {
+            updateNumberValue('fan1Number', 'fan1Value', 'fan1Slider');
+          } else {
+            fan1NumberModal.value = '100';
+          }
+        } else {
+          fan1NumberModal.value = '30';
+        }
+      }
+
+      if (addValueModalKeypadHeater == '') {
+        //값을 아무것도 입력안했을 경우 기존값으로 입력
+        heaterNumberModal.value = document.getElementById('heaterNumber').value;
+        addValueModalKeypadHeater =
+          document.getElementById('heaterNumber').value;
+      } else {
+        console.log('heater 입력');
+        heaterNumberModal.value = addValueModalKeypadHeater;
+        const heaterNumber = parseFloat(heaterNumberModal.value);
+        if (heaterNumber <= 100) {
+          updateNumberValue('heaterNumber', 'heaterValue', 'heaterSlider');
+        } else {
+          heaterNumberModal.value = '100';
+          updateNumberValue('heaterNumber', 'heaterValue', 'heaterSlider');
+        }
+      }
+
+      if (addValueModalKeypadFan2 == '') {
+        //값을 아무것도 입력안했을 경우 기존값으로 입력
+        fan2NumberModal.value = document.getElementById('fan2Number').value;
+        addValueModalKeypadFan2 = document.getElementById('fan2Number').value;
+      } else {
+        console.log('fan2 입력');
+        fan2NumberModal.value = addValueModalKeypadFan2;
+
+        const fan2Number = parseFloat(fan2NumberModal.value);
+        if (fan2Number >= 2.5) {
+          if (fan2Number <= 12.5) {
+            updateNumberValue('fan2Number', 'fan2Value', 'fan2Slider');
+          } else {
+            // fan2NumberModal.value = '12.5';
+            fan2NumberModal.value = '100';
+            updateNumberValue('fan2Number', 'fan2Value', 'fan2Slider');
+          }
+        } else {
+          fan2NumberModal.value = '2.5';
+          updateNumberValue('fan2Number', 'fan2Value', 'fan2Slider');
+        }
+      }
+
+      if (addvalueModalKeypadFan1 < 30) {
+        keypadCurrentValueFan1.textContent = '30';
+        currentValueModalKeypadFan1 = '30';
+        updateNumberValue('fan1Number', 'fan1Value', 'fan1Slider');
+        // returnCheck++;
+      }
+
+      if (addvalueModalKeypadFan1 > 100) {
+        keypadCurrentValueFan1.textContent = '100';
+        currentValueModalKeypadFan1 = '100';
+        updateNumberValue('fan1Number', 'fan1Value', 'fan1Slider');
+        // keypadCurrentValueFan1.textContent = '값이 100보다 클 수 없습니다.';
+        // returnCheck++;
+      }
+      if (addValueModalKeypadHeater > 100) {
+        keypadCurrentValueHeater.textContent = '100';
+        currentValueModalKeypadHeater = '100';
+        updateNumberValue('heaterNumber', 'heaterValue', 'heaterSlider');
+        // keypadCurrentValueHeater.textContent = '값이 100보다 클 수 없습니다.';
+        // returnCheck++;
+      }
+      if (addValueModalKeypadFan2 < 2.5) {
+        keypadCurrentValueFan2.textContent = '2.5';
+        currentValueModalKeypadFan2 = '2.5';
+        updateNumberValue('fan2Number', 'fan2Value', 'fan2Slider');
+        // keypadCurrentValueFan2.textContent = '값이 2.5보다 작을 수 없습니다.';
+        // returnCheck++;
+      } else if (addValueModalKeypadFan2 > 12.5) {
+        keypadCurrentValueFan2.textContent = '12.5';
+        currentValueModalKeypadFan2 = '12.5';
+        updateNumberValue('fan2Number', 'fan2Value', 'fan2Slider');
+        // keypadCurrentValueFan2.textContent = '값이 12.5보다 클 수 없습니다.';
+        // returnCheck++;
+      }
+
+      if (returnCheck >= 1) {
+        return;
+      }
+
+      keypadModal.classList.add('hidden');
+    }
+  }
+
+  if (event.key == '1') {
+    const dataValue = 1;
+    if (choiceOutModal == 1) {
+      currentValueModalKeypadFan1 += dataValue;
+      keypadCurrentValueFan1.textContent = `Fan 1 ${currentValueModalKeypadFan1}`; // Update display
+      addvalueModalKeypadFan1 = currentValueModalKeypadFan1;
+    } else if (choiceOutModal == 2) {
+      currentValueModalKeypadHeater += dataValue;
+      keypadCurrentValueHeater.textContent = `Heater ${currentValueModalKeypadHeater}`; // Update display
+      addValueModalKeypadHeater = currentValueModalKeypadHeater;
+    } else if (choiceOutModal == 3) {
+      currentValueModalKeypadFan2 += dataValue;
+      keypadCurrentValueFan2.textContent = `Fan 2 ${currentValueModalKeypadFan2}`; // Update display
+      addValueModalKeypadFan2 = currentValueModalKeypadFan2;
+    }
+  }
+
+  if (event.key == '2') {
+    const dataValue = 2;
+    if (choiceOutModal == 1) {
+      currentValueModalKeypadFan1 += dataValue;
+      keypadCurrentValueFan1.textContent = `Fan 1 ${currentValueModalKeypadFan1}`; // Update display
+      addvalueModalKeypadFan1 = currentValueModalKeypadFan1;
+    } else if (choiceOutModal == 2) {
+      currentValueModalKeypadHeater += dataValue;
+      keypadCurrentValueHeater.textContent = `Heater ${currentValueModalKeypadHeater}`; // Update display
+      addValueModalKeypadHeater = currentValueModalKeypadHeater;
+    } else if (choiceOutModal == 3) {
+      currentValueModalKeypadFan2 += dataValue;
+      keypadCurrentValueFan2.textContent = `Fan 2 ${currentValueModalKeypadFan2}`; // Update display
+      addValueModalKeypadFan2 = currentValueModalKeypadFan2;
+    }
+  }
+  if (event.key == '3') {
+    const dataValue = 3;
+    if (choiceOutModal == 1) {
+      currentValueModalKeypadFan1 += dataValue;
+      keypadCurrentValueFan1.textContent = `Fan 1 ${currentValueModalKeypadFan1}`; // Update display
+      addvalueModalKeypadFan1 = currentValueModalKeypadFan1;
+    } else if (choiceOutModal == 2) {
+      currentValueModalKeypadHeater += dataValue;
+      keypadCurrentValueHeater.textContent = `Heater ${currentValueModalKeypadHeater}`; // Update display
+      addValueModalKeypadHeater = currentValueModalKeypadHeater;
+    } else if (choiceOutModal == 3) {
+      currentValueModalKeypadFan2 += dataValue;
+      keypadCurrentValueFan2.textContent = `Fan 2 ${currentValueModalKeypadFan2}`; // Update display
+      addValueModalKeypadFan2 = currentValueModalKeypadFan2;
+    }
+  }
+  if (event.key == '4') {
+    const dataValue = 4;
+    if (choiceOutModal == 1) {
+      currentValueModalKeypadFan1 += dataValue;
+      keypadCurrentValueFan1.textContent = `Fan 1 ${currentValueModalKeypadFan1}`; // Update display
+      addvalueModalKeypadFan1 = currentValueModalKeypadFan1;
+    } else if (choiceOutModal == 2) {
+      currentValueModalKeypadHeater += dataValue;
+      keypadCurrentValueHeater.textContent = `Heater ${currentValueModalKeypadHeater}`; // Update display
+      addValueModalKeypadHeater = currentValueModalKeypadHeater;
+    } else if (choiceOutModal == 3) {
+      currentValueModalKeypadFan2 += dataValue;
+      keypadCurrentValueFan2.textContent = `Fan 2 ${currentValueModalKeypadFan2}`; // Update display
+      addValueModalKeypadFan2 = currentValueModalKeypadFan2;
+    }
+  }
+
+  if (event.key == '5') {
+    const dataValue = 5;
+    if (choiceOutModal == 1) {
+      currentValueModalKeypadFan1 += dataValue;
+      keypadCurrentValueFan1.textContent = `Fan 1 ${currentValueModalKeypadFan1}`; // Update display
+      addvalueModalKeypadFan1 = currentValueModalKeypadFan1;
+    } else if (choiceOutModal == 2) {
+      currentValueModalKeypadHeater += dataValue;
+      keypadCurrentValueHeater.textContent = `Heater ${currentValueModalKeypadHeater}`; // Update display
+      addValueModalKeypadHeater = currentValueModalKeypadHeater;
+    } else if (choiceOutModal == 3) {
+      currentValueModalKeypadFan2 += dataValue;
+      keypadCurrentValueFan2.textContent = `Fan 2 ${currentValueModalKeypadFan2}`; // Update display
+      addValueModalKeypadFan2 = currentValueModalKeypadFan2;
+    }
+  }
+  if (event.key == '6') {
+    const dataValue = 6;
+    if (choiceOutModal == 1) {
+      currentValueModalKeypadFan1 += dataValue;
+      keypadCurrentValueFan1.textContent = `Fan 1 ${currentValueModalKeypadFan1}`; // Update display
+      addvalueModalKeypadFan1 = currentValueModalKeypadFan1;
+    } else if (choiceOutModal == 2) {
+      currentValueModalKeypadHeater += dataValue;
+      keypadCurrentValueHeater.textContent = `Heater ${currentValueModalKeypadHeater}`; // Update display
+      addValueModalKeypadHeater = currentValueModalKeypadHeater;
+    } else if (choiceOutModal == 3) {
+      currentValueModalKeypadFan2 += dataValue;
+      keypadCurrentValueFan2.textContent = `Fan 2 ${currentValueModalKeypadFan2}`; // Update display
+      addValueModalKeypadFan2 = currentValueModalKeypadFan2;
+    }
+  }
+  if (event.key == '7') {
+    const dataValue = 7;
+    if (choiceOutModal == 1) {
+      currentValueModalKeypadFan1 += dataValue;
+      keypadCurrentValueFan1.textContent = `Fan 1 ${currentValueModalKeypadFan1}`; // Update display
+      addvalueModalKeypadFan1 = currentValueModalKeypadFan1;
+    } else if (choiceOutModal == 2) {
+      currentValueModalKeypadHeater += dataValue;
+      keypadCurrentValueHeater.textContent = `Heater ${currentValueModalKeypadHeater}`; // Update display
+      addValueModalKeypadHeater = currentValueModalKeypadHeater;
+    } else if (choiceOutModal == 3) {
+      currentValueModalKeypadFan2 += dataValue;
+      keypadCurrentValueFan2.textContent = `Fan 2 ${currentValueModalKeypadFan2}`; // Update display
+      addValueModalKeypadFan2 = currentValueModalKeypadFan2;
+    }
+  }
+  if (event.key == '8') {
+    const dataValue = 8;
+    if (choiceOutModal == 1) {
+      currentValueModalKeypadFan1 += dataValue;
+      keypadCurrentValueFan1.textContent = `Fan 1 ${currentValueModalKeypadFan1}`; // Update display
+      addvalueModalKeypadFan1 = currentValueModalKeypadFan1;
+    } else if (choiceOutModal == 2) {
+      currentValueModalKeypadHeater += dataValue;
+      keypadCurrentValueHeater.textContent = `Heater ${currentValueModalKeypadHeater}`; // Update display
+      addValueModalKeypadHeater = currentValueModalKeypadHeater;
+    } else if (choiceOutModal == 3) {
+      currentValueModalKeypadFan2 += dataValue;
+      keypadCurrentValueFan2.textContent = `Fan 2 ${currentValueModalKeypadFan2}`; // Update display
+      addValueModalKeypadFan2 = currentValueModalKeypadFan2;
+    }
+  }
+  if (event.key == '9') {
+    const dataValue = 9;
+    if (choiceOutModal == 1) {
+      currentValueModalKeypadFan1 += dataValue;
+      keypadCurrentValueFan1.textContent = `Fan 1 ${currentValueModalKeypadFan1}`; // Update display
+      addvalueModalKeypadFan1 = currentValueModalKeypadFan1;
+    } else if (choiceOutModal == 2) {
+      currentValueModalKeypadHeater += dataValue;
+      keypadCurrentValueHeater.textContent = `Heater ${currentValueModalKeypadHeater}`; // Update display
+      addValueModalKeypadHeater = currentValueModalKeypadHeater;
+    } else if (choiceOutModal == 3) {
+      currentValueModalKeypadFan2 += dataValue;
+      keypadCurrentValueFan2.textContent = `Fan 2 ${currentValueModalKeypadFan2}`; // Update display
+      addValueModalKeypadFan2 = currentValueModalKeypadFan2;
+    }
+  }
+  if (event.key == '0') {
+    const dataValue = 0;
+    if (choiceOutModal == 1) {
+      currentValueModalKeypadFan1 += dataValue;
+      keypadCurrentValueFan1.textContent = `Fan 1 ${currentValueModalKeypadFan1}`; // Update display
+      addvalueModalKeypadFan1 = currentValueModalKeypadFan1;
+    } else if (choiceOutModal == 2) {
+      currentValueModalKeypadHeater += dataValue;
+      keypadCurrentValueHeater.textContent = `Heater ${currentValueModalKeypadHeater}`; // Update display
+      addValueModalKeypadHeater = currentValueModalKeypadHeater;
+    } else if (choiceOutModal == 3) {
+      currentValueModalKeypadFan2 += dataValue;
+      keypadCurrentValueFan2.textContent = `Fan 2 ${currentValueModalKeypadFan2}`; // Update display
+      addValueModalKeypadFan2 = currentValueModalKeypadFan2;
+    }
   }
 
   if (event.ctrlKey && event.key === 'v') {
@@ -352,6 +702,19 @@ document.addEventListener('keydown', function (event) {
     exitFullScreen();
   } else if (event.key === 'Escape') {
     // Escape 키를 눌렀을 때 전체화면 종료
-    exitFullScreen();
+
+    //모달창 켜졌을경우 끄기
+    if (!modal.classList.contains('hidden')) {
+      currentFan1Numver = document.getElementById('fan1Slider').value;
+      currentHeaterNumver = document.getElementById('heaterSlider').value;
+      currentFan2Numver = document.getElementById('fan2Slider').value;
+      keypadCurrentValueFan1.textContent = `Fan 1 ${currentFan1Numver}`;
+      keypadCurrentValueHeater.textContent = `Heater ${currentHeaterNumver}`;
+      keypadCurrentValueFan2.textContent = `Fan 2 ${currentFan2Numver}`;
+      currentValueModalKeypadFan1 = '';
+      currentValueModalKeypadHeater = '';
+      currentValueModalKeypadFan2 = '';
+      keypadModal.classList.add('hidden');
+    }
   }
 });
