@@ -1586,7 +1586,8 @@ async function manualDispose() {
 
           return;
         } else {
-          goToMain();
+          // goToMain();
+          webReload();
           return;
         }
       });
@@ -1609,7 +1610,8 @@ async function manualDispose() {
           heatingMode();
           return;
         } else {
-          goToMain();
+          // goToMain();
+          webReload();
           return;
         }
       });
@@ -1673,85 +1675,69 @@ function simpleRoastModeDisposalMode() {
         }
       });
     } else {
-      showCustomConfirm(chaffCheckText, (result) => {
-        if (result) {
-          showCustomConfirm(readyToDisposeText, (result) => {
-            if (result) {
-              const confirmBox = document.getElementById(
-                'simpleRoastDispose-modal'
-              );
-              const closeButton = document.getElementById(
-                'simpleRoastDispose-modalColoseBtn'
-              );
+      const confirmBox = document.getElementById('simpleRoastDispose-modal');
+      const closeButton = document.getElementById(
+        'simpleRoastDispose-modalColoseBtn'
+      );
 
-              confirmBox.classList.remove('hidden');
-              confirmBox.classList.add('flex');
+      confirmBox.classList.remove('hidden');
+      confirmBox.classList.add('flex');
 
-              const monitorDiopsal = setInterval(() => {
-                if (disposalCount > disposeSecond) {
-                  confirmBox.classList.add('hidden'); // modal창 닫기simpleRroastInfoStart
+      const monitorDiopsal = setInterval(() => {
+        if (disposalCount > disposeSecond) {
+          confirmBox.classList.add('hidden'); // modal창 닫기simpleRroastInfoStart
 
-                  disposalCount = 0;
-                  clearInterval(monitorDiopsal);
-                  let resetDataString = `0,0,0,0,0,0,0\n`;
-                  // 슬라이더 값을 0으로 설정
-                  document.getElementById('fan1Slider').value = 0;
-                  document.getElementById('heaterSlider').value = 0;
-                  document.getElementById('fan2Slider').value = 0;
-                  document.getElementById('fan1Number').value = 0;
-                  document.getElementById('fan2Number').value = 0;
-                  document.getElementById('heaterNumber').value = 0;
-                  // 슬라이더 표시값 업데이트
-                  document.getElementById('fan1Value').innerText = '0.0';
-                  document.getElementById('heaterValue').innerText = '0.0';
-                  document.getElementById('fan2Value').innerText = '0.0';
-                  sendDataToDevice(resetDataString); //출력제로
-                  isFirstDisposal = null;
+          disposalCount = 0;
+          clearInterval(monitorDiopsal);
+          let resetDataString = `0,0,0,0,0,0,0\n`;
+          // 슬라이더 값을 0으로 설정
+          document.getElementById('fan1Slider').value = 0;
+          document.getElementById('heaterSlider').value = 0;
+          document.getElementById('fan2Slider').value = 0;
+          document.getElementById('fan1Number').value = 0;
+          document.getElementById('fan2Number').value = 0;
+          document.getElementById('heaterNumber').value = 0;
+          // 슬라이더 표시값 업데이트
+          document.getElementById('fan1Value').innerText = '0.0';
+          document.getElementById('heaterValue').innerText = '0.0';
+          document.getElementById('fan2Value').innerText = '0.0';
+          sendDataToDevice(resetDataString); //출력제로
+          isFirstDisposal = null;
 
-                  console.log('배출 완료 ');
+          console.log('배출 완료 ');
 
-                  simpleRoastModeReset(); //simple roast Btn reset
-                  resolve(); // 작업 완료
-                } else {
-                  if (!isFirstDisposal) {
-                    console.log(currentSecond);
-                    disposalPointTimes = currentSecond; // 터닝 포인트 시간 배열에 추가
-                    disposalPointTemps = temp1; // 터닝 포인트 온도 배열 추가
-                    isFirstDisposal = true;
-                  }
-
-                  // 히터 값을 0으로 설정
-                  document.getElementById('fan1Slider').value = 100;
-                  document.getElementById('heaterSlider').value = 0;
-                  document.getElementById('fan2Slider').value = 100;
-                  document.getElementById('fan1Number').value = 100;
-                  document.getElementById('fan2Number').value = 0;
-                  document.getElementById('heaterNumber').value = 100;
-
-                  // 슬라이더 표시값 업데이트
-                  document.getElementById('fan1Value').innerText = '100.0';
-                  document.getElementById('heaterValue').innerText = '0.0';
-                  document.getElementById('fan2Value').innerText = '100.0';
-
-                  document.getElementById(
-                    'simpleRoastModeDiposeCount'
-                  ).innerText = `배출 중 ${disposeSecond - disposalCount}`; //배출 세컨드 표시
-
-                  disposalCount++;
-                  console.log('배출중');
-                  console.log(disposalCount);
-                }
-              }, 1000);
-            } else {
-              resolve(); // 작업 완료
-              return;
-            }
-          });
-        } else {
+          simpleRoastModeReset(); //simple roast Btn reset
           resolve(); // 작업 완료
-          return;
+        } else {
+          if (!isFirstDisposal) {
+            console.log(currentSecond);
+            disposalPointTimes = currentSecond; // 터닝 포인트 시간 배열에 추가
+            disposalPointTemps = temp1; // 터닝 포인트 온도 배열 추가
+            isFirstDisposal = true;
+          }
+
+          // 히터 값을 0으로 설정
+          document.getElementById('fan1Slider').value = 100;
+          document.getElementById('heaterSlider').value = 0;
+          document.getElementById('fan2Slider').value = 100;
+          document.getElementById('fan1Number').value = 100;
+          document.getElementById('fan2Number').value = 0;
+          document.getElementById('heaterNumber').value = 100;
+
+          // 슬라이더 표시값 업데이트
+          document.getElementById('fan1Value').innerText = '100.0';
+          document.getElementById('heaterValue').innerText = '0.0';
+          document.getElementById('fan2Value').innerText = '100.0';
+
+          document.getElementById(
+            'simpleRoastModeDiposeCount'
+          ).innerText = `배출 중 ${disposeSecond - disposalCount}`; //배출 세컨드 표시
+
+          disposalCount++;
+          console.log('배출중');
+          console.log(disposalCount);
         }
-      });
+      }, 1000);
     }
   });
 }
@@ -1779,7 +1765,7 @@ function disposalMode() {
       stopCoolingMode(); //쿨링모드 종료
       stopRecordingCrackPoint(); //크랙 기록 중지
       autoRoastingFlagOff(); //
-      autoRoastingStartFlagOff();
+      autoRoastingStartFlagOff(); //
       disposmodeFlag = false;
       let resetDataString = `0,0,0,0,0,0,0\n`;
       // 슬라이더 값을 0으로 설정
@@ -1797,90 +1783,76 @@ function disposalMode() {
 
       isRecordingcharts = false; // 차트 기록 중지 함수
 
-      showCustomConfirm(chaffCheckText, (result) => {
-        if (result) {
-          showCustomConfirm(readyToDisposeText, (result) => {
-            if (result) {
-              const monitorDiopsal = setInterval(() => {
-                if (disposalCount > disposeSecond) {
-                  disposalCount = 0;
-                  clearInterval(monitorDiopsal);
-                  let resetDataString = `0,0,0,0,0,0,0\n`;
-                  actuatorFlag = 0; // actuator 1
-                  // 슬라이더 값을 0으로 설정
-                  document.getElementById('fan1Slider').value = 0;
-                  document.getElementById('heaterSlider').value = 0;
-                  document.getElementById('fan2Slider').value = 0;
-                  document.getElementById('fan1Number').value = 0;
-                  document.getElementById('fan2Number').value = 0;
-                  document.getElementById('heaterNumber').value = 0;
-                  // 슬라이더 표시값 업데이트
-                  document.getElementById('fan1Value').innerText = '0.0';
-                  document.getElementById('heaterValue').innerText = '0.0';
-                  document.getElementById('fan2Value').innerText = '0.0';
-                  sendDataToDevice(resetDataString); //출력제로
-                  isFirstDisposal = null;
-                  console.log('배출 완료 ');
-                  resolve(); // 작업 완료
-                } else {
-                  if (!isFirstDisposal) {
-                    console.log(currentSecond);
-                    disposalPointTimes = currentSecond; // 터닝 포인트 시간 배열에 추가
-                    disposalPointTemps = temp1; // 터닝 포인트 온도 배열 추가
-                    isFirstDisposal = true;
-                  }
-
-                  if (disposalCount <= 1) {
-                    let disposalDataString = `1,0,0,0,1,0,0\n`;
-                    actuatorFlag = 1; // actuator 1
-                    // 히터 값을 0으로 설정
-                    sendDataToDevice(disposalDataString); //배출 스트링
-                    document.getElementById('fan1Slider').value = 0; //100
-                    document.getElementById('heaterSlider').value = 0;
-                    document.getElementById('fan2Slider').value = 0;
-                    document.getElementById('fan1Number').value = 0; // 100
-                    document.getElementById('fan2Number').value = 0;
-                    document.getElementById('heaterNumber').value = 0;
-
-                    // 슬라이더 표시값 업데이1
-                    document.getElementById('fan1Value').innerText = '0.0'; // 100.0
-                    document.getElementById('heaterValue').innerText = '0.0';
-                    document.getElementById('fan2Value').innerText = '0.0';
-                  } else if (disposalCount >= 2) {
-                    // 히터 값을 0으로 설정
-
-                    let disposalDataString = `1,255,0,0,1,255,0\n`;
-                    actuatorFlag = 1; // actuator 1
-                    // 히터 값을 0으로 설정
-                    sendDataToDevice(disposalDataString); //배출 스트링
-                    document.getElementById('fan1Slider').value = 100; //100
-                    document.getElementById('heaterSlider').value = 0;
-                    document.getElementById('fan2Slider').value = 100;
-                    document.getElementById('fan1Number').value = 100; // 100
-                    document.getElementById('fan2Number').value = 100;
-                    document.getElementById('heaterNumber').value = 0;
-
-                    // 슬라이더 표시값 업데이트
-                    document.getElementById('fan1Value').innerText = '100.0'; // 100.0
-                    document.getElementById('heaterValue').innerText = '0.0';
-                    document.getElementById('fan2Value').innerText = '100.0';
-                  }
-
-                  disposalCount++;
-                  console.log('배출중');
-                  console.log(disposalCount);
-                }
-              }, 1000);
-            } else {
-              resolve(); // 작업 완료
-              return;
-            }
-          });
-        } else {
+      const monitorDiopsal = setInterval(() => {
+        if (disposalCount > disposeSecond) {
+          disposalCount = 0;
+          clearInterval(monitorDiopsal);
+          let resetDataString = `0,0,0,0,0,0,0\n`;
+          actuatorFlag = 0; // actuator 1
+          // 슬라이더 값을 0으로 설정
+          document.getElementById('fan1Slider').value = 0;
+          document.getElementById('heaterSlider').value = 0;
+          document.getElementById('fan2Slider').value = 0;
+          document.getElementById('fan1Number').value = 0;
+          document.getElementById('fan2Number').value = 0;
+          document.getElementById('heaterNumber').value = 0;
+          // 슬라이더 표시값 업데이트
+          document.getElementById('fan1Value').innerText = '0.0';
+          document.getElementById('heaterValue').innerText = '0.0';
+          document.getElementById('fan2Value').innerText = '0.0';
+          sendDataToDevice(resetDataString); //출력제로
+          isFirstDisposal = null;
+          console.log('배출 완료 ');
           resolve(); // 작업 완료
-          return;
+        } else {
+          if (!isFirstDisposal) {
+            console.log(currentSecond);
+            disposalPointTimes = currentSecond; // 터닝 포인트 시간 배열에 추가
+            disposalPointTemps = temp1; // 터닝 포인트 온도 배열 추가
+            isFirstDisposal = true;
+          }
+
+          if (disposalCount <= 1) {
+            let disposalDataString = `1,0,0,0,1,0,0\n`;
+            actuatorFlag = 1; // actuator 1
+            // 히터 값을 0으로 설정
+            sendDataToDevice(disposalDataString); //배출 스트링
+            document.getElementById('fan1Slider').value = 0; //100
+            document.getElementById('heaterSlider').value = 0;
+            document.getElementById('fan2Slider').value = 0;
+            document.getElementById('fan1Number').value = 0; // 100
+            document.getElementById('fan2Number').value = 0;
+            document.getElementById('heaterNumber').value = 0;
+
+            // 슬라이더 표시값 업데이1
+            document.getElementById('fan1Value').innerText = '0.0'; // 100.0
+            document.getElementById('heaterValue').innerText = '0.0';
+            document.getElementById('fan2Value').innerText = '0.0';
+          } else if (disposalCount >= 2) {
+            // 히터 값을 0으로 설정
+
+            let disposalDataString = `1,255,0,0,1,255,0\n`;
+            actuatorFlag = 1; // actuator 1
+            // 히터 값을 0으로 설정
+            sendDataToDevice(disposalDataString); //배출 스트링
+            document.getElementById('fan1Slider').value = 100; //100
+            document.getElementById('heaterSlider').value = 0;
+            document.getElementById('fan2Slider').value = 100;
+            document.getElementById('fan1Number').value = 100; // 100
+            document.getElementById('fan2Number').value = 100;
+            document.getElementById('heaterNumber').value = 0;
+
+            // 슬라이더 표시값 업데이트
+            document.getElementById('fan1Value').innerText = '100.0'; // 100.0
+            document.getElementById('heaterValue').innerText = '0.0';
+            document.getElementById('fan2Value').innerText = '100.0';
+          }
+
+          disposalCount++;
+          console.log('배출중');
+          console.log(disposalCount);
         }
-      });
+      }, 1000);
     }
   });
 }
