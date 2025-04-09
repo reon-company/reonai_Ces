@@ -2783,7 +2783,7 @@ fan1Number.addEventListener('click', () => {
   currentFan2Numver = document.getElementById('fan2Number').value;
   keypadCurrentValueFan2.textContent = `Fan 2 ${currentFan2Numver}`;
   //key 색상변경
-  keyFan1.className = 'g-red-500 text-white py-2rounded';
+  keyFan1.className = 'bg-red-500 text-white py-2rounded';
   keyHeater.className = 'bg-gray-200 text-black py-2 rounded';
   keyFan2.className = 'bg-gray-200 text-black py-2 rounded';
 
