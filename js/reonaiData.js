@@ -1191,6 +1191,7 @@ document.getElementById('kakaoLoginBtn').addEventListener('click', function () {
             const data = await loginRes.json();
             processLoginSuccess(data);
             console.log('서버로부터 받은 데이터:', data);
+
             await getUserInfoAfterSocialLogin(email, 'kakao');
           }
         },
@@ -1238,6 +1239,7 @@ async function handleGoogleLoginCallback(response) {
     const data = await loginRes.json();
     processLoginSuccess(data);
     console.log('서버로부터 받은 데이터:', data);
+
     await getUserInfoAfterSocialLogin(email, 'google');
   }
 }
@@ -1321,8 +1323,6 @@ async function getUserInfoAfterSocialLogin(email, authClientName) {
       document.getElementById('userName').style.display = 'block';
 
       console.log(userData);
-
-      document.getElementById('login-modal').classList.add('hidden'); //로그인 모달창 닫기
 
       getMyRecords(userData);
       getPilot();

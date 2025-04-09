@@ -265,19 +265,19 @@
 
           <form id="loginForm" class="space-y-4" action="#">
 
-            <div class="mt-4 space-y-2">
+            <div class="mt-4 space-y-2" data-modal-hide="login-modal">
               <button id="kakaoLoginBtn" data-modal-hide="login-modal"
                 class="w-full py-2 bg-yellow-400 hover:bg-yellow-300 text-black rounded-lg font-semibold">
                 카카오로 로그인
               </button>
             
-              <div id="g_id_onload" data-modal-hide="login-modal"
+              <div id="g_id_onload"  data-modal-hide="login-modal"
                 data-client_id="725251817126-9shspu2p16rmick9mae674v4n4n02o93.apps.googleusercontent.com"
                 data-context="signin"
                 data-ux_mode="popup"
                 data-callback="handleGoogleLoginCallback"
                 data-auto_prompt="false"
-                data-modal-hide="login-modal">
+                >
               </div>
             
               <div class="g_id_signin" data-modal-hide="login-modal"
@@ -286,7 +286,8 @@
                 data-theme="outline"
                 data-text="sign_in_with"
                 data-size="large"
-                data-logo_alignment="left">
+                data-logo_alignment="left"
+              >
               </div>
             </div>
             <div>
