@@ -1384,11 +1384,11 @@ function adjustChartSize() {
   const signInPanel = document.getElementById('signInPanel');
 
   // //roastPanel 반응형
-  // if (width <= 600) {
-  //   // 중간 크기 화면 (태블릿)
-  //   console.log(width, 'px');
-  //   console.log('모바일 환경입니다.');
-
+  if (width <= 600) {
+    // 중간 크기 화면 (태블릿)
+    console.log(width, 'px');
+    console.log('모바일 환경입니다.');
+  }
   //   //roastPanel 페이지
   //   //receiveIndicator 의 위치 수정
   //   // div를 부모의 마지막으로 이동

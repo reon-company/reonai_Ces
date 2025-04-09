@@ -1068,3 +1068,269 @@ function verifyAuthCode() {
       );
     });
 }
+
+const BACKEND_URL = 'https://www.reonaicoffee.com/api';
+
+const commonPayload = {
+  clientName: 'reon',
+  clientId: '4d042c50-bd70-11ee-aa8b-e30685fde2fa',
+  roasterSn: 'AFSFE-ASDVES-AbdSc-AebsC', // 실제 기기 SN 또는 고정값 사용
+};
+
+async function verifyEmail(authClientName, email) {
+  const res = await fetch(`${BACKEND_URL}/login/verify/email`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      ...commonPayload,
+      authClientName,
+      email,
+    }),
+  });
+  const data = await res.json();
+  return data.data === false; // false일 경우 미가입
+}
+
+async function signUp(authClientName, userInfo) {
+  const payload = {
+    ...commonPayload,
+    email: userInfo.email,
+    firstName: userInfo.name,
+    picture: userInfo.picture || '',
+    authClientName,
+  };
+
+  const res = await fetch(`${BACKEND_URL}/login/oauth2/sign-up`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload),
+  });
+
+  const data = await res.json();
+  if (data.success) {
+    alert('회원가입이 완료되었습니다!');
+  } else {
+    alert(data.message);
+  }
+}
+
+document
+  .getElementById('kakaoLoginBtn2')
+  .addEventListener('click', function () {
+    Kakao.Auth.login({
+      scope: 'account_email, profile_nickname, profile_image',
+      success: function () {
+        Kakao.API.request({
+          url: '/v2/user/me',
+          success: async function (res) {
+            const email = res.kakao_account.email;
+            const name = res.kakao_account.profile.nickname;
+            const picture = res.kakao_account.profile.profile_image_url;
+
+            const isNew = await verifyEmail('kakao', email);
+            if (isNew) {
+              await signUp('kakao', { email, name, picture });
+              alert('가입이 완료되었습니다. 다시 로그인해주세요.');
+            } else {
+              // 로그인 처리
+              const loginRes = await fetch(
+                `${BACKEND_URL}/login/verify/email`,
+                {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({
+                    clientName: 'reon',
+                    clientId: '4d042c50-bd70-11ee-aa8b-e30685fde2fa',
+                    authClientName: 'kakao',
+                    email: email,
+                  }),
+                }
+              );
+              const data = await loginRes.json();
+              processLoginSuccess(data);
+              console.log('서버로부터 받은 데이터:', data);
+              await getUserInfoAfterSocialLogin(email, 'kakao');
+            }
+          },
+        });
+      },
+      fail: function (err) {
+        alert('카카오 로그인 실패: ' + JSON.stringify(err));
+      },
+    });
+  });
+
+// ✅ 카카오 로그인
+document.getElementById('kakaoLoginBtn').addEventListener('click', function () {
+  Kakao.Auth.login({
+    scope: 'account_email, profile_nickname, profile_image',
+    success: function () {
+      Kakao.API.request({
+        url: '/v2/user/me',
+        success: async function (res) {
+          const email = res.kakao_account.email;
+          const name = res.kakao_account.profile.nickname;
+          const picture = res.kakao_account.profile.profile_image_url;
+
+          const isNew = await verifyEmail('kakao', email);
+          if (isNew) {
+            await signUp('kakao', { email, name, picture });
+            alert('가입이 완료되었습니다. 다시 로그인해주세요.');
+          } else {
+            // 로그인 처리
+            const loginRes = await fetch(`${BACKEND_URL}/login/verify/email`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                clientName: 'reon',
+                clientId: '4d042c50-bd70-11ee-aa8b-e30685fde2fa',
+                authClientName: 'kakao',
+                email: email,
+              }),
+            });
+            const data = await loginRes.json();
+            processLoginSuccess(data);
+            console.log('서버로부터 받은 데이터:', data);
+            await getUserInfoAfterSocialLogin(email, 'kakao');
+          }
+        },
+      });
+    },
+    fail: function (err) {
+      alert('카카오 로그인 실패: ' + JSON.stringify(err));
+    },
+  });
+});
+
+function parseJwt(token) {
+  const base64Url = token.split('.')[1];
+  const base64 = decodeURIComponent(
+    atob(base64Url)
+      .split('')
+      .map((c) => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
+      .join('')
+  );
+  return JSON.parse(base64);
+}
+
+// ✅ 구글 로그인 콜백
+async function handleGoogleLoginCallback(response) {
+  const credential = parseJwt(response.credential);
+  const email = credential.email;
+  const name = credential.name;
+  const picture = credential.picture;
+
+  const isNew = await verifyEmail('google', email);
+  if (isNew) {
+    await signUp('google', { email, name, picture });
+    alert('가입이 완료되었습니다. 다시 로그인해주세요.');
+  } else {
+    const loginRes = await fetch(`${BACKEND_URL}/login/verify/email`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        clientName: 'reon',
+        clientId: '4d042c50-bd70-11ee-aa8b-e30685fde2fa',
+        authClientName: 'google',
+        email: email,
+      }),
+    });
+    const data = await loginRes.json();
+    processLoginSuccess(data);
+    console.log('서버로부터 받은 데이터:', data);
+    await getUserInfoAfterSocialLogin(email, 'google');
+  }
+}
+
+function processLoginSuccess(data) {
+  isLogin = true;
+
+  userData.activated = data.data.activated;
+  userData.address = data.data.address;
+  userData.authorityDtoSet = data.data.authorityDtoSet;
+  userData.companyName = data.data.companyName;
+  userData.email = data.data.email;
+  userData.firstName = data.data.firstName;
+  userData.id = data.data.id;
+  userData.lastName = data.data.lastName;
+  userData.oauthClient = data.data.oauthClient;
+  userData.phone = data.data.phone;
+  userData.picture = data.data.picture;
+  userData.prdCode = data.data.prdCode;
+  userData.roasterSn = data.data.roasterSn;
+  userData.type = data.data.type;
+
+  if (userData.id == 67) adminFlag = 1;
+
+  localStorage.setItem('userInfo', JSON.stringify(userData));
+
+  document.getElementById('loginModalBtn').style.display = 'none';
+  document.getElementById('logoutModalBtn').style.display = 'block';
+  document.getElementById('loginUserName').style.display = 'block';
+  document.getElementById('loginUserName').textContent = userData.firstName;
+  document.getElementById('userName').style.display = 'block';
+
+  getMyRecords(userData);
+  getPilot();
+}
+
+async function getUserInfoAfterSocialLogin(email, authClientName) {
+  try {
+    const res = await fetch('https://www.reonaicoffee.com/api/login/info', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        clientId: '4d042c50-bd70-11ee-aa8b-e30685fde2fa',
+        clientName: 'reon',
+        authClientName: authClientName,
+        email: email,
+      }),
+    });
+
+    const data = await res.json();
+
+    if (res.ok && data.success && data.data) {
+      const user = data.data;
+
+      // 로그인 성공 처리
+      userData.activated = user.activated;
+      userData.address = user.address;
+      userData.authorityDtoSet = user.authorityDtoSet;
+      userData.companyName = user.companyName;
+      userData.email = user.email;
+      userData.firstName = user.firstName;
+      userData.id = user.id;
+      userData.lastName = user.lastName;
+      userData.oauthClient = user.oauthClient;
+      userData.phone = user.phone;
+      userData.picture = user.picture;
+      userData.prdCode = user.prdCode;
+      userData.roasterSn = user.roasterSn;
+      userData.type = user.type;
+
+      if (userData.id == 67) adminFlag = 1;
+
+      localStorage.setItem('userInfo', JSON.stringify(userData));
+
+      document.getElementById('loginModalBtn').style.display = 'none';
+      document.getElementById('logoutModalBtn').style.display = 'block'; // 로그아웃 버튼 보이기
+
+      document.getElementById('loginUserName').style.display = 'block';
+      document.getElementById('loginUserName').textContent = userData.firstName;
+
+      document.getElementById('userName').style.display = 'block';
+
+      console.log(userData);
+
+      document.getElementById('login-modal').classList.add('hidden'); //로그인 모달창 닫기
+
+      getMyRecords(userData);
+      getPilot();
+    } else {
+      throw new Error('사용자 정보를 가져오는 데 실패했습니다.');
+    }
+  } catch (error) {
+    alert('소셜 로그인 후 사용자 정보를 가져오는 데 실패했습니다.');
+    console.error(error);
+  }
+}

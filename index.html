@@ -16,6 +16,13 @@
   <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.css" rel="stylesheet" />
 
 
+  <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <script>
+    Kakao.init('5531f5d67fbd80d2885763d52ff1c62e'); // 실제 키로 대체
+  </script>
+
+
   <script>
     // On page load or when changing themes, best to add inline in `head` to avoid FOUC
     if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
@@ -243,8 +250,45 @@
           </button>
         </div>
         <!-- Modal body -->
+
+
+
+
+
+        
         <div class="p-4 md:p-5">
+
+      
+
+
+
+
           <form id="loginForm" class="space-y-4" action="#">
+
+            <div class="mt-4 space-y-2">
+              <button id="kakaoLoginBtn" data-modal-hide="login-modal"
+                class="w-full py-2 bg-yellow-400 hover:bg-yellow-300 text-black rounded-lg font-semibold">
+                카카오로 로그인
+              </button>
+            
+              <div id="g_id_onload" data-modal-hide="login-modal"
+                data-client_id="725251817126-9shspu2p16rmick9mae674v4n4n02o93.apps.googleusercontent.com"
+                data-context="signin"
+                data-ux_mode="popup"
+                data-callback="handleGoogleLoginCallback"
+                data-auto_prompt="false"
+                data-modal-hide="login-modal">
+              </div>
+            
+              <div class="g_id_signin" data-modal-hide="login-modal"
+                data-type="standard"
+                data-shape="rectangular"
+                data-theme="outline"
+                data-text="sign_in_with"
+                data-size="large"
+                data-logo_alignment="left">
+              </div>
+            </div>
             <div>
               <input type="email" name="email" id="email"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-zinc-100"
@@ -286,6 +330,36 @@
         <!-- Modal body -->
         <form class="p-4 md:p-5">
           <div class="grid gap-4 mb-4 grid-cols-2">
+
+
+
+
+    <button id="kakaoLoginBtn2" data-modal-hide="logout-modal"
+    class="col-span-2 block w-full py-2 bg-yellow-400 hover:bg-yellow-300 text-black rounded-lg font-semibold">
+    카카오로 가입
+  </button>
+
+  <div id="g_id_onload" data-modal-hide="logout-modal"
+    data-client_id="725251817126-9shspu2p16rmick9mae674v4n4n02o93.apps.googleusercontent.com"
+    data-context="signin"
+    data-ux_mode="popup"
+    data-callback="handleGoogleLoginCallback"
+    data-auto_prompt="false"
+    data-modal-hide="logout-modal">
+  </div>
+
+  <div class="g_id_signin col-span-2" data-modal-hide="logout-modal"
+    data-type="standard"
+    data-shape="rectangular"
+    data-theme="outline"
+    data-text="sign_in_with"
+    data-size="large"
+    data-logo_alignment="left">
+  </div>
+
+
+
+
             <div class="col-span-2">
               <input id="sign-up-email" type="text" name="name" id="name"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-zinc-100 dark:focus:ring-primary-500 dark:focus:border-primary-500"
@@ -681,7 +755,9 @@
             <ul id="dropdown2-example" class="hidden py-2 space-y-2">
 
               <li >
-                <a href="#" data-tooltip-target="myRecipesMode" data-tooltip-placement="right"
+
+                <!-- data-tooltip-target="myRecipesMode" -->
+                <a href="#"  data-tooltip-placement="right"
                   onclick="showPanel('myRecipePanel'),headerDisplayNone();"
                   class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
                   My Recipes
@@ -1770,15 +1846,21 @@ bg-zinc-100 dark:bg-zinc-800" >
   <section class="py-8 px-4 mx-auto max-w-screen-xl lg:py-16">
     <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-4">업데이트 내역</h2>
     <div class="space-y-4">
+
+      <div class="bg-white p-4 rounded-lg shadow-md hover:bg-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700">
+        <h3 class="text-xl font-semibold text-blue-700 dark:text-blue-400">V1.45</h3>
+        <p class="text-gray-500 dark:text-gray-300">25.04.09 : 소셜 로그인 기능이 추가 되었습니다. 카카오톡, 구글 계정으로 편리하게 로그인하세요.</p>
+      </div>
+
       <div class="bg-white p-4 rounded-lg shadow-md hover:bg-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700">
         <h3 class="text-xl font-semibold text-blue-700 dark:text-blue-400">V1.44</h3>
         <p class="text-gray-500 dark:text-gray-300">25.04.05 : 키보드 단축키 기능이 추가 되었습니다. 이제 단축키를 이용해서 빠르고 편리하게 로스팅하세요.</p>
       </div>
 
-      <div class="bg-white p-4 rounded-lg shadow-md hover:bg-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700">
+      <!-- <div class="bg-white p-4 rounded-lg shadow-md hover:bg-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700">
         <h3 class="text-xl font-semibold text-blue-700 dark:text-blue-400">V1.43</h3>
         <p class="text-gray-500 dark:text-gray-300">25.03.31 : 이제 ‘My Recipe’ 기능으로 나만의 로스팅 기록을 관리하고, 직접 만든 레시피를 언제든지 돌아볼 수 있습니다.</p>
-      </div>
+      </div> -->
 
     </div>
   </section>
