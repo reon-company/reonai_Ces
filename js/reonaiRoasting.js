@@ -10,6 +10,8 @@ let isAdminFlag = false;
 let isAdminActive = false;
 //어디민플래스 다시 ~!
 
+let autoRoastingToggleFlag = false; // 레시피가 적용되었을경우 로스팅 시작시 오토로스팅 토글이 동작하는 플래그
+
 // Simple Roast mode Btn 플래그
 let recipeProcessingFlag = 0; // 0 = none , 1 = Washed , 2 = Natural
 let recipeStagesFlag = 0; // 0 = none , 1 = Light , 2 = medium , 3 = Dark
@@ -959,6 +961,11 @@ async function roastInfoStart() {
   }, 2000); // 1000 밀리초 = 1초
 }
 
+function toggleAutoRoastingFlag() {
+  autoRoastingToggleFlag = !autoRoastingToggleFlag;
+  console.log('toggle:', autoRoastingToggleFlag);
+}
+
 //투입 후 로스팅 시작 함수
 async function roastStartForPuttingMode() {
   let resetDataString = `0,0,0,0,0,0,0\n`;
@@ -1008,6 +1015,11 @@ async function roastStartForPuttingMode() {
   showPanel('roastPanel');
   infoValueAdd();
   startRecordingcharts();
+
+  if (autoRoastingToggleFlag) {
+    toggleAutoRoasting();
+    autoRoastingToggleFlag = false;
+  }
 }
 
 //출력 값에 info에서 설정한 값을 넣어주고 수동로스팅을 진행시키는 함수
@@ -3028,6 +3040,7 @@ function toggleAutoRoasting() {
     // AUTO_on 상태 -> AUTO_off로 변경
     button.textContent = 'AUTO';
     button.classList.replace('bg-reonaiBlue', 'bg-reonaiRed');
+    document.getElementById('sliderSection').style.display = 'block';
 
     autoRoastingFlagOff();
     autoRoastingStartFlagOff();
@@ -3036,6 +3049,7 @@ function toggleAutoRoasting() {
     console.log('AUTO_on');
     button.textContent = 'AUTO';
     button.classList.replace('bg-orange-600', 'bg-reonaiBlue');
+    document.getElementById('sliderSection').style.display = 'none';
     autoRoastingFlagOn();
     autoRoastingStartFlagOn();
   }
