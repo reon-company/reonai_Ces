@@ -124,7 +124,7 @@ let doYouWantDispose = '배출을 더 하시겠습니까?';
 let disposmodeFlag = false;
 
 //배출 시간 변수
-let disposeSecond = 10;
+let disposeSecond = 5;
 
 //출력값 입력 함수
 const fan1NumberModal = document.getElementById('fan1Number');
@@ -1315,10 +1315,10 @@ function coolingMode() {
     const temp1 = parseFloat(document.getElementById('temp1Value').innerText);
     const temp2 = parseFloat(document.getElementById('temp2Value').innerText);
 
-    if (temp1 <= 50.0 && temp2 <= 50.0) {
+    if (temp1 <= 40.0 && temp2 <= 40.0) {
       isRecordingcharts = false; // 차트 기록 중지 함수
 
-      console.log(temp1, '50이하', temp2, '50이하');
+      console.log(temp1, '40이하', temp2, '40이하');
       clearInterval(monitorTemperature);
       let resetDataString = `0,0,0,0,0,0,0\n`;
       // 슬라이더 값을 0으로 설정
@@ -1341,7 +1341,7 @@ function coolingMode() {
     } else {
       if (!isCoolDownFirst) {
         if (roastInfoInputAmount <= 0) {
-          console.log(temp1, '50이상', temp2, '50이상');
+          console.log(temp1, '40이상', temp2, '40이상');
           // 히터 값을 0으로 설정
           // document.getElementById('fan1Slider').value = 100;
           document.getElementById('heaterSlider').value = 0;
@@ -1840,26 +1840,26 @@ function disposalMode() {
             document.getElementById('fan1Value').innerText = '0.0'; // 100.0
             document.getElementById('heaterValue').innerText = '0.0';
             document.getElementById('fan2Value').innerText = '0.0';
-          } else if (disposalCount >= 2) {
+          } else if (disposalCount >= 1) {
             // 히터 값을 0으로 설정
 
             let disposalDataString = `1,255,0,0,1,255,0\n`;
+
             actuatorFlag = 1; // actuator 1
             // 히터 값을 0으로 설정
             sendDataToDevice(disposalDataString); //배출 스트링
-            document.getElementById('fan1Slider').value = 100; //100
+            document.getElementById('fan1Slider').value = 80; //100
             document.getElementById('heaterSlider').value = 0;
-            document.getElementById('fan2Slider').value = 100;
-            document.getElementById('fan1Number').value = 100; // 100
-            document.getElementById('fan2Number').value = 100;
+            document.getElementById('fan2Slider').value = 40;
+            document.getElementById('fan1Number').value = 80; // 100
+            document.getElementById('fan2Number').value = 40;
             document.getElementById('heaterNumber').value = 0;
 
             // 슬라이더 표시값 업데이트
-            document.getElementById('fan1Value').innerText = '100.0'; // 100.0
+            document.getElementById('fan1Value').innerText = '80.0'; // 100.0
             document.getElementById('heaterValue').innerText = '0.0';
-            document.getElementById('fan2Value').innerText = '100.0';
+            document.getElementById('fan2Value').innerText = '40.0';
           }
-
           disposalCount++;
           console.log('배출중');
           console.log(disposalCount);
