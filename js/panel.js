@@ -14,6 +14,8 @@ function showPanel(panelId) {
     'signInPanel',
     'SimpleRoastInfoPanel',
     'myRecipePanel',
+    'recipeDataPanel',
+    'recipeDataDisplayPanel',
   ];
 
   panels.forEach((id) => {
@@ -55,6 +57,7 @@ function headerDisplayNone() {
 
 document.addEventListener('DOMContentLoaded', () => {
   // headerDisplayNone();
+
   showPanel('mainPanel');
   // showPanel('myRecipePanel');
 
@@ -89,6 +92,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 필요한 작업 수행
     getMyRecords(userInfo);
+    loadRecipeOptions(userInfo);
     getPilot();
   }
 });

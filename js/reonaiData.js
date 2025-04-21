@@ -17,6 +17,14 @@ let disposeTimeData = [];
 let inputCapacityData = [];
 let dtrData = [];
 
+//레시피 관리 데이터
+let myRecipeData;
+let myRecipeEvaluationData; // 레시피 평가 데이터
+
+let recordIdForGptAnalysisResulSave;
+let memberIdForGptAnalysisResulSave;
+//gptAnalysisResulSave 에 저장하기 위한 변수
+
 //관리자 플래그
 let adminFlag = 0;
 
@@ -153,6 +161,7 @@ document
         // 필요한 후속 작업 수행 (예: 페이지 이동, 토큰 저장 등)
 
         getMyRecords(userData);
+        loadRecipeOptions(userData);
         getPilot();
         return userData;
       })
@@ -1333,4 +1342,208 @@ async function getUserInfoAfterSocialLogin(email, authClientName) {
     alert('소셜 로그인 후 사용자 정보를 가져오는 데 실패했습니다.');
     console.error(error);
   }
+}
+
+//레시피 recipeDataPanel에 사용하는 함수
+
+document
+  .getElementById('recipeSelectDropdown')
+  .addEventListener('change', function (e) {
+    const selectedId = parseInt(e.target.value);
+
+    const selectedRecord = allRecords.find(
+      (record) => record.id === selectedId
+    );
+    if (!selectedRecord) return;
+
+    document.getElementById('selectedRecipeTitle').innerText =
+      selectedRecord.title || '-';
+    document.getElementById('selectedRecipeDate').innerText =
+      selectedRecord.createdDate || '-';
+    document.getElementById('selectedRecipeBean').innerText =
+      selectedRecord.beanName || '-';
+
+    document.getElementById('recipeInfoBox').classList.remove('hidden');
+
+    // 2. 상세 정보 요청
+    fetchRecordDetailsForRecipeData(selectedRecord.id, selectedRecord.memberId);
+    recordIdForGptAnalysisResulSave = selectedRecord.id;
+
+    //gptAnalysisResulSave 에 저장하기 위한 변수
+  });
+
+let allRecords = []; // 전역 변수로 선언
+// 레시피 데이터 목록을 불러오는 함수
+async function loadRecipeOptions(userData) {
+  const url = 'https://www.reonaicoffee.com/api/records';
+
+  const requestData = {
+    clientId: '4d042c50-bd70-11ee-aa8b-e30685fde2fa',
+    clientName: 'reon',
+    memberId: userData.id,
+  };
+
+  try {
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(requestData),
+    });
+
+    if (!response.ok) {
+      console.error('HTTP error:', response.status);
+      return;
+    }
+
+    console.log('동작중인가??');
+
+    const data = await response.json();
+    if (data && data.status === 200) {
+      const recipeSelect = document.getElementById('recipeSelectDropdown');
+      recipeSelect.innerHTML = `<option selected disabled>레시피를 선택하세요</option>`; // 초기화
+
+      const sortedRecords = data.data.sort((a, b) => b.id - a.id);
+      allRecords = sortedRecords;
+      sortedRecords.forEach((item) => {
+        const option = document.createElement('option');
+        option.value = item.id;
+        option.textContent = `${item.title} (ID: ${item.id})`;
+        recipeSelect.appendChild(option);
+      });
+    } else {
+      console.error('Server error:', data);
+    }
+  } catch (error) {
+    console.error('Fetch error:', error);
+  }
+}
+
+// 선택한 레시피를 서버에서 가지고오는 함수
+async function fetchRecordDetailsForRecipeData(recordId, recordMemberId) {
+  // 요청하려는 URL을 콘솔에 출력하여 확인
+  const url = `https://www.reonaicoffee.com/api/records/${recordId}`;
+  console.log('Fetching details for:', url);
+
+  console.log(recordMemberId);
+  console.log('userData.id', userData.id);
+  memberIdForGptAnalysisResulSave = userData.id;
+  // 요청에 필요한 데이터
+  const requestData = {
+    clientId: '4d042c50-bd70-11ee-aa8b-e30685fde2fa',
+    clientName: 'reon',
+    memberId: userData.id, //  사용자 ID
+    pilot: true, // 파일럿 로그: true,
+  };
+
+  try {
+    const response = await fetch(url, {
+      method: 'POST', // 서버에서 허용하는 메서드로 변경 (예: 'POST')
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(requestData), // POST 요청에 필요한 데이터
+    });
+
+    if (!response.ok) {
+      // 응답 상태 코드가 200이 아닌 경우 에러 출력
+      console.error('HTTP error:', response.status, response.statusText);
+      const errorText = await response.text(); // 에러 상세 내용 확인
+      console.error('Error details:', errorText);
+      return;
+    }
+
+    const jsonData = await response.json();
+
+    myRecipeData = jsonData.data;
+    console.log(myRecipeData);
+
+    console.log('JSON 데이터를 UI에 반영');
+  } catch (error) {
+    console.error('Error fetching record details:', error);
+  }
+}
+
+function collectEvaluationData() {
+  const selectedId = parseInt(
+    document.getElementById('recipeSelectDropdown').value
+  );
+  const selectedRecord = allRecords.find((r) => r.id === selectedId);
+  if (!selectedRecord) return null;
+
+  const getValue = (selector) => document.querySelector(selector)?.value || '';
+  const getNumber = (selector) =>
+    parseInt(document.querySelector(selector)?.value) || 0;
+
+  // ✅ temp4, ror 제거한 recipeData 복사본 생성
+  const optimizedRecipeData = { ...myRecipeData };
+  // delete optimizedRecipeData.temp4;
+  // delete optimizedRecipeData.ror;
+
+  myRecipeEvaluationData = {
+    recipeId: selectedRecord.id,
+    memberId: selectedRecord.memberId,
+    recipeData: optimizedRecipeData,
+    visualEvaluation: {
+      uniformity: {
+        score: getNumber('#uniformityScore'),
+        comment: getValue('#uniformityComment'),
+      },
+      expansion: {
+        score: getNumber('#expansionScore'),
+        comment: getValue('#expansionComment'),
+      },
+      oilPresence: {
+        score: getNumber('#oilPresenceScore'),
+        comment: getValue('#oilPresenceComment'),
+      },
+      colorLayerSeparation: {
+        score: getNumber('#colorLayerScore'),
+        comment: getValue('#colorLayerComment'),
+      },
+      shellEffect: {
+        score: getNumber('#shellScore'),
+        comment: getValue('#shellComment'),
+      },
+      centerLine: {
+        score: getNumber('#centerLineScore'),
+        comment: getValue('#centerLineComment'),
+      },
+      texture: {
+        score: getNumber('#textureScore'),
+        comment: getValue('#textureComment'),
+      },
+      overallImpression: {
+        score: getNumber('#overallImpressionScore'),
+        comment: getValue('#overallImpressionComment'),
+      },
+    },
+    tasteEvaluation: {
+      roastDefect: getNumber('#roastDefect'),
+      flavor: getNumber('#flavor'),
+      aftertaste: getNumber('#aftertaste'),
+      sweetness: getNumber('#sweetness'),
+      acidity: getNumber('#acidity'),
+      mouthfeel: getNumber('#mouthfeel'),
+      balance: getNumber('#balance'),
+      overall: getNumber('#overall'),
+      comment: getValue('#tasteComment'),
+    },
+  };
+
+  console.log(myRecipeEvaluationData);
+
+  // // ✅ JSON 다운로드 기능 추가
+  // const jsonString = JSON.stringify(myRecipeEvaluationData, null, 2);
+  // const blob = new Blob([jsonString], { type: 'application/json' });
+  // const url = URL.createObjectURL(blob);
+
+  // const a = document.createElement('a');
+  // a.href = url;
+  // a.download = `ReonaiEvaluation_${selectedRecord.id}.json`;
+  // a.click();
+  // URL.revokeObjectURL(url);
+
+  return myRecipeEvaluationData;
 }

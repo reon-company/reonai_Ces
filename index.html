@@ -55,6 +55,10 @@
 <body>
 
 
+
+
+  
+
   <!--popover 시작-->
   <!-- data-popover-target="popover-default" -->
   <div data-popover id="popover-default" role="tooltip"
@@ -906,6 +910,10 @@
       onclick="showPanel('puttingCountPanel')">puttingCountPanel</button>
     <button class="bg-transparent text-zinc-950 dark:text-gray-300"
       onclick="showPanel('roastPanel')">roastPanel</button>
+      <button class="bg-transparent text-zinc-950 dark:text-gray-300"
+      onclick="showPanel('recipeDataPanel')">recipeDataPanel</button>
+      <button class="bg-transparent text-zinc-950 dark:text-gray-300"
+      onclick="showPanel('recipeDataDisplayPanel')">recipeDataDisplayPanel</button>
     <!-- <button class="bg-transparent text-zinc-950 dark:text-gray-300"
       onclick="showPanel('easyRoastInfoPanel')">easyRoastInfoPanel</button>
     <button class="bg-transparent text-zinc-950 dark:text-gray-300"
@@ -1816,6 +1824,19 @@ bg-zinc-100 dark:bg-zinc-800" >
 <div id="mainPanel" style="display: none; margin: 0 auto;" class="flex justify-center items-center h-screen">
   <section class="flex">
     <div class="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 grid lg:grid-cols-2 gap-8 lg:gap-16">
+
+
+<!-- 
+      gpt 창  -->
+      <div class="p-4 border rounded-lg">
+        <textarea id="userInput" placeholder="레시피에 대해 궁금한 점을 입력하세요" class="w-full p-2 border"></textarea>
+        <button id="chatBtn" class="bg-black text-white p-2 mt-2">GPT에게 물어보기</button>
+        <pre id="chatOutput" class="mt-4 p-3 border bg-gray-100 whitespace-pre-wrap"></pre>
+      </div>
+<!-- gpt끝 -->
+
+
+
       <div class="flex flex-col justify-center">
         <h1 class="mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-6xl dark:text-white">
           리오나이 스튜디오
@@ -1868,6 +1889,160 @@ bg-zinc-100 dark:bg-zinc-800" >
 </div>
 <!--mainPanel 끝-->
     <!--mainPanel 끝-->
+
+  <!--recipeDataPanel 시작-->
+  
+  <div id="recipeDataPanel" class="px-4 py-6 min-h-screen overflow-y-auto bg-zinc-900">
+    <div class="mb-6">
+      <label for="recipeSelect" class="block text-lg font-semibold text-white mb-2">🖋 평가할 레시피 선택</label>
+      <select id="recipeSelectDropdown" class="w-full p-2 rounded-md shadow border border-gray-300 dark:border-zinc-600 bg-white text-zinc-900 dark:bg-zinc-700 dark:text-gray-300">
+        <option selected disabled>레시피를 선택하세요</option>
+      </select>
+    </div>
+
+
+    <div id="recipeInfoBox" class="mb-6  p-4 rounded-md bg-zinc-800 text-gray-100 shadow">
+      <h3 class="text-lg font-semibold mb-2">📄 선택한 레시피 정보</h3>
+      <p><strong>레시피명:</strong> <span id="selectedRecipeTitle">-</span></p>
+      <p><strong>로스팅 날짜:</strong> <span id="selectedRecipeDate">-</span></p>
+      <p><strong>원두 이름:</strong> <span id="selectedRecipeBean">-</span></p>
+    </div>
+
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div class="col-span-full">
+        <h3 class="text-lg font-semibold text-white mb-2">👁 시각 평가</h3>
+      </div>
+
+      <!-- 시각 평가 항목 반복 -->
+      <template id="visual-template">
+        <div>
+          <label class="block text-sm font-medium text-white">항목명</label>
+          <input type="number" min="0" max="10" placeholder="점수 (0~10)" class="w-full mt-1 p-2 rounded bg-white text-zinc-900 dark:bg-zinc-700 dark:text-white border border-zinc-600">
+          <input type="text" placeholder="설명 작성" class="w-full mt-1 p-2 rounded bg-white text-zinc-900 dark:bg-zinc-700 dark:text-white border border-zinc-600">
+        </div>
+      </template>
+
+      <div>
+        <label class="block text-sm font-medium text-white">Uniformity</label>
+        <input id="uniformityScore" type="number" placeholder="점수 (0~10)" class="w-full mt-1 p-2 rounded bg-white text-zinc-900 dark:bg-zinc-700 dark:text-white">
+        <input id="uniformityComment" type="text" placeholder="설명 작성" class="w-full mt-1 p-2 rounded bg-white text-zinc-900 dark:bg-zinc-700 dark:text-white">
+      </div>
+      <div>
+        <label class="block text-sm font-medium text-white">Expansion</label>
+        <input id="expansionScore"  type="number" placeholder="점수 (0~10)" class="w-full mt-1 p-2 rounded bg-white text-zinc-900 dark:bg-zinc-700 dark:text-white">
+        <input id="expansionComment"  type="text" placeholder="설명 작성" class="w-full mt-1 p-2 rounded bg-white text-zinc-900 dark:bg-zinc-700 dark:text-white">
+      </div>
+      <div>
+        <label class="block text-sm font-medium text-white">Oil Presence</label>
+        <input id="oilPresenceScore" type="number" placeholder="점수 (0~10)" class="w-full mt-1 p-2 rounded bg-white text-zinc-900 dark:bg-zinc-700 dark:text-white">
+        <input id="oilPresenceComment" type="text" placeholder="설명 작성" class="w-full mt-1 p-2 rounded bg-white text-zinc-900 dark:bg-zinc-700 dark:text-white">
+      </div>
+      <div>
+        <label class="block text-sm font-medium text-white">Color Layer Separation</label>
+        <input id="colorLayerScore" type="number" placeholder="점수 (0~10)" class="w-full mt-1 p-2 rounded bg-white text-zinc-900 dark:bg-zinc-700 dark:text-white">
+        <input id="colorLayerComment" type="text" placeholder="설명 작성" class="w-full mt-1 p-2 rounded bg-white text-zinc-900 dark:bg-zinc-700 dark:text-white">
+      </div>
+      <div>
+        <label class="block text-sm font-medium text-white">Shell Effect</label>
+        <input id="shellScore" type="number" placeholder="점수 (0~10)" class="w-full mt-1 p-2 rounded bg-white text-zinc-900 dark:bg-zinc-700 dark:text-white">
+        <input id="shellComment" type="text" placeholder="설명 작성" class="w-full mt-1 p-2 rounded bg-white text-zinc-900 dark:bg-zinc-700 dark:text-white">
+      </div>
+      <div>
+        <label class="block text-sm font-medium text-white">Center Line</label>
+        <input id="centerLineScore" type="number" placeholder="점수 (0~10)" class="w-full mt-1 p-2 rounded bg-white text-zinc-900 dark:bg-zinc-700 dark:text-white">
+        <input id="centerLineComment" type="text" placeholder="설명 작성" class="w-full mt-1 p-2 rounded bg-white text-zinc-900 dark:bg-zinc-700 dark:text-white">
+      </div>
+      <div>
+        <label class="block text-sm font-medium text-white">Texture</label>
+        <input id="textureScore" type="number" placeholder="점수 (0~10)" class="w-full mt-1 p-2 rounded bg-white text-zinc-900 dark:bg-zinc-700 dark:text-white">
+        <input id="textureComment" type="text" placeholder="설명 작성" class="w-full mt-1 p-2 rounded bg-white text-zinc-900 dark:bg-zinc-700 dark:text-white">
+      </div>
+      <div>
+        <label class="block text-sm font-medium text-white">Overall Impression</label>
+        <input id="overallImpressionScore" type="number" placeholder="점수 (0~10)" class="w-full mt-1 p-2 rounded bg-white text-zinc-900 dark:bg-zinc-700 dark:text-white">
+        <input id="overallImpressionComment" type="text" placeholder="설명 작성" class="w-full mt-1 p-2 rounded bg-white text-zinc-900 dark:bg-zinc-700 dark:text-white">
+      </div>
+
+      <div class="col-span-full mt-6">
+        <h3 class="text-lg font-semibold text-white mb-2">🍷 시음 평가</h3>
+      </div>
+      <div>
+        <label class="block text-sm font-medium text-white">Roast Defect</label>
+        <input id="roastDefect" type="number" min="0" max="10" class="w-full mt-1 p-2 rounded bg-white text-zinc-900 dark:bg-zinc-700 dark:text-white">
+      </div>
+      <div>
+        <label class="block text-sm font-medium text-white">Flavor</label>
+        <input id="flavor" type="number" min="0" max="10" class="w-full mt-1 p-2 rounded bg-white text-zinc-900 dark:bg-zinc-700 dark:text-white">
+      </div>
+      <div>
+        <label class="block text-sm font-medium text-white">Aftertaste</label>
+        <input id="aftertaste" type="number" min="0" max="10" class="w-full mt-1 p-2 rounded bg-white text-zinc-900 dark:bg-zinc-700 dark:text-white">
+      </div>
+      <div>
+        <label class="block text-sm font-medium text-white">Sweetness</label>
+        <input id="sweetness" type="number" min="0" max="10" class="w-full mt-1 p-2 rounded bg-white text-zinc-900 dark:bg-zinc-700 dark:text-white">
+      </div>
+      <div>
+        <label class="block text-sm font-medium text-white">Acidity</label>
+        <input id="acidity" type="number" min="0" max="10" class="w-full mt-1 p-2 rounded bg-white text-zinc-900 dark:bg-zinc-700 dark:text-white">
+      </div>
+      <div>
+        <label class="block text-sm font-medium text-white">Mouthfeel</label>
+        <input id="mouthfeel" type="number" min="0" max="10" class="w-full mt-1 p-2 rounded bg-white text-zinc-900 dark:bg-zinc-700 dark:text-white">
+      </div>
+      <div>
+        <label class="block text-sm font-medium text-white">Balance</label>
+        <input id="balance" type="number" min="0" max="10" class="w-full mt-1 p-2 rounded bg-white text-zinc-900 dark:bg-zinc-700 dark:text-white">
+      </div>
+      <div class="col-span-full">
+        <label class="block text-sm font-medium text-white">시음 총평</label>
+        <textarea  id="tasteComment" rows="3" class="w-full mt-1 p-2 rounded bg-white text-zinc-900 dark:bg-zinc-700 dark:text-white"></textarea>
+      </div>
+    </div>
+
+    <div class="flex justify-between mt-6">
+      <button id="gptEvaluationButton" class="w-1/2 mr-2 p-2 rounded bg-black text-white hover:bg-gray-800 dark:bg-white dark:text-zinc-900 dark:hover:bg-zinc-300">🔍 분석 요청</button>
+      <button id="gptAnalysisResultSave" class="w-1/2 ml-2 p-2 rounded bg-blue-600 text-white hover:bg-blue-700">💾 평가 저장</button>
+    </div>
+    <div id="gptAnalysisResult" class="mt-4 p-4 rounded bg-zinc-800 text-gray-100 shadow"></div>
+  
+  </div>
+
+
+  <!--recipeDataPanel 끝-->
+  <!-- recipeDataDisplayPanel 시작 -->
+
+  <div id="recipeDataDisplayPanel" class="px-4 py-6 min-h-screen overflow-y-auto bg-zinc-900">
+    <div class="mb-6"> 
+
+
+      <div class="container mx-auto mt-8 grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- 분석 목록 -->
+        <div class="col-span-1">
+          <div class="bg-zinc-100 dark:bg-zinc-800 p-4 rounded-lg shadow h-full">
+            <h2 class="text-lg font-semibold mb-4 text-zinc-900 dark:text-white">📂 분석 목록</h2>
+            <div id="analysisList" class="space-y-2 overflow-y-auto max-h-[600px]">
+              <!-- 목록 버튼이 여기에 추가됩니다 -->
+            </div>
+          </div>
+        </div>
+      
+        <!-- 분석 상세 -->
+        <div class="col-span-2">
+          <div class="bg-zinc-100 dark:bg-zinc-800 p-4 rounded-lg shadow h-full">
+            <h2 class="text-lg font-semibold mb-4 text-zinc-900 dark:text-white">📄 분석 내용</h2>
+            <div id="loadgptAnalysisResult" class="text-sm whitespace-pre-line text-zinc-800 dark:text-gray-100 max-h-[600px] overflow-y-auto">
+              분석 결과를 선택하세요.
+            </div>
+          </div>
+        </div>
+      </div>
+      
+
+    </div>
+    </div>
+      <!-- recipeDataDisplayPanel끝 -->
 
 
 
@@ -2060,6 +2235,18 @@ bg-zinc-100 dark:bg-zinc-800" >
     <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
 
     
+
+    <script type="module">
+      import { getChatGPTResponse } from './js/chatgptClient.js';
+    
+      document.getElementById("chatBtn").addEventListener("click", async () => {
+        const input = document.getElementById("userInput").value;
+        const reply = await getChatGPTResponse(input);
+        document.getElementById("chatOutput").innerText = reply;
+      });
+    </script>
+
+
     <script> //window 이벤트 모음
 
 
