@@ -196,6 +196,31 @@ export async function requestChatGPTAnalysis(evaluationData) {
   }
 }
 
+document.getElementById('chatBtn').addEventListener('click', async () => {
+  const input = document.getElementById('userInput').value.trim();
+  const output = document.getElementById('chatOutput');
+
+  if (!input) {
+    output.innerText = '❗ 질문을 입력해주세요.';
+    return;
+  }
+
+  // ⏳ 로딩 표시
+  output.classList.add('animate-pulse');
+  output.innerText = 'Reon ai가 생각 중입니다... 🤔';
+
+  try {
+    const response = await getChatGPTResponse(input);
+
+    output.classList.remove('animate-pulse'); // ✅ 애니메이션 제거
+    output.innerText = response;
+  } catch (err) {
+    console.error(err);
+    output.classList.remove('animate-pulse'); // ✅ 에러 시에도 제거
+    output.innerText = '❌ 응답에 실패했습니다. 다시 시도해주세요.';
+  }
+});
+
 export async function saveAnalysisToServer(recipeId, memberId, analysis) {
   console.log('🧪 서버 저장 요청:', { recipeId, memberId });
 

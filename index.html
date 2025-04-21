@@ -1948,7 +1948,8 @@ bg-zinc-100 dark:bg-zinc-800" >
       <div class="p-4 border rounded-lg ">
         <textarea id="userInput" placeholder="CURSOR에게 궁금한 점을 입력하세요" class="bg-zinc-100 dark:bg-zinc-800 w-full p-2 border"></textarea>
         <button id="chatBtn" class="bg-black text-white p-2 mt-2">"Reon ai"에게 물어보기</button>
-        <pre id="chatOutput" class="mt-4 p-3 borderbg-zinc-100 dark:bg-zinc-800 whitespace-pre-wrap"></pre>
+        <pre id="chatOutput" class="mt-4 p-3 border bg-zinc-100 dark:bg-zinc-800 whitespace-pre-wrap break-words overflow-auto max-h-[400px] text-sm rounded
+        "></pre>
       </div>
 <!-- gpt끝 -->
 
@@ -2366,11 +2367,7 @@ bg-zinc-100 dark:bg-zinc-800" >
     <script type="module">
       import { getChatGPTResponse } from './js/chatgptClient.js';
     
-      document.getElementById("chatBtn").addEventListener("click", async () => {
-        const input = document.getElementById("userInput").value;
-        const reply = await getChatGPTResponse(input);
-        document.getElementById("chatOutput").innerText = reply;
-      });
+    
     </script>
 
 
