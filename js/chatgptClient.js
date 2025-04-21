@@ -37,6 +37,9 @@ export async function getChatGPTResponse(userMessage) {
 4. 사용자의 모드나 개입 범위에 따라 반응을 조절해야 해.
 
 언제나 명확하고 간결하며 실용적인 방식으로 답변해줘. 사용자 입력은 다음과 같아.
+
+중요! 답변의 길이는 10문장을 절대 넘기지말아야함. 
+
           `.trim(),
         },
         { role: 'user', content: userMessage },
@@ -194,7 +197,7 @@ export async function requestChatGPTAnalysis(evaluationData) {
 }
 
 export async function saveAnalysisToServer(recipeId, memberId, analysis) {
-  console.log('🧪 서버 저장 요청:', { recipeId, memberId, analysis });
+  console.log('🧪 서버 저장 요청:', { recipeId, memberId });
 
   if (!recipeId || !memberId || !analysis) {
     console.warn('❌ 저장 요청 누락된 필드 있음');
@@ -216,40 +219,54 @@ export async function saveAnalysisToServer(recipeId, memberId, analysis) {
 
     const result = await response.json();
 
-    if (result.status === 200) {
-      console.log('✅ 분석 결과 서버에 저장됨');
-      return true;
+    if (result.status === 200 && result.filename) {
+      console.log(`✅ 저장 완료: ${result.filename}`);
+      return result.filename; // ✅ 저장된 파일명을 리턴
     } else {
       console.warn('⚠️ 저장 실패:', result.message);
-      return false;
+      return null;
     }
   } catch (error) {
-    console.error('❌ 저장 중 오류 발생:', error);
-    return false;
+    console.error('❌ 서버 저장 중 오류:', error);
+    return null;
   }
 }
 
-window.addEventListener('DOMContentLoaded', loadAnalysisList);
-async function loadAnalysisList() {
+window.addEventListener('DOMContentLoaded', () => {
+  console.log(userData.id);
+  const userId = userData.id;
+  const isAdmin = userId === 67;
+  loadAnalysisList(userId, isAdmin);
+});
+
+async function loadAnalysisList(userId, isAdmin = false) {
   try {
-    const res = await fetch('http://3.38.94.176:3000/api/analysis-list');
+    const res = await fetch(
+      `http://3.38.94.176:3000/api/analysis-list/${userId}`
+    );
     const result = await res.json();
     const list = result.data;
 
     const container = document.getElementById('analysisList');
     container.innerHTML = '';
 
-    console.log('목록 불러오기');
+    console.log('📂 분석 목록:', list);
 
-    list.forEach((recipeId) => {
+    list.forEach((entry) => {
+      let uid = userId;
+      let filename = entry;
+
+      // 관리자일 경우 entry 형식: '67/1553_20250421_103302'
+      if (isAdmin && entry.includes('/')) {
+        [uid, filename] = entry.split('/');
+      }
+
       const item = document.createElement('button');
-
-      console.log('recipeI');
-      console.log(recipeId);
       item.className =
         'w-full text-left px-4 py-2 bg-white dark:bg-zinc-700 text-zinc-900 dark:text-white rounded hover:bg-zinc-200 dark:hover:bg-zinc-600 transition';
-      item.innerText = `${recipeId}`;
-      item.onclick = () => loadAnalysisDetail(recipeId);
+      item.innerText = isAdmin ? `👤${uid} / ${filename}` : filename;
+
+      item.onclick = () => loadAnalysisDetail(uid, filename);
       container.appendChild(item);
     });
   } catch (error) {
@@ -257,10 +274,19 @@ async function loadAnalysisList() {
   }
 }
 
-async function loadAnalysisDetail(recipeId) {
+export async function loadAnalysisDetail(userId, filename) {
+  const recipeId = filename.split('__')[0];
+  console.log('filename');
+  console.log(filename);
+
   console.log(recipeId);
+
+  fetchRecordDetailsRecipeData(recipeId, userId);
+
   try {
-    const res = await fetch(`http://3.38.94.176:3000/api/analysis/${recipeId}`);
+    const res = await fetch(
+      `http://3.38.94.176:3000/api/analysis/${userId}/${filename}`
+    );
     const result = await res.json();
 
     console.log(result);
@@ -269,11 +295,119 @@ async function loadAnalysisDetail(recipeId) {
     if (result.status === 200 && result.data?.analysis) {
       box.innerText = result.data.analysis;
     } else {
-      box.innerText = '❌ 분석 데이터가 없습니다.';
+      box.innerText = '❌ 분석 데이터를 불러올 수 없습니다.';
     }
   } catch (error) {
     document.getElementById('loadgptAnalysisResult').innerText =
       '❌ 분석 로딩 실패';
     console.error(error);
+  }
+}
+
+// 선택한 레시피를 서버에서 가지고오는 함수
+async function fetchRecordDetailsRecipeData(recordId, recordMemberId) {
+  // 요청하려는 URL을 콘솔에 출력하여 확인
+  const url = `https://www.reonaicoffee.com/api/records/${recordId}`;
+  console.log('Fetching details for:', url);
+
+  console.log(recordMemberId);
+  console.log('userData.id', userData.id);
+  // 요청에 필요한 데이터
+  const requestData = {
+    clientId: '4d042c50-bd70-11ee-aa8b-e30685fde2fa',
+    clientName: 'reon',
+    memberId: userData.id, //  사용자 ID
+    pilot: true, // 파일럿 로그: true,
+  };
+
+  try {
+    const response = await fetch(url, {
+      method: 'POST', // 서버에서 허용하는 메서드로 변경 (예: 'POST')
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(requestData), // POST 요청에 필요한 데이터
+    });
+
+    if (!response.ok) {
+      // 응답 상태 코드가 200이 아닌 경우 에러 출력
+      console.error('HTTP error:', response.status, response.statusText);
+      const errorText = await response.text(); // 에러 상세 내용 확인
+      console.error('Error details:', errorText);
+      return;
+    }
+
+    const jsonData = await response.json();
+    displayDataRecipeData(jsonData); // JSON 데이터를 UI에 반영
+
+    console.log('JSON 데이터를 UI에 반영');
+  } catch (error) {
+    console.error('Error fetching record details:', error);
+  }
+}
+
+// JSON 데이터를 UI에 반영하는 함수
+function displayDataRecipeData(data) {
+  resetChartsAll();
+  // 응답 내의 data 객체 추출
+  const details = data.data;
+  loadedRoastData = data.data;
+  // 추출한 데이터를 사용하여 UI 요소 업데이트
+
+  console.log(
+    'displayData2 불러온 json의 coolingPointTime',
+    details.coolingPointTime
+  );
+  extractSecondsFromTime(details.coolingPointTime);
+  extractSecondsFromTimeForTp(details.turningPointTime);
+
+  // 콘솔에 불러온 내용 출력
+  console.log('Data loaded:', data);
+  console.log('Data.data loaded:', details);
+
+  const tpUnderTemp = parseFloat(JSON.parse(details.turningPointTemp || '[]'));
+  // 콘솔에 불러온 내용을 출력
+  console.log('데이터가 불러와졌습니다: ' + JSON.stringify(details, null, 2));
+
+  const cpUnderTemp = parseFloat(JSON.parse(details.coolingPointTemp || '[]'));
+
+  // 차트에 불러온 데이터를 추가
+  if (Highcharts.charts.length > 0) {
+    let chartLengthData = JSON.parse(details.temp1 || '[]').length;
+
+    chartLengthNumber = chartLengthData;
+
+    //my Recipe chart 에 넣기
+    Highcharts.charts[6].update({
+      xAxis: {
+        max: chartLengthData, // 필요한 경우 여유분을 추가 (+10)
+      },
+    });
+    Highcharts.charts[7].update({
+      xAxis: {
+        max: chartLengthData, // 필요한 경우 여유분을 추가 (+10)
+      },
+    });
+    Highcharts.charts[6].series[3].setData(JSON.parse(details.temp4 || '[]'));
+    Highcharts.charts[6].series[4].setData(JSON.parse(details.ror || '[]'));
+    Highcharts.charts[6].series[5].setData(JSON.parse(details.temp1 || '[]'));
+    Highcharts.charts[6].series[6].setData(JSON.parse(details.temp2 || '[]'));
+    Highcharts.charts[6].series[7].setData(JSON.parse(details.temp3 || '[]'));
+
+    Highcharts.charts[6].series[9].addPoint(
+      [tpUnderTime, tpUnderTemp],
+      true,
+      false
+    );
+
+    Highcharts.charts[6].series[11].addPoint(
+      [CpUnderTime, cpUnderTemp],
+      true,
+      false
+    );
+
+    Highcharts.charts[7].series[3].setData(JSON.parse(details.fan || '[]'));
+    Highcharts.charts[7].series[4].setData(JSON.parse(details.heater || '[]'));
+    Highcharts.charts[7].series[5].setData(JSON.parse(details.fan2 || '[]'));
   }
 }

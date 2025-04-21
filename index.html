@@ -291,8 +291,20 @@
                 data-text="sign_in_with"
                 data-size="large"
                 data-logo_alignment="left"
-              >
+              >      
               </div>
+              <div class="mt-4 space-y-2">
+                <a data-popover-target="popover-default" data-modal-target="logout-modal" data-modal-toggle="logout-modal"
+                  id="signIn" href="#"
+                  class="inline-flex justify-center items-center py-3 px-5 text-base font-medium text-center text-white rounded-lg bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-900">
+                  e-mail Sign Up
+                  <svg class="w-3.5 h-3.5 ms-2 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                    viewBox="0 0 14 10">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9" />
+                  </svg>
+                </a>
+              </div>
+            
             </div>
             <div>
               <input type="email" name="email" id="email"
@@ -300,6 +312,7 @@
                 placeholder="name@gmail.com" required />
 
             </div>
+
 
             <div>
               <input type="password" name="password" id="password" placeholder="••••••••"
@@ -1918,40 +1931,30 @@ bg-zinc-100 dark:bg-zinc-800" >
 <!--mainPanel!!-->
 
 <div id="mainPanel" style="display: none;" class="w-full h-screen bg-zinc-900 text-white px-6 py-6 overflow-hidden">
-  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 h-full max-w-screen-xl mx-auto items-center">
+  <div class="grid grid-cols-1 lg:grid-cols-1 gap-6 h-full max-w-xl mx-auto items-center">
 
-
+    <div class="flex flex-col justify-center items-center">
+      <h1 class="mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-6xl dark:text-white">
+        Reonai Studio
+      </h1>
+      <p class="mb-8 text-lg font-normal text-gray-500 lg:text-xl dark:text-gray-400">
+        Anyone Can be a Roaster
+      </p>
+      
+    </div>
 
 <!-- 
       gpt 창  -->
-      <div class="p-4 border rounded-lg">
-        <textarea id="userInput" placeholder="CURSOR에게 궁금한 점을 입력하세요" class="w-full p-2 border"></textarea>
-        <button id="chatBtn" class="bg-black text-white p-2 mt-2">"Reon Ai"에게 물어보기</button>
-        <pre id="chatOutput" class="mt-4 p-3 border bg-gray-100 whitespace-pre-wrap"></pre>
+      <div class="p-4 border rounded-lg ">
+        <textarea id="userInput" placeholder="CURSOR에게 궁금한 점을 입력하세요" class="bg-zinc-100 dark:bg-zinc-800 w-full p-2 border"></textarea>
+        <button id="chatBtn" class="bg-black text-white p-2 mt-2">"Reon ai"에게 물어보기</button>
+        <pre id="chatOutput" class="mt-4 p-3 borderbg-zinc-100 dark:bg-zinc-800 whitespace-pre-wrap"></pre>
       </div>
 <!-- gpt끝 -->
 
 
 
-      <div class="flex flex-col justify-center">
-        <h1 class="mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-6xl dark:text-white">
-          리오나이 스튜디오
-        </h1>
-        <p class="mb-8 text-lg font-normal text-gray-500 lg:text-xl dark:text-gray-400">
-          Anyone Can be a Roaster
-        </p>
-        <div class="flex flex-col space-y-4 sm:flex-row sm:space-y-0">
-          <a data-popover-target="popover-default" data-modal-target="logout-modal" data-modal-toggle="logout-modal"
-            id="signIn" href="#"
-            class="inline-flex justify-center items-center py-3 px-5 text-base font-medium text-center text-white rounded-lg bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-900">
-            Sign Up
-            <svg class="w-3.5 h-3.5 ms-2 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-              viewBox="0 0 14 10">
-              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9" />
-            </svg>
-          </a>
-        </div>
-      </div>
+  
       <!-- <div>
         <iframe class="mx-auto w-full lg:max-w-xl h-64 rounded-lg sm:h-96 shadow-xl" src="https://www.youtube.com/embed/ZQKamLGRyD8" 
           title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -2119,7 +2122,7 @@ bg-zinc-100 dark:bg-zinc-800" >
     <div class="mb-6"> 
 
 
-      <div class="container mx-auto mt-8 grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div class="container mx-auto mt-8 grid grid-cols lg:grid-cols-3 gap-6 w-auto">
         <!-- 분석 목록 -->
         <div class="col-span-1">
           <div class="bg-zinc-100 dark:bg-zinc-800 p-4 rounded-lg shadow h-full">
@@ -2132,17 +2135,34 @@ bg-zinc-100 dark:bg-zinc-800" >
       
         <!-- 분석 상세 -->
         <div class="col-span-2">
-          <div class="bg-zinc-100 dark:bg-zinc-800 p-4 rounded-lg shadow h-full">
+          <div class="bg-zinc-100 dark:bg-zinc-800 p-4 rounded-lg shadow h-full ">
             <h2 class="text-lg font-semibold mb-4 text-zinc-900 dark:text-white">📄 분석 내용</h2>
             <div id="loadgptAnalysisResult" class="text-sm whitespace-pre-line text-zinc-800 dark:text-gray-100 max-h-[600px] overflow-y-auto">
               분석 결과를 선택하세요.
             </div>
+
+
+            <div class="col-span-3">
+              <div id="chartdivRecipe_recipeData" class="max-h-100 w-auto rounded-lg bg-zinc-50 dark:bg-zinc-900"></div>
+              <div id="outputChartdivRecipe_recipeData" class="max-h-60 w-auto rounded-lg bg-zinc-50 dark:bg-zinc-900"></div>
+            </div>
+
+
           </div>
         </div>
-      </div>
+                  <!-- chartdivRecipe Section -->
+
+
+  </div>
       
 
-    </div>
+
+
+  
+
+</div>
+
+
     <div class="fixed bottom-4 right-4">
       <button class=  "py-2 px-4 rounded-md shadow text-center  truncate overflow-hidden text-ellipsis dark:bg-white bg-zinc-700  dark:text-zinc-900  text-gray-300
       dark:hover:bg-zinc-300  hover:bg-zinc-500"
