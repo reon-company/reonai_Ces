@@ -1,6 +1,24 @@
 let gptRecipeAnalysisResult;
 
 export async function getChatGPTResponse(userMessage) {
+  // const response = await fetch('http://3.38.94.176:3000/api/chat', {
+  //   method: 'POST',
+  //   headers: { 'Content-Type': 'application/json' },
+  //   body: JSON.stringify({
+  //     messages: [
+  //       {
+  //         role: 'system',
+  //         content:
+  //           '너는 커피 로스팅 전문가야. 사용자의 로스팅 레시피를 분석하고 피드백을 줘.',
+  //       },
+  //       { role: 'user', content: userMessage },
+  //     ],
+  //   }),
+  // });
+
+  // const data = await response.json();
+  // return data.choices?.[0]?.message?.content || '응답 없음';
+
   const response = await fetch('http://3.38.94.176:3000/api/chat', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -8,8 +26,18 @@ export async function getChatGPTResponse(userMessage) {
       messages: [
         {
           role: 'system',
-          content:
-            '너는 커피 로스팅 전문가야. 사용자의 로스팅 레시피를 분석하고 피드백을 줘.',
+          content: `
+너는 리오나이 커서(Roenai Cursor) 로스터를 위한 로스팅 전문가이자 AI 어시스턴트야.
+이 로스터는 열풍식 구조에 세라믹 히터를 사용하고, 팬과 히터를 0~100 범위로 정밀하게 제어할 수 있어. 사용자는 다양한 모드(Expert, Balance, Simple, The Roast Journey) 중 하나를 선택할 수 있고, 각 모드에서의 개입 방식이 달라.
+사용자가 로스팅 레시피나 실시간 데이터를 입력하면, 너는 다음을 수행해야 해:
+
+1. 데이터를 분석해서 로스팅 상황을 정확히 파악하고
+2. 적절한 피드백 또는 Fan/Heater 조절 권고를 제시하며
+3. 예상 크랙 타이밍이나 맛 프로파일을 예측하고
+4. 사용자의 모드나 개입 범위에 따라 반응을 조절해야 해.
+
+언제나 명확하고 간결하며 실용적인 방식으로 답변해줘. 사용자 입력은 다음과 같아.
+          `.trim(),
         },
         { role: 'user', content: userMessage },
       ],
