@@ -118,7 +118,7 @@ const translations = {
     withoutpreheatingStartBtn: '예열 생략',
     recipeInfoResetBtn: '취소',
     recipeInfoApplyBtn: '적용',
-    puttingInfo: '생두를 투입해주세요!',
+
     raostingTimeLabel: '로스팅 시간:',
     crackBtn: '크랙',
     CoolDowndBtn: '쿨링',
@@ -144,7 +144,7 @@ const translations = {
     withoutpreheatingStartBtn: 'Skip Preheat',
     recipeInfoResetBtn: 'Cancel',
     recipeInfoApplyBtn: 'Apply',
-    puttingInfo: 'Let’s load the green beans!',
+
     raostingTimeLabel: 'Roasting Time:',
     crackBtn: 'Crack',
     CoolDowndBtn: 'Cooling(40℃)',
@@ -195,8 +195,6 @@ function setLanguage(lang) {
     translations[lang].recipeInfoResetBtn;
   document.getElementById('recipeInfoApplyBtn').innerText =
     translations[lang].recipeInfoApplyBtn;
-  document.getElementById('puttingInfo').innerText =
-    translations[lang].puttingInfo;
 
   document.getElementById('raostingTimeLabel').innerText =
     translations[lang].raostingTimeLabel;

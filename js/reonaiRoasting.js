@@ -20,6 +20,10 @@ let simpleRoastInputAmount = 0; // simple Roast input Amount을 저장하는 변
 //roast mode flag 로스팅 모드를 선언하는 플래그
 let roastMode = 0; // 0 = expert mode, 1 = Balance mdoe , 2 = simple mode
 
+//putting flag
+
+let roastingStartBtnForPuttingFlag = false;
+
 // expert mode = 수동모드 고급모드
 // balance mode = 중급모드
 // simple mode = 초급모드 오토 모드
@@ -984,11 +988,14 @@ async function roastStartForPuttingMode() {
   //   showPanel('easyRoastPanel');
   // }
 
+  document.getElementById('roastingStartBtnForPutting').style.display = 'none';
+
   await new Promise((resolve) => {
     const checker2 = setInterval(() => {
       const temp2 = parseFloat(document.getElementById('temp2Value').innerText);
 
-      document.getElementById('puttingInfo').innerText = '잠시만 기다려주세요.';
+      document.getElementById('puttingInfo').innerText =
+        '로스팅이 곧 시작됩니다.';
 
       console.log('110도 기다리는중');
       console.log(temp2);
@@ -1131,6 +1138,14 @@ function doorTestMode() {
   });
 }
 
+// 버튼을 누르면 flag를 true로 바꿈
+document
+  .getElementById('roastingStartBtnForPutting')
+  .addEventListener('click', () => {
+    console.log('로스팅 시작 눌림!');
+    roastingStartBtnForPuttingFlag = true;
+  });
+
 //투입을 시작하는 함수, 투입 - 2 - puttingMode()
 async function puttingMode() {
   return new Promise((resolve, reject) => {
@@ -1139,40 +1154,43 @@ async function puttingMode() {
     let resetDataString = `0,0,0,0,0,0,0\n`;
 
     console.log('puttingMode() 투입 함수 실행');
-    document.getElementById('puttingInfo').innerText = '생두를 투입해주세요!';
 
     sendDataToDevice(puttingDataString);
 
     // 20초 카운트다운 시작
-    let countdown = 20;
+    let countdown = 5;
     const countdownElement = document.getElementById('beanPuttingCounter');
 
-    countdownElement.innerText = countdown; // 초기 카운트다운 값 설정
+    // countdownElement.innerText = countdown; // 초기 카운트다운 값 설정
 
     const countdownInterval = setInterval(() => {
       const temp2 = parseFloat(document.getElementById('temp2Value').innerText);
 
       if (document.getElementById('heaterValue').innerText == 0) {
         countdown -= 1;
-        countdownElement.innerText = countdown; // 카운트다운 값 업데이트
+        // countdownElement.innerText = countdown; // 카운트다운 값 업데이트
 
-        if (countdown >= 10) {
+        if (countdown >= 3) {
           document.getElementById('puttingInfo').innerText =
             '투입도어를 열고 생두를 투입해주세요!';
-        } else if (countdown >= 0) {
-          document.getElementById('puttingInfo').innerText =
-            '투입도어를 닫고 \n 잠시만 기다려주세요';
         }
 
         // 카운트다운이 0이 되면 종료
         if (countdown <= 0) {
-          sendDataToDevice(resetDataString);
-          // puttingMode;
-          clearInterval(countdownInterval);
+          document.getElementById('puttingInfo').innerText =
+            '투입도어를 닫고 \n 로스팅 시작 버튼을 눌러주세요.';
+          document.getElementById('roastingStartBtnForPutting').style.display =
+            'block';
 
-          console.log('beanPutting() 투입 함수 종료');
+          if (roastingStartBtnForPuttingFlag) {
+            sendDataToDevice(resetDataString);
+            // puttingMode;
+            clearInterval(countdownInterval);
 
-          resolve();
+            console.log('beanPutting() 투입 함수 종료');
+
+            resolve();
+          }
         }
       } else {
         // if (countdown <= 0) {
