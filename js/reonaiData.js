@@ -639,6 +639,27 @@ function resetChartsAll() {
   Highcharts.charts[5].series[4].setData([0]);
   Highcharts.charts[5].series[5].setData([0]);
 
+  //my recipe chart
+
+  Highcharts.charts[6].series[0].setData([0]);
+  Highcharts.charts[6].series[1].setData([0]);
+  Highcharts.charts[6].series[2].setData([0]);
+  Highcharts.charts[6].series[3].setData([0]);
+  Highcharts.charts[6].series[4].setData([0]);
+  Highcharts.charts[6].series[5].setData([0]);
+  Highcharts.charts[6].series[6].setData([0]);
+  Highcharts.charts[6].series[7].setData([0]);
+  Highcharts.charts[6].series[8].setData([0]);
+  Highcharts.charts[6].series[9].setData([0]);
+  Highcharts.charts[6].series[10].setData([0]);
+  Highcharts.charts[6].series[11].setData([0]);
+  Highcharts.charts[7].series[0].setData([0]);
+  Highcharts.charts[7].series[1].setData([0]);
+  Highcharts.charts[7].series[2].setData([0]);
+  Highcharts.charts[7].series[3].setData([0]);
+  Highcharts.charts[7].series[4].setData([0]);
+  Highcharts.charts[7].series[5].setData([0]);
+
   console.log('데이터가 초기화되었습니다.');
 }
 
