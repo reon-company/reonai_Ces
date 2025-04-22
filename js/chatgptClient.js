@@ -19,7 +19,7 @@ export async function getChatGPTResponse(userMessage) {
   // const data = await response.json();
   // return data.choices?.[0]?.message?.content || '응답 없음';
 
-  const response = await fetch('http://3.38.94.176:3000/api/chat', {
+  const response = await fetch('https://api.reonai.net/api/chat', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
@@ -230,7 +230,7 @@ export async function saveAnalysisToServer(recipeId, memberId, analysis) {
   }
 
   try {
-    const response = await fetch('http://3.38.94.176:3000/api/save-analysis', {
+    const response = await fetch('https://api.reonai.net/api/save-analysis', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -267,7 +267,7 @@ window.addEventListener('DOMContentLoaded', () => {
 async function loadAnalysisList(userId, isAdmin = false) {
   try {
     const res = await fetch(
-      `http://3.38.94.176:3000/api/analysis-list/${userId}`
+      `https://api.reonai.net/api/analysis-list/${userId}`
     );
     const result = await res.json();
     const list = result.data;
@@ -310,7 +310,7 @@ export async function loadAnalysisDetail(userId, filename) {
 
   try {
     const res = await fetch(
-      `http://3.38.94.176:3000/api/analysis/${userId}/${filename}`
+      `https://api.reonai.net/api/analysis/${userId}/${filename}`
     );
     const result = await res.json();
 
