@@ -806,8 +806,8 @@
 <!-- 
           ai 메뉴 -->
 
-          <li>
-            <button type="button"
+          <li  id=aiBtn style="display : none" >
+            <button type="button"  
               class="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
               aria-controls="dropdown3-example" data-collapse-toggle="dropdown3-example">
 
@@ -1162,7 +1162,7 @@
             
             hover:bg-zinc-300  dark:hover:bg-zinc-500
             truncate overflow-hidden text-ellipsis">
-              쿨다운
+              쿨다운(40℃)
             </button>
             <button id="disposeBtn" class="py-2 px-4 rounded-md shadow text-center 
               bg-white text-zinc-900 dark:bg-zinc-700 dark:text-gray-300
@@ -2136,16 +2136,16 @@ bg-zinc-100 dark:bg-zinc-800" >
       
         <!-- 분석 상세 -->
         <div class="col-span-2">
-          <div class="bg-zinc-100 dark:bg-zinc-800 p-4 rounded-lg shadow h-full ">
+          <div class="bg-zinc-100 dark:bg-zinc-800 p-4 rounded-lg shadow h-full w-auto">
             <h2 class="text-lg font-semibold mb-4 text-zinc-900 dark:text-white">📄 분석 내용</h2>
-            <div id="loadgptAnalysisResult" class="text-sm whitespace-pre-line text-zinc-800 dark:text-gray-100 max-h-[600px] overflow-y-auto">
+            <div id="loadgptAnalysisResult" class="text-sm p-4 border rounded-lg whitespace-pre-line text-zinc-800 dark:text-gray-100 max-h-[600px] overflow-y-auto">
               분석 결과를 선택하세요.
             </div>
+            <div class="my-6"></div>
 
-
-            <div class="col-span-3">
-              <div id="chartdivRecipe_recipeData" class="max-h-100 w-auto rounded-lg bg-zinc-50 dark:bg-zinc-900"></div>
-              <div id="outputChartdivRecipe_recipeData" class="max-h-60 w-auto rounded-lg bg-zinc-50 dark:bg-zinc-900"></div>
+            <div class="col-span-3 p-4 border rounded-lg " >
+              <div id="chartdivRecipe_recipeData" class="max-h-100  rounded-lg bg-zinc-50 dark:bg-zinc-900"></div>
+              <div id="outputChartdivRecipe_recipeData" class="max-h-60 rounded-lg bg-zinc-50 dark:bg-zinc-900"></div>
             </div>
 
 

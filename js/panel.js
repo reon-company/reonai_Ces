@@ -39,6 +39,8 @@ function showPanel(panelId) {
 function adminUser() {
   document.getElementById('adminBtn').style.display = 'block';
   document.getElementById('adminBtn').classList.add('show');
+  document.getElementById('aiBtn ').style.display = 'block';
+  document.getElementById('aiBtn ').classList.add('show');
 }
 
 function headerDisplayBlock() {
@@ -145,7 +147,7 @@ const translations = {
     puttingInfo: 'Let’s load the green beans!',
     raostingTimeLabel: 'Roasting Time:',
     crackBtn: 'Crack',
-    CoolDowndBtn: 'Cooling',
+    CoolDowndBtn: 'Cooling(40℃)',
     disposeBtn: 'Dispose',
     recipeResetBtn: 'Recipe del',
     keypadSubmit: 'Apply',

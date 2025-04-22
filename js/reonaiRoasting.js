@@ -1015,11 +1015,6 @@ async function roastStartForPuttingMode() {
   showPanel('roastPanel');
   infoValueAdd();
   startRecordingcharts();
-
-  if (autoRoastingToggleFlag) {
-    toggleAutoRoasting();
-    autoRoastingToggleFlag = false;
-  }
 }
 
 //출력 값에 info에서 설정한 값을 넣어주고 수동로스팅을 진행시키는 함수
@@ -3205,6 +3200,7 @@ function adminActivation() {
         'block'; // roastInfoPowerDiv 보이기
 
       document.getElementById('adminBtn').style.display = 'block'; // roastInfoPowerDiv 보이기
+      document.getElementById('aiBtn').style.display = 'block'; // roastInfoPowerDiv 보이기
     } else {
       isAdminFlag = true;
 
@@ -3213,6 +3209,7 @@ function adminActivation() {
         'block'; // roastInfoPowerDiv 보이기
 
       document.getElementById('adminBtn').style.display = 'block'; // roastInfoPowerDiv 보이기
+      document.getElementById('aiBtn').style.display = 'block'; // roastInfoPowerDiv 보이기
     }
   } else {
     isAdminFlag = false;
