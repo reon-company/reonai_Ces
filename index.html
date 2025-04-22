@@ -1932,7 +1932,7 @@ bg-zinc-100 dark:bg-zinc-800" >
     </div> -->
 <!--mainPanel!!-->
 
-<div id="mainPanel" style="display: none;" class="w-full h-screen bg-zinc-900 text-white px-6 py-6 overflow-hidden">
+<div id="mainPanel" style="display: none;" class="w-full h-screen bg-zinc-50 dark:bg-zinc-900 text-white px-6 py-6 overflow-hidden">
   <div class="grid grid-cols-1 lg:grid-cols-1 gap-6 h-full max-w-xl mx-auto items-center">
 
     <div class="flex flex-col justify-center items-center">
@@ -1948,9 +1948,9 @@ bg-zinc-100 dark:bg-zinc-800" >
 <!-- 
       gpt 창  -->
       <div class="p-4 border rounded-lg ">
-        <textarea id="userInput" placeholder="CURSOR에게 궁금한 점을 입력하세요" class="bg-zinc-100 dark:bg-zinc-800 w-full p-2 border"></textarea>
-        <button id="chatBtn" class="bg-black text-white p-2 mt-2">"Reon AI"에게 물어보기</button>
-        <pre id="chatOutput" class="mt-4 p-3 border bg-zinc-100 dark:bg-zinc-800 whitespace-pre-wrap break-words overflow-auto max-h-[400px] text-sm rounded
+        <textarea id="userInput" placeholder="CURSOR에게 궁금한 점을 입력하세요" class="bg-zinc-100 dark:bg-zinc-800 w-full p-2 border text-zinc-800 dark:text-gray-300"></textarea>
+        <button id="chatBtn" class="  bg-gray-300 dark:bg-zinc-700  p-2 mt-2 text-zinc-800 dark:text-gray-300">"Reon AI"에게 물어보기</button>
+        <pre id="chatOutput" class="text-zinc-950 dark:text-gray-300 mt-4 p-3 border bg-zinc-100 dark:bg-zinc-800 whitespace-pre-wrap break-words overflow-auto max-h-[400px] text-sm rounded
         "></pre>
       </div>
 <!-- gpt끝 -->
@@ -2381,6 +2381,7 @@ bg-zinc-100 dark:bg-zinc-800" >
     <script src="js/reonaiData.js"></script>
     <script src="js/panel.js"></script>
     <script src="js/charts.js"></script>
+    <script src="js/chatgptClient.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
 

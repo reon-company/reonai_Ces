@@ -26,6 +26,10 @@ let crackPlotBandIds = []; // 크랙 plotBands의 id 목록
 let plotBandPercentageText; // 차트에 표시할 비율 텍스트
 let roastPlotBandIds = []; // 크랙 plotBands의 id 목록
 
+//ai 적용 변수
+//open ai 에게 보내기 전에 저장하는
+let tempBuffer = []; // 10초 동안 저장될 배열
+
 //simple roast 위한 변수
 let simpleTemp2 = 0;
 let simpleTemp1 = 0;
@@ -248,6 +252,23 @@ function handleData(event) {
       bufferedData.temp2,
       bufferedData.temp3
     );
+
+    // //open api에게 전송할 데이터
+    // tempBuffer.push({
+    //   second: currentSecond,
+    //   temp1: bufferedData.temp1,
+    //   temp2: bufferedData.temp2,
+    //   temp3: bufferedData.temp3,
+    //   fan1: bufferedData.fan1,
+    //   heater: bufferedData.heater,
+    // });
+
+    // // 🔸 10초마다 GPT 분석 요청
+    // if (currentSecond > 0 && currentSecond % 10 === 0) {
+    //   triggerSlidingAnalysis([...tempBuffer]); // 복사본 전달
+    //   tempBuffer = [];
+    // }
+
     //수신된 데이터를 인디게이터에 업데이트
     updateIndicators(temp1, temp2);
 
@@ -263,6 +284,26 @@ function handleData(event) {
       console.log('autoRoastingFlag : ', autoRoastingFlag);
       document.dispatchEvent(currentSecondUpdatedEvent);
     }
+  }
+}
+
+async function triggerSlidingAnalysis(bufferToAnalyze) {
+  const gptResponse = await sendSlidingWindowAnalysis(bufferToAnalyze);
+  console.log(
+    `🧠 ${currentSecond - 10}s ~ ${currentSecond}s 분석 결과:`,
+    gptResponse
+  );
+
+  const matchFan = gptResponse.match(/fan\s*[:：]?\s*(\d+)/i);
+  const matchHeater = gptResponse.match(/heater\s*[:：]?\s*(\d+)/i);
+
+  if (matchFan && matchHeater) {
+    const fanValue = parseInt(matchFan[1]);
+    const heaterValue = parseInt(matchHeater[1]);
+    // sendCommandToCursor(fanValue, heaterValue);
+
+    console.log(`ai fan value ${fanValue}`);
+    console.log(`ai heater value ${heaterValue}`);
   }
 }
 

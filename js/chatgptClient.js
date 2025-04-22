@@ -436,3 +436,47 @@ function displayDataRecipeData(data) {
     Highcharts.charts[7].series[5].setData(JSON.parse(details.fan2 || '[]'));
   }
 }
+
+async function sendSlidingWindowAnalysis(tempBuffer) {
+  const summary = tempBuffer
+    .map(
+      (entry) =>
+        `${entry.second}s - temp1: ${entry.temp1}, temp2: ${entry.temp2}, temp3: ${entry.temp3}, fan: ${entry.fan1}, heater: ${entry.heater}`
+    )
+    .join('\n');
+
+  const userMessage = `
+다음은 최근 10초 동안의 로스팅 데이터야:
+
+${summary}
+
+이 데이터를 바탕으로:
+1. 현재 로스팅 상태 요약
+2. 다음 10초를 위한 fan/heater 추천값을 숫자로 명시
+3. 필요한 경우 간단한 주의 또는 조언
+
+반드시 fan과 heater는 숫자로 명확하게 제시하고, 총 답변은 10문장을 넘기지 말아줘.
+  `.trim();
+
+  const response = await fetch('https://api.reonai.net/api/chat', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      messages: [
+        {
+          role: 'system',
+          content: `
+너는 리오나이 커서(Roenai Cursor) 로스터를 위한 AI 로스팅 어시스턴트야.
+로스터는 열풍식이며, fan과 heater를 0~100으로 정밀하게 제어할 수 있어.
+사용자가 입력한 10초간의 온도/제어 데이터를 분석하고,
+현재 로스팅 상황을 판단한 뒤 실용적인 제어 권고를 줘야 해.
+`.trim(),
+        },
+        { role: 'user', content: userMessage },
+      ],
+    }),
+  });
+
+  const data = await response.json();
+  return data.choices?.[0]?.message?.content || '응답 없음';
+}
