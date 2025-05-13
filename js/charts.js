@@ -1776,7 +1776,7 @@ function adjustChartSize() {
   const RoR2ValueSpan = document.getElementById('RoR2Value');
 
   const easyRoastInfoPanel = document.getElementById('easyRoastInfoPanel');
-  const easyRoastPanel = document.getElementById('easyRoastPanel');
+  const simpleRoastPanel = document.getElementById('simpleRoastPanel');
   const settingPanel = document.getElementById('settingPanel');
   const signInPanel = document.getElementById('signInPanel');
 

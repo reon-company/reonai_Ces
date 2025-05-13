@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      Reonai Studio TX4S 실시간 테스트 (ArrayBufferData 디버그 포함)
+    </title>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script type="module">
+      import * as rs485 from './js/device_rs485.js';
+      import { parseTX4SResponse } from './js/device_rs485_parser.js';
+
+      document.addEventListener('DOMContentLoaded', () => {
+        const connectBtn = document.getElementById('connect');
+        const startBtn = document.getElementById('start');
+        const stopBtn = document.getElementById('stop');
+        const testBtn = document.getElementById('test');
+        const debugBtn = document.getElementById('debug');
+        const disconnectBtn = document.getElementById('disconnect');
+        const logArea = document.getElementById('log');
+        const addressInput = document.getElementById('address');
+
+        let intervalId = null;
+        const chart = Highcharts.chart('chart-container', {
+          chart: { type: 'spline' },
+          title: { text: 'TX4S 실시간 데이터' },
+          xAxis: { type: 'datetime' },
+          yAxis: {
+            title: { text: '값' },
+            min: -2000,
+            max: 10000,
+          },
+          series: [{ name: 'Data', data: [] }],
+        });
+
+        connectBtn.addEventListener('click', async () => {
+          const success = await rs485.connectRS485(9600);
+          logArea.value += success
+            ? '포트 연결 성공 (TX4S)\n'
+            : '포트 연결 실패\n';
+        });
+
+        startBtn.addEventListener('click', () => {
+          if (intervalId) return;
+          const address = parseInt(addressInput.value, 16) || 0x03e9;
+          intervalId = setInterval(async () => {
+            try {
+              await rs485.sendRS485Command(
+                rs485.buildTX4SReadPVCommand(3, address)
+              );
+              const response = await rs485.readRS485Response(8);
+              console.log(
+                '[DEBUG] ArrayBufferData:',
+                Array.from(new Uint8Array(response.buffer))
+              );
+              const pv = parseTX4SResponse(response);
+              const time = new Date().getTime();
+              if (pv !== null) {
+                chart.series[0].addPoint(
+                  [time, pv],
+                  true,
+                  chart.series[0].data.length >= 30
+                );
+                logArea.value += `Data: ${pv}\n`;
+              }
+            } catch (e) {
+              logArea.value += '에러: ' + e.message + '\n';
+            }
+          }, 1000);
+        });
+
+        stopBtn.addEventListener('click', () => {
+          if (intervalId) {
+            clearInterval(intervalId);
+            intervalId = null;
+            logArea.value += '실시간 수집 중지\n';
+          }
+        });
+
+        testBtn.addEventListener('click', async () => {
+          try {
+            const address = parseInt(addressInput.value, 16) || 0x03e9;
+            const response = await rs485.debugWriteAndReadAny(address);
+            console.log(
+              '[DEBUG] ArrayBufferData:',
+              Array.from(new Uint8Array(response.buffer))
+            );
+            const pv = parseTX4SResponse(response);
+            logArea.value += `Test Data [${address.toString(16)}]: ${pv}\n`;
+          } catch (e) {
+            logArea.value += '에러: ' + e.message + '\n';
+          }
+        });
+
+        debugBtn.addEventListener('click', async () => {
+          try {
+            const response = await rs485.readRS485Response(8);
+            console.log(
+              '[DEBUG] ArrayBufferData:',
+              Array.from(new Uint8Array(response.buffer))
+            );
+            logArea.value += '[DEBUG] ArrayBufferData 출력 완료\n';
+          } catch (e) {
+            logArea.value += '에러: ' + e.message + '\n';
+          }
+        });
+
+        disconnectBtn.addEventListener('click', async () => {
+          if (intervalId) clearInterval(intervalId);
+          await rs485.disconnectRS485();
+          logArea.value += '포트 연결 해제\n';
+        });
+      });
+    </script>
+    <style>
+      body {
+        font-family: sans-serif;
+        padding: 20px;
+        background-color: #f9f9f9;
+      }
+      button {
+        padding: 10px 20px;
+        margin-right: 10px;
+        margin-bottom: 10px;
+        font-size: 16px;
+      }
+      textarea {
+        width: 100%;
+        height: 100px;
+        margin-top: 10px;
+        font-family: monospace;
+        font-size: 14px;
+      }
+      #chart-container {
+        height: 400px;
+        margin-top: 20px;
+      }
+      #address {
+        width: 100px;
+        padding: 5px;
+        font-size: 16px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Reonai Studio TX4S 실시간 테스트 + ArrayBufferData 디버그</h1>
+    <label
+      >Address (HEX): <input type="text" id="address" value="03E9"
+    /></label>
+    <br /><br />
+    <button id="connect">포트 연결</button>
+    <button id="start">실시간 수집 시작</button>
+    <button id="stop">중지</button>
+    <button id="test">단일 테스트</button>
+    <button id="debug">ArrayBufferData 디버그</button>
+    <button id="disconnect">포트 해제</button>
+    <textarea id="log" readonly></textarea>
+    <div id="chart-container"></div>
+  </body>
+</html>

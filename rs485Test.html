@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Reonai TX4S RS-485 테스트</title>
+    <script type="module">
+      import * as rs485 from './js/device_rs485.js';
+
+      document.addEventListener('DOMContentLoaded', () => {
+        const connectBtn = document.getElementById('connect');
+        const sendBtn = document.getElementById('send');
+        const debugComboBtn = document.getElementById('debugCombo');
+        const disconnectBtn = document.getElementById('disconnect');
+        const logArea = document.getElementById('log');
+
+        connectBtn.addEventListener('click', async () => {
+          const success = await rs485.connectRS485(9600);
+          logArea.value += success
+            ? '포트 연결 성공 (TX4S)\n'
+            : '포트 연결 실패\n';
+        });
+
+        sendBtn.addEventListener('click', async () => {
+          try {
+            // TX4S 현재값(PV) 읽기 명령 전송 + 응답 수신
+            await rs485.sendRS485Command(rs485.buildTX4SReadPVCommand());
+            const response = await rs485.readRS485Response(7); // TX4S는 일반적으로 7 bytes 응답 예상
+            logArea.value +=
+              '응답: ' +
+              Array.from(response)
+                .map((b) => b.toString(16).padStart(2, '0'))
+                .join(' ') +
+              '\n';
+          } catch (e) {
+            logArea.value += '에러: ' + e.message + '\n';
+          }
+        });
+
+        debugComboBtn.addEventListener('click', async () => {
+          try {
+            const response = await rs485.debugWriteAndReadAny();
+            logArea.value +=
+              'Debug Read: ' +
+              Array.from(response)
+                .map((b) => b.toString(16).padStart(2, '0'))
+                .join(' ') +
+              '\n';
+          } catch (e) {
+            logArea.value += '에러: ' + e.message + '\n';
+          }
+        });
+
+        disconnectBtn.addEventListener('click', async () => {
+          await rs485.disconnectRS485();
+          logArea.value += '포트 연결 해제\n';
+        });
+      });
+    </script>
+    <style>
+      body {
+        font-family: sans-serif;
+        padding: 20px;
+        background-color: #f9f9f9;
+      }
+      button {
+        padding: 10px 20px;
+        margin-right: 10px;
+        margin-bottom: 10px;
+        font-size: 16px;
+      }
+      textarea {
+        width: 100%;
+        height: 300px;
+        margin-top: 20px;
+        font-family: monospace;
+        font-size: 14px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Reonai Studio TX4S RS-485 테스트</h1>
+    <button id="connect">포트 연결</button>
+    <button id="send">TX4S 현재값 요청</button>
+    <button id="debugCombo">디버그 Write+Read</button>
+    <button id="disconnect">포트 해제</button>
+    <textarea id="log" readonly></textarea>
+  </body>
+</html>

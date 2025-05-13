@@ -691,7 +691,7 @@
             </button>
             <ul id="dropdown-example" class="hidden py-2 space-y-2">
 
-              <li style="display: none">
+              <li>
                 <a href="#" data-tooltip-target="simpleRoastMode" data-tooltip-placement="right"
                   onclick="if(isCoolDownRunning) { showCustomCheck('온도가 높습니다.'); return } else {checkBluetoothConnectionForSimpleRoasting()}"
                   class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
@@ -1010,10 +1010,9 @@
     <button class="bg-transparent text-zinc-950 dark:text-gray-300"
       onclick="showPanel('roastInfoPanel')">roastInfoPanel</button>
 
-    <!-- <button class="bg-transparent text-zinc-950 dark:text-gray-300"
+    <!--     <button class="bg-transparent text-zinc-950 dark:text-gray-300"
       onclick="showPanel('pilotRoastInfoPanel')">pilotRoastInfoPanel</button>
-    <button class="bg-transparent text-zinc-950 dark:text-gray-300"
-      onclick="showPanel('recipePanel')">recipePanel</button> -->
+     -->
     <button class="bg-transparent text-zinc-950 dark:text-gray-300"
       onclick="showPanel('puttingCountPanel')">puttingCountPanel</button>
     <button class="bg-transparent text-zinc-950 dark:text-gray-300"
@@ -1024,18 +1023,23 @@
       onclick="showPanel('recipeDataPanel')">recipeDataPanel</button>
       <button class="bg-transparent text-zinc-950 dark:text-gray-300"
       onclick="showPanel('recipeDataDisplayPanel')">recipeDataDisplayPanel</button>
-    <!-- <button class="bg-transparent text-zinc-950 dark:text-gray-300"
-      onclick="showPanel('easyRoastInfoPanel')">easyRoastInfoPanel</button>
-    <button class="bg-transparent text-zinc-950 dark:text-gray-300"
-      onclick="showPanel('easyRoastPanel')">easyRoastPanel</button>
+    <!-- 
+    
     <button class="bg-transparent text-zinc-950 dark:text-gray-300"
       onclick="showPanel('settingPanel')">settingPanel</button>
+            <button class="bg-transparent text-zinc-950 dark:text-gray-300"
+      onclick="showPanel('easyRoastInfoPanel')">easyRoastInfoPanel</button>
     <button class="bg-transparent text-zinc-950 dark:text-gray-300"
       onclick="showPanel('signInPanel')">signInPanel</button>
       <button class="bg-transparent text-zinc-950 dark:text-gray-300"
-      onclick="showPanel('signInPanel')">signInPanel</button>
+      onclick="showPanel('signInPanel')">signInPanel</button> -->
     <button class="bg-transparent text-zinc-950 dark:text-gray-300"
-      onclick="showPanel('SimpleRoastInfoPanel')">SimpleRoastInfoPanel</button> -->
+      onclick="showPanel('SimpleRoastInfoPanel')">SimpleRoastInfoPanel</button>
+      <button class="bg-transparent text-zinc-950 dark:text-gray-300"
+      onclick="showPanel('simpleRoastPanel')">simpleRoastPanel</button>
+  
+      <button class="bg-transparent text-zinc-950 dark:text-gray-300"
+      onclick="showPanel('recipePanel')">recipePanel</button>
 
 
 
@@ -1192,7 +1196,18 @@ bg-zinc-100 dark:bg-zinc-800" >
             </label>
           </div>
 
-
+          <div id="AiRoastingToggleDiv" class="flex flex-col justify-center items-center h-12 mb-1  rounded-lg 
+          bg-zinc-100 dark:bg-zinc-800" >
+                      <label class="inline-flex items-center me-5 cursor-pointer">
+                        <input id="aiRoastingToggleForManualRaosting" type="checkbox" value="30" class="sr-only peer">
+                        <div
+                          class="relative w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-4 peer-focus:ring-red-300 dark:peer-focus:ring-red-800 dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-red-600">
+                        </div>
+                        <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">Ai Roasting</span>
+                      </label>
+                    </div>
+                    <pre id="aiRaostingChatOutput" class="text-zinc-950 dark:text-gray-300 mt-4 p-3 border bg-zinc-100 dark:bg-zinc-800 whitespace-pre-wrap break-words overflow-auto max-h-[400px] text-sm rounded
+        "></pre>
 
           <!-- 출력제어 하는 부분 -->
           <div id="sliderSection" style="display:block;" class="flex flex-col justify-center items-center h-1/5 mb-1  rounded-lg 
@@ -2249,9 +2264,14 @@ bg-zinc-100 dark:bg-zinc-800" >
 
       </div>
     </div>
+  </div>
 
-    <div id="easyRoastPanel" style="display: none; margin: 0 auto;  " class="flex justify-center items-center h-screen">
+
+
+    <!--simpleRoastPanel 시작-->
+    <div id="simpleRoastPanel" style="display: none; margin: 0 auto;  " class="flex justify-center items-center h-screen">
       <!--go to main!!-->
+    
       <div class="fixed bottom-4 right-4">
         <button class=  "py-2 px-4 rounded-md shadow text-center  truncate overflow-hidden text-ellipsis dark:bg-white bg-zinc-700  dark:text-zinc-900  text-gray-300
         dark:hover:bg-zinc-300  hover:bg-zinc-500"
@@ -2265,7 +2285,7 @@ bg-zinc-100 dark:bg-zinc-800" >
           <div class="bg-zinc-100 dark:bg-zinc-800 p-4  rounded-lg shadow">
             <div class="flex justify-between items-center gap-12">
               <span id="roastInfoPanelPreheat"
-                class="text-lg font-semibold text-zinc-950 dark:text-gray-300 ">Roasting</span>
+                class="text-lg font-semibold text-zinc-950 dark:text-gray-300 ">roasting process</span>
               <span id="roastingDisplayForEasyRaosting" class="text-4xl font-bold text-red-500">0%</span>
             </div>
           </div>
@@ -2278,24 +2298,21 @@ bg-zinc-100 dark:bg-zinc-800" >
             border-gray-300 dark:border-zinc-700
             bg-white  dark:bg-zinc-700 
           hover:bg-zinc-300 
-          dark:hover:bg-zinc-500" disabled onclick="simpleRoastModeDisposeMode()">배출</button>
+          dark:hover:bg-zinc-500">배출</button>
 
 
-
+          <!-- disabled -->
 
           </div>
-          <div class="flex space-x-4">
-            <button class="w-full p-2   rounded-md shadow border 
-        text-zinc-900 dark:text-gray-300 
-        border-gray-300 dark:border-zinc-700
-        bg-white  dark:bg-zinc-700 
-      hover:bg-zinc-300 
-      dark:hover:bg-zinc-500" onclick="simpleRoastExitConfirm()">로스팅 종료</button>
-          </div>
+    
         </div>
       </div>
     </div>
   </div>
+
+
+  <!--simpleRoastPanel 끝-->
+
   <!--myRecipePanel 시작-->
   <div id="myRecipePanel" style="display: none; margin: 0 auto;  " class="flex justify-center items-center h-screen">
     <!--go to main!!-->

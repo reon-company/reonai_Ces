@@ -34,6 +34,8 @@ const maxExceedCount = 50; // 최대 초과 횟수
 
 let autoRoastingFlag = false; // 오토로스팅 동작 플래그
 let autoRoastingStartFlag = false; // 오토로스팅 동작 플래그
+
+let aiRoastingFlag = false; // ai로스팅 동작 플래그
 let isCoolDownRunning = false; // 쿨링모드  동작 플래그
 let intervalId; // 전역 변수로 인터벌 ID를 저장할 변수 선언(오토로스팅 중지를 위함)
 let heatPeakInterval;
@@ -121,14 +123,14 @@ let temp2isHighText = '온도가 너무 높습니다. DT온도가 250도 이하�
 let chaffCheckText = '채프를 청소 하셨습니까?';
 let readyToDisposeText = '배출을 하시겠습니까?';
 let doYouWantSaveRecipe = '레시피를 저장 하시겠습니까?';
-let doYouWantStartRoasting = '로스팅을 다시 시작 하시겠습니까?';
+let doYouWantStartRoasting = '메인화면으로 돌아갑니다.';
 let doYouWantDispose = '배출을 더 하시겠습니까?';
 
 //배출 모드 반복을 제어하는 플래그
 let disposmodeFlag = false;
 
 //배출 시간 변수
-let disposeSecond = 5;
+let disposeSecond = 6;
 
 //출력값 입력 함수
 const fan1NumberModal = document.getElementById('fan1Number');
@@ -515,7 +517,7 @@ function getSelectedValue(selectName) {
   console.log(selectedValue); // Log the value (for demonstration)
 }
 
-// simpleRoastInfoInputAmount 값이 입력되는지 여부를 확인한다.
+// simpleRoastInfoInputAmount 값이 입력되는지 여부를 확인한다. 투입량을 선택하면 simpleRoastInputFlag = true;
 document
   .getElementById('simpleRoastInfoInputAmount')
   .addEventListener('change', () => {
@@ -954,6 +956,7 @@ async function roastInfoStart() {
         // 특정 함수 호출
 
         roastStartForPuttingMode();
+
         // heatingMode();
         // console.log('puttingMode() 함수 완료 후 특정 함수 실행');
         // document.getElementById('putting-modal').classList.remove('hidden'); // 모달 보이기
@@ -1019,9 +1022,17 @@ async function roastStartForPuttingMode() {
     }, 100); // 0.1초마다 체크
   });
 
-  showPanel('roastPanel');
-  infoValueAdd();
-  startRecordingcharts();
+  if (!simpleRoastInputFlag) {
+    //Expert mode 일경우
+    showPanel('roastPanel');
+    infoValueAdd();
+    startRecordingcharts();
+  } else if (simpleRoastInputFlag) {
+    toggleAutoRoasting(); //auto 로스팅 플래그!
+    showPanel('simpleRoastPanel');
+    recoedAutofetch(); //데이터 넣기
+    startRecordingcharts();
+  }
 }
 
 //출력 값에 info에서 설정한 값을 넣어주고 수동로스팅을 진행시키는 함수
@@ -1588,60 +1599,71 @@ async function manualDispose() {
     );
   }
 
-  //레시피 저장 물어보기
-  showCustomConfirm(doYouWantSaveRecipe, (result) => {
-    if (result) {
-      RecipeWrite();
-      //로스팅 다시 하는거 물어보기
-      showCustomConfirm(doYouWantStartRoasting, (result) => {
-        if (result) {
-          disposmodeFlag = false;
-          roastingReset();
+  if (!simpleRoastInputFlag) {
+    //expert mode의 경우
+    //레시피 저장 물어보기
+    showCustomConfirm(doYouWantSaveRecipe, (result) => {
+      if (result) {
+        RecipeWrite();
+        //로스팅 다시 하는거 물어보기
+        showCustomConfirm(doYouWantStartRoasting, (result) => {
+          if (result) {
+            // disposmodeFlag = false;
+            // roastingReset();
 
-          stopCoolingMode();
-          autoRoastingFlagOff();
-          autoRoastingStartFlagOff();
+            // stopCoolingMode();
+            // autoRoastingFlagOff();
+            // autoRoastingStartFlagOff();
 
-          clearAllCharts();
+            // clearAllCharts();
 
-          stopRecordingcharts();
+            // stopRecordingcharts();
 
-          checkBluetoothConnectionForManualRoasting();
-          heatingMode();
+            // checkBluetoothConnectionForManualRoasting();
+            // heatingMode();
 
-          return;
-        } else {
-          // goToMain();
-          webReload();
-          return;
-        }
-      });
-    } else {
-      //로스팅 다시 하는거 물어보기
-      showCustomConfirm(doYouWantStartRoasting, (result) => {
-        if (result) {
-          disposmodeFlag = false;
-          roastingReset();
+            webReload();
+            return;
+          } else {
+            // goToMain();
+            webReload();
+            return;
+          }
+        });
+      } else {
+        //로스팅 다시 하는거 물어보기
+        showCustomConfirm(doYouWantStartRoasting, (result) => {
+          if (result) {
+            // disposmodeFlag = false;
+            // roastingReset();
 
-          stopCoolingMode();
-          autoRoastingFlagOff();
-          autoRoastingStartFlagOff();
+            // stopCoolingMode();
+            // autoRoastingFlagOff();
+            // autoRoastingStartFlagOff();
 
-          clearAllCharts();
+            // clearAllCharts();
 
-          stopRecordingcharts();
+            // stopRecordingcharts();
 
-          checkBluetoothConnectionForManualRoasting();
-          heatingMode();
-          return;
-        } else {
-          // goToMain();
-          webReload();
-          return;
-        }
-      });
-    }
-  });
+            // checkBluetoothConnectionForManualRoasting();
+            // heatingMode();
+            // 그냥 웹리로드 , 데이터 남은게 너무 불안정함.
+
+            webReload();
+            return;
+          } else {
+            // goToMain();
+            webReload();
+            return;
+          }
+        });
+      }
+    });
+  } else if (simpleRoastInputFlag) {
+    // simpleRoastmode
+
+    webReload();
+  }
 }
 
 async function simpleRoastModeDisposeMode() {
@@ -1842,18 +1864,37 @@ function disposalMode() {
             actuatorFlag = 1; // actuator 1
             // 히터 값을 0으로 설정
             sendDataToDevice(disposalDataString); //배출 스트링
-            document.getElementById('fan1Slider').value = 0; //100
-            document.getElementById('heaterSlider').value = 0;
-            document.getElementById('fan2Slider').value = 0;
-            document.getElementById('fan1Number').value = 0; // 100
-            document.getElementById('fan2Number').value = 0;
-            document.getElementById('heaterNumber').value = 0;
+            // document.getElementById('fan1Slider').value = 0; //100
+            // document.getElementById('heaterSlider').value = 0;
+            // document.getElementById('fan2Slider').value = 0;
+            // document.getElementById('fan1Number').value = 0; // 100
+            // document.getElementById('fan2Number').value = 0;
+            // document.getElementById('heaterNumber').value = 0;
 
             // 슬라이더 표시값 업데이1
             document.getElementById('fan1Value').innerText = '0.0'; // 100.0
             document.getElementById('heaterValue').innerText = '0.0';
             document.getElementById('fan2Value').innerText = '0.0';
-          } else if (disposalCount >= 1) {
+          } else if (disposalCount >= 1 && disposalCount <= 2) {
+            // 히터 값을 0으로 설정
+
+            let disposalDataString = `1,255,0,0,1,0,0\n`;
+
+            actuatorFlag = 1; // actuator 1
+            // 히터 값을 0으로 설정
+            sendDataToDevice(disposalDataString); //배출 스트링
+            // document.getElementById('fan1Slider').value = 100; //100
+            // document.getElementById('heaterSlider').value = 0;
+            // document.getElementById('fan2Slider').value = 0;
+            // document.getElementById('fan1Number').value = 100; // 100
+            // document.getElementById('fan2Number').value = 0;
+            // document.getElementById('heaterNumber').value = 0;
+
+            // 슬라이더 표시값 업데이트
+            document.getElementById('fan1Value').innerText = '100.0'; // 100.0
+            document.getElementById('heaterValue').innerText = '0.0';
+            document.getElementById('fan2Value').innerText = '0.0';
+          } else if (disposalCount >= 3 && disposalCount <= 5) {
             // 히터 값을 0으로 설정
 
             let disposalDataString = `1,255,0,0,1,255,0\n`;
@@ -1861,18 +1902,38 @@ function disposalMode() {
             actuatorFlag = 1; // actuator 1
             // 히터 값을 0으로 설정
             sendDataToDevice(disposalDataString); //배출 스트링
-            document.getElementById('fan1Slider').value = 80; //100
-            document.getElementById('heaterSlider').value = 0;
-            document.getElementById('fan2Slider').value = 40;
-            document.getElementById('fan1Number').value = 80; // 100
-            document.getElementById('fan2Number').value = 40;
-            document.getElementById('heaterNumber').value = 0;
+            // document.getElementById('fan1Slider').value = 100; //100
+            // document.getElementById('heaterSlider').value = 0;
+            // document.getElementById('fan2Slider').value = 0;
+            // document.getElementById('fan1Number').value = 100; // 100
+            // document.getElementById('fan2Number').value = 0;
+            // document.getElementById('heaterNumber').value = 0;
 
             // 슬라이더 표시값 업데이트
-            document.getElementById('fan1Value').innerText = '80.0'; // 100.0
+            document.getElementById('fan1Value').innerText = '100.0'; // 100.0
             document.getElementById('heaterValue').innerText = '0.0';
-            document.getElementById('fan2Value').innerText = '40.0';
+            document.getElementById('fan2Value').innerText = '100.0';
+          } else if (disposalCount >= 5) {
+            // 히터 값을 0으로 설정
+
+            let disposalDataString = `1,0,0,0,1,0,0\n`;
+
+            actuatorFlag = 1; // actuator 1
+            // 히터 값을 0으로 설정
+            sendDataToDevice(disposalDataString); //배출 스트링
+            // document.getElementById('fan1Slider').value = 100; //100
+            // document.getElementById('heaterSlider').value = 0;
+            // document.getElementById('fan2Slider').value = 0;
+            // document.getElementById('fan1Number').value = 100; // 100
+            // document.getElementById('fan2Number').value = 0;
+            // document.getElementById('heaterNumber').value = 0;
+
+            // 슬라이더 표시값 업데이트
+            document.getElementById('fan1Value').innerText = '0.0'; // 100.0
+            document.getElementById('heaterValue').innerText = '0.0';
+            document.getElementById('fan2Value').innerText = '0.0';
           }
+
           disposalCount++;
           console.log('배출중');
           console.log(disposalCount);
@@ -2150,7 +2211,7 @@ document.addEventListener('currentSecondUpdated', () => {
 
     document.getElementById(
       'roastingDisplayForEasyRaosting'
-    ).innerText = `${autoPercent.toFixed(1)}%`; //예열 퍼센트 표 시
+    ).innerText = `${autoPercent.toFixed(1)}%`;
   }
 
   if (autoPercent.toFixed(1) >= 100 && simpleTemp1 <= 55) {
@@ -2242,6 +2303,22 @@ function autoRoastingFlagOff() {
   if (autoRoastingFlag) {
     autoRoastingFlag = false;
     console.log('오토로스팅 플래그 off');
+  }
+}
+
+// ai 로스팅 플래그 온!
+function aiRoastingFlagOn() {
+  if (!aiRoastingFlag) {
+    aiRoastingFlag = true;
+    console.log('ai로스팅 플래그 on');
+  }
+}
+
+// ai 로스팅 플래그 off
+function aiRoastingFlagOff() {
+  if (aiRoastingFlag) {
+    aiRoastingFlag = false;
+    console.log('ai로스팅 플래그 off');
   }
 }
 
@@ -2683,6 +2760,31 @@ document.getElementById('disposeBtn').addEventListener('click', () => {
   }
 });
 
+document
+  .getElementById('simpleRoastDisposeBtn')
+  .addEventListener('click', () => {
+    if (lengFlag == 0) {
+      showCustomConfirm('배출을 시작 하시겠습니까?', (result) => {
+        if (result) {
+          manualDispose();
+          console.log('사용자가 확인을 선택했습니다.');
+        } else {
+          console.log('사용자가 취소를 선택했습니다.');
+        }
+      });
+    } else {
+      showCustomConfirm('Do you want to start dispose?', (result) => {
+        if (result) {
+          manualDispose();
+
+          console.log('사용자가 확인을 선택했습니다.');
+        } else {
+          console.log('사용자가 취소를 선택했습니다.');
+        }
+      });
+    }
+  });
+
 //모달창 펑션
 //컨펌 모달창
 function showCustomConfirm(message, callback) {
@@ -2784,7 +2886,8 @@ function simpleRoastModeStartConfirm() {
           return;
         } else {
           showPanel('puttingCountPanel');
-          simpleRroastInfoStart();
+
+          roastInfoStart();
           disableButton('simpleRoastInfoStartBtn');
         }
       }
@@ -3087,6 +3190,25 @@ toggle.addEventListener('change', (event) => {
   }
 });
 
+const aiToggle = document.getElementById('aiRoastingToggleForManualRaosting');
+
+aiToggle.addEventListener('change', (event) => {
+  if (event.target.checked) {
+    console.log('AI is ON');
+
+    // document.getElementById('sliderSection').style.display = 'none';
+
+    document.getElementById('autoRoastingToggleDiv').style.display = 'none';
+
+    aiRoastingFlagOn();
+  } else {
+    console.log('AI is OFF');
+    document.getElementById('autoRoastingToggleDiv').style.display = 'block';
+    // document.getElementById('sliderSection').style.display = 'block';
+    aiRoastingFlagOff();
+  }
+});
+
 //pilot Roasting 전용
 function recipeProcessingToggleHover(selectedId) {
   // List of all button IDs
@@ -3183,7 +3305,7 @@ function simpleRroastInfoStart() {
         console.log('자동 로스팅을 시작합니다.');
         console.log(loadedRoastData);
         startAutoRoasting(loadedRoastData);
-        showPanel('easyRoastPanel');
+        showPanel('simpleRoastPanel');
       })
       .catch((error) => {
         console.error('puttingMode() 함수 실패:', error);

@@ -29,6 +29,8 @@ let roastPlotBandIds = []; // 크랙 plotBands의 id 목록
 //ai 적용 변수
 //open ai 에게 보내기 전에 저장하는
 let tempBuffer = []; // 10초 동안 저장될 배열
+let tempHistory = []; // 누적 저장될 배열
+let lastAnalysisSecond = -1; // 전역 또는 상단에 초기화
 
 //simple roast 위한 변수
 let simpleTemp2 = 0;
@@ -43,6 +45,7 @@ let rorData = [];
 let outputData = [];
 let crackPoints = [];
 let crackPointTimes = [];
+
 let previousDataString = '';
 let coolingPointTimes = null; // 터닝 포인트 시간을 저장하는 배열
 let coolingPointTemps = 0; // 터닝 포인트 온도를 저장하는 배열
@@ -71,6 +74,7 @@ let currentSecond = 0; // 현재 몇 번째 초인지 추적
 let lastReceiveTime = 0; // 마지막 수신 시간을 기록
 let bufferedData = null; // 수신된 데이터를 임시로 저장할 변수
 let resetTime = null;
+let bufferCounter = 0; // AI 버퍼를 카운트 하는 카운터
 
 //차트의 기록을 제어하는 변수
 let isRecordingcharts = false; // 차트 기록 상태 변수
@@ -253,21 +257,33 @@ function handleData(event) {
       bufferedData.temp3
     );
 
-    // //open api에게 전송할 데이터
-    // tempBuffer.push({
-    //   second: currentSecond,
-    //   temp1: bufferedData.temp1,
-    //   temp2: bufferedData.temp2,
-    //   temp3: bufferedData.temp3,
-    //   fan1: bufferedData.fan1,
-    //   heater: bufferedData.heater,
-    // });
+    //open api에게 전송할 데이터
 
-    // // 🔸 10초마다 GPT 분석 요청
-    // if (currentSecond > 0 && currentSecond % 10 === 0) {
-    //   triggerSlidingAnalysis([...tempBuffer]); // 복사본 전달
-    //   tempBuffer = [];
-    // }
+    if (bufferCounter < 9) {
+      tempHistory.push({
+        second: currentSecond,
+        temp1: bufferedData.temp1,
+        temp2: bufferedData.temp2,
+        ror1: parseFloat(document.getElementById('RoR1Value').innerText),
+        ror2: parseFloat(document.getElementById('RoR2Value').innerText),
+        fan1: bufferedData.fan1,
+        heater: bufferedData.heater,
+        cpTime: parseFloat(document.getElementById('firstCrackTime').innerText),
+        cpTemp: parseFloat(document.getElementById('firstCrackTemp').innerText),
+        cpPercent: percentageOfDtr,
+      });
+    } else {
+      tempHistory = [];
+      bufferCounter = 0;
+    }
+
+    // 🔸 10초마다 GPT 분석 요청
+    if (aiRoastingFlag) {
+      if (currentSecond - lastAnalysisSecond >= 10) {
+        triggerSlidingAnalysis([...tempHistory]); // 복사본 전달
+        lastAnalysisSecond = currentSecond;
+      }
+    }
 
     //수신된 데이터를 인디게이터에 업데이트
     updateIndicators(temp1, temp2);
@@ -280,30 +296,158 @@ function handleData(event) {
 
     //데이터를 처리하고 나면 1초 지남 ++
     currentSecond++;
+
+    bufferCounter++;
+    console.log('bufferCouneter');
+    console.log(bufferCounter);
     if (autoRoastingStartFlag) {
       console.log('autoRoastingFlag : ', autoRoastingFlag);
       document.dispatchEvent(currentSecondUpdatedEvent);
     }
   }
 }
+1;
 
+//oepn api에 정보전달
+async function sendSlidingWindowAnalysis(tempBuffer) {
+  const summary = tempHistory
+    .map(
+      (entry) =>
+        `${entry.second}s - temp1: ${entry.temp1}, temp2: ${entry.temp2}, RoR1: ${entry.ror1}, RoR2: ${entry.ror2}, fan: ${entry.fan1}, heater: ${entry.heater}, cpTime: ${entry.cpTime}, cpTemp: ${entry.cpTemp} cpPercent: ${entry.cpPercent}`
+    )
+    .join('\n');
+
+  const userMessage = `
+다음은 지금까지 누적된 로스팅 데이터입니다:
+
+${summary}
+
+
+
+이 데이터에는 온도(temp1, temp2), 상승률(RoR1, RoR2), 팬(fan), 히터(heater) , 크랙 포인트 시간(cpTime),크랙 포인트 온도(cpTemp),Develop time ratio percent(dtrPercent), 정보가 포함되어 있습니다.
+
+
+이 데이터를 기반으로:
+
+0.생두의 품종은 taypiplaya caturra & catuai anaerobic washe
+
+100g투입
+
+생두가 가진 모든 플레이버가 잘 표현이되고
+밝은 산미와 달콤한 단맛이 나게 로스팅을 해줘
+
+생두 특성상 초반 히터값을 70.0으로 시작하는것을 권장해
+생두가 수분이 조금 많은듯 
+초반에 열을 70.0으로 시작해서 90.0까지 올려서 생두 내부까이 열이 잘 투입되도록 하고싶어
+
+fan1 50.0으로 시작하는 것을 권장해 로스팅이 진행됨에따라 0.5단계씩 
+
+로스팅 타임 6분에 temp1 온도가 206도가 도달될 수 있도록해줘.
+206도가 넘으면 히터를 끄고 쿨링을 시작해줘 
+목표 도달 온도를 넘으면 무조건 히터를 0.0으로 변경해줘 
+
+
+1. 현재까지의 로스팅 상황을 분석하고
+2. fan1/heater의 추천 제어값을 숫자로 제시하며
+3. fan1/heater의 범위는 
+fan1 min 30.0 ~ max 100.0
+heaer min 0.0 ~ max 100.0 입니다.
+제어 단위는 0.5단계로 변경 가능합니다. 
+4. 투입되는 생두 용량과 예상되는 최적 fan1 값은
+50g : 40
+100g : 50
+150g : 70
+200g : 80
+입니다.
+
+
+
+5. 로스팅 시작시 heater는 60이상이여야 합니다. 
+6. 대부분의 로스팅 데이터에서 heater 값은 80~100사이였습니다. 
+
+7. RoR 흐름을 고려한 조언도 1~2줄 포함해줘.
+8. 크랙포인트가 생기면 cpTime, cpTemp, DTR값을 분석해서 로스팅을 후반부를 마무리해줘 
+9. 전체 로스팅 흐름에 대한 간단한 요약과 제안을 2~3문장 추가해줘.
+10. 로스팅이 완료되었다고 판단되면 쿨링을 하기 위해 heater값을 0으로 꼭 해줘 
+결과적으로 
+11. fan과 heater의 추천값을 숫자로 명확히 제시하고
+**형식은 반드시 아래처럼 JSON 형태로 시작해줘:**
+{
+  "fan": 65.0,
+  "heater": 45.5,
+  "comment": "RoR 흐름이 안정적입니다. 크랙 이전 구간에서 fan을 줄여 열 보존을 유도하세요."
+}
+
+절대로 이 형식을 벗어나지 말고 JSON 객체가 첫 줄에 오도록 해줘.
+
+`.trim();
+
+  const response = await fetch('https://api.reonai.net/api/chat', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      messages: [
+        {
+          role: 'system',
+          content: `
+
+
+
+너는 Reonai Cursor를 위한 누적 기반 로스팅 분석 AI야.
+지금까지의 온도, 출력, 시간 흐름을 종합 분석하고,
+RoR 곡선과 출력 흐름을 함께 고려해서 명확한 숫자 제어값을 추천하고, 분석적 코멘트를 제공해줘.
+정확하고 실용적인 fan/heater 제어 가이드를 제공해야 해.
+
+`.trim(),
+        },
+        { role: 'user', content: userMessage },
+      ],
+    }),
+  });
+
+  const data = await response.json();
+  return data.choices?.[0]?.message?.content || '응답 없음';
+}
+
+//open ai에게 받은 데이터 파싱
+// OpenAI에게 받은 JSON 응답 파싱
 async function triggerSlidingAnalysis(bufferToAnalyze) {
   const gptResponse = await sendSlidingWindowAnalysis(bufferToAnalyze);
-  console.log(
-    `🧠 ${currentSecond - 10}s ~ ${currentSecond}s 분석 결과:`,
-    gptResponse
-  );
+  const output = document.getElementById('aiRaostingChatOutput');
+  console.log(`📡 GPT 응답 원문:`, gptResponse);
+  output.innerText = gptResponse;
+  let fanValue, heaterValue;
 
-  const matchFan = gptResponse.match(/fan\s*[:：]?\s*(\d+)/i);
-  const matchHeater = gptResponse.match(/heater\s*[:：]?\s*(\d+)/i);
+  try {
+    // 응답 내 JSON 객체 영역 추출
+    const jsonStart = gptResponse.indexOf('{');
+    const jsonEnd = gptResponse.lastIndexOf('}');
+    const jsonString = gptResponse.slice(jsonStart, jsonEnd + 1);
+    const parsed = JSON.parse(jsonString);
 
-  if (matchFan && matchHeater) {
-    const fanValue = parseInt(matchFan[1]);
-    const heaterValue = parseInt(matchHeater[1]);
-    // sendCommandToCursor(fanValue, heaterValue);
+    fanValue = parseInt(parsed.fan);
+    heaterValue = parseInt(parsed.heater);
 
-    console.log(`ai fan value ${fanValue}`);
-    console.log(`ai heater value ${heaterValue}`);
+    if (!isNaN(fanValue) && !isNaN(heaterValue)) {
+      console.log(`✅ GPT 분석 fan: ${fanValue}, heater: ${heaterValue}`);
+
+      // 🔹 Fan UI 업데이트
+      document.getElementById('fan1Number').value = fanValue;
+      document.getElementById('fan1Slider').value = fanValue;
+      document.getElementById('fan1Value').innerText = fanValue;
+
+      // 🔹 Heater UI 업데이트
+      document.getElementById('heaterNumber').value = heaterValue;
+      document.getElementById('heaterSlider').value = heaterValue;
+      document.getElementById('heaterValue').innerText = heaterValue;
+
+      // 📤 필요 시 실제 제어 신호 전송
+      // sendCommandToCursor(fanValue, heaterValue);
+    } else {
+      console.warn('⚠️ GPT 응답에 fan/heater 숫자값이 없습니다.', parsed);
+    }
+  } catch (error) {
+    console.error('❌ GPT 응답에서 JSON 파싱 실패:', error, gptResponse);
   }
 }
 
