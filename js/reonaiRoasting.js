@@ -130,7 +130,7 @@ let doYouWantDispose = '배출을 더 하시겠습니까?';
 let disposmodeFlag = false;
 
 //배출 시간 변수
-let disposeSecond = 6;
+let disposeSecond = 10;
 
 //출력값 입력 함수
 const fan1NumberModal = document.getElementById('fan1Number');
@@ -1875,26 +1875,7 @@ function disposalMode() {
             document.getElementById('fan1Value').innerText = '0.0'; // 100.0
             document.getElementById('heaterValue').innerText = '0.0';
             document.getElementById('fan2Value').innerText = '0.0';
-          } else if (disposalCount >= 1 && disposalCount <= 2) {
-            // 히터 값을 0으로 설정
-
-            let disposalDataString = `1,255,0,0,1,0,0\n`;
-
-            actuatorFlag = 1; // actuator 1
-            // 히터 값을 0으로 설정
-            sendDataToDevice(disposalDataString); //배출 스트링
-            // document.getElementById('fan1Slider').value = 100; //100
-            // document.getElementById('heaterSlider').value = 0;
-            // document.getElementById('fan2Slider').value = 0;
-            // document.getElementById('fan1Number').value = 100; // 100
-            // document.getElementById('fan2Number').value = 0;
-            // document.getElementById('heaterNumber').value = 0;
-
-            // 슬라이더 표시값 업데이트
-            document.getElementById('fan1Value').innerText = '100.0'; // 100.0
-            document.getElementById('heaterValue').innerText = '0.0';
-            document.getElementById('fan2Value').innerText = '0.0';
-          } else if (disposalCount >= 3 && disposalCount <= 5) {
+          } else {
             // 히터 값을 0으로 설정
 
             let disposalDataString = `1,255,0,0,1,255,0\n`;
@@ -1913,25 +1894,6 @@ function disposalMode() {
             document.getElementById('fan1Value').innerText = '100.0'; // 100.0
             document.getElementById('heaterValue').innerText = '0.0';
             document.getElementById('fan2Value').innerText = '100.0';
-          } else if (disposalCount >= 5) {
-            // 히터 값을 0으로 설정
-
-            let disposalDataString = `1,0,0,0,1,0,0\n`;
-
-            actuatorFlag = 1; // actuator 1
-            // 히터 값을 0으로 설정
-            sendDataToDevice(disposalDataString); //배출 스트링
-            // document.getElementById('fan1Slider').value = 100; //100
-            // document.getElementById('heaterSlider').value = 0;
-            // document.getElementById('fan2Slider').value = 0;
-            // document.getElementById('fan1Number').value = 100; // 100
-            // document.getElementById('fan2Number').value = 0;
-            // document.getElementById('heaterNumber').value = 0;
-
-            // 슬라이더 표시값 업데이트
-            document.getElementById('fan1Value').innerText = '0.0'; // 100.0
-            document.getElementById('heaterValue').innerText = '0.0';
-            document.getElementById('fan2Value').innerText = '0.0';
           }
 
           disposalCount++;

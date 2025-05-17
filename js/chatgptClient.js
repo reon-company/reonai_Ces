@@ -1,24 +1,6 @@
 let gptRecipeAnalysisResult;
 
 export async function getChatGPTResponse(userMessage) {
-  // const response = await fetch('http://3.38.94.176:3000/api/chat', {
-  //   method: 'POST',
-  //   headers: { 'Content-Type': 'application/json' },
-  //   body: JSON.stringify({
-  //     messages: [
-  //       {
-  //         role: 'system',
-  //         content:
-  //           '너는 커피 로스팅 전문가야. 사용자의 로스팅 레시피를 분석하고 피드백을 줘.',
-  //       },
-  //       { role: 'user', content: userMessage },
-  //     ],
-  //   }),
-  // });
-
-  // const data = await response.json();
-  // return data.choices?.[0]?.message?.content || '응답 없음';
-
   const response = await fetch('https://api.reonai.net/api/chat', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },

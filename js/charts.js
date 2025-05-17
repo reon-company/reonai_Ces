@@ -212,7 +212,7 @@ function createReceivedChart() {
             color: '#941F25',
           },
         },
-        min: 50,
+        min: 40,
         max: 350,
         gridLineWidth: 1,
         tickInterval: 5,
