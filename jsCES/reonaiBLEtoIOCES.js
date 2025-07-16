@@ -20,7 +20,8 @@ let temp2History5s = []; // 5초 동안의 temp2 값을 저장할 배열
 const timeWindow5s = 5; // 5초
 let temp1History60s = []; // 60초 동안의 temp1 값을 저장할 배열
 let temp2History60s = []; // 60초 동안의 temp2 값을 저장할 배열
-
+let temp3History60s = []; // 60초 동안의 temp2 값을 저장할 배열
+let temp4History60s = []; // 60초 동안의 temp2 값을 저장할 배열
 const timeWindow60s = 60; // 60초
 let crackPointCount = 0; // 크랙 포인트 기록 횟수
 let crackPlotBandIds = []; // 크랙 plotBands의 id 목록
@@ -66,7 +67,8 @@ let thirdCrackPointTemp = [];
 // RoR 계산에 필요한 변수
 let previousTemp1 = null;
 let previousTemp2 = null;
-
+let previousTemp3 = null;
+let previousTemp4 = null;
 let previousTime = null;
 let RoR1Values = [];
 let RoR2Values = [];
@@ -222,14 +224,14 @@ function updateMainConnectBluetoothBtnText() {
 function handleData(event) {
   let currentTime = new Date().getTime();
   let value = new TextDecoder().decode(event.target.value);
-  let [temp1, temp2, none, temp3, fan1, heater, fan2] = value
+  let [temp1, temp2, temp3, temp4, fan1, heater, fan2] = value
     .split(',')
     .map(Number);
   // console.log('수신값 : ', value);
   // console.log(Math.floor(currentTime / 1000));
   console.log(currentSecond);
   // 최신 데이터를 버퍼에 저장
-  bufferedData = { temp1, temp2, none, temp3, fan1, heater, fan2 };
+  bufferedData = { temp1, temp2, temp3, temp4, fan1, heater, fan2 };
 
   // 타이머로 1초마다 데이터 처리 (버퍼 앞에 숫자가 중요)
   if (currentTime - lastReceiveTime >= 100 && bufferedData) {
@@ -242,10 +244,10 @@ function handleData(event) {
       bufferedData.temp1,
       'temp2 : ',
       bufferedData.temp2,
-      'none : ',
-      bufferedData.none,
-      'inner : ',
+      'temp3 : ',
       bufferedData.temp3,
+      'temp4 : ',
+      bufferedData.temp4,
       'fan1: ',
       bufferedData.fan1,
       'heater : ',
@@ -256,7 +258,8 @@ function handleData(event) {
     updateReceivedChart(
       bufferedData.temp1,
       bufferedData.temp2,
-      bufferedData.temp3
+      bufferedData.temp3,
+      bufferedData.temp4
     );
 
     //open api에게 전송할 데이터
@@ -288,7 +291,7 @@ function handleData(event) {
     }
 
     //수신된 데이터를 인디게이터에 업데이트
-    updateIndicators(temp1, temp2);
+    updateIndicators(temp1, temp2, temp3, temp4);
 
     // 데이터 발신!
     checkAndSendData();
@@ -457,7 +460,7 @@ function toNearestTen(value) {
   return Math.round(value / 10) * 10; // 10의 단위로 반올림
 }
 
-function updateIndicators(temp1, temp2) {
+function updateIndicators(temp1, temp2, temp3, temp4) {
   const mainConnectBluetoothBtn = document.getElementById(
     'mainConnectBluetoothBtn'
   );
@@ -476,6 +479,8 @@ function updateIndicators(temp1, temp2) {
 
   document.getElementById('temp1Value').innerText = temp1.toFixed(2);
   document.getElementById('temp2Value').innerText = temp2.toFixed(2);
+  document.getElementById('temp3Value').innerText = temp3.toFixed(2);
+  document.getElementById('temp4Value').innerText = temp4.toFixed(2);
   simpleTemp2 = temp2.toFixed(2);
   simpleTemp1 = temp1.toFixed(2);
   //roastInfoPanel 전송
@@ -502,7 +507,7 @@ function updateIndicators(temp1, temp2) {
 }
 
 //******  updateReceivedChart   *******
-function updateReceivedChart(temp1, temp2, temp3) {
+function updateReceivedChart(temp1, temp2, temp3, temp4) {
   if (currentSecond > 900) return;
   if (!isRecordingcharts) return;
   // 5초 동안의 평균 계산
@@ -519,7 +524,8 @@ function updateReceivedChart(temp1, temp2, temp3) {
   temp2History5s.push(temp2);
   temp1History60s.push(temp1);
   temp2History60s.push(temp2);
-
+  temp3History60s.push(temp3);
+  temp4History60s.push(temp4);
   // console.log('temp1Avg5s', temp1Avg5s);
   // console.log('temp1', temp1);
 
@@ -563,9 +569,11 @@ function updateReceivedChart(temp1, temp2, temp3) {
   //   // RoR 계산
   let firstTemp1for60s = temp1History60s[temp1History60s.length - 60]; // 첫 번째 데이터
   let firstTemp2for60s = temp2History60s[temp2History60s.length - 60]; // 첫 번째 데이터
+  let firstTemp3for60s = temp3History60s[temp3History60s.length - 60]; // 첫 번째 데이터
+  let firstTemp4for60s = temp4History60s[temp4History60s.length - 60]; // 첫 번째 데이터
 
-  let lastTemp1for60s = temp1History60s[temp1History60s.length - 1]; // 첫 번째 데이터
-  let lastTemp2for60s = temp2History60s[temp2History60s.length - 1]; // 첫 번째 데이터
+  let lastTemp3for60s = temp3History60s[temp3History60s.length - 1]; // 첫 번째 데이터
+  let lastTemp4for60s = temp4History60s[temp4History60s.length - 1]; // 첫 번째 데이터
 
   let firstTemp1for5s = temp1History5s[temp1History5s.length - 5]; // 첫 번째 데이터
   let lastTemp1for5s = temp1History5s[temp1History5s.length - 1]; // 마지막 데이터
@@ -580,6 +588,8 @@ function updateReceivedChart(temp1, temp2, temp3) {
   } else {
     RoR1 = 0;
     RoR2 = 0;
+    RoR3 = 0;
+    RoR4 = 0;
   }
 
   if (temp1History60s.length >= 60) {
@@ -587,6 +597,8 @@ function updateReceivedChart(temp1, temp2, temp3) {
 
     RoR1 = (lastTemp1for60s - firstTemp1for60s) / 60; // temp1의 RoR(60s) 계산
     RoR2 = (lastTemp2for60s - firstTemp2for60s) / 60; // temp2의 RoR(60s) 계산
+    RoR3 = (lastTemp3for60s - firstTemp3for60s) / 60; // temp2의 RoR(60s) 계산
+    RoR4 = (lastTemp4for60s - firstTemp4for60s) / 60; // temp2의 RoR(60s) 계산
   } else {
     RoR1 = 0;
     RoR2 = 0;
@@ -598,7 +610,8 @@ function updateReceivedChart(temp1, temp2, temp3) {
   // 이전 값을 저장
   previousTemp1 = temp1;
   previousTemp2 = temp2;
-
+  previousTemp3 = temp3;
+  previousTemp4 = temp4;
   previousTime = currentSecond;
 
   // Highcharts에 데이터 추가
@@ -607,6 +620,12 @@ function updateReceivedChart(temp1, temp2, temp3) {
 
   Highcharts.charts[0].series[3].addPoint([currentSecond, RoR1], true, false); // RoR1 추가
   Highcharts.charts[0].series[4].addPoint([currentSecond, RoR2], true, false); // RoR2 추가
+
+  Highcharts.charts[0].series[2].addPoint([currentSecond, temp3], true, false);
+  Highcharts.charts[0].series[12].addPoint([currentSecond, temp4], true, false);
+
+  Highcharts.charts[0].series[13].addPoint([currentSecond, RoR3], true, false); // RoR3 추가
+  Highcharts.charts[0].series[14].addPoint([currentSecond, RoR4], true, false); // RoR4 추가
 
   // // 60초 이후부터 RoR 값을 차트에 추가
   // if (previousTime >= 5 && RoR1 !== null && RoR2 !== null) {
@@ -617,6 +636,8 @@ function updateReceivedChart(temp1, temp2, temp3) {
   //HTML 요소에 ROR 값 업데이트
   document.getElementById('RoR1Value').innerText = RoR1.toFixed(2); // RoR1 표시
   document.getElementById('RoR2Value').innerText = RoR2.toFixed(2); // RoR2 표시
+  document.getElementById('RoR3Value').innerText = RoR3.toFixed(2); // RoR2 표시
+  document.getElementById('RoR4Value').innerText = RoR4.toFixed(2); // RoR2 표시
 
   document.getElementById('elapsedValue').innerText = formatSecondsToMinutes(
     previousTime.toFixed(0)
@@ -664,11 +685,11 @@ function updateReceivedChart(temp1, temp2, temp3) {
   if (!isRecordingCrackPoint) {
     if (!coolingPointFlag) {
       //크랙 아닐경우는 초록색 12번 시리즈
-      Highcharts.charts[0].series[12].addPoint(
-        [currentSecond, 60],
-        true,
-        false
-      ); // 로스팅
+      // Highcharts.charts[0].series[12].addPoint(
+      //   [currentSecond, 60],
+      //   true,
+      //   false
+      // ); // 로스팅
       firstCcrackStartSecond = currentSecond;
       // 실시간으로 crack plotBand의 to 값을 업데이트
     }
@@ -735,6 +756,8 @@ function updateReceivedChart(temp1, temp2, temp3) {
     time: currentSecond,
     temp1: temp1,
     temp2: temp2,
+    temp3: temp3,
+    temp4: temp4,
   });
 
   // rorData 배열에 데이터 추가
@@ -1001,7 +1024,8 @@ function roastingReset() {
   // RoR 계산에 필요한 변수
   previousTemp1 = null;
   previousTemp2 = null;
-
+  previousTemp3 = null;
+  previousTemp4 = null;
   previousTime = null;
   RoR1Values = [];
   RoR2Values = [];
@@ -1018,7 +1042,8 @@ function roastingReset() {
   temp1History5s = []; // 5초 동안의 temp1 값을 저장할 배열
   temp1History60s = []; // 60초 동안의 temp1 값을 저장할 배열
   temp2History60s = []; // 60초 동안의 temp2 값을 저장할 배열
-
+  temp3History60s = []; // 60초 동안의 temp2 값을 저장할 배열
+  temp4History60s = []; // 60초 동안의 temp2 값을 저장할 배열
   crackPointCount = 0; // 크랙 포인트 기록 횟수
   crackPlotBandIds = []; // 크랙 plotBands의 id 목록
 
