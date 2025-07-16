@@ -1,0 +1,13 @@
+{
+  "rewrites": [
+    {
+      "source": "/",
+      "has": [{ "type": "host", "value": "ces.reonai.net" }],
+      "destination": "/cesMain.html"
+    },
+    {
+      "source": "/",
+      "destination": "/index.html"
+    }
+  ]
+}
