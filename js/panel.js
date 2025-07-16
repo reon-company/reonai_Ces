@@ -58,7 +58,12 @@ function headerDisplayNone() {
 document.addEventListener('DOMContentLoaded', () => {
   // headerDisplayNone();
 
-  showPanel('mainPanel');
+  if (!window.location.href.includes('reon_AI.html')) {
+    showPanel('SimpleRoastInfoPanel');
+  } else {
+    showPanel('mainPanel');
+  }
+
   // showPanel('myRecipePanel');
 
   // showPanel('roastPanel');
