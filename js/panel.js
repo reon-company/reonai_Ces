@@ -112,14 +112,13 @@ const translations = {
     preheatNotComplete: '예열이 완료되지 않았습니다',
     manualRoastingBtn: '정밀 로스팅',
     roastInfoStartBtn: '로스팅 시작',
-
     withoutpreheatingStartBtn: '예열 생략',
     recipeInfoResetBtn: '취소',
     recipeInfoApplyBtn: '적용',
-
     raostingTimeLabel: '로스팅 시간:',
     crackBtn: '크랙',
     CoolDowndBtn: '쿨링',
+    CoolDowndStopBtn: '쿨링정지',
     disposeBtn: '배출',
     recipeResetBtn: '레시피삭제',
     keypadSubmit: '입력',
@@ -145,7 +144,8 @@ const translations = {
 
     raostingTimeLabel: 'Roasting Time:',
     crackBtn: 'Crack',
-    CoolDowndBtn: 'Cooling(40℃)',
+    CoolDowndBtn: 'Cooling',
+    CoolDowndStopBtn: 'STOP',
     disposeBtn: 'Dispose',
     recipeResetBtn: 'Recipe del',
     keypadSubmit: 'Apply',
@@ -199,6 +199,8 @@ function setLanguage(lang) {
   document.getElementById('crackBtn').innerText = translations[lang].crackBtn;
   document.getElementById('CoolDowndBtn').innerText =
     translations[lang].CoolDowndBtn;
+  document.getElementById('CoolDowndStopBtn').innerText =
+    translations[lang].CoolDowndStopBtn;
   document.getElementById('disposeBtn').innerText =
     translations[lang].disposeBtn;
   // document.getElementById('recipeResetBtn').innerText =

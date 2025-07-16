@@ -120,6 +120,8 @@ let ethiopiaDarkRoast = false; //에티오피아 시다모 벤사 부리소 아�
 
 //modal 확인 문구 텍스트 변수(언어변경을 위함)
 let temp2isHighText = '온도가 너무 높습니다. DT온도가 250도 이하로 내려주세요.';
+let temp2isHighText_100 =
+  '온도가 너무 높습니다. HT온도가 100도 이하로 내려주세요.';
 let chaffCheckText = '채프를 청소 하셨습니까?';
 let readyToDisposeText = '배출을 하시겠습니까?';
 let doYouWantSaveRecipe = '레시피를 저장 하시겠습니까?';
@@ -868,6 +870,54 @@ function stopCoolingMode() {
   if (monitorTemperature) {
     console.log('CoolingMode 종료.');
     clearInterval(monitorTemperature);
+    roastMode = 0;
+  }
+}
+
+function stopCoolingModeFunc() {
+  const CoolDowndBtn = document.getElementById('CoolDowndBtn');
+  const CoolDowndStopBtn = document.getElementById('CoolDowndStopBtn');
+  const temp2 = parseFloat(document.getElementById('temp2Value').innerText);
+  const temp1 = parseFloat(document.getElementById('temp1Value').innerText);
+  let temp2Limit = 90;
+
+  if (temp2 >= temp2Limit) {
+    showCustomConfirm(temp2isHighText_100, (result) => {
+      if (result) {
+        return;
+      } else {
+        return;
+      }
+    });
+  } else {
+    stopCoolingMode();
+    isRecordingcharts = false; // 차트 기록 중지 함수
+
+    console.log(temp1, '40이하', temp2, '40이하');
+    clearInterval(monitorTemperature);
+    let resetDataString = `0,0,0,0,0,0,0\n`;
+    // 슬라이더 값을 0으로 설정
+    document.getElementById('fan1Slider').value = 0;
+    document.getElementById('heaterSlider').value = 0;
+    document.getElementById('fan2Slider').value = 0;
+    document.getElementById('fan1Number').value = 0;
+    document.getElementById('fan2Number').value = 0;
+    document.getElementById('heaterNumber').value = 0;
+    // 슬라이더 표시값 업데이트
+    document.getElementById('fan1Value').innerText = '0.0';
+    document.getElementById('heaterValue').innerText = '0.0';
+    document.getElementById('fan2Value').innerText = '0.0';
+    sendDataToDevice(resetDataString); //출력제로
+
+    console.log('쿨다운 완료 ');
+    document.getElementById('CoolDowndBtn').style.display = 'block';
+    document.getElementById('CoolDowndStopBtn').style.display = 'none';
+
+    isCoolDownRunning = false;
+    coolingpointflagFalse();
+
+    CoolDowndBtn.style.display = 'block'; //버튼 원복
+    CoolDowndStopBtn.style.display = 'none'; //버튼 원복
   }
 }
 
@@ -1027,11 +1077,13 @@ async function roastStartForPuttingMode() {
     showPanel('roastPanel');
     infoValueAdd();
     startRecordingcharts();
+    currentRoastingState = 1; // 로스팅 스테이트 1로 변경
   } else if (simpleRoastInputFlag) {
     toggleAutoRoasting(); //auto 로스팅 플래그!
     showPanel('simpleRoastPanel');
     recoedAutofetch(); //데이터 넣기
     startRecordingcharts();
+    currentRoastingState = 1; // 로스팅 스테이트 1로 변경
   }
 }
 
@@ -1333,7 +1385,7 @@ function coolingMode() {
 
   autoRoastingFlagOff();
   autoRoastingStartFlagOff();
-
+  currentRoastingState = 0;
   // 지속적으로 temp1과 temp2 값을 모니터링하여 50 이하가 되면 handleOutputZero 호출
   monitorTemperature = setInterval(() => {
     const temp1 = parseFloat(document.getElementById('temp1Value').innerText);
@@ -1358,7 +1410,9 @@ function coolingMode() {
       document.getElementById('fan2Value').innerText = '0.0';
       sendDataToDevice(resetDataString); //출력제로
 
-      console.log('쿨 다운 완료 ');
+      console.log('쿨다운 완료 ');
+      document.getElementById('CoolDowndBtn').style.display = 'block';
+      document.getElementById('CoolDowndStopBtn').style.display = 'none';
 
       isCoolDownRunning = false;
       coolingpointflagFalse();
@@ -1793,7 +1847,7 @@ function disposalMode() {
   return new Promise((resolve) => {
     const temp2 = parseFloat(document.getElementById('temp2Value').innerText);
     const temp1 = parseFloat(document.getElementById('temp1Value').innerText);
-    let temp2Limit = 250;
+    let temp2Limit = 320;
     let disposalCount = 0;
     let disposalCountStep1 = 0;
     let disposalCountStep2 = 0;
@@ -2353,7 +2407,7 @@ function checkBluetoothConnectionForManualRoasting() {
       headerDisplayNone();
       document.getElementById('roastInfoPowerDiv').style.display = 'block'; // roastInfoPowerDiv 보이기
       showPanel('roastInfoPanel');
-      roastMode = 0;
+      currentRoastingState = 0;
       console.log('roastMode = ', roastMode);
       heatingMode();
       autoRoastingFlagOff();
@@ -2678,10 +2732,15 @@ function recoedAutofetch() {
 // });
 
 document.getElementById('CoolDowndBtn').addEventListener('click', () => {
+  const CoolDowndBtn = document.getElementById('CoolDowndBtn');
+  const CoolDowndStopBtn = document.getElementById('CoolDowndStopBtn');
   if (lengFlag == 0) {
     showCustomConfirm('쿨링을 시작 하시겠습니까?', (result) => {
       if (result) {
+        CoolDowndBtn.style.display = 'none';
+        CoolDowndStopBtn.style.display = 'block';
         coolingMode();
+
         console.log('사용자가 확인을 선택했습니다.');
       } else {
         console.log('사용자가 취소를 선택했습니다.');
@@ -2690,7 +2749,31 @@ document.getElementById('CoolDowndBtn').addEventListener('click', () => {
   } else {
     showCustomConfirm('Do you want to start cooling?', (result) => {
       if (result) {
+        CoolDowndBtn.style.display = 'none';
+        CoolDowndStopBtn.style.display = 'block';
         coolingMode();
+        console.log('사용자가 확인을 선택했습니다.');
+      } else {
+        console.log('사용자가 취소를 선택했습니다.');
+      }
+    });
+  }
+});
+
+document.getElementById('CoolDowndStopBtn').addEventListener('click', () => {
+  if (lengFlag == 0) {
+    showCustomConfirm('쿨링을 정지 하시겠습니까?', (result) => {
+      if (result) {
+        stopCoolingModeFunc();
+        console.log('사용자가 확인을 선택했습니다.');
+      } else {
+        console.log('사용자가 취소를 선택했습니다.');
+      }
+    });
+  } else {
+    showCustomConfirm('Do you want to start cooling?', (result) => {
+      if (result) {
+        stopCoolingModeFunc();
         console.log('사용자가 확인을 선택했습니다.');
       } else {
         console.log('사용자가 취소를 선택했습니다.');
@@ -2703,7 +2786,14 @@ document.getElementById('disposeBtn').addEventListener('click', () => {
   if (lengFlag == 0) {
     showCustomConfirm('배출을 시작 하시겠습니까?', (result) => {
       if (result) {
-        manualDispose();
+        showCustomDiposalSecond('배출을 몇초 하시겠습니까?', (result) => {
+          if (result) {
+            console.log(disposeSecond);
+            manualDispose();
+          } else {
+          }
+        });
+
         console.log('사용자가 확인을 선택했습니다.');
       } else {
         console.log('사용자가 취소를 선택했습니다.');
@@ -2712,7 +2802,13 @@ document.getElementById('disposeBtn').addEventListener('click', () => {
   } else {
     showCustomConfirm('Do you want to start dispose?', (result) => {
       if (result) {
-        manualDispose();
+        showCustomDiposalSecond('배출을 몇초 하시겠습니까?', (result) => {
+          if (result) {
+            console.log(disposeSecond);
+            manualDispose();
+          } else {
+          }
+        });
 
         console.log('사용자가 확인을 선택했습니다.');
       } else {
@@ -2783,6 +2879,47 @@ function showCustomCheck(message) {
 
   CheckButton.onclick = () => {
     confirmBox.classList.add('hidden');
+  };
+}
+
+//배출 타임  모달창
+function showCustomDiposalSecond(message, callback) {
+  const confirmBox = document.getElementById('showCustomDiposalSecond-modal');
+  const confirmMessage = document.getElementById('diposalSecond-message');
+  const Button4s = document.getElementById('diposalSecond-4s');
+  const Button6s = document.getElementById('diposalSecond-6s');
+  const Button8s = document.getElementById('diposalSecond-8s');
+  const Button10s = document.getElementById('diposalSecond-10s');
+  const Button12s = document.getElementById('diposalSecond-12s');
+
+  confirmMessage.textContent = message;
+  confirmBox.classList.remove('hidden');
+  confirmBox.classList.add('flex');
+
+  Button4s.onclick = () => {
+    disposeSecond = 4;
+    confirmBox.classList.add('hidden');
+    callback(true);
+  };
+  Button6s.onclick = () => {
+    disposeSecond = 6;
+    confirmBox.classList.add('hidden');
+    callback(true);
+  };
+  Button8s.onclick = () => {
+    disposeSecond = 8;
+    confirmBox.classList.add('hidden');
+    callback(true);
+  };
+  Button10s.onclick = () => {
+    disposeSecond = 10;
+    confirmBox.classList.add('hidden');
+    callback(true);
+  };
+  Button12s.onclick = () => {
+    disposeSecond = 12;
+    confirmBox.classList.add('hidden');
+    callback(true);
   };
 }
 

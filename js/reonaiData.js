@@ -1,4 +1,5 @@
 // 레시피 저장 및 로드 데이터
+const clientIdKK = '5531f5d67fbd80d2885763d52ff1c62e';
 const clientIdData = '4d042c50-bd70-11ee-aa8b-e30685fde2fa';
 const clientNameData = 'reon';
 let memberIdData = 67;
@@ -1417,8 +1418,6 @@ async function loadRecipeOptions(userData) {
       console.error('HTTP error:', response.status);
       return;
     }
-
-    console.log('동작중인가??');
 
     const data = await response.json();
     if (data && data.status === 200) {
