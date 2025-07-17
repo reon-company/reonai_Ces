@@ -59,9 +59,9 @@ document.addEventListener('DOMContentLoaded', () => {
   // headerDisplayNone();
 
   if (!window.location.href.includes('reon_AI.html')) {
-    showPanel('SimpleRoastInfoPanel');
-  } else {
     showPanel('mainPanel');
+  } else {
+    showPanel('SimpleRoastInfoPanel');
   }
 
   // showPanel('myRecipePanel');
