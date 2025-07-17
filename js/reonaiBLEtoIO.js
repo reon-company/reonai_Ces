@@ -575,8 +575,8 @@ function updateReceivedChart(temp1, temp2, temp3) {
   if (temp1History5s.length >= 5) {
     console.log('temp1History5s.length : ', temp1History5s.length);
 
-    RoR1 = ((lastTemp1for5s - firstTemp1for5s) / 5) * 60; // temp1의 RoR(60s) 계산
-    RoR2 = ((lastTemp2for5s - firstTemp2for5s) / 5) * 60; // temp2의 RoR(60s) 계산
+    RoR1 = lastTemp1for5s - firstTemp1for5s; // temp1의 RoR(60s) 계산
+    RoR2 = lastTemp2for5s - firstTemp2for5s; // temp2의 RoR(60s) 계산
   } else {
     RoR1 = 0;
     RoR2 = 0;
@@ -585,8 +585,8 @@ function updateReceivedChart(temp1, temp2, temp3) {
   if (temp1History60s.length >= 60) {
     console.log('temp1History60s.length : ', temp1History60s.length);
 
-    RoR1 = (lastTemp1for60s - firstTemp1for60s) / 60; // temp1의 RoR(60s) 계산
-    RoR2 = (lastTemp2for60s - firstTemp2for60s) / 60; // temp2의 RoR(60s) 계산
+    RoR1 = lastTemp1for60s - firstTemp1for60s; // temp1의 RoR(60s) 계산
+    RoR2 = lastTemp2for60s - firstTemp2for60s; // temp2의 RoR(60s) 계산
   } else {
     RoR1 = 0;
     RoR2 = 0;

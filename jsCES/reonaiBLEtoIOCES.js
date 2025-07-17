@@ -572,6 +572,8 @@ function updateReceivedChart(temp1, temp2, temp3, temp4) {
   let firstTemp3for60s = temp3History60s[temp3History60s.length - 60]; // 첫 번째 데이터
   let firstTemp4for60s = temp4History60s[temp4History60s.length - 60]; // 첫 번째 데이터
 
+  let lastTemp1for60s = temp1History60s[temp1History60s.length - 1]; // 첫 번째 데이터
+  let lastTemp2for60s = temp2History60s[temp2History60s.length - 1]; // 첫 번째 데이터
   let lastTemp3for60s = temp3History60s[temp3History60s.length - 1]; // 첫 번째 데이터
   let lastTemp4for60s = temp4History60s[temp4History60s.length - 1]; // 첫 번째 데이터
 
@@ -595,10 +597,10 @@ function updateReceivedChart(temp1, temp2, temp3, temp4) {
   if (temp1History60s.length >= 60) {
     console.log('temp1History60s.length : ', temp1History60s.length);
 
-    RoR1 = (lastTemp1for60s - firstTemp1for60s) / 60; // temp1의 RoR(60s) 계산
-    RoR2 = (lastTemp2for60s - firstTemp2for60s) / 60; // temp2의 RoR(60s) 계산
-    RoR3 = (lastTemp3for60s - firstTemp3for60s) / 60; // temp2의 RoR(60s) 계산
-    RoR4 = (lastTemp4for60s - firstTemp4for60s) / 60; // temp2의 RoR(60s) 계산
+    RoR1 = lastTemp1for60s - firstTemp1for60s; // temp1의 RoR(60s) 계산
+    RoR2 = lastTemp2for60s - firstTemp2for60s; // temp2의 RoR(60s) 계산
+    RoR3 = lastTemp3for60s - firstTemp3for60s; // temp2의 RoR(60s) 계산
+    RoR4 = lastTemp4for60s - firstTemp4for60s; // temp2의 RoR(60s) 계산
   } else {
     RoR1 = 0;
     RoR2 = 0;
