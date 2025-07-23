@@ -157,6 +157,9 @@ document
         document.getElementById('loginUserName').textContent =
           userData.firstName;
 
+        document.getElementById('loginUserName2').textContent =
+          userData.firstName;
+
         document.getElementById('userName').style.display = 'block';
 
         // 필요한 후속 작업 수행 (예: 페이지 이동, 토큰 저장 등)

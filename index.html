@@ -93,10 +93,10 @@
   <div id="simpleRoastMode" role="tooltip"
     class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
     <div class="px-3 py-2 bg-gray-100 border-b border-gray-200 rounded-t-lg dark:border-gray-600 dark:bg-gray-700">
-      <h3 class="font-semibold text-gray-900 dark:text-white">Simple Roast Mode</h3>
+      <h3 class="font-semibold text-gray-900 dark:text-white">ai Roasting Mode</h3>
     </div>
     <div class="px-3 py-2">
-      <p>초보자도 쉽게 시작할 수 있도록 설계된 간단하고 직관적인 로스팅 모드입니다</p>
+      <p>ai와 함께하는 쉽고 편안한 로스팅 </p>
     </div>
     <div data-popper-arrow></div>
   </div>
@@ -745,11 +745,11 @@
             </button>
             <ul id="dropdown-example" class="hidden py-2 space-y-2">
 
-              <li  style="display: none">
+              <li >
                 <a href="#" data-tooltip-target="simpleRoastMode" data-tooltip-placement="right"
                   onclick="if(isCoolDownRunning) { showCustomCheck('온도가 높습니다.'); return } else {checkBluetoothConnectionForSimpleRoasting()}"
                   class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
-                  Simple
+                  ai Roasting
                 </a>
               </li>
 
@@ -768,6 +768,14 @@
                   Expert
                 </a>
               </li>
+<!-- 
+          <li>
+                <a href="#" data-tooltip-target="" data-tooltip-placement="right"
+                  onclick="location.href='reon_ai.html',showPanel('SimpleRoastInfoPanel')"
+                  class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
+                  ai Roasting
+                </a>
+              </li>  -->
 
             </ul>
           </li>
@@ -1196,7 +1204,7 @@
 
             
 
-            <button id="goFullScreen"  onclick="
+            <button id="goFullScreen" style="display: none"  onclick="
             goFullScreen();" class="py-2 px-4 rounded-md shadow text-center 
             bg-white text-zinc-900 dark:bg-zinc-700 dark:text-gray-300
             
@@ -1271,8 +1279,20 @@ bg-zinc-100 dark:bg-zinc-800" >
                         <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">Ai Roasting</span>
                       </label>
                     </div>
-                    <pre id="aiRaostingChatOutput" style ="display : none"  class="text-zinc-950 dark:text-gray-300 mt-4 p-3 border bg-zinc-100 dark:bg-zinc-800 whitespace-pre-wrap break-words overflow-auto max-h-[400px] text-sm rounded
-        "></pre>
+                  
+
+        <div style ="display : none" id="AiAssistToggleDiv" class="flex flex-col justify-center items-center h-12 mb-1  rounded-lg 
+        bg-zinc-100 dark:bg-zinc-800" >
+                    <label class="inline-flex items-center me-5 cursor-pointer">
+                      <input id="aiAssistToggle" type="checkbox" value="30" class="sr-only peer">
+                      <div
+                        class="relative w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-4 peer-focus:ring-red-300 dark:peer-focus:ring-red-800 dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-red-600">
+                      </div>
+                      <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">Ai Assist</span>
+                    </label>
+                  </div>
+                  <pre id="aiRaostingChatOutput" style ="display : none"  class="text-zinc-950 dark:text-gray-300 mt-4 p-3 border bg-zinc-100 dark:bg-zinc-800 whitespace-pre-wrap break-words overflow-auto max-h-[400px] text-sm rounded
+      "></pre>
 
           <!-- 출력제어 하는 부분 -->
           <div id="sliderSection" style="display:block;" class="flex flex-col justify-center items-center h-1/5 mb-1  rounded-lg 
@@ -1860,6 +1880,8 @@ bg-zinc-100 dark:bg-zinc-800" >
     <div id="SimpleRoastInfoPanel" style="display: none; margin: 0 auto;  "
       class="flex justify-center items-center h-screen">
       <!--go to main!!-->
+
+
       <div class="fixed bottom-4 right-4">
         <button class=  "py-2 px-4 rounded-md shadow text-center  truncate overflow-hidden text-ellipsis dark:bg-white bg-zinc-700  dark:text-zinc-900  text-gray-300
         dark:hover:bg-zinc-300  hover:bg-zinc-500"
@@ -1867,22 +1889,28 @@ bg-zinc-100 dark:bg-zinc-800" >
       </div>
 <!--go to main!!-->
 
-      <div class="grid  place-items-center gap-4 p-4 text-gray-200 h-full">
+      <div class="place-items-center gap-10 p-4 text-gray-200 h-full">
 
+
+        <span class="text-4xl font-semibold block text-zinc-950 dark:text-gray-300 ">ai Roasting</span>
+    
 
         <!-- Left Column -->
-        <div class="space-y-4 ">
-          <span class="text-lg font-semibold block text-zinc-950 dark:text-gray-300">Simple Roast mode</span>
+        <div class="space-y-4 grid grid-cols-3  gap-5 mt-10  ">
+  
+  
+                                                <!-- 
+      gpt 창  -->
+      <div class="p-4 border rounded-lg ">
+        <textarea id="userInput" placeholder="로스팅 설정 값을 물어보세요." class="bg-zinc-100 dark:bg-zinc-800 w-full p-2 border text-zinc-800 dark:text-gray-300"></textarea>
+        <button id="chatBtn" class="  bg-gray-300 dark:bg-zinc-700  p-2 mt-2 text-zinc-800 dark:text-gray-300">"Reon AI"에게 물어보기</button>
+        <pre id="chatOutput" class="text-zinc-950 dark:text-gray-300 mt-4 p-3 border bg-zinc-100 dark:bg-zinc-800 whitespace-pre-wrap break-words overflow-auto max-h-[400px] text-sm rounded
+        "></pre>
+      </div>
+<!-- gpt끝 -->
           <!-- Preheat Section -->
-          <div class="bg-zinc-100 dark:bg-zinc-800 p-4 rounded-lg shadow">
-            <div class="flex justify-between items-center">
-              <span id="roastInfoPanelPreheat"
-                class="text-lg font-semibold text-zinc-950 dark:text-gray-300">Preheat</span>
-              <span id="simpleRoastModePreheatPercentDisplay" class="text-4xl font-bold text-red-500">0%</span>
-              <span class="" id="infoTemp1Value" style="display: none;">-</span>
-              <span class="" id="infoTemp2Value" style="display: none;">-</span>
-
-            </div>
+          <div class="bg-zinc-100 dark:bg-zinc-800 p-4 rounded-lg shadow"style="display: none;">
+          
             <div class="mt-4" style="display: none;">
               <label for="tempSet" class="block text-sm text-zinc-950 dark:text-gray-300">Temp set</label>
               <select id="tempSet" class="w-full p-2 rounded    
@@ -1897,8 +1925,28 @@ bg-zinc-100 dark:bg-zinc-800" >
             </div>
           </div>
 
+
+        
           <!--Recipe Choose Btn -->
           <div class="bg-zinc-100 dark:bg-zinc-800 p-4 rounded-lg shadow">
+
+            <div class="flex justify-between items-center">
+              <span id="roastInfoPanelPreheat"
+                class="text-lg font-semibold text-zinc-950 dark:text-gray-300">Preheat</span>
+              <span id="simpleRoastModePreheatPercentDisplay" class="text-4xl font-bold text-red-500">0%</span>
+              <span class="" id="infoTemp1Value" style="display: none;">-</span>
+              <span class="" id="infoTemp2Value" style="display: none;">-</span>
+
+
+
+            </div>
+            <span class="text-lg font-semibold block text-zinc-950 dark:text-gray-300">Bean Name</span>
+            <div>
+
+              <input id="aiRoastInfoBeanName" type="text" class="w-full p-2   text-gray-700 rounded-md shadow border border-gray-300 dark:border-zinc-700
+                  bg-white text-zinc-900 dark:bg-zinc-700 dark:text-gray-300
+                  over:bg-zinc-300  dark:hover:bg-zinc-500 rounded" placeholder="Bean Name / info">
+            </div>
             <span class="text-lg font-semibold block text-zinc-950 dark:text-gray-300">Bean Processing</span>
             <div class="grid grid-cols-2 gap-1 mt-2">
               <button id="recipeProcessingWashedBtn" class=" p-2   text-gray-700 rounded-md shadow border border-gray-300 dark:border-zinc-700
@@ -1914,6 +1962,7 @@ bg-zinc-100 dark:bg-zinc-800" >
 
             <span class="text-lg font-semibold block text-zinc-950 dark:text-gray-300">Roasting Stages</span>
             <div class="grid grid-cols-3 gap-1 mt-2">
+
               <button id="recipeStagesLightBtn" class=" p-2   text-gray-700 rounded-md shadow border border-gray-300 dark:border-zinc-700
                     bg-white text-zinc-900 dark:bg-zinc-700 dark:text-gray-300
                     over:bg-zinc-300  dark:hover:bg-zinc-500"
@@ -1928,10 +1977,13 @@ bg-zinc-100 dark:bg-zinc-800" >
                     bg-white dark:bg-zinc-700 text-zinc-900  dark:text-gray-300
                     over:bg-zinc-300  dark:hover:bg-zinc-500"
                 onclick="recipeStagesToggleHover('recipeStagesDarkBtn')">Dark</button>
+
+          
             </div>
 
 
           </div>
+
 
 
 
@@ -1953,22 +2005,83 @@ bg-zinc-100 dark:bg-zinc-800" >
                   <option value="200">200g</option>
                 </select>
               </div>
+
+              <div>
+
+                <select name="simpleRoastInfoTargetTemp" id="simpleRoastInfoTargetTemp" class="w-full p-2   text-gray-700 rounded-md shadow border border-gray-300 dark:border-zinc-700
+                  bg-white text-zinc-900 dark:bg-zinc-700 dark:text-gray-300
+                  over:bg-zinc-300  dark:hover:bg-zinc-500 rounded">
+                  <option disabled hidden selected>Target Temp</option>
+                
+                  <option value="190">190℃</option>
+                  <option value="191">191℃</option>
+                  <option value="192">192℃</option>
+                  <option value="193">193℃</option>
+                  <option value="194">194℃</option>
+                  <option value="195">195℃</option>
+                  <option value="196">196℃</option>
+                  <option value="197">197℃</option>
+                  <option value="198">198℃</option>
+                  <option value="199">199℃</option>
+                  <option value="201">201℃</option>
+                  <option value="202">202℃</option>
+                  <option value="203">203℃</option>
+                  <option value="204">204℃</option>
+                  <option value="205">205℃</option>
+                  <option value="206">206℃</option>
+                  <option value="207">207℃</option>
+                  <option value="208">208℃</option>
+                  <option value="209">209℃</option>
+                  <option value="210">210℃</option>
+                  <option value="211">211℃</option>
+                  <option value="212">212℃</option>
+                  <option value="213">213℃</option>
+                  <option value="214">214℃</option>
+                  <option value="215">215℃</option>
+                  <option value="216">216℃</option>
+                  <option value="217">217℃</option>
+          
+                </select>
+              </div>
+
+              <div >
+                <select name="simpleRoastInfoTargetTime" id="simpleRoastInfoTargetTime" class="w-full p-2   text-gray-700 rounded-md shadow border border-gray-300 dark:border-zinc-700
+                  bg-white text-zinc-900 dark:bg-zinc-700 dark:text-gray-300
+                  over:bg-zinc-300  dark:hover:bg-zinc-500 rounded">
+                  <option disabled hidden selected>Target Time</option>
+                  <option value="">ai</option>
+                  <option value="180">short</option>
+                  <option value="240">medium</option>
+                  <option value="400">long</option>
+
+                  <option value="180">3min</option>
+                  <option value="240">4min</option>
+                  <option value="360">6min</option>
+      
+          
+                </select>
+              </div>
             </div>
           </div>
 
-          <!-- Start Buttons -->
-          <div class="flex space-x-4">
-
-            <button id="simpleRoastInfoStartBtn" class="w-full p-2   rounded-md shadow border cursor-not-allowed
-            text-zinc-900 dark:text-gray-300 
-            border-gray-300 dark:border-zinc-700
-            bg-white  dark:bg-zinc-700 
-          hover:bg-zinc-300 
-          dark:hover:bg-zinc-500" disabled onclick="simpleRoastModeStartConfirm()">Start</button>
-
-          </div>
         </div>
+
+      
+    <!-- Start Buttons -->
+    <div class="space-y-4 grid  gap-5 mt-10 w-1/2 h-1/4">
+
+      <button id="simpleRoastInfoStartBtn" class="w-full p-2   rounded-md shadow border cursor-not-allowed
+      text-zinc-900 dark:text-gray-300 
+      border-gray-300 dark:border-zinc-700
+      bg-white  dark:bg-zinc-700 
+    hover:bg-zinc-300 
+    dark:hover:bg-zinc-500" disabled onclick="simpleRoastModeStartConfirm()">Start</button>
+
+    </div>
+
       </div>
+
+
     </div>
     <!-- pilotRoastInfoPanel 끝-->
 
@@ -2025,16 +2138,6 @@ bg-zinc-100 dark:bg-zinc-800" >
       </p>
       
     </div>
-
-<!-- 
-      gpt 창  -->
-      <div class="p-4 border rounded-lg ">
-        <textarea id="userInput" placeholder="CURSOR에게 궁금한 점을 입력하세요" class="bg-zinc-100 dark:bg-zinc-800 w-full p-2 border text-zinc-800 dark:text-gray-300"></textarea>
-        <button id="chatBtn" class="  bg-gray-300 dark:bg-zinc-700  p-2 mt-2 text-zinc-800 dark:text-gray-300">"Reon AI"에게 물어보기</button>
-        <pre id="chatOutput" class="text-zinc-950 dark:text-gray-300 mt-4 p-3 border bg-zinc-100 dark:bg-zinc-800 whitespace-pre-wrap break-words overflow-auto max-h-[400px] text-sm rounded
-        "></pre>
-      </div>
-<!-- gpt끝 -->
 
 
 
@@ -2483,7 +2586,7 @@ bg-zinc-100 dark:bg-zinc-800" >
     </script> -->
 
 
-    <script> //window 이벤트 모음
+<script> //window 이벤트 모음
 
 
 
@@ -2494,7 +2597,7 @@ bg-zinc-100 dark:bg-zinc-800" >
       event.preventDefault();}
       });
     
-    </script>
+    </script> 
 
 
 

@@ -16,6 +16,7 @@ let autoRoastingToggleFlag = false; // 레시피가 적용되었을경우 로스
 let recipeProcessingFlag = 0; // 0 = none , 1 = Washed , 2 = Natural
 let recipeStagesFlag = 0; // 0 = none , 1 = Light , 2 = medium , 3 = Dark
 let simpleRoastInputFlag = false; //simpleRoast info에서 input amunt설정했는지 여부를 확인하는 플래그
+let aiRoastInfoBeanNameflag = false; //simpleRoast info에서 aiRoastInfoBeanNameflag 설정했는지 여부를 확인하는 플래그
 let simpleRoastInputAmount = 0; // simple Roast input Amount을 저장하는 변수
 //roast mode flag 로스팅 모드를 선언하는 플래그
 let roastMode = 0; // 0 = expert mode, 1 = Balance mdoe , 2 = simple mode
@@ -36,6 +37,10 @@ let autoRoastingFlag = false; // 오토로스팅 동작 플래그
 let autoRoastingStartFlag = false; // 오토로스팅 동작 플래그
 
 let aiRoastingFlag = false; // ai로스팅 동작 플래그
+let aifan1Select = 0;
+let aiheaterSelect = 0;
+let aifan2Select = 0;
+
 let isCoolDownRunning = false; // 쿨링모드  동작 플래그
 let intervalId; // 전역 변수로 인터벌 ID를 저장할 변수 선언(오토로스팅 중지를 위함)
 let heatPeakInterval;
@@ -519,17 +524,60 @@ function getSelectedValue(selectName) {
   console.log(selectedValue); // Log the value (for demonstration)
 }
 
+function getAiBeanNameValue() {
+  aiRoastInfoBeanName =
+    document.getElementById('aiRoastInfoBeanName').value || 'no name'; // Get the value of the selected option
+  console.log(aiRoastInfoBeanName); // Log the value (for demonstration)
+}
+
 // simpleRoastInfoInputAmount 값이 입력되는지 여부를 확인한다. 투입량을 선택하면 simpleRoastInputFlag = true;
 document
   .getElementById('simpleRoastInfoInputAmount')
   .addEventListener('change', () => {
     simpleRoastInputFlag = true;
     getSelectedValue('simpleRoastInfoInputAmount');
+    aiInputCapacityData = document.getElementById(
+      'simpleRoastInfoInputAmount'
+    ).value;
+  });
+
+// simpleRoastInfoTargetTemp 값이 입력되는지 여부를 확인한다. 투입량을 선택하면 simpleRoastInputFlag = true;
+document
+  .getElementById('simpleRoastInfoTargetTemp')
+  .addEventListener('change', () => {
+    simpleRoastInputFlag = true;
+    getSelectedValue('simpleRoastInfoTargetTemp');
+    aiTargetTemp = document.getElementById('simpleRoastInfoTargetTemp').value;
+  });
+
+// simpleRoastInfoTargetTemp 값이 입력되는지 여부를 확인한다. 투입량을 선택하면 simpleRoastInputFlag = true;
+document
+  .getElementById('simpleRoastInfoTargetTime')
+  .addEventListener('change', () => {
+    simpleRoastInputFlag = true;
+    getSelectedValue('simpleRoastInfoTargetTime');
+    aiTargetTime = document.getElementById('simpleRoastInfoTargetTime').value;
+  });
+
+// aiRoastInfoBeanName 값이 입력되는지 여부를 확인한다. 투입량을 선택하면 aiRoastInfoBeanNameflag = true;
+document
+  .getElementById('aiRoastInfoBeanName')
+  .addEventListener('change', () => {
+    aiRoastInfoBeanNameflag = true;
+    getAiBeanNameValue();
   });
 
 function simpleRoastInfoInputAmountCheck() {
   if (simpleRoastInputFlag) {
     simpleRoastInputFlag = false; //원복
+  } else {
+    showCustomCheck('투입량을 선택해주세요.');
+  }
+}
+
+function simpleRoastInfoBeanNameCheck() {
+  if (aiRoastInfoBeanNameflag) {
+    aiRoastInfoBeanNameflag = false; //원복
   } else {
     showCustomCheck('투입량을 선택해주세요.');
   }
@@ -1079,9 +1127,11 @@ async function roastStartForPuttingMode() {
     startRecordingcharts();
     currentRoastingState = 1; // 로스팅 스테이트 1로 변경
   } else if (simpleRoastInputFlag) {
-    toggleAutoRoasting(); //auto 로스팅 플래그!
-    showPanel('simpleRoastPanel');
-    recoedAutofetch(); //데이터 넣기
+    // toggleAutoRoasting(); //auto 로스팅 플래그!
+    console.log('ai Roasting Start!');
+    aiRoastingModeHtml();
+    showPanel('roastPanel');
+    // recoedAutofetch(); //데이터 넣기
     startRecordingcharts();
     currentRoastingState = 1; // 로스팅 스테이트 1로 변경
   }
@@ -1333,6 +1383,39 @@ document
   });
 
 //input Amount 값에 따라서 set starting value 값이 변경된다.
+document
+  .getElementById('simpleRoastInfoInputAmount')
+  .addEventListener('change', function () {
+    // 선택된 값 가져오기
+    const selectedValue = this.value;
+
+    // 50g fan1 70 , fan2 2.5
+    // 100g fan1 75 , fan2 2.5
+    // 150g fan1 90 , fan2 2.5
+    // 200g fan1 95 , fan2 2.5
+
+    // 값이 "50"일 경우 특정 함수 실행
+    if (selectedValue === '50') {
+      simpleRoastInfosetStartingValue(40, 100, 2.5);
+    }
+
+    // 값이 "100"일 경우 특정 함수 실행
+    if (selectedValue === '100') {
+      simpleRoastInfosetStartingValue(50, 100, 2.5);
+    }
+
+    // 값이 "150"일 경우 특정 함수 실행
+    if (selectedValue === '150') {
+      simpleRoastInfosetStartingValue(70, 100, 2.5);
+    }
+
+    // 값이 "200"일 경우 특정 함수 실행
+    if (selectedValue === '200') {
+      simpleRoastInfosetStartingValue(80, 100, 2.5);
+    }
+  });
+
+//input Amount 값에 따라서 set starting value 값이 변경된다.
 function setStartingValue(fan1, heater, fan2) {
   // select 요소를 가져옵니다.
   const fan1Select = document.getElementById('roastInfoPowerFan1Select');
@@ -1375,6 +1458,15 @@ function setStartingValue(fan1, heater, fan2) {
   }
 }
 
+//input Amount 값에 따라서 set starting value 값이 변경된다.
+function simpleRoastInfosetStartingValue(fan1, heater, fan2) {
+  // select 요소를 가져옵니다.
+
+  aifan1Select = fan1;
+  aiheaterSelect = heater;
+  aifan2Select = fan2;
+}
+
 function coolingMode() {
   console.log('coolingMode() 쿨다운 함수 실행');
   coolingpointflag(); //쿨링포인트 기록
@@ -1382,7 +1474,7 @@ function coolingMode() {
   isCoolDownRunning = true;
 
   isCoolDownFirst = false;
-
+  aiRoastingFlag = false; // ai종료
   autoRoastingFlagOff();
   autoRoastingStartFlagOff();
   currentRoastingState = 0;
@@ -1853,6 +1945,8 @@ function disposalMode() {
     let disposalCountStep2 = 0;
     let disposalCountStep3 = 0;
     console.log('disposalMode() 배출 함수 실행');
+
+    aiRoastingFlag = false; // ai종료
 
     if (temp2 >= temp2Limit) {
       showCustomConfirm(temp2isHighText, (result) => {
@@ -2977,6 +3071,7 @@ function simpleRoastModeStartConfirm() {
     if (result) {
       if (!simpleRoastInputFlag) {
         simpleRoastInfoInputAmountCheck();
+        simpleRoastInfoBeanNameCheck();
       } else {
         if (
           document.getElementById('preheatPercentDisplay').innerText !== '100%'
@@ -2984,6 +3079,7 @@ function simpleRoastModeStartConfirm() {
           showCustomCheck('예열이 완료되지 않았습니다');
           return;
         } else {
+          simpleRoastInputFlag = true;
           showPanel('puttingCountPanel');
 
           roastInfoStart();
@@ -3294,19 +3390,75 @@ const aiToggle = document.getElementById('aiRoastingToggleForManualRaosting');
 aiToggle.addEventListener('change', (event) => {
   if (event.target.checked) {
     console.log('AI is ON');
-
+    aiRoastingModeFlag = true;
     // document.getElementById('sliderSection').style.display = 'none';
 
     document.getElementById('autoRoastingToggleDiv').style.display = 'none';
 
+    document.getElementById('aiRaostingChatOutput').style.display = 'block';
+    document.getElementById('sliderSection').style.display = 'none';
+    document.getElementById('roastInfoIndicator').style.display = 'none';
     aiRoastingFlagOn();
   } else {
+    aiRoastingModeFlag = false;
     console.log('AI is OFF');
     document.getElementById('autoRoastingToggleDiv').style.display = 'block';
-    // document.getElementById('sliderSection').style.display = 'block';
+
+    document.getElementById('aiRaostingChatOutput').style.display = 'none';
+    document.getElementById('sliderSection').style.display = 'block';
+    document.getElementById('roastInfoIndicator').style.display = 'block';
     aiRoastingFlagOff();
   }
 });
+
+const aiAssistToggle = document.getElementById('aiAssistToggle');
+
+aiAssistToggle.addEventListener('change', (event) => {
+  if (event.target.checked) {
+    console.log('AI Assisst is ON');
+    aiAssistModeFlag = true;
+
+    document.getElementById('autoRoastingToggleDiv').style.display = 'none';
+    document.getElementById('').style.display = 'none';
+    document.getElementById('aiRaostingChatOutput').style.display = 'block';
+
+    aiRoastingFlagOn();
+  } else {
+    aiAssistModeFlag = false;
+    console.log('AI Assist is OFF');
+    document.getElementById('autoRoastingToggleDiv').style.display = 'block';
+    document.getElementById('AiRoastingToggleDiv').style.display = 'block';
+    document.getElementById('aiRaostingChatOutput').style.display = 'none';
+
+    aiRoastingFlagOff();
+  }
+});
+
+function aiRoastingModeHtml() {
+  console.log('AI is ON');
+  aiRoastingModeFlag = true;
+  aiRoastingFlag = true;
+  // document.getElementById('sliderSection').style.display = 'none';
+
+  document.getElementById('autoRoastingToggleDiv').style.display = 'none';
+  document.getElementById('AiRoastingToggleDiv').style.display = 'block';
+  document.getElementById('aiRaostingChatOutput').style.display = 'block';
+  document.getElementById('sliderSection').style.display = 'none';
+  document.getElementById('roastInfoIndicator').style.display = 'none';
+  document.getElementById('fan1Slider').value = aifan1Select;
+  document.getElementById('fan2Slider').value = aifan2Select;
+  document.getElementById('heaterSlider').value = aiheaterSelect;
+  document.getElementById('fan1Number').value = aifan1Select;
+  document.getElementById('fan2Number').value = aifan2Select;
+  document.getElementById('heaterNumber').value = aiheaterSelect;
+  document.getElementById('fan1Value').innerText = aifan1Select;
+  document.getElementById('fan2Value').innerText = aifan2Select;
+  document.getElementById('heaterValue').innerText = aiheaterSelect;
+  document.getElementById('fan1Number').value = aifan1Select;
+  document.getElementById('fan2Number').value = aifan2Select;
+  document.getElementById('heaterNumber').value = aiheaterSelect;
+  aiRoastingFlagOn();
+}
 
 //pilot Roasting 전용
 function recipeProcessingToggleHover(selectedId) {
@@ -3315,10 +3467,13 @@ function recipeProcessingToggleHover(selectedId) {
 
   if ('recipeProcessingWashedBtn' == selectedId) {
     recipeProcessingFlag = 1;
+    aiReanProcessing = 'Washed';
+
     console.log('recipeProcessingFlag =', recipeProcessingFlag);
   }
   if ('recipeProcessingNaturalBtn' == selectedId) {
     recipeProcessingFlag = 2;
+    aiReanProcessing = 'Natural';
     console.log('recipeProcessingFlag =', recipeProcessingFlag);
   }
 
@@ -3346,14 +3501,17 @@ function recipeStagesToggleHover(selectedId) {
 
   if ('recipeStagesLightBtn' == selectedId) {
     recipeStagesFlag = 1;
+    aiRoastingStages = 'Light';
     console.log('recipeStagesFlag =', recipeStagesFlag);
   }
   if ('recipeStagesMediumBtn' == selectedId) {
     recipeStagesFlag = 2;
+    aiRoastingStages = 'Medium';
     console.log('recipeStagesFlag =', recipeStagesFlag);
   }
   if ('recipeStagesDarkBtn' == selectedId) {
     recipeStagesFlag = 3;
+    aiRoastingStages = 'Dark';
     console.log('recipeStagesFlag =', recipeStagesFlag);
   }
 

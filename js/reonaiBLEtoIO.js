@@ -28,10 +28,24 @@ let plotBandPercentageText; // 차트에 표시할 비율 텍스트
 let roastPlotBandIds = []; // 크랙 plotBands의 id 목록
 
 //ai 적용 변수
+
+//AI 목표 변수
+
+let aiInputCapacityData = 0;
+let aiRoastInfoBeanName = '';
+let aiGoalTemp = 0;
+let aiRoastingStages = '';
+let aiReanProcessing = '';
+let aiTargetTemp = '';
+let aiTargetTime = '';
+
 //open ai 에게 보내기 전에 저장하는
 let tempBuffer = []; // 10초 동안 저장될 배열
 let tempHistory = []; // 누적 저장될 배열
 let lastAnalysisSecond = -1; // 전역 또는 상단에 초기화
+
+let aiAssistModeFlag = false; // ai Assist mode faag
+let aiRoastingModeFlag = false; // ai roasting mode flag
 
 //simple roast 위한 변수
 let simpleTemp2 = 0;
@@ -70,6 +84,13 @@ let previousTemp2 = null;
 let previousTime = null;
 let RoR1Values = [];
 let RoR2Values = [];
+
+// RoR1, RoR2는 매 5초마다 계산됨
+let cRoR1 = 0;
+let cRoR2 = 0;
+let previousEMA1 = null;
+let previousEMA2 = null;
+const alpha = 0.2; // smoothing factor (0.1 ~ 0.3 추천)
 
 //시간을 제어하기 위한 변수들
 let currentSecond = 0; // 현재 몇 번째 초인지 추적
@@ -218,6 +239,11 @@ function updateMainConnectBluetoothBtnText() {
   }
 }
 
+function updateEMA(newRoR, previousEMA) {
+  if (previousEMA === null) return newRoR; // 첫 번째 값은 그대로
+  return newRoR * alpha + previousEMA * (1 - alpha);
+}
+
 //수신 발신 차트 업데이트를 헨들링하는 함수 ***제일 중요함.
 function handleData(event) {
   let currentTime = new Date().getTime();
@@ -268,22 +294,37 @@ function handleData(event) {
         temp2: bufferedData.temp2,
         ror1: parseFloat(document.getElementById('RoR1Value').innerText),
         ror2: parseFloat(document.getElementById('RoR2Value').innerText),
-        fan1: bufferedData.fan1,
-        heater: bufferedData.heater,
-        cpTime: parseFloat(document.getElementById('firstCrackTime').innerText),
-        cpTemp: parseFloat(document.getElementById('firstCrackTemp').innerText),
-        cpPercent: percentageOfDtr,
+        fan1: parseFloat(document.getElementById('fan1Value').innerText),
+        heater: parseFloat(document.getElementById('heaterValue').innerText),
       });
     } else {
       tempHistory = [];
       bufferCounter = 0;
     }
 
+    console.log('tempHistory');
+    console.log(tempHistory);
     // 🔸 10초마다 GPT 분석 요청
     if (aiRoastingFlag) {
       if (currentSecond - lastAnalysisSecond >= 10) {
         triggerSlidingAnalysis([...tempHistory]); // 복사본 전달
         lastAnalysisSecond = currentSecond;
+      }
+
+      let heaterValue = document.getElementById('heaterValue').innerText;
+
+      if (heaterValue <= 0) {
+        console.log('airoasting 종료');
+        aiRoastingFlag = false;
+        aiAssistModeFlag = false;
+        CoolDowndBtn.style.display = 'none';
+        CoolDowndStopBtn.style.display = 'block';
+        coolingMode();
+
+        document.getElementById('autoRoastingToggleDiv').style.display =
+          'block';
+        document.getElementById('AiRoastingToggleDiv').style.display = 'block';
+        document.getElementById('AiAssistToggleDiv').style.display = 'block';
       }
     }
 
@@ -312,103 +353,150 @@ function handleData(event) {
 
 //oepn api에 정보전달
 async function sendSlidingWindowAnalysis(tempBuffer) {
-  const summary = tempHistory
-    .map(
-      (entry) =>
-        `${entry.second}s - temp1: ${entry.temp1}, temp2: ${entry.temp2}, RoR1: ${entry.ror1}, RoR2: ${entry.ror2}, fan: ${entry.fan1}, heater: ${entry.heater}, cpTime: ${entry.cpTime}, cpTemp: ${entry.cpTemp} cpPercent: ${entry.cpPercent}`
-    )
-    .join('\n');
+  if (aiRoastingModeFlag) {
+    console.log('ai roasting mode 동작중');
+    const gram = aiInputCapacityData;
+    const beanName = aiRoastInfoBeanName;
+    const goalTemp1 = aiTargetTemp;
+    const goalTime = aiTargetTime;
+    const goalStages = aiRoastingStages;
+    const beanProcessing = aiReanProcessing;
+    const summary = tempHistory
+      .map(
+        (entry) =>
+          `${entry.second}s - temp1: ${entry.temp1}, temp2: ${entry.temp2}, RoR1: ${entry.ror1}, RoR2: ${entry.ror2}, fan: ${entry.fan1}, heater: ${entry.heater}`
+      )
+      .join('\n');
 
-  const userMessage = `
+    const userMessage = `
 다음은 지금까지 누적된 로스팅 데이터입니다:
 
 ${summary}
 
 
-
-이 데이터에는 온도(temp1, temp2), 상승률(RoR1, RoR2), 팬(fan), 히터(heater) , 크랙 포인트 시간(cpTime),크랙 포인트 온도(cpTemp),Develop time ratio percent(dtrPercent), 정보가 포함되어 있습니다.
-
-
-이 데이터를 기반으로:
-
-0.생두의 품종은 taypiplaya caturra & catuai anaerobic washe
-
-100g투입
-
-생두가 가진 모든 플레이버가 잘 표현이되고
-밝은 산미와 달콤한 단맛이 나게 로스팅을 해줘
-
-생두 특성상 초반 히터값을 70.0으로 시작하는것을 권장해
-생두가 수분이 조금 많은듯 
-초반에 열을 70.0으로 시작해서 90.0까지 올려서 생두 내부까이 열이 잘 투입되도록 하고싶어
-
-fan1 50.0으로 시작하는 것을 권장해 로스팅이 진행됨에따라 0.5단계씩 
-
-로스팅 타임 6분에 temp1 온도가 206도가 도달될 수 있도록해줘.
-206도가 넘으면 히터를 끄고 쿨링을 시작해줘 
-목표 도달 온도를 넘으면 무조건 히터를 0.0으로 변경해줘 
+생두 이름 : ${beanName}
+생두 투입량 :  ${gram}
+배전도 : ${goalStages}
+Bean Processing : ${beanProcessing}
+목표온도(도) :  ${goalTemp1}
+목표시간(초)  :  ${goalTime}
 
 
-1. 현재까지의 로스팅 상황을 분석하고
-2. fan1/heater의 추천 제어값을 숫자로 제시하며
-3. fan1/heater의 범위는 
-fan1 min 30.0 ~ max 100.0
-heaer min 0.0 ~ max 100.0 입니다.
-제어 단위는 0.5단계로 변경 가능합니다. 
-4. 투입되는 생두 용량과 예상되는 최적 fan1 값은
-50g : 40
-100g : 50
-150g : 70
-200g : 80
-입니다.
-
-
-
-5. 로스팅 시작시 heater는 60이상이여야 합니다. 
-6. 대부분의 로스팅 데이터에서 heater 값은 80~100사이였습니다. 
-
-7. RoR 흐름을 고려한 조언도 1~2줄 포함해줘.
-8. 크랙포인트가 생기면 cpTime, cpTemp, DTR값을 분석해서 로스팅을 후반부를 마무리해줘 
-9. 전체 로스팅 흐름에 대한 간단한 요약과 제안을 2~3문장 추가해줘.
-10. 로스팅이 완료되었다고 판단되면 쿨링을 하기 위해 heater값을 0으로 꼭 해줘 
-결과적으로 
-11. fan과 heater의 추천값을 숫자로 명확히 제시하고
-**형식은 반드시 아래처럼 JSON 형태로 시작해줘:**
-{
-  "fan": 65.0,
-  "heater": 45.5,
-  "comment": "RoR 흐름이 안정적입니다. 크랙 이전 구간에서 fan을 줄여 열 보존을 유도하세요."
-}
-
-절대로 이 형식을 벗어나지 말고 JSON 객체가 첫 줄에 오도록 해줘.
 
 `.trim();
 
-  const response = await fetch('https://api.reonai.net/api/chat', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      messages: [
-        {
-          role: 'system',
-          content: `
+    const response = await fetch('https://api.reonai.net/api/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        messages: [
+          {
+            role: 'system',
+            content: `
 
 
 
-너는 Reonai Cursor를 위한 누적 기반 로스팅 분석 AI야.
-지금까지의 온도, 출력, 시간 흐름을 종합 분석하고,
-RoR 곡선과 출력 흐름을 함께 고려해서 명확한 숫자 제어값을 추천하고, 분석적 코멘트를 제공해줘.
-정확하고 실용적인 fan/heater 제어 가이드를 제공해야 해.
+너는 Reonai Cursor를 제어하는 로스팅 Ai야
+데이터의 온도, 출력, 시간 흐름을 가지고
+RoR 곡선과 출력 흐름을 함께 고려해서 명확한 숫자로 제어해줘.
+생두의 종류, 투입량, 배전도, 프로세싱, 목표온도, 목표시간을 만족해야해
+단,
+프로세싱, 목표온도, 목표시간에 aiRrecommend값이 들어오면 
+너가 생두의 종류와 투입량을 분석해서 데이터 프로세싱, 목표온도, 목표시간을 설정하고 로스팅 해야합니다. 
+
+20자정도의 분석내용만 알려줘,
+
+데이터에는 온도(temp1, temp2), 상승률(RoR1, RoR2), 팬(fan), 히터(heater)정보가 포함되어 있어
+fan1/heater의 범위는 
+fan1 min 50.0 ~ max 60.0
+heaer min 80.0 ~ max 100.0 
+
+fan1의 값은 
+투입량이 50g일 때 
+40~50 이 적당해 
+투입량이 100g일 때 
+50~60 이 적당해
+투입량이 150g일 때 
+65~65가 적당해 
+
+
+목표온도에 도달하면 heater값을 0으로 꼭 해
+
+fan과 heater의 제어값을 숫자로 명확히 제시해
+**형식은 반드시 JSON 형태로 시작해:**
+절대로 이 형식을 벗어나지 말고 JSON 객체가 첫 줄에 오도록 해.
+{
+  "fan": 50.0,
+  "heater": 45.5,
+}
+
+
+
 
 `.trim(),
-        },
-        { role: 'user', content: userMessage },
-      ],
-    }),
-  });
+          },
+          { role: 'user', content: userMessage },
+        ],
+      }),
+    });
 
-  const data = await response.json();
-  return data.choices?.[0]?.message?.content || '응답 없음';
+    const data = await response.json();
+    return data.choices?.[0]?.message?.content || '응답 없음';
+  }
+  if (aiAssistModeFlag) {
+    console.log('ai assist mode 동작중');
+    const summary = tempHistory
+      .map(
+        (entry) =>
+          `${entry.second}s - temp1: ${entry.temp1}, temp2: ${entry.temp2}, RoR1: ${entry.ror1}, RoR2: ${entry.ror2}, fan: ${entry.fan1}, heater: ${entry.heater}, cpTime: ${entry.cpTime}, cpTemp: ${entry.cpTemp} cpPercent: ${entry.cpPercent}`
+      )
+      .join('\n');
+
+    const userMessage = `
+  다음은 지금까지 누적된 로스팅 데이터입니다:
+  
+  ${summary}
+  
+  너는 Reonai Cursor의 수동 로스팅을 도와주는 AI 코치야.
+
+사용자가 직접 fan/heater를 제어하고 있고,
+너는 현재까지의 temp1, RoR, 시간 흐름을 분석해서 **지금 이 설정이 적절한지** 알려줘야 해.
+
+다음 데이터는 지금까지의 5초 간 로스팅 기록이야:
+  
+  이 데이터에는 온도(temp1, temp2), 상승률(RoR1, RoR2), 팬(fan), 히터(heater) 정보가 포함되어 있습니다.
+  이 데이터를 기반으로 현재 흐름을 분석하고, 다음의 JSON 형식으로 결과를 출력해:
+
+  **형식은 반드시 아래처럼 JSON 형태로 시작해줘:**
+    "fan": 65.0,
+    "heater": 45.5,
+    "advice": "개선할 수 있는 구체적인 조언 한 줄"
+  
+  
+
+  
+  `.trim();
+
+    const response = await fetch('https://api.reonai.net/api/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        messages: [
+          {
+            role: 'system',
+            content: `
+  
+  
+  `.trim(),
+          },
+          { role: 'user', content: userMessage },
+        ],
+      }),
+    });
+
+    const data = await response.json();
+    return data.choices?.[0]?.message?.content || '응답 없음';
+  }
 }
 
 //open ai에게 받은 데이터 파싱
@@ -510,6 +598,9 @@ function updateReceivedChart(temp1, temp2, temp3) {
     temp1History5s.reduce((a, b) => a + b, 0) / temp1History5s.length;
   // temp1 값을 기록
 
+  const temp1Avg60s =
+    temp1History60s.reduce((a, b) => a + b, 0) / temp1History60s.length;
+
   const temp1Avg2s =
     temp1History2s.reduce((a, b) => a + b, 0) / temp1History2s.length;
   // temp1 값을 기록
@@ -524,7 +615,10 @@ function updateReceivedChart(temp1, temp2, temp3) {
   // console.log('temp1', temp1);
 
   //터닝포인트
-  // 5초 이상의 값은 제거
+  // 해당 초 이상의 값은 제거
+  if (temp1History60s.length > timeWindow60s) {
+    temp1History60s.shift();
+  }
   if (temp1History5s.length > timeWindow5s) {
     temp1History5s.shift();
   }
@@ -575,18 +669,13 @@ function updateReceivedChart(temp1, temp2, temp3) {
   if (temp1History5s.length >= 5) {
     console.log('temp1History5s.length : ', temp1History5s.length);
 
-    RoR1 = lastTemp1for5s - firstTemp1for5s; // temp1의 RoR(60s) 계산
-    RoR2 = lastTemp2for5s - firstTemp2for5s; // temp2의 RoR(60s) 계산
-  } else {
-    RoR1 = 0;
-    RoR2 = 0;
-  }
-
-  if (temp1History60s.length >= 60) {
-    console.log('temp1History60s.length : ', temp1History60s.length);
-
-    RoR1 = lastTemp1for60s - firstTemp1for60s; // temp1의 RoR(60s) 계산
-    RoR2 = lastTemp2for60s - firstTemp2for60s; // temp2의 RoR(60s) 계산
+    cRoR1 = (lastTemp1for5s - firstTemp1for5s) * 12;
+    cRoR2 = (lastTemp2for5s - firstTemp2for5s) * 12;
+    // EMA 적용
+    previousEMA1 = updateEMA(cRoR1, previousEMA1);
+    previousEMA2 = updateEMA(cRoR2, previousEMA2);
+    RoR1 = previousEMA1;
+    RoR2 = previousEMA2;
   } else {
     RoR1 = 0;
     RoR2 = 0;
